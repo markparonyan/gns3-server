@@ -123,8 +123,7 @@ async def create_project(
 
     controller = Controller.instance()
     project_dict = jsonable_encoder(project_data, exclude_unset=True)
-    if "created_by" not in project_dict:
-        project_dict["created_by"] = current_user.username
+    project_dict["created_by"] = current_user.username
     project = await controller.add_project(**project_dict)
     return project.asdict()
 

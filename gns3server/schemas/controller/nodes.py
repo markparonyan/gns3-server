@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from pydantic import BaseModel, Field, model_validator
-from typing import List, Optional, Union, Any
+from typing import List, Optional, Union, Any, Dict
 from enum import Enum
 from uuid import UUID, uuid4
 
@@ -133,6 +133,10 @@ class NodeBase(BaseModel):
     port_segment_size: Optional[int] = Field(None, description="Size of the port segment")
     first_port_name: Optional[str] = Field(None, description="Name of the first port")
     custom_adapters: Optional[List[CustomAdapter]] = None
+    tags: Optional[Dict[str, str]] = Field(
+        default_factory=dict,
+        description="User-defined metadata tags inherited from template or custom"
+    )
 
 
 class NodeCreate(NodeBase):

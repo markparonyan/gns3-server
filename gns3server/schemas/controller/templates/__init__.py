@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from pydantic import ConfigDict, BaseModel, Field
-from typing import Optional, Union
+from typing import Optional, Union, Dict
 from enum import Enum
 from uuid import UUID
 
@@ -48,9 +48,10 @@ class TemplateBase(BaseModel):
     template_type: Optional[NodeType] = None
     compute_id: Optional[str] = None
     usage: Optional[str] = ""
-    vendor: Optional[str] = Field(None, description="Device vendor (e.g., Cisco, Juniper, Huawei)")
-    model: Optional[str] = Field(None, description="Device model (e.g., ISR4451-X, MX204, NE40E)")
-    netmiko_device_type: Optional[str] = Field(None, description="Netmiko device type for automation (e.g., cisco_ios, juniper_junos, huawei)")
+    tags: Optional[Dict[str, str]] = Field(
+        default_factory=dict,
+        description="User-defined metadata tags as key-value pairs (e.g., {'vendor': 'cisco', 'model': '7200', 'netmiko_device_type': 'cisco_ios'})"
+    )
 
 
 class TemplateCreate(TemplateBase):

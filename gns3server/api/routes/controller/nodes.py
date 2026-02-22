@@ -22,10 +22,10 @@ import aiohttp
 import asyncio
 import ipaddress
 
-from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect, Request, Response, status
+from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect, Request, Response, status, Query
 from fastapi.encoders import jsonable_encoder
 from fastapi.routing import APIRoute
-from typing import List, Callable
+from typing import List, Callable, Optional
 from uuid import UUID
 
 from gns3server.controller import Controller
@@ -135,17 +135,50 @@ async def create_node(node_data: schemas.NodeCreate, project: Project = Depends(
     response_model_exclude_unset=True,
     dependencies=[Depends(has_privilege("Node.Audit"))]
 )
-def get_nodes(project: Project = Depends(dep_project)) -> List[schemas.Node]:
+def get_nodes(
+    project: Project = Depends(dep_project),
+    tags: Optional[List[str]] = Query(None, description="Filter by tags (e.g., tags=vendor:cisco&tags=model:7200)")
+) -> List[schemas.Node]:
     """
     Return all nodes belonging to a given project.
 
     Required privilege: Node.Audit
+
+    Query Parameters:
+    - tags: Filter by tags in format "key:value". Multiple tags are ANDed together.
+            Example: ?tags=vendor:cisco&tags=model:7200
     """
 
     if project.status == "closed":
         # allow to retrieve nodes from a closed project
-        return project.nodes.values()
-    return [v.asdict() for v in project.nodes.values()]
+        nodes = list(project.nodes.values())
+    else:
+        nodes = [v.asdict() for v in project.nodes.values()]
+
+    # Filter by tags if provided
+    if tags:
+        filtered_nodes = []
+        for node in nodes:
+            node_dict = node.asdict() if hasattr(node, 'asdict') else node
+            node_tags = node_dict.get("tags") or {}
+            # Check if all tag filters match
+            match = True
+            for tag_filter in tags:
+                if ":" in tag_filter:
+                    key, value = tag_filter.split(":", 1)
+                    if node_tags.get(key) != value:
+                        match = False
+                        break
+                else:
+                    # Check if key exists
+                    if tag_filter not in node_tags:
+                        match = False
+                        break
+            if match:
+                filtered_nodes.append(node)
+        nodes = filtered_nodes
+
+    return nodes
 
 
 @router.post("/start", status_code=status.HTTP_204_NO_CONTENT, dependencies=[Depends(has_privilege("Node.PowerMgmt"))])

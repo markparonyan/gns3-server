@@ -97,6 +97,7 @@ class Project:
         show_interface_labels=False,
         variables=None,
         supplier=None,
+        created_by=None,
     ):
 
         self._controller = controller
@@ -117,6 +118,7 @@ class Project:
         self._show_interface_labels = show_interface_labels
         self._variables = variables
         self._supplier = supplier
+        self._created_by = created_by
 
         self._loading = False
         self._closing = False
@@ -379,6 +381,21 @@ class Project:
         Setter for supplier of the project
         """
         self._supplier = supplier
+
+    @property
+    def created_by(self):
+        """
+        Username of the user who created the project
+        :return: str or None
+        """
+        return self._created_by
+
+    @created_by.setter
+    def created_by(self, created_by):
+        """
+        Setter for the username of the user who created the project
+        """
+        self._created_by = created_by
 
     @property
     def auto_start(self):
@@ -1327,6 +1344,7 @@ class Project:
             "show_interface_labels": self._show_interface_labels,
             "supplier": self._supplier,
             "variables": self._variables,
+            "created_by": self._created_by,
         }
 
     def __repr__(self):

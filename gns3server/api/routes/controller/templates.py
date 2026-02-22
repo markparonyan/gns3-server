@@ -88,10 +88,10 @@ async def get_template(
 
     request_etag = request.headers.get("If-None-Match", "")
     template = await TemplatesService(templates_repo).get_template(template_id)
-    data = json.dumps(template)
+    data = json.dumps(template, default=str)
     template_etag = '"' + hashlib.md5(data.encode()).hexdigest() + '"'
     if template_etag == request_etag:
-        raise HTTPException(status_code=status.HTTP_304_NOT_MODIFIED)
+        return Response(status_code=status.HTTP_304_NOT_MODIFIED, headers={"ETag": template_etag})
     else:
         response.headers["ETag"] = template_etag
         return template

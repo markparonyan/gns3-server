@@ -87,6 +87,7 @@ def project_to_topology(project):
         "show_interface_labels": project.show_interface_labels,
         "variables": project.variables,
         "supplier": project.supplier,
+        "created_by": project.created_by,
         "topology": {"nodes": [], "links": [], "computes": [], "drawings": []},
         "type": "topology",
         "revision": GNS3_FILE_FORMAT_REVISION,

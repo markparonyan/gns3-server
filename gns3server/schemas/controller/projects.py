@@ -96,6 +96,7 @@ class Project(ProjectBase):
     name: Optional[str] = None
     status: Optional[ProjectStatus] = None
     filename: Optional[str] = None
+    created_by: Optional[str] = Field(None, description="Username of the user who created the project")
 
 
 class ProjectFile(BaseModel):

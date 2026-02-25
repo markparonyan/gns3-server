@@ -36,8 +36,8 @@ async def root():
 @router.get("/debug", response_class=HTMLResponse, deprecated=True, include_in_schema=False)
 def debug(request: Request):
 
-    kwargs = {"request": request, "gns3_version": __version__, "gns3_host": request.client.host}
-    return templates.TemplateResponse("index.html", kwargs)
+    kwargs = {"gns3_version": __version__, "gns3_host": request.client.host}
+    return templates.TemplateResponse(request=request, name="index.html", context=kwargs)
 
 
 @router.get("/static/web-ui/{file_path:path}", description="Web user interface", include_in_schema=False)

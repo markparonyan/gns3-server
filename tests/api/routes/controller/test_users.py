@@ -201,7 +201,7 @@ class TestAuthTokens:
         (
                 ("use correct secret", "asdf"),  # use wrong token
                 ("use correct secret", ""),  # use wrong token
-                ("ABC123", "use correct token"),  # use wrong secret
+                (OctKey.generate_key().as_dict()['k'], "use correct token"),  # use wrong secret
         ),
     )
     async def test_error_when_token_or_secret_is_wrong(

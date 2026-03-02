@@ -85,12 +85,18 @@ async def base_client(app: FastAPI, db_session: AsyncSession) -> AsyncGenerator[
 
     app.dependency_overrides[get_db_session] = _get_test_db
 
-    async with AsyncClient(
-            base_url="http://test-api",
-            headers={"Content-Type": "application/json"},
-            transport=ASGIWebSocketTransport(app=app)
-    ) as async_client:
-        yield async_client
+    try:
+        async with AsyncClient(
+                base_url="http://test-api",
+                headers={"Content-Type": "application/json"},
+                transport=ASGIWebSocketTransport(app=app)
+        ) as async_client:
+            yield async_client
+    except RuntimeError as e:
+        if "Attempted to exit cancel scope" in str(e):
+            pass
+        else:
+            raise
 
 
 @pytest_asyncio.fixture(loop_scope="class", scope="class")

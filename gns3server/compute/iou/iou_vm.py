@@ -87,11 +87,11 @@ class IOUVM(BaseNode):
         self._serial_adapters = []
         self.ethernet_adapters = 2  # one adapter = 4 interfaces
         self.serial_adapters = 2  # one adapter = 4 interfaces
-        self._use_default_iou_values = True  # for RAM & NVRAM values
-        self._nvram = 128  # Kilobytes
+        self._use_default_iou_values = False  # for RAM & NVRAM values
+        self._nvram = 256  # Kilobytes
         self._startup_config = ""
         self._private_config = ""
-        self._ram = 256  # Megabytes
+        self._ram = 1024  # Megabytes
         self._application_id = application_id
         self._l1_keepalives = False  # used to overcome the always-up Ethernet interfaces (not supported by all IOSes).
 
@@ -578,7 +578,7 @@ class IOUVM(BaseNode):
                 callback = functools.partial(self._termination_callback, "IOU")
                 gns3server.utils.asyncio.monitor_process(self._iou_process, callback)
             except FileNotFoundError as e:
-                raise IOUError("Could not start IOU: {}: 32-bit binary support is probably not installed".format(e))
+                raise IOUError("Could not start IOU: {}: 32-bit binary support is probably not installed, it is recommended to use a 64-bit image instead".format(e))
             except (OSError, subprocess.SubprocessError) as e:
                 iou_stdout = self.read_iou_stdout()
                 log.error("Could not start IOU {}: {}\n{}".format(self._path, e, iou_stdout))

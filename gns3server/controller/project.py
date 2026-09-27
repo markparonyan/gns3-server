@@ -905,12 +905,23 @@ class Project:
 
     async def delete(self):
 
+        # Check compute connectivity before open() to avoid 120s timeout
+        # when remote computes are unreachable
+        disconnected = self._get_disconnected_computes()
+        if disconnected:
+            compute_names = ", ".join([f"'{c.name}'" for c in disconnected])
+            raise aiohttp.web.HTTPForbidden(
+                f"Cannot delete project '{self.name}': {len(disconnected)} compute(s) are disconnected: {compute_names}. "
+                f"Please fix the connection or delete the project manually on those computes."
+            )
+
         if self._status != "opened":
             try:
-                await self.open()
+                await self.open(auto_start=False)
             except aiohttp.web.HTTPConflict as e:
                 # ignore missing images or other conflicts when deleting a project
-                log.warning("Conflict while deleting project: {}".format(e.text))
+                log.warning(f"Conflict while deleting project: {e}")
+
         await self.delete_on_computes()
         await self.close()
         try:
@@ -921,6 +932,42 @@ class Project:
         except OSError as e:
             raise aiohttp.web.HTTPConflict(text="Cannot delete project directory {}: {}".format(self.path, str(e)))
         self.emit_controller_notification("project.deleted", self.__json__())
+
+    def _get_disconnected_computes(self):
+        """
+        Check compute connectivity by reading the topology file directly,
+        without opening the project (which would try to connect to computes).
+        Returns a list of disconnected Compute objects.
+        """
+        if self._status == "opened":
+            # Project is already open, use the already-loaded _computes list
+            compute_ids = self._computes
+        else:
+            # Read compute IDs from topology file without connecting
+            path = self._topology_file()
+            if not os.path.exists(path):
+                return []
+            try:
+                project_data = load_topology(path)
+            except (ValueError, OSError) as e:
+                log.warning(f"Could not read topology file for project '{self._name}': {e}")
+                return []
+            topology = project_data.get("topology", {})
+            compute_ids = set()
+            for node in topology.get("nodes", []):
+                compute_id = node.get("compute_id")
+                if compute_id:
+                    compute_ids.add(compute_id)
+
+        disconnected = []
+        for compute_id in compute_ids:
+            try:
+                compute = self._controller.get_compute(compute_id)
+                if not compute.connected:
+                    disconnected.append(compute)
+            except aiohttp.web.HTTPNotFound:
+                log.warning(f"Compute '{compute_id}' not found in controller")
+        return disconnected
 
     async def delete_on_computes(self):
         """
@@ -951,9 +998,12 @@ class Project:
         return os.path.join(self.path, self._filename)
 
     @locking
-    async def open(self):
+    async def open(self, auto_start=True):
         """
         Load topology elements
+
+        :param auto_start: whether the nodes may be started when the project
+            has auto start enabled
         """
 
         if self._closing:
@@ -1067,7 +1117,7 @@ class Project:
         self._loading = False
         self.emit_controller_notification("project.opened", self.__json__())
         # Should we start the nodes when project is open
-        if self._auto_start:
+        if self._auto_start and auto_start:
             # Start all in the background without waiting for completion
             # we ignore errors because we want to let the user open
             # their project and fix it

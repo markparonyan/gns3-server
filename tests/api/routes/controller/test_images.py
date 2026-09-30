@@ -147,7 +147,7 @@ class TestImageRoutes:
 
         image_path = request.getfixturevalue(fixture_name)
         image_name = os.path.basename(image_path)
-        image_checksum = hashlib.md5()
+        image_checksum = hashlib.md5(usedforsecurity=False)
         with open(image_path, "rb") as f:  # noqa: ASYNC230
             image_data = f.read()
         image_checksum.update(image_data)

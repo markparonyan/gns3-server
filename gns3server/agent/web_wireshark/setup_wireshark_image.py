@@ -61,7 +61,7 @@ def check_docker():
 
     # Check if Docker daemon is running
     try:
-        result = subprocess.run(["docker", "info"], capture_output=True, text=True)  # noqa: S607
+        result = subprocess.run(["docker", "info"], capture_output=True, text=True, check=False)  # noqa: S607
         if result.returncode != 0:
             print("Error: Docker daemon is not running", file=sys.stderr)
             print("Please start Docker and try again", file=sys.stderr)
@@ -77,7 +77,12 @@ def image_exists():
     """Check if the Docker image already exists."""
 
     try:
-        result = subprocess.run(["docker", "image", "inspect", DOCKER_IMAGE], capture_output=True, text=True)  # noqa: S603, S607
+        result = subprocess.run(  # noqa: S603
+            ["docker", "image", "inspect", DOCKER_IMAGE],  # noqa: S607
+            capture_output=True,
+            text=True,
+            check=False,
+        )
         return result.returncode == 0
     except Exception:  # noqa: BLE001
         return False
@@ -106,7 +111,7 @@ def pull_image():
     print(f"Pulling Docker image: {DOCKER_IMAGE}")
     print("-" * 60)
 
-    result = subprocess.run(["docker", "pull", DOCKER_IMAGE], capture_output=True, text=True)  # noqa: S603, S607
+    result = subprocess.run(["docker", "pull", DOCKER_IMAGE], capture_output=True, text=True, check=False)  # noqa: S603, S607
 
     # Store output for network error detection
     pull_output = result.stdout + result.stderr
@@ -130,6 +135,7 @@ def build_image(dockerfile_path):
         ["docker", "build", "-t", DOCKER_IMAGE, "-f", dockerfile_path, "."],  # noqa: S607
         cwd=dockerfile_dir,
         pass_fds=(1, 2),
+        check=False,
     )
 
     return result.returncode == 0

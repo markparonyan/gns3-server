@@ -144,7 +144,7 @@ def inspect_image_file(path, expected_image_type=None, allow_raw_image=False, st
         image_type = check_valid_image_header(path, header, allow_raw_image)
         if expected_image_type and image_type != expected_image_type:
             raise InvalidImageError(f"Detected image type for '{path}' is {image_type}, expected {expected_image_type}")
-        digest = hashlib.md5(header)
+        digest = hashlib.md5(header, usedforsecurity=False)
         while True:
             if stopped_event is not None and stopped_event.is_set():
                 raise InterruptedError("Image inspection cancelled")
@@ -291,7 +291,7 @@ def md5sum(path, working_dir=None, stopped_event=None, cache_to_md5file=True, us
             pass
 
     try:
-        m = hashlib.md5()
+        m = hashlib.md5(usedforsecurity=False)
         log.debug(f"Calculating MD5 sum of `{path}`")
         with open(path, "rb") as f:
             while True:
@@ -386,7 +386,7 @@ async def write_image(
     os.makedirs(os.path.dirname(image_path), exist_ok=True)
     descriptor, tmp_path = tempfile.mkstemp(prefix=".gns3-upload-", suffix=".tmp", dir=os.path.dirname(image_path))
     os.close(descriptor)
-    checksum = hashlib.md5()
+    checksum = hashlib.md5(usedforsecurity=False)
     try:
         async with aiofiles.open(tmp_path, "wb") as f:
             await f.write(prefix)

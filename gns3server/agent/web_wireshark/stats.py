@@ -109,6 +109,7 @@ async def _get_container_resource_stats(container_id: str) -> dict | None:
             capture_output=True,
             text=True,
             timeout=2,
+            check=False,
         )
         if result.returncode == 0:
             parts = result.stdout.strip().split("\t")

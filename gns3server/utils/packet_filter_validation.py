@@ -35,6 +35,7 @@ def validate_bpf_syntax(bpf_expression: str) -> dict[str, Any]:
             ["tcpdump", "-d", bpf_expression],  # noqa: S607
             capture_output=True,
             text=True,
+            check=False,
         )
 
         if result.returncode != 0:

@@ -198,6 +198,7 @@ class PacketAnalysisTool(BaseTool):
                 capture_output=True,
                 text=True,
                 timeout=30,
+                check=False,
             )
             fields = set()
             for line in result.stdout.splitlines():
@@ -454,6 +455,7 @@ class PacketAnalysisTool(BaseTool):
                 capture_output=True,
                 text=True,
                 timeout=30,
+                check=False,
             )
 
             output = result.stdout

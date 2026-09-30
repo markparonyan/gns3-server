@@ -282,6 +282,7 @@ class GNS3PacketFilterTool(BaseTool):
                 timeout=1,
                 capture_output=True,
                 text=True,
+                check=False,
             )
 
             # Check if output contains "Invalid" indicating syntax error

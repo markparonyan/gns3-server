@@ -111,7 +111,7 @@ class Drawing:
                 data = base64.decodebytes(data.split(",", 1)[1].encode())
 
                 # We compute a hash of the image file to avoid duplication
-                filename = hashlib.md5(data).hexdigest() + "." + extension
+                filename = hashlib.md5(data, usedforsecurity=False).hexdigest() + "." + extension
                 elem.set(href, filename)
 
                 file_path = os.path.join(self._project.pictures_directory, filename)
@@ -122,7 +122,7 @@ class Drawing:
 
         # We dump also large svg on disk to keep .gns3 small
         if len(value) > 1000:
-            filename = hashlib.md5(value.encode()).hexdigest() + ".svg"
+            filename = hashlib.md5(value.encode(), usedforsecurity=False).hexdigest() + ".svg"
             file_path = os.path.join(self._project.pictures_directory, filename)
             if not os.path.exists(file_path):
                 with open(file_path, "w+", encoding="utf-8") as f:

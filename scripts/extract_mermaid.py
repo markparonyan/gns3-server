@@ -118,6 +118,7 @@ def convert_mermaid_to_svg(
             text=True,
             timeout=timeout,
             env=env,
+            check=False,
         )
 
         if result.returncode != 0:
@@ -231,7 +232,7 @@ def main():  # noqa: C901
 
         # 1. Check npx
         try:
-            subprocess.run(["npx", "--version"], capture_output=True, timeout=10)  # noqa: S607
+            subprocess.run(["npx", "--version"], capture_output=True, timeout=10, check=False)  # noqa: S607
         except FileNotFoundError:
             print("  ERROR: Node.js/npx not found. Install Node.js first.")
             print("  Visit: https://nodejs.org/")
@@ -240,7 +241,7 @@ def main():  # noqa: C901
         # 2. Install Chrome via puppeteer
         chrome = args.chrome or DEFAULT_CHROME_PATH
         if chrome and os.path.exists(chrome):
-            result = subprocess.run([chrome, "--version"], capture_output=True, text=True, timeout=10)  # noqa: S603
+            result = subprocess.run([chrome, "--version"], capture_output=True, text=True, timeout=10, check=False)  # noqa: S603
             version = result.stdout.strip() if result.returncode == 0 else "unknown"
             print(f"  Chrome: already installed ({version})")
         else:
@@ -248,6 +249,7 @@ def main():  # noqa: C901
             ret = subprocess.run(
                 ["npx", "puppeteer", "browsers", "install", "chrome-headless-shell"],  # noqa: S607
                 timeout=120,
+                check=False,
             )
             if ret.returncode == 0:
                 print("  Chrome: installed successfully")
@@ -264,6 +266,7 @@ def main():  # noqa: C901
             capture_output=True,
             text=True,
             timeout=60,
+            check=False,
         )
         if ret.returncode == 0:
             print("  mermaid-cli: ready")
@@ -289,7 +292,7 @@ def main():  # noqa: C901
 
         # 2. npx / Node.js
         try:
-            result = subprocess.run(["npx", "--version"], capture_output=True, text=True, timeout=10)  # noqa: S607
+            result = subprocess.run(["npx", "--version"], capture_output=True, text=True, timeout=10, check=False)  # noqa: S607
             if result.returncode == 0:
                 print(f"  npx: {result.stdout.strip()}")
             else:
@@ -303,7 +306,7 @@ def main():  # noqa: C901
         chrome = args.chrome or DEFAULT_CHROME_PATH
         if chrome and os.path.exists(chrome):
             try:
-                result = subprocess.run([chrome, "--version"], capture_output=True, text=True, timeout=10)  # noqa: S603
+                result = subprocess.run([chrome, "--version"], capture_output=True, text=True, timeout=10, check=False)  # noqa: S603
                 version = result.stdout.strip() if result.returncode == 0 else "?"
                 print(f"  Chrome: {version}")
                 print(f"    Path: {chrome}")
@@ -321,6 +324,7 @@ def main():  # noqa: C901
                 capture_output=True,
                 text=True,
                 timeout=30,
+                check=False,
             )
             if result.returncode == 0:
                 print("  mermaid-cli: available")

@@ -589,7 +589,7 @@ class Project:
         :returns: hexadecimal md5
         """
 
-        m = hashlib.md5()
+        m = hashlib.md5(usedforsecurity=False)
         with open(path, "rb") as f:
             while True:
                 buf = f.read(128)

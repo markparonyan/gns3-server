@@ -607,7 +607,7 @@ class IOUVM(BaseNode):
                 ioukey += ord(x)
             pad1 = b"\x4b\x58\x21\x81\x56\x7b\x0d\xf3\x21\x43\x9b\x7e\xac\x1d\xe6\x8a"
             pad2 = b"\x80" + 39 * b"\0"
-            ioukey = hashlib.md5(pad1 + pad2 + struct.pack("!I", ioukey) + pad1).hexdigest()[:16]
+            ioukey = hashlib.md5(pad1 + pad2 + struct.pack("!I", ioukey) + pad1, usedforsecurity=False).hexdigest()[:16]
             if ioukey != user_ioukey:
                 raise IOUError(
                     f"Invalid IOU license key {user_ioukey} detected in iourc file {self.iourc_path} for host {hostname}"

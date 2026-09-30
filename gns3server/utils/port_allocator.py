@@ -21,7 +21,7 @@ def link_id_to_display(link_id: str) -> int:
     Returns:
         Display number (10000-19999)
     """
-    hash_value = int(hashlib.md5(link_id.encode()).hexdigest(), 16)
+    hash_value = int(hashlib.md5(link_id.encode(), usedforsecurity=False).hexdigest(), 16)
     return DISPLAY_RANGE + (hash_value % DISPLAY_MODULO)
 
 

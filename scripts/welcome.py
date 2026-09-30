@@ -46,7 +46,7 @@ class Welcome_dialog:
         Return the active IP
         """
         # request 'ip addr' data in JSON format from shell
-        ip_addr_response = subprocess.run(["ip", "--json", "addr"], capture_output=True)  # noqa: S607
+        ip_addr_response = subprocess.run(["ip", "--json", "addr"], capture_output=True, check=False)  # noqa: S607
 
         # process response, decode and use json.loads to convert the string to a dict
         ip_addr_data = convert(ip_addr_response.stdout.decode("utf-8"))
@@ -73,9 +73,10 @@ class Welcome_dialog:
         subprocess.run(  # noqa: S603
             ["sed", "-i", f"s/host = 0.0.0.0/host = {ip_addr}/", "/etc/gns3/gns3_server.conf"],  # noqa: S607
             capture_output=False,
+            check=False,
         )
-        subprocess.run(["service", "gns3", "stop"], capture_output=False)  # noqa: S607
-        subprocess.run(["service", "gns3", "start"], capture_output=False)  # noqa: S607
+        subprocess.run(["service", "gns3", "stop"], capture_output=False, check=False)  # noqa: S607
+        subprocess.run(["service", "gns3", "start"], capture_output=False, check=False)  # noqa: S607
 
     def get_config(self):
         """

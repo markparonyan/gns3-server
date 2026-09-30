@@ -58,7 +58,7 @@ async def node(controller, project):
 @pytest.mark.asyncio
 async def write_file(path, z):
 
-    with open(path, "wb") as f:
+    with open(path, "wb") as f:  # noqa: ASYNC230
         async for chunk in z:
             f.write(chunk)
 
@@ -80,11 +80,11 @@ async def test_export(tmpdir, project):
     os.makedirs(os.path.join(path, "vm-1", "dynamips"))
 
     os.makedirs(str(tmpdir / "IOS"))
-    with open(str(tmpdir / "IOS" / "test.image"), "w+") as f:
+    with open(str(tmpdir / "IOS" / "test.image"), "w+") as f:  # noqa: ASYNC230
         f.write("AAA")
 
     # The .gns3 should be renamed project.gns3 in order to simplify import
-    with open(os.path.join(path, "test.gns3"), "w+") as f:
+    with open(os.path.join(path, "test.gns3"), "w+") as f:  # noqa: ASYNC230
         data = {
             "topology": {
                 "computes": [
@@ -107,13 +107,13 @@ async def test_export(tmpdir, project):
         }
         json.dump(data, f)
 
-    with open(os.path.join(path, "vm-1", "dynamips", "test"), "w+") as f:
+    with open(os.path.join(path, "vm-1", "dynamips", "test"), "w+") as f:  # noqa: ASYNC230
         f.write("HELLO")
-    with open(os.path.join(path, "vm-1", "dynamips", "test_log.txt"), "w+") as f:
+    with open(os.path.join(path, "vm-1", "dynamips", "test_log.txt"), "w+") as f:  # noqa: ASYNC230
         f.write("LOG")
     os.makedirs(os.path.join(path, "vm-1", "dynamips", "empty-dir"))
     os.makedirs(os.path.join(path, "project-files", "snapshots"))
-    with open(os.path.join(path, "project-files", "snapshots", "test"), "w+") as f:
+    with open(os.path.join(path, "project-files", "snapshots", "test"), "w+") as f:  # noqa: ASYNC230
         f.write("WORLD")
 
     os.symlink("/tmp/anywhere", os.path.join(path, "vm-1", "dynamips", "symlink"))
@@ -196,7 +196,7 @@ async def test_export_disallow_running(tmpdir, project, node):
 
     topology = {"topology": {"nodes": [{"node_type": "dynamips"}]}}
 
-    with open(os.path.join(path, "test.gns3"), "w+") as f:
+    with open(os.path.join(path, "test.gns3"), "w+") as f:  # noqa: ASYNC230
         json.dump(topology, f)
 
     node._status = "started"
@@ -215,7 +215,7 @@ async def test_export_disallow_some_type(tmpdir, project):
 
     topology = {"topology": {"nodes": [{"node_type": "vmware"}]}}
 
-    with open(os.path.join(path, "test.gns3"), "w+") as f:
+    with open(os.path.join(path, "test.gns3"), "w+") as f:  # noqa: ASYNC230
         json.dump(topology, f)
 
     with pytest.raises(ControllerError):
@@ -226,7 +226,7 @@ async def test_export_disallow_some_type(tmpdir, project):
 
     # VirtualBox is always disallowed
     topology = {"topology": {"nodes": [{"node_type": "virtualbox", "properties": {"linked_clone": True}}]}}
-    with open(os.path.join(path, "test.gns3"), "w+") as f:
+    with open(os.path.join(path, "test.gns3"), "w+") as f:  # noqa: ASYNC230
         json.dump(topology, f)
     with pytest.raises(ControllerError):
         with aiozipstream.ZipFile() as z:
@@ -250,7 +250,7 @@ async def test_export_fix_path(tmpdir, project):
         }
     }
 
-    with open(os.path.join(path, "test.gns3"), "w+") as f:
+    with open(os.path.join(path, "test.gns3"), "w+") as f:  # noqa: ASYNC230
         json.dump(topology, f)
 
     with aiozipstream.ZipFile() as z:
@@ -273,12 +273,12 @@ async def test_export_with_images(tmpdir, project):
     path = project.path
 
     os.makedirs(str(tmpdir / "IOS"))
-    with open(str(tmpdir / "IOS" / "test.image"), "w+") as f:
+    with open(str(tmpdir / "IOS" / "test.image"), "w+") as f:  # noqa: ASYNC230
         f.write("AAA")
 
     topology = {"topology": {"nodes": [{"properties": {"image": "test.image"}, "node_type": "dynamips"}]}}
 
-    with open(os.path.join(path, "test.gns3"), "w+") as f:
+    with open(os.path.join(path, "test.gns3"), "w+") as f:  # noqa: ASYNC230
         json.dump(topology, f)
 
     with aiozipstream.ZipFile() as z:
@@ -300,7 +300,7 @@ async def test_export_keep_compute_ids(tmpdir, project):
     in the file
     """
 
-    with open(os.path.join(project.path, "test.gns3"), "w+") as f:
+    with open(os.path.join(project.path, "test.gns3"), "w+") as f:  # noqa: ASYNC230
         data = {
             "topology": {
                 "computes": [
@@ -364,7 +364,7 @@ async def test_export_images_from_vm(tmpdir, project):
     }
 
     # The .gns3 should be renamed project.gns3 in order to simplify import
-    with open(os.path.join(path, "test.gns3"), "w+") as f:
+    with open(os.path.join(path, "test.gns3"), "w+") as f:  # noqa: ASYNC230
         f.write(json.dumps(topology))
 
     with aiozipstream.ZipFile() as z:
@@ -385,7 +385,7 @@ async def test_export_images_from_vm(tmpdir, project):
 @pytest.mark.asyncio
 async def test_export_with_ignoring_snapshots(tmpdir, project):
 
-    with open(os.path.join(project.path, "test.gns3"), "w+") as f:
+    with open(os.path.join(project.path, "test.gns3"), "w+") as f:  # noqa: ASYNC230
         data = {
             "topology": {
                 "computes": [

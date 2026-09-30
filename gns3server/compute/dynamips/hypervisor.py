@@ -121,7 +121,7 @@ class Hypervisor(DynamipsHypervisor):
             log.debug(f"Starting Dynamips: {self._command}")
             self._stdout_file = os.path.join(self.working_dir, f"dynamips_i{self._id}_stdout.txt")
             log.debug(f"Dynamips process logging to {self._stdout_file}")
-            with open(self._stdout_file, "w", encoding="utf-8") as fd:
+            with open(self._stdout_file, "w", encoding="utf-8") as fd:  # noqa: ASYNC230
                 self._process = await asyncio.create_subprocess_exec(
                     *self._command, stdout=fd, stderr=subprocess.STDOUT, cwd=self._working_dir, env=env
                 )

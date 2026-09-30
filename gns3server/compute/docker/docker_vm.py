@@ -1167,7 +1167,7 @@ class DockerVM(BaseNode):
             raise DockerError("Please install TigerVNC server before using VNC support")
 
         if tigervnc_path:
-            with open(os.path.join(self.working_dir, "vnc.log"), "w") as fd:
+            with open(os.path.join(self.working_dir, "vnc.log"), "w") as fd:  # noqa: ASYNC230
                 self._vnc_process = await asyncio.create_subprocess_exec(
                     tigervnc_path,
                     "-extension",

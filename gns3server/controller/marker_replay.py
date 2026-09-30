@@ -232,7 +232,7 @@ async def _prepare_scratch(pcap):
     await asyncio.to_thread(shutil.copyfile, pcap, scratch)
     prefs_dir = os.path.join(scratch_dir, ".config", "wireshark")
     os.makedirs(prefs_dir, exist_ok=True)
-    with open(os.path.join(prefs_dir, "preferences"), "w") as f:
+    with open(os.path.join(prefs_dir, "preferences"), "w") as f:  # noqa: ASYNC230
         f.write(_PINNED_COLUMNS)
     return scratch_dir, scratch
 

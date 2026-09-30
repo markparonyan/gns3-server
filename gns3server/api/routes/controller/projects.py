@@ -738,7 +738,7 @@ async def import_project(project_id: UUID, request: Request, name: str | None = 
             async with aiofiles.open(temp_project_path, "wb") as f:
                 async for chunk in request.stream():
                     await f.write(chunk)
-            with open(temp_project_path, "rb") as f:
+            with open(temp_project_path, "rb") as f:  # noqa: ASYNC230
                 project = await import_controller_project(controller, str(project_id), f, name=name)
 
         log.info(f"Project '{project.name}' imported in {time.time() - begin:.4f} seconds")

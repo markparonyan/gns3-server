@@ -89,7 +89,7 @@ async def list_images(image_type):
                     continue
 
                 try:
-                    with open(os.path.join(root, filename), "rb") as f:
+                    with open(os.path.join(root, filename), "rb") as f:  # noqa: ASYNC230
                         # read the first 7 bytes of the file.
                         elf_header_start = f.read(7)
                     if image_type == "dynamips" and elf_header_start != b"\x7fELF\x01\x02\x01":

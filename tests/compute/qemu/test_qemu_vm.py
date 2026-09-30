@@ -101,7 +101,7 @@ async def test_vm_create(compute_project, manager, fake_qemu_binary):
 
     vm = QemuVM("test", "00010203-0405-0607-0809-0a0b0c0d0e0f", compute_project, manager, qemu_path=fake_qemu_binary)
     fake_img = os.path.join(vm.working_dir, "hello")
-    with open(fake_img, "w+") as f:
+    with open(fake_img, "w+") as f:  # noqa: ASYNC230
         f.write("hello")
     vm._hda_disk_image = fake_img
 
@@ -201,7 +201,7 @@ async def test_termination_callback(vm):
 @pytest.mark.asyncio
 async def test_termination_callback_error(vm, tmpdir):
 
-    with open(str(tmpdir / "qemu.log"), "w+") as f:
+    with open(str(tmpdir / "qemu.log"), "w+") as f:  # noqa: ASYNC230
         f.write("BOOMM")
 
     vm.status = "started"
@@ -372,8 +372,8 @@ async def test_disk_options(vm, tmpdir, fake_qemu_img_binary):
     vm._hda_disk_image = str(tmpdir / "test.qcow2")
     vm._hda_disk_interface = "ide"
     vm._hdb_disk_image = str(tmpdir / "test2.qcow2")
-    open(vm._hda_disk_image, "w+").close()
-    open(vm._hdb_disk_image, "w+").close()
+    open(vm._hda_disk_image, "w+").close()  # noqa: ASYNC230
+    open(vm._hdb_disk_image, "w+").close()  # noqa: ASYNC230
 
     with asyncio_patch("gns3server.compute.qemu.qemu_vm.QemuVM._find_disk_file_format", return_value="qcow2"):
         with asyncio_patch("asyncio.create_subprocess_exec", return_value=MagicMock()) as process:
@@ -414,7 +414,7 @@ async def test_disk_options(vm, tmpdir, fake_qemu_img_binary):
 async def test_cdrom_option(vm, tmpdir, fake_qemu_img_binary):
 
     vm._cdrom_image = str(tmpdir / "test.iso")
-    open(vm._cdrom_image, "w+").close()
+    open(vm._cdrom_image, "w+").close()  # noqa: ASYNC230
 
     options = await vm._build_command()
 
@@ -425,7 +425,7 @@ async def test_cdrom_option(vm, tmpdir, fake_qemu_img_binary):
 async def test_bios_option(vm, tmpdir, fake_qemu_img_binary):
 
     vm._bios_image = str(tmpdir / "test.img")
-    open(vm._bios_image, "w+").close()
+    open(vm._bios_image, "w+").close()  # noqa: ASYNC230
     options = await vm._build_command()
     assert " ".join(["-bios", str(tmpdir / "test.img")]) in " ".join(options)
 
@@ -442,10 +442,10 @@ async def test_uefi_boot_mode_option(vm, tmpdir, images_dir, fake_qemu_img_binar
         ovmf_code_path = system_ovmf_firmware_path
     else:
         ovmf_code_path = os.path.join(images_dir, "OVMF_CODE_4M.fd")
-        with open(ovmf_code_path, "w+") as f:
+        with open(ovmf_code_path, "w+") as f:  # noqa: ASYNC230
             f.write("1")
     ovmf_vars_path = os.path.join(images_dir, "OVMF_VARS_4M.fd")
-    with open(ovmf_vars_path, "w+") as f:
+    with open(ovmf_vars_path, "w+") as f:  # noqa: ASYNC230
         f.write("1")
 
     options = await vm._build_command()
@@ -506,10 +506,10 @@ async def test_disk_options_multiple_disk(vm, tmpdir, fake_qemu_img_binary):
     vm._hdc_disk_interface = "ide"
     vm._hdd_disk_image = str(tmpdir / "test3.qcow2")
     vm._hdd_disk_interface = "ide"
-    open(vm._hda_disk_image, "w+").close()
-    open(vm._hdb_disk_image, "w+").close()
-    open(vm._hdc_disk_image, "w+").close()
-    open(vm._hdd_disk_image, "w+").close()
+    open(vm._hda_disk_image, "w+").close()  # noqa: ASYNC230
+    open(vm._hdb_disk_image, "w+").close()  # noqa: ASYNC230
+    open(vm._hdc_disk_image, "w+").close()  # noqa: ASYNC230
+    open(vm._hdd_disk_image, "w+").close()  # noqa: ASYNC230
 
     with asyncio_patch("gns3server.compute.qemu.qemu_vm.QemuVM._find_disk_file_format", return_value="qcow2"):
         with asyncio_patch("asyncio.create_subprocess_exec", return_value=MagicMock()):
@@ -866,7 +866,7 @@ async def test_hda_disk_image_non_linked_clone(vm, images_dir, compute_project, 
     Two non linked can't use the same image at the same time
     """
 
-    open(os.path.join(images_dir, "test1"), "w+").close()
+    open(os.path.join(images_dir, "test1"), "w+").close()  # noqa: ASYNC230
     vm.linked_clone = False
     vm.hda_disk_image = os.path.join(images_dir, "test1")
     vm.manager._nodes[vm.id] = vm

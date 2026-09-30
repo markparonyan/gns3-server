@@ -110,7 +110,7 @@ class TestImageRoutes:
     async def test_create_image(self, app: FastAPI, client: AsyncClient, images_dir) -> None:
 
         async def create_disk(path, options):
-            with open(path, "wb") as f:
+            with open(path, "wb") as f:  # noqa: ASYNC230
                 f.write(b"QFI\xfb\x00\x00\x00")
 
         Qemu.instance().create_disk_image = AsyncioMagicMock(side_effect=create_disk)
@@ -120,7 +120,7 @@ class TestImageRoutes:
             app.url_path_for("create_qemu_image", image_path=image_name), json={"format": "qcow2", "size": 30}
         )
         assert response.status_code == status.HTTP_201_CREATED
-        assert os.path.isfile(path)
+        assert os.path.isfile(path)  # noqa: ASYNC240
 
     @pytest.mark.parametrize(
         "image_type, fixture_name, valid_request",
@@ -148,7 +148,7 @@ class TestImageRoutes:
         image_path = request.getfixturevalue(fixture_name)
         image_name = os.path.basename(image_path)
         image_checksum = hashlib.md5()
-        with open(image_path, "rb") as f:
+        with open(image_path, "rb") as f:  # noqa: ASYNC230
             image_data = f.read()
         image_checksum.update(image_data)
 
@@ -158,7 +158,7 @@ class TestImageRoutes:
             assert response.status_code == status.HTTP_201_CREATED
             assert response.json()["filename"] == image_name
             assert response.json()["checksum"] == image_checksum.hexdigest()
-            assert os.path.exists(os.path.join(images_dir, image_type.upper(), image_name))
+            assert os.path.exists(os.path.join(images_dir, image_type.upper(), image_name))  # noqa: ASYNC240
         else:
             assert response.status_code != status.HTTP_201_CREATED
 
@@ -177,7 +177,7 @@ class TestImageRoutes:
 
     async def test_same_image_is_uploaded(self, app: FastAPI, client: AsyncClient, qcow2_image: str) -> None:
 
-        with open(qcow2_image, "rb") as f:
+        with open(qcow2_image, "rb") as f:  # noqa: ASYNC230
             image_data = f.read()
         response = await client.post(app.url_path_for("upload_image", image_path="image1.qcow2"), content=image_data)
         assert response.status_code == status.HTTP_201_CREATED
@@ -207,14 +207,14 @@ class TestImageRoutes:
     ) -> None:
 
         image_name = os.path.basename(qcow2_image)
-        with open(qcow2_image, "rb") as f:
+        with open(qcow2_image, "rb") as f:  # noqa: ASYNC230
             image_data = f.read()
         response = await client.post(app.url_path_for("upload_image", image_path=image_name), content=image_data)
         assert response.status_code == status.HTTP_201_CREATED
 
         response = await client.delete(app.url_path_for("delete_image", image_path=image_name))
         assert response.status_code == status.HTTP_204_NO_CONTENT
-        assert not os.path.exists(os.path.join(images_dir, "QEMU", image_name))
+        assert not os.path.exists(os.path.join(images_dir, "QEMU", image_name))  # noqa: ASYNC240
 
     @pytest.mark.parametrize(
         "subdir, expected_result",
@@ -235,7 +235,7 @@ class TestImageRoutes:
     ) -> None:
 
         image_name = os.path.basename(qcow2_image)
-        with open(qcow2_image, "rb") as f:
+        with open(qcow2_image, "rb") as f:  # noqa: ASYNC230
             image_data = f.read()
         image_path = os.path.join(subdir, image_name)
         response = await client.post(app.url_path_for("upload_image", image_path=image_path), content=image_data)
@@ -281,7 +281,7 @@ class TestImageRoutes:
             "project_id": project_id,
             "topology": {"computes": [], "links": [], "drawings": [], "nodes": [node]},
         }
-        with open(os.path.join(project_dir, f"{name}.gns3"), "w+") as f:
+        with open(os.path.join(project_dir, f"{name}.gns3"), "w+") as f:  # noqa: ASYNC230
             json.dump(topology, f)
         return await controller.add_project(
             project_id=project_id,
@@ -305,7 +305,7 @@ class TestImageRoutes:
         """
 
         image_path = os.path.join(tmpdir, "used.qcow2")
-        with open(image_path, "wb+") as f:
+        with open(image_path, "wb+") as f:  # noqa: ASYNC230
             f.write(b"\x42\x42\x42\x42")
 
         images_repo = ImagesRepository(db_session)
@@ -326,13 +326,13 @@ class TestImageRoutes:
         response = await client.delete(app.url_path_for("delete_image", image_path="used.qcow2"))
         assert response.status_code == status.HTTP_409_CONFLICT
         assert "Guarded" in response.json()["message"]
-        assert os.path.exists(image_path)
+        assert os.path.exists(image_path)  # noqa: ASYNC240
 
         # once no project uses it anymore the deletion goes through
         controller.remove_project(guarded_project)
         response = await client.delete(app.url_path_for("delete_image", image_path="used.qcow2"))
         assert response.status_code == status.HTTP_204_NO_CONTENT
-        assert not os.path.exists(image_path)
+        assert not os.path.exists(image_path)  # noqa: ASYNC240
 
     async def test_prune_images_keeps_project_referenced(
         self,
@@ -350,7 +350,7 @@ class TestImageRoutes:
         images_repo = ImagesRepository(db_session)
         for filename in ("used.qcow2", "unused.qcow2"):
             image_path = os.path.join(tmpdir, filename)
-            with open(image_path, "wb+") as f:
+            with open(image_path, "wb+") as f:  # noqa: ASYNC230
                 f.write(b"\x42\x42\x42\x42")
             await images_repo.add_image(filename, "qemu", 42, image_path, "e342eb86c1229b6c154367a5476969b5", "md5")
 
@@ -370,9 +370,9 @@ class TestImageRoutes:
         assert response.status_code == status.HTTP_204_NO_CONTENT
 
         assert await images_repo.get_image(os.path.join(tmpdir, "used.qcow2")) is not None
-        assert os.path.exists(os.path.join(tmpdir, "used.qcow2"))
+        assert os.path.exists(os.path.join(tmpdir, "used.qcow2"))  # noqa: ASYNC240
         assert await images_repo.get_image(os.path.join(tmpdir, "unused.qcow2")) is None
-        assert not os.path.exists(os.path.join(tmpdir, "unused.qcow2"))
+        assert not os.path.exists(os.path.join(tmpdir, "unused.qcow2"))  # noqa: ASYNC240
 
     async def test_image_upload_create_appliance(
         self, app: FastAPI, client: AsyncClient, db_session: AsyncSession, controller: Controller
@@ -382,7 +382,7 @@ class TestImageRoutes:
         controller.appliance_manager.load_appliances()  # make sure appliances are loaded
         image_path = "tests/resources/empty30G.qcow2"
         image_name = os.path.basename(image_path)
-        with open(image_path, "rb") as f:
+        with open(image_path, "rb") as f:  # noqa: ASYNC230
             image_data = f.read()
         response = await client.post(
             app.url_path_for("upload_image", image_path=image_name),
@@ -404,7 +404,7 @@ class TestImageRoutes:
 
         image_path = "tests/resources/empty100G.qcow2"
         image_name = os.path.basename(image_path)
-        with open(image_path, "rb") as f:
+        with open(image_path, "rb") as f:  # noqa: ASYNC230
             image_data = f.read()
         response = await client.post(app.url_path_for("upload_image", image_path=image_name), content=image_data)
         assert response.status_code == status.HTTP_201_CREATED
@@ -439,7 +439,7 @@ class TestImageRoutes:
         for image_name in ("empty30G.qcow2", "empty100G.qcow2"):
             await images_repo.delete_image(image_name)
         for image_path in ("tests/resources/empty30G.qcow2", "tests/resources/empty100G.qcow2"):
-            with open(image_path, "rb") as f:
+            with open(image_path, "rb") as f:  # noqa: ASYNC230
                 image_data = f.read()
             response = await client.post(
                 app.url_path_for("upload_image", image_path=os.path.basename(image_path)), content=image_data

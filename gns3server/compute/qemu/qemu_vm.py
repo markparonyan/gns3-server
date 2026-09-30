@@ -1124,7 +1124,7 @@ class QemuVM(BaseNode):
                 log.debug(f"Starting QEMU with: {command_string}")
                 self._stdout_file = os.path.join(self.working_dir, "qemu.log")
                 log.debug(f"logging to {self._stdout_file}")
-                with open(self._stdout_file, "w", encoding="utf-8") as fd:
+                with open(self._stdout_file, "w", encoding="utf-8") as fd:  # noqa: ASYNC230
                     fd.write(f"Start QEMU with {command_string}\n\nExecution log:\n")
                     self.command_line = " ".join(command)
                     self._process = await asyncio.create_subprocess_exec(
@@ -1896,7 +1896,7 @@ class QemuVM(BaseNode):
         log.debug(f"logging to {self._qemu_img_stdout_file}")
         command_string = " ".join(shlex.quote(s) for s in command)
         log.debug(f"Executing qemu-img with: {command_string}")
-        with open(self._qemu_img_stdout_file, "w", encoding="utf-8") as fd:
+        with open(self._qemu_img_stdout_file, "w", encoding="utf-8") as fd:  # noqa: ASYNC230
             process = await asyncio.create_subprocess_exec(
                 *command, stdout=fd, stderr=subprocess.STDOUT, cwd=self.working_dir
             )
@@ -1969,7 +1969,7 @@ class QemuVM(BaseNode):
     async def _mcopy(self, image, *args):
         try:
             # read offset of first partition from MBR
-            with open(image, "rb") as img_file:
+            with open(image, "rb") as img_file:  # noqa: ASYNC230
                 mbr = img_file.read(512)
             part_type, offset, signature = struct.unpack("<450xB3xL52xH", mbr)
             if signature != 0xAA55:

@@ -58,7 +58,7 @@ async def test_binary_list(monkeypatch, tmpdir):
 
     for file_to_create in files_to_create:
         path = os.path.join(os.environ["PATH"], file_to_create)
-        with open(path, "w+") as f:
+        with open(path, "w+") as f:  # noqa: ASYNC230
             f.write("1")
         os.chmod(path, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
 

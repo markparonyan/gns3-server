@@ -477,15 +477,15 @@ async def test_prepare_volumes_never_overwrites_marked_volume(compute_project, m
     host_dir = os.path.join(vm.working_dir, "etc", "opt", "srlinux")
     os.makedirs(host_dir, exist_ok=True)
     marker = os.path.join(host_dir, ".gns3_perms")
-    open(marker, "w").close()
+    open(marker, "w").close()  # noqa: ASYNC230
     saved = os.path.join(host_dir, "config.json")
-    with open(saved, "w") as f:
+    with open(saved, "w") as f:  # noqa: ASYNC230
         f.write('{"user": "config"}')
 
     with patch("asyncio.subprocess.create_subprocess_exec", return_value=_seed_proc()) as mock_exec:
         await vm._prepare_volumes({"Config": {"Volumes": {}}})
         mock_exec.assert_not_called()
-    with open(saved) as f:
+    with open(saved) as f:  # noqa: ASYNC230
         assert f.read() == '{"user": "config"}'
 
 

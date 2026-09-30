@@ -695,7 +695,7 @@ async def test_stop_missing_image_node_does_not_contact_compute(node, compute):
 async def test_create_base_script(node, config, compute, tmpdir):
 
     config.settings.Server.configs_path = str(tmpdir)
-    with open(str(tmpdir / "test.txt"), "w+") as f:
+    with open(str(tmpdir / "test.txt"), "w+") as f:  # noqa: ASYNC230
         f.write("hostname test")
 
     node._properties = {"base_script_file": "test.txt"}
@@ -1056,7 +1056,7 @@ async def test_upload_missing_image(compute, controller, images_dir):
         node_type="qemu",
         properties={"hda_disk_image": "linux.img"},
     )
-    open(os.path.join(images_dir, "linux.img"), "w+").close()
+    open(os.path.join(images_dir, "linux.img"), "w+").close()  # noqa: ASYNC230
     assert await node._upload_missing_image("qemu", "linux.img") is True
     compute.post.assert_called_with("/qemu/images/linux.img", data=ANY, timeout=None)
 
@@ -1075,7 +1075,7 @@ async def test_upload_missing_image_from_nested_directory(compute, controller, i
     )
     nested_dir = os.path.join(images_dir, "vendor")
     os.makedirs(nested_dir)
-    open(os.path.join(nested_dir, "nested.img"), "w+").close()
+    open(os.path.join(nested_dir, "nested.img"), "w+").close()  # noqa: ASYNC230
 
     assert await node._upload_missing_image("qemu", "nested.img") is True
     compute.post.assert_called_with("/qemu/images/nested.img", data=ANY, timeout=None)

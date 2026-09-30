@@ -304,7 +304,7 @@ async def test_delete_marker_capture_removes_pcap_and_entry(compute_project, man
     os.makedirs(markers_dir, exist_ok=True)
     node._marker_filter_bridges["m", "L1"] = "VPCS-10"
     pcap = os.path.join(markers_dir, f"{node.id}_L1_m.pcap")
-    open(pcap, "wb").write(b"data")
+    open(pcap, "wb").write(b"data")  # noqa: ASYNC230
 
     await node.delete_marker_capture("m", "L1")
 
@@ -531,7 +531,7 @@ async def test_console_websocket_client_disconnect_while_node_output_streams(
 async def test_delete_node_working_directory(node):
 
     working_dir = node.working_dir
-    with open(os.path.join(working_dir, "test.txt"), "w") as f:
+    with open(os.path.join(working_dir, "test.txt"), "w") as f:  # noqa: ASYNC230
         f.write("TEST")
     await node.delete()
     assert not os.path.exists(working_dir)
@@ -542,7 +542,7 @@ async def test_delete_directory_without_user_permissions(node):
     # regression test: a failed deletion must not chmod the directory to S_IWRITE (0o200),
     # which removes the search permission and makes the directory undeletable
     working_dir = node.working_dir
-    with open(os.path.join(working_dir, "test.txt"), "w") as f:
+    with open(os.path.join(working_dir, "test.txt"), "w") as f:  # noqa: ASYNC230
         f.write("TEST")
     os.chmod(working_dir, 0o200)
     try:
@@ -559,7 +559,7 @@ async def test_delete_directory_without_user_permissions(node):
 async def test_delete_directory_with_readonly_entries(node):
 
     working_dir = node.working_dir
-    with open(os.path.join(working_dir, "test.txt"), "w") as f:
+    with open(os.path.join(working_dir, "test.txt"), "w") as f:  # noqa: ASYNC230
         f.write("TEST")
     os.chmod(os.path.join(working_dir, "test.txt"), 0o000)
     os.chmod(working_dir, 0o500)  # remove the write permission
@@ -577,7 +577,7 @@ async def test_delete_directory_with_file_recreated_during_deletion(node, monkey
     # node directory while it is being deleted, recreating a file after shutil.rmtree
     # has listed the directory (rmtree then silently gives up on the final rmdir)
     working_dir = node.working_dir
-    with open(os.path.join(working_dir, "hda_disk_image.md5sum"), "w") as f:
+    with open(os.path.join(working_dir, "hda_disk_image.md5sum"), "w") as f:  # noqa: ASYNC230
         f.write("0" * 32)
     real_rmtree = shutil.rmtree
     calls = 0
@@ -605,7 +605,7 @@ async def test_delete_directory_with_file_recreated_during_deletion(node, monkey
 async def test_delete_directory_failure_raises(node, monkeypatch):
 
     working_dir = node.working_dir
-    with open(os.path.join(working_dir, "test.txt"), "w") as f:
+    with open(os.path.join(working_dir, "test.txt"), "w") as f:  # noqa: ASYNC230
         f.write("TEST")
 
     def rmtree_not_deleting(directory, onerror=None, **kwargs):

@@ -124,7 +124,7 @@ async def upload_symbol(symbol_id: str, request: Request) -> None:
     path = os.path.join(controller.symbols.symbols_path(), os.path.basename(symbol_id))
 
     try:
-        with open(path, "wb") as f:
+        with open(path, "wb") as f:  # noqa: ASYNC230
             f.write(await request.body())
     except (UnicodeEncodeError, OSError) as e:
         raise ControllerError(f"Could not write symbol file '{path}': {e}") from e

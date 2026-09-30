@@ -750,8 +750,8 @@ async def test_clean_pictures(project):
 
     drawing = await project.add_drawing()
     drawing._svg = "test.png"
-    open(os.path.join(project.pictures_directory, "test.png"), "w+").close()
-    open(os.path.join(project.pictures_directory, "test2.png"), "w+").close()
+    open(os.path.join(project.pictures_directory, "test.png"), "w+").close()  # noqa: ASYNC230
+    open(os.path.join(project.pictures_directory, "test2.png"), "w+").close()  # noqa: ASYNC230
     await project.close()
     assert os.path.exists(os.path.join(project.pictures_directory, "test.png"))
     assert not os.path.exists(os.path.join(project.pictures_directory, "test2.png"))
@@ -767,9 +767,9 @@ async def test_clean_pictures_and_keep_supplier_logo(project):
 
     drawing = await project.add_drawing()
     drawing._svg = "test.png"
-    open(os.path.join(project.pictures_directory, "test.png"), "w+").close()
-    open(os.path.join(project.pictures_directory, "test2.png"), "w+").close()
-    open(os.path.join(project.pictures_directory, "logo.png"), "w+").close()
+    open(os.path.join(project.pictures_directory, "test.png"), "w+").close()  # noqa: ASYNC230
+    open(os.path.join(project.pictures_directory, "test2.png"), "w+").close()  # noqa: ASYNC230
+    open(os.path.join(project.pictures_directory, "logo.png"), "w+").close()  # noqa: ASYNC230
 
     await project.close()
     assert os.path.exists(os.path.join(project.pictures_directory, "test.png"))
@@ -838,7 +838,7 @@ async def test_dump(projects_dir):
         with patch("gns3server.controller.project.Project.emit_controller_notification"):
             p = Project(project_id="00010203-0405-0607-0809-0a0b0c0d0e0f", name="Test")
             p.dump()
-            with open(os.path.join(directory, p.id, "Test.gns3")) as f:
+            with open(os.path.join(directory, p.id, "Test.gns3")) as f:  # noqa: ASYNC230
                 content = f.read()
                 assert "00010203-0405-0607-0809-0a0b0c0d0e0f" in content
 
@@ -947,7 +947,7 @@ def test_get_snapshot(project):
 async def test_delete_snapshot(project):
 
     os.makedirs(os.path.join(project.path, "snapshots"))
-    open(os.path.join(project.path, "snapshots", "test1_260716_103713.gns3project"), "w+").close()
+    open(os.path.join(project.path, "snapshots", "test1_260716_103713.gns3project"), "w+").close()  # noqa: ASYNC230
     project.reset()
 
     snapshot = list(project.snapshots.values())[0]
@@ -1242,7 +1242,7 @@ async def test_open_with_missing_image_defers_links(controller, projects_dir):
 
     project_dir = os.path.join(projects_dir, "demo")
     os.makedirs(project_dir, exist_ok=True)
-    with open(os.path.join(project_dir, "demo.gns3"), "w+") as f:
+    with open(os.path.join(project_dir, "demo.gns3"), "w+") as f:  # noqa: ASYNC230
         json.dump(topology, f)
 
     compute = MagicMock()

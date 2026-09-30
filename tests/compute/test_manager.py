@@ -217,7 +217,7 @@ async def test_list_images(qemu, tmpdir):
     tmp_images_dir = os.path.join(tmpdir, "images")
     os.makedirs(tmp_images_dir, exist_ok=True)
     for image in fake_images:
-        with open(os.path.join(tmp_images_dir, image), "w+") as f:
+        with open(os.path.join(tmp_images_dir, image), "w+") as f:  # noqa: ASYNC230
             f.write("1234567")
 
     with patch("gns3server.utils.images.default_images_directory", return_value=str(tmp_images_dir)):
@@ -234,12 +234,12 @@ async def test_list_images_recursives(qemu, tmpdir):
     os.makedirs(tmp_images_dir, exist_ok=True)
     fake_images = ["a.qcow2", "b.qcow2", ".blu.qcow2", "a.qcow2.md5sum"]
     for image in fake_images:
-        with open(os.path.join(tmp_images_dir, image), "w+") as f:
+        with open(os.path.join(tmp_images_dir, image), "w+") as f:  # noqa: ASYNC230
             f.write("1234567")
     os.makedirs(os.path.join(tmp_images_dir, "c"))
     fake_images = ["c.qcow2", "c.qcow2.md5sum"]
     for image in fake_images:
-        with open(os.path.join(tmp_images_dir, "c", image), "w+") as f:
+        with open(os.path.join(tmp_images_dir, "c", image), "w+") as f:  # noqa: ASYNC230
             f.write("1234567")
 
     with patch("gns3server.utils.images.default_images_directory", return_value=str(tmp_images_dir)):
@@ -287,12 +287,12 @@ async def test_duplicate_vpcs(vpcs, compute_project):
 
     source_node_id = str(uuid.uuid4())
     source_node = await vpcs.create_node("PC-1", compute_project.id, source_node_id, console=2222)
-    with open(os.path.join(source_node.working_dir, "startup.vpc"), "w+") as f:
+    with open(os.path.join(source_node.working_dir, "startup.vpc"), "w+") as f:  # noqa: ASYNC230
         f.write("set pcname PC-1\nip dhcp\n")
     destination_node_id = str(uuid.uuid4())
     destination_node = await vpcs.create_node("PC-2", compute_project.id, destination_node_id, console=2223)
     await vpcs.duplicate_node(source_node_id, destination_node_id)
-    with open(os.path.join(destination_node.working_dir, "startup.vpc")) as f:
+    with open(os.path.join(destination_node.working_dir, "startup.vpc")) as f:  # noqa: ASYNC230
         startup = f.read().strip()
         assert startup == "set pcname PC-2\nip dhcp\n".strip()
     with pytest.raises(ComputeError):

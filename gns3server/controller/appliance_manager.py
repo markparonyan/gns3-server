@@ -465,7 +465,7 @@ class ApplianceManager:
                 try:
                     symbol_data = await response.read()
                     log.info(f"Saving {symbol} symbol to {destination_path}")
-                    with open(destination_path, "wb") as f:
+                    with open(destination_path, "wb") as f:  # noqa: ASYNC230
                         f.write(symbol_data)
                 except asyncio.TimeoutError:
                     log.warning(f"Timeout while downloading '{symbol_url}'")
@@ -523,7 +523,7 @@ class ApplianceManager:
                         path = os.path.join(appliances_dir, appliance_name)
                         try:
                             log.info(f"Saving {appliance_name} file to {path}")
-                            with open(path, "wb") as f:
+                            with open(path, "wb") as f:  # noqa: ASYNC230
                                 f.write(appliance_data)
                         except OSError as e:
                             raise ControllerError(f"Could not write appliance file '{path}': {e}") from e

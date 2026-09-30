@@ -380,7 +380,7 @@ async def write_compute_project_file(file_path: str, request: Request, project: 
     try:
         os.makedirs(os.path.dirname(path), exist_ok=True)
 
-        with open(path, "wb+") as f:
+        with open(path, "wb+") as f:  # noqa: ASYNC230
             async for chunk in request.stream():
                 f.write(chunk)
 

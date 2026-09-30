@@ -179,7 +179,7 @@ async def test_open(controller, projects_dir):
 
     project_dir = os.path.join(projects_dir, "demo")
     os.makedirs(project_dir)
-    with open(os.path.join(project_dir, "demo.gns3"), "w+") as f:
+    with open(os.path.join(project_dir, "demo.gns3"), "w+") as f:  # noqa: ASYNC230
         json.dump(simple_topology, f)
 
     project = Project(

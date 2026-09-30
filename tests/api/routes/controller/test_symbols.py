@@ -59,7 +59,7 @@ class TestSymbolRoutes:
         response = await client.post(app.url_path_for("upload_symbol", symbol_id="test2"), content=b"TEST")
         assert response.status_code == status.HTTP_204_NO_CONTENT
 
-        with open(os.path.join(symbols_dir, "test2")) as f:
+        with open(os.path.join(symbols_dir, "test2")) as f:  # noqa: ASYNC230
             assert f.read() == "TEST"
 
         response = await client.get(app.url_path_for("get_symbol", symbol_id="test2"))

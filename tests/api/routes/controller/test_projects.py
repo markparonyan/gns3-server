@@ -227,15 +227,15 @@ class TestControllerProjectRoutes:
 
         project.dump = MagicMock()
         os.makedirs(project.path, exist_ok=True)
-        with open(os.path.join(project.path, "a"), "w+") as f:
+        with open(os.path.join(project.path, "a"), "w+") as f:  # noqa: ASYNC230
             f.write("hello")
 
         os.makedirs(str(tmpdir / "IOS"))
-        with open(str(tmpdir / "IOS" / "test.image"), "w+") as f:
+        with open(str(tmpdir / "IOS" / "test.image"), "w+") as f:  # noqa: ASYNC230
             f.write("AAA")
 
         topology = {"topology": {"nodes": [{"properties": {"image": "test.image"}, "node_type": "dynamips"}]}}
-        with open(os.path.join(project.path, "test.gns3"), "w+") as f:
+        with open(os.path.join(project.path, "test.gns3"), "w+") as f:  # noqa: ASYNC230
             json.dump(topology, f)
 
         with patch("gns3server.compute.Dynamips.get_images_directory", return_value=str(tmpdir / "IOS")):
@@ -249,7 +249,7 @@ class TestControllerProjectRoutes:
             == f"attachment; filename=\"{project.name}.gns3project\"; filename*=UTF-8''{project.name}.gns3project"
         )
 
-        with open(str(tmpdir / "project.zip"), "wb+") as f:
+        with open(str(tmpdir / "project.zip"), "wb+") as f:  # noqa: ASYNC230
             f.write(response.content)
 
         with zipfile_zstd.ZipFile(str(tmpdir / "project.zip")) as myzip:
@@ -262,15 +262,15 @@ class TestControllerProjectRoutes:
 
         project.dump = MagicMock()
         os.makedirs(project.path, exist_ok=True)
-        with open(os.path.join(project.path, "a"), "w+") as f:
+        with open(os.path.join(project.path, "a"), "w+") as f:  # noqa: ASYNC230
             f.write("hello")
 
         os.makedirs(str(tmpdir / "IOS"))
-        with open(str(tmpdir / "IOS" / "test.image"), "w+") as f:
+        with open(str(tmpdir / "IOS" / "test.image"), "w+") as f:  # noqa: ASYNC230
             f.write("AAA")
 
         topology = {"topology": {"nodes": [{"properties": {"image": "test.image"}, "node_type": "dynamips"}]}}
-        with open(os.path.join(project.path, "test.gns3"), "w+") as f:
+        with open(os.path.join(project.path, "test.gns3"), "w+") as f:  # noqa: ASYNC230
             json.dump(topology, f)
 
         with patch(
@@ -286,7 +286,7 @@ class TestControllerProjectRoutes:
             response.headers["CONTENT-DISPOSITION"]
             == f"attachment; filename=\"{project.name}.gns3project\"; filename*=UTF-8''{project.name}.gns3project"
         )
-        with open(str(tmpdir / "project.zip"), "wb+") as f:
+        with open(str(tmpdir / "project.zip"), "wb+") as f:  # noqa: ASYNC230
             f.write(response.content)
 
         with zipfile_zstd.ZipFile(str(tmpdir / "project.zip")) as myzip:
@@ -330,7 +330,7 @@ class TestControllerProjectRoutes:
         os.makedirs(project.path, exist_ok=True)
 
         topology = {"topology": {"nodes": [{"node_type": "qemu"}]}}
-        with open(os.path.join(project.path, "test.gns3"), "w+") as f:
+        with open(os.path.join(project.path, "test.gns3"), "w+") as f:  # noqa: ASYNC230
             json.dump(topology, f)
 
         params = {"compression": compression}
@@ -345,7 +345,7 @@ class TestControllerProjectRoutes:
                 response.headers["CONTENT-DISPOSITION"]
                 == f"attachment; filename=\"{project.name}.gns3project\"; filename*=UTF-8''{project.name}.gns3project"
             )
-            with open(str(tmpdir / "project.zip"), "wb+") as f:
+            with open(str(tmpdir / "project.zip"), "wb+") as f:  # noqa: ASYNC230
                 f.write(response.content)
 
             with zipfile_zstd.ZipFile(str(tmpdir / "project.zip")) as myzip:
@@ -355,7 +355,7 @@ class TestControllerProjectRoutes:
     async def test_get_file(self, app: FastAPI, client: AsyncClient, project: Project) -> None:
 
         os.makedirs(project.path, exist_ok=True)
-        with open(os.path.join(project.path, "hello"), "w+") as f:
+        with open(os.path.join(project.path, "hello"), "w+") as f:  # noqa: ASYNC230
             f.write("world")
 
         response = await client.get(app.url_path_for("get_file", project_id=project.id, file_path="hello"))
@@ -388,7 +388,7 @@ class TestControllerProjectRoutes:
                 "drawings": [{"drawing_id": "def", "svg": "<svg/>"}],
             },
         }
-        with open(project.topology_file, "w+") as f:
+        with open(project.topology_file, "w+") as f:  # noqa: ASYNC230
             json.dump(topology, f)
 
         response = await client.get(app.url_path_for("get_project_gns3_file", project_id=project.id))
@@ -413,7 +413,7 @@ class TestControllerProjectRoutes:
         )
         assert response.status_code == status.HTTP_204_NO_CONTENT
 
-        with open(os.path.join(project.path, "hello")) as f:
+        with open(os.path.join(project.path, "hello")) as f:  # noqa: ASYNC230
             assert f.read() == "world"
 
         response = await client.post(app.url_path_for("write_file", project_id=project.id, file_path="../hello"))
@@ -449,12 +449,12 @@ class TestControllerProjectRoutes:
             myzip.writestr("demo", b"hello")
 
         project_id = str(uuid.uuid4())
-        with open(str(tmpdir / "test.zip"), "rb") as f:
+        with open(str(tmpdir / "test.zip"), "rb") as f:  # noqa: ASYNC230
             response = await client.post(app.url_path_for("import_project", project_id=project_id), content=f.read())
         assert response.status_code == status.HTTP_201_CREATED
 
         project = controller.get_project(project_id)
-        with open(os.path.join(project.path, "demo")) as f:
+        with open(os.path.join(project.path, "demo")) as f:  # noqa: ASYNC230
             content = f.read()
         assert content == "hello"
 
@@ -470,7 +470,7 @@ class TestControllerProjectRoutes:
             myzip.writestr("demo", b"hello")
 
         project_id = str(uuid.uuid4())
-        with open(str(tmpdir / "test.zip"), "rb") as f:
+        with open(str(tmpdir / "test.zip"), "rb") as f:  # noqa: ASYNC230
             response = await client.post(
                 app.url_path_for("import_project", project_id=project_id),
                 content=f.read(),

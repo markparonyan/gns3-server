@@ -139,7 +139,7 @@ class TestComputeProjectRoutes:
 
         project = ProjectManager.instance().create_project(project_id="01010203-0405-0607-0809-0a0b0c0d0e0b")
 
-        with open(os.path.join(project.path, "hello"), "w+") as f:
+        with open(os.path.join(project.path, "hello"), "w+") as f:  # noqa: ASYNC230
             f.write("world")
 
         response = await compute_client.get(
@@ -179,7 +179,7 @@ class TestComputeProjectRoutes:
         )
         assert response.status_code == status.HTTP_204_NO_CONTENT
 
-        with open(os.path.join(project.path, "hello")) as f:
+        with open(os.path.join(project.path, "hello")) as f:  # noqa: ASYNC230
             assert f.read() == "world"
 
         response = await compute_client.post(

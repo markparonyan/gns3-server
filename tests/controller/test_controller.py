@@ -106,7 +106,7 @@ async def test_load_projects(controller, projects_dir):
 
     controller.save()
     os.makedirs(os.path.join(projects_dir, "project1"))
-    with open(os.path.join(projects_dir, "project1", "project1.gns3"), "w+") as f:
+    with open(os.path.join(projects_dir, "project1", "project1.gns3"), "w+") as f:  # noqa: ASYNC230
         f.write("")
     with asyncio_patch("gns3server.controller.Controller.load_project") as mock_load_project:
         await controller.load_projects()
@@ -117,7 +117,7 @@ async def test_load_projects(controller, projects_dir):
 async def test_load_projects_skip_unexpected_errors(controller, projects_dir):
 
     os.makedirs(os.path.join(projects_dir, "broken_project"))
-    with open(os.path.join(projects_dir, "broken_project", "broken.gns3"), "w+") as f:
+    with open(os.path.join(projects_dir, "broken_project", "broken.gns3"), "w+") as f:  # noqa: ASYNC230
         f.write("")
 
     with asyncio_patch(
@@ -436,7 +436,7 @@ async def test_get_free_project_name(controller):
 async def test_install_base_configs(controller, config, tmpdir):
 
     config.settings.Server.configs_path = str(tmpdir)
-    with open(str(tmpdir / "iou_l2_base_startup-config.txt"), "w+") as f:
+    with open(str(tmpdir / "iou_l2_base_startup-config.txt"), "w+") as f:  # noqa: ASYNC230
         f.write("test")
 
     await controller._install_base_configs()
@@ -446,7 +446,7 @@ async def test_install_base_configs(controller, config, tmpdir):
     assert os.path.exists(str(tmpdir / "iol-xe-base.txt"))
 
     # Check is the file has not been overwritten
-    with open(str(tmpdir / "iou_l2_base_startup-config.txt")) as f:
+    with open(str(tmpdir / "iou_l2_base_startup-config.txt")) as f:  # noqa: ASYNC230
         assert f.read() == "test"
 
 
@@ -480,11 +480,11 @@ async def test_install_builtin_disks(controller, config, tmpdir, builtin_disk):
 async def test_appliances(controller, config, tmpdir):
 
     my_appliance = {"name": "My Appliance", "status": "stable"}
-    with open(str(tmpdir / "my_appliance.gns3a"), "w+") as f:
+    with open(str(tmpdir / "my_appliance.gns3a"), "w+") as f:  # noqa: ASYNC230
         json.dump(my_appliance, f)
     # A broken appliance
     my_appliance = {"name": "Broken"}
-    with open(str(tmpdir / "my_appliance2.gns3a"), "w+") as f:
+    with open(str(tmpdir / "my_appliance2.gns3a"), "w+") as f:  # noqa: ASYNC230
         json.dump(my_appliance, f)
 
     config.settings.Server.appliances_path = str(tmpdir)

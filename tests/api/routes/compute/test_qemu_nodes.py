@@ -131,10 +131,10 @@ class TestQemuNodesRoutes:
         working_dir = os.path.join(compute_project.path, "project-files", "qemu", node_id)
         os.makedirs(working_dir)
         stale_overlay = os.path.join(working_dir, "hda_disk.qcow2")
-        with open(stale_overlay, "w+") as f:
+        with open(stale_overlay, "w+") as f:  # noqa: ASYNC230
             f.write("stale linked clone")
         stale_checksum = stale_overlay + ".md5sum"
-        with open(stale_checksum, "w+") as f:
+        with open(stale_checksum, "w+") as f:  # noqa: ASYNC230
             f.write("0" * 32)
 
         params = {
@@ -479,10 +479,10 @@ class TestQemuNodesRoutes:
             )
             assert response.status_code == status.HTTP_204_NO_CONTENT
 
-        with open(str(tmpdir / "test2使")) as f:
+        with open(str(tmpdir / "test2使")) as f:  # noqa: ASYNC230
             assert f.read() == "TEST"
 
-        with open(str(tmpdir / "test2使.md5sum")) as f:
+        with open(str(tmpdir / "test2使.md5sum")) as f:  # noqa: ASYNC230
             checksum = f.read()
             assert checksum == "033bd94b1168d7e4f0d644c3c95e35bf"
 
@@ -494,10 +494,10 @@ class TestQemuNodesRoutes:
             )
             assert response.status_code == status.HTTP_204_NO_CONTENT
 
-        with open(str(tmpdir / "test2.ova" / "test2.vmdk")) as f:
+        with open(str(tmpdir / "test2.ova" / "test2.vmdk")) as f:  # noqa: ASYNC230
             assert f.read() == "TEST"
 
-        with open(str(tmpdir / "test2.ova" / "test2.vmdk.md5sum")) as f:
+        with open(str(tmpdir / "test2.ova" / "test2.vmdk.md5sum")) as f:  # noqa: ASYNC230
             checksum = f.read()
             assert checksum == "033bd94b1168d7e4f0d644c3c95e35bf"
 
@@ -531,7 +531,7 @@ class TestQemuNodesRoutes:
         self, app: FastAPI, compute_client: AsyncClient, images_dir: str
     ) -> None:
 
-        with open(os.path.join(images_dir, "QEMU", "test2.tmp"), "w+") as f:
+        with open(os.path.join(images_dir, "QEMU", "test2.tmp"), "w+") as f:  # noqa: ASYNC230
             f.write("")
         os.chmod(os.path.join(images_dir, "QEMU", "test2.tmp"), 0)
 

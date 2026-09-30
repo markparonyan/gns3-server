@@ -147,7 +147,7 @@ class Snapshot:
             project_files_path = os.path.join(self._project.path, "project-files")
             if os.path.exists(project_files_path):
                 await wait_run_in_executor(shutil.rmtree, project_files_path, ignore_errors=True)
-            with open(self._path, "rb") as f:
+            with open(self._path, "rb") as f:  # noqa: ASYNC230
                 project = await import_project(
                     self._project.controller,
                     self._project.id,

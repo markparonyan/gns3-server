@@ -108,7 +108,7 @@ async def test_restore(project, controller, config):
     # project-files should be reset when reimporting
     test_file = os.path.join(project.path, "project-files", "test.txt")
     os.makedirs(os.path.join(project.path, "project-files"))
-    open(test_file, "a+").close()
+    open(test_file, "a+").close()  # noqa: ASYNC230
 
     assert os.path.exists(test_file)
     assert len(project.nodes) == 2

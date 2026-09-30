@@ -233,7 +233,7 @@ class VPCSVM(BaseNode):
                 flags = 0
                 if sys.platform.startswith("win32"):
                     flags = subprocess.CREATE_NEW_PROCESS_GROUP
-                with open(self._vpcs_stdout_file, "w", encoding="utf-8") as fd:
+                with open(self._vpcs_stdout_file, "w", encoding="utf-8") as fd:  # noqa: ASYNC230
                     self.command_line = " ".join(command)
                     self._process = await asyncio.create_subprocess_exec(
                         *command, stdout=fd, stderr=subprocess.STDOUT, cwd=self.working_dir, creationflags=flags

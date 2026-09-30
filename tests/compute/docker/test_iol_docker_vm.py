@@ -252,7 +252,7 @@ async def test_start_writes_iol_config(compute_project, manager):
         with asyncio_patch("gns3server.compute.docker.Docker.query"):
             await vm.start()
 
-    with open(os.path.join(vm.working_dir, "config", "iol-config.json")) as f:
+    with open(os.path.join(vm.working_dir, "config", "iol-config.json")) as f:  # noqa: ASYNC230
         config = json.load(f)
     assert config["binary"] == "/binary.iol"
     assert config["num-eth"] == 16  # 4 adapters, each a 4-port unit
@@ -289,7 +289,7 @@ async def test_allocated_application_id_used(compute_project, manager):
     with patch("gns3server.compute.docker.Docker.install_busybox"):
         with asyncio_patch("gns3server.compute.docker.Docker.query"):
             await vm.start()
-    with open(os.path.join(vm.working_dir, "config", "iol-config.json")) as f:
+    with open(os.path.join(vm.working_dir, "config", "iol-config.json")) as f:  # noqa: ASYNC230
         config = json.load(f)
     assert config["local-app"] == 701
 
@@ -309,7 +309,7 @@ async def test_start_rewrites_config_on_adapter_change(compute_project, manager)
         with asyncio_patch("gns3server.compute.docker.Docker.query"):
             await vm.start()
 
-    with open(os.path.join(vm.working_dir, "config", "iol-config.json")) as f:
+    with open(os.path.join(vm.working_dir, "config", "iol-config.json")) as f:  # noqa: ASYNC230
         assert json.load(f)["num-eth"] == 32  # 8 adapters × 4 ports
 
 
@@ -332,12 +332,12 @@ async def test_start_cleans_stale_sockets_but_keeps_run(compute_project, manager
     wiring_dir = _wiring_dir(vm)
     os.makedirs(wiring_dir, exist_ok=True)
     for name in ("s00.sock", "c00.sock", "s01.sock", "c01.sock"):
-        open(os.path.join(wiring_dir, name), "w").close()
+        open(os.path.join(wiring_dir, name), "w").close()  # noqa: ASYNC230
     os.makedirs(os.path.join(wiring_dir, "netio1000"))
     run_dir = os.path.join(vm.working_dir, "tmp", "run")
     os.makedirs(run_dir, exist_ok=True)
-    open(os.path.join(run_dir, "nvram_00001"), "w").close()
-    open(os.path.join(run_dir, "config"), "w").close()
+    open(os.path.join(run_dir, "nvram_00001"), "w").close()  # noqa: ASYNC230
+    open(os.path.join(run_dir, "config"), "w").close()  # noqa: ASYNC230
 
     _mock_start(vm, state="stopped")
     with patch("gns3server.compute.docker.Docker.install_busybox"):
@@ -358,7 +358,7 @@ async def test_start_skips_cleanup_when_already_running(compute_project, manager
     vm = _make_vm(compute_project, manager)
     wiring_dir = _wiring_dir(vm)
     os.makedirs(wiring_dir, exist_ok=True)
-    open(os.path.join(wiring_dir, "s00.sock"), "w").close()
+    open(os.path.join(wiring_dir, "s00.sock"), "w").close()  # noqa: ASYNC230
 
     _mock_start(vm, state="running")
     with patch("gns3server.compute.docker.Docker.install_busybox"):
@@ -403,7 +403,7 @@ async def test_add_ubridge_connection_unix_wiring(compute_project, manager):
     wiring_dir = _wiring_dir(vm)
     os.makedirs(wiring_dir, exist_ok=True)
     # the runner's receive socket must exist (created by the container)
-    open(os.path.join(wiring_dir, "s00.sock"), "w").close()
+    open(os.path.join(wiring_dir, "s00.sock"), "w").close()  # noqa: ASYNC230
 
     nio = manager.create_nio({"type": "nio_udp", "lport": 4242, "rport": 4343, "rhost": "127.0.0.1"})
     await vm._add_ubridge_connection(nio, 0)
@@ -430,8 +430,8 @@ async def test_add_ubridge_connection_stale_local_socket_unlinked(compute_projec
     _mock_wiring(vm)
     wiring_dir = _wiring_dir(vm)
     os.makedirs(wiring_dir, exist_ok=True)
-    open(os.path.join(wiring_dir, "c00.sock"), "w").close()
-    open(os.path.join(wiring_dir, "s00.sock"), "w").close()
+    open(os.path.join(wiring_dir, "c00.sock"), "w").close()  # noqa: ASYNC230
+    open(os.path.join(wiring_dir, "s00.sock"), "w").close()  # noqa: ASYNC230
 
     await vm._add_ubridge_connection(None, 0)
     assert not os.path.exists(os.path.join(wiring_dir, "c00.sock"))
@@ -474,7 +474,7 @@ async def test_add_ubridge_connection_without_nio_still_wires(compute_project, m
     _mock_wiring(vm)
     wiring_dir = _wiring_dir(vm)
     os.makedirs(wiring_dir, exist_ok=True)
-    open(os.path.join(wiring_dir, "s00.sock"), "w").close()
+    open(os.path.join(wiring_dir, "s00.sock"), "w").close()  # noqa: ASYNC230
 
     await vm._add_ubridge_connection(None, 0)
     flat = "\n".join(str(c) for c in vm._ubridge_hypervisor.method_calls)
@@ -510,7 +510,7 @@ async def test_wiring_addresses_ports_within_adapters(compute_project, manager):
     wiring_dir = _wiring_dir(vm)
     os.makedirs(wiring_dir, exist_ok=True)
     # adapter 1, port 2 -> flat interface index 6 (1 * 4 + 2)
-    open(os.path.join(wiring_dir, "s06.sock"), "w").close()
+    open(os.path.join(wiring_dir, "s06.sock"), "w").close()  # noqa: ASYNC230
 
     nio = manager.create_nio({"type": "nio_udp", "lport": 4242, "rport": 4343, "rhost": "127.0.0.1"})
     await vm._add_ubridge_connection(nio, 1, port_number=2)
@@ -633,7 +633,7 @@ async def test_generic_unix_socket_dir_honored_in_wiring(compute_project, manage
     _mock_wiring(vm)
     wiring_dir = _wiring_dir(vm)
     os.makedirs(wiring_dir, exist_ok=True)
-    open(os.path.join(wiring_dir, "s00.sock"), "w").close()
+    open(os.path.join(wiring_dir, "s00.sock"), "w").close()  # noqa: ASYNC230
 
     await vm._add_ubridge_connection(None, 0)
     flat = "\n".join(str(c) for c in vm._ubridge_hypervisor.method_calls)
@@ -756,7 +756,7 @@ async def test_plain_restart_never_reapplies_startup_config(compute_project, man
     await _start(vm)
 
     # simulate `write memory`: IOS rewrites the NVRAM behind our back
-    with open(_nvram_path(vm), "wb") as f:
+    with open(_nvram_path(vm), "wb") as f:  # noqa: ASYNC230
         f.write(nvram_import(None, b"hostname RouterSaved\n", None, 256))
 
     await _start(vm)  # plain restart, no new content delivered
@@ -799,7 +799,7 @@ async def test_reput_unchanged_content_keeps_written_nvram(compute_project, mana
     vm.startup_config_content = "hostname RouterOne"
     await _start(vm)
 
-    with open(_nvram_path(vm), "wb") as f:  # simulate `write memory`
+    with open(_nvram_path(vm), "wb") as f:  # simulate `write memory`  # noqa: ASYNC230
         f.write(nvram_import(None, b"hostname RouterSaved\n", None, 256))
 
     vm.startup_config_content = "hostname RouterOne"  # unchanged re-PUT

@@ -155,7 +155,7 @@ async def test_start_failure_stops_l1_responder(vm):
 async def test_start_with_iourc(vm, tmpdir, config):
 
     fake_file = str(tmpdir / "iourc")
-    with open(fake_file, "w+") as f:
+    with open(fake_file, "w+") as f:  # noqa: ASYNC230
         f.write("1")
     mock_process = MagicMock()
 
@@ -182,10 +182,10 @@ async def test_rename_nvram_file(vm):
     It should rename the nvram file to the correct name before launching the VM
     """
 
-    with open(os.path.join(vm.working_dir, f"nvram_0000{vm.application_id + 1}"), "w+") as f:
+    with open(os.path.join(vm.working_dir, f"nvram_0000{vm.application_id + 1}"), "w+") as f:  # noqa: ASYNC230
         f.write("1")
 
-    with open(os.path.join(vm.working_dir, f"vlan.dat-0000{vm.application_id + 1}"), "w+") as f:
+    with open(os.path.join(vm.working_dir, f"vlan.dat-0000{vm.application_id + 1}"), "w+") as f:  # noqa: ASYNC230
         f.write("1")
 
     vm._rename_nvram_file()
@@ -281,7 +281,7 @@ async def test_path_invalid_bin(vm, tmpdir, config):
     config.settings.Server.images_path = str(tmpdir)
     path = str(tmpdir / "test.bin")
 
-    with open(path, "w+") as f:
+    with open(path, "w+") as f:  # noqa: ASYNC230
         f.write("BUG")
 
     with pytest.raises(IOUError):
@@ -588,31 +588,31 @@ async def test_invalid_iou_file(vm, iourc_file):
 
     # Missing ;
     with pytest.raises(IOUError):
-        with open(iourc_file, "w+") as f:
+        with open(iourc_file, "w+") as f:  # noqa: ASYNC230
             f.write(f"[license]\n{hostname} = aaaaaaaaaaaaaaaa")
         await vm._check_iou_license()
 
     # Key too short
     with pytest.raises(IOUError):
-        with open(iourc_file, "w+") as f:
+        with open(iourc_file, "w+") as f:  # noqa: ASYNC230
             f.write(f"[license]\n{hostname} = aaaaaaaaaaaaaa;")
         await vm._check_iou_license()
 
     # Invalid hostname
     with pytest.raises(IOUError):
-        with open(iourc_file, "w+") as f:
+        with open(iourc_file, "w+") as f:  # noqa: ASYNC230
             f.write("[license]\nbla = aaaaaaaaaaaaaa;")
         await vm._check_iou_license()
 
     # Missing licence section
     with pytest.raises(IOUError):
-        with open(iourc_file, "w+") as f:
+        with open(iourc_file, "w+") as f:  # noqa: ASYNC230
             f.write("[licensetest]\n{} = aaaaaaaaaaaaaaaa;")
         await vm._check_iou_license()
 
     # Broken config file
     with pytest.raises(IOUError):
-        with open(iourc_file, "w+") as f:
+        with open(iourc_file, "w+") as f:  # noqa: ASYNC230
             f.write("[")
         await vm._check_iou_license()
 

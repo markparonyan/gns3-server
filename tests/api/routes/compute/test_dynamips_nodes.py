@@ -174,10 +174,10 @@ class TestDynamipsNodesRoutes:
         )
         assert response.status_code == status.HTTP_204_NO_CONTENT
 
-        with open(os.path.join(images_dir, "IOS", "test2")) as f:
+        with open(os.path.join(images_dir, "IOS", "test2")) as f:  # noqa: ASYNC230
             assert f.read() == "TEST"
 
-        with open(os.path.join(images_dir, "IOS", "test2.md5sum")) as f:
+        with open(os.path.join(images_dir, "IOS", "test2.md5sum")) as f:  # noqa: ASYNC230
             checksum = f.read()
             assert checksum == "033bd94b1168d7e4f0d644c3c95e35bf"
 
@@ -211,7 +211,7 @@ class TestDynamipsNodesRoutes:
     ) -> None:
 
         os.makedirs(os.path.join(images_dir, "IOS"), exist_ok=True)
-        with open(os.path.join(images_dir, "IOS", "test2.tmp"), "w+") as f:
+        with open(os.path.join(images_dir, "IOS", "test2.tmp"), "w+") as f:  # noqa: ASYNC230
             f.write("")
         os.chmod(os.path.join(images_dir, "IOS", "test2.tmp"), 0)
 

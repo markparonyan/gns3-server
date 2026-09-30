@@ -33,7 +33,7 @@ async def manager(port_manager):
 async def vm(compute_project, manager, tmpdir):
 
     fake_vmx = str(tmpdir / "test.vmx")
-    open(fake_vmx, "w+").close()
+    open(fake_vmx, "w+").close()  # noqa: ASYNC230
     return VMwareVM("test", "00010203-0405-0607-0809-0a0b0c0d0e0f", compute_project, manager, fake_vmx, False)
 
 

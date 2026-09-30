@@ -316,7 +316,7 @@ class IOUVM(BaseNode):
                 raise IOUError(f"IOU image '{self._path}' is not accessible")
 
         try:
-            with open(self._path, "rb") as f:
+            with open(self._path, "rb") as f:  # noqa: ASYNC230
                 # read the first 7 bytes of the file.
                 elf_header_start = f.read(7)
         except OSError as e:
@@ -567,7 +567,7 @@ class IOUVM(BaseNode):
         config = configparser.ConfigParser()
         try:
             log.debug(f"Checking IOU license in '{self.iourc_path}'")
-            with open(self.iourc_path, encoding="utf-8") as f:
+            with open(self.iourc_path, encoding="utf-8") as f:  # noqa: ASYNC230
                 config.read_file(f)
         except OSError as e:
             raise IOUError(f"Could not open iourc file {self.iourc_path}: {e}") from e

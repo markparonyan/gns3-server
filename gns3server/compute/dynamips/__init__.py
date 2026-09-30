@@ -659,12 +659,12 @@ class Dynamips(BaseManager):
             raise DynamipsError("Cannot duplicate router data while the router is running")
 
         try:
-            with open(source_node.startup_config_path) as f:
+            with open(source_node.startup_config_path) as f:  # noqa: ASYNC230
                 startup_config = f.read()
         except OSError:
             startup_config = None
         try:
-            with open(source_node.private_config_path) as f:
+            with open(source_node.private_config_path) as f:  # noqa: ASYNC230
                 private_config = f.read()
         except OSError:
             private_config = None

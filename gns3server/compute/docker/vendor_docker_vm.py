@@ -235,7 +235,7 @@ class VendorDockerVM(DockerVM):
                 # Write the marker only after the copy attempt, mirroring
                 # init.sh: a volume without it is (re)seeded on the next
                 # create(), so a partial seed self-heals.
-                open(os.path.join(host_dir, ".gns3_perms"), "a").close()
+                open(os.path.join(host_dir, ".gns3_perms"), "a").close()  # noqa: ASYNC230
         finally:
             await self._remove_seed_container(seed_cid)
 

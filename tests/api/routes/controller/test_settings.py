@@ -120,7 +120,7 @@ class TestSettingsRoutes:
         self, app: FastAPI, client: AsyncClient, config: Config, stable_jwt_secret: str
     ) -> None:
 
-        with open(config._main_config_file, "w") as f:
+        with open(config._main_config_file, "w") as f:  # noqa: ASYNC230
             f.write("[Server]\nhost = 127.0.0.1\nfrobnicate = 42\n")
 
         response = await client.put(app.url_path_for("update_server_settings"), json={"Server": {"port": 3082}})
@@ -167,7 +167,7 @@ class TestSettingsRoutes:
         self, app: FastAPI, client: AsyncClient, config: Config, stable_jwt_secret: str
     ) -> None:
 
-        with open(config._main_config_file, "w") as f:
+        with open(config._main_config_file, "w") as f:  # noqa: ASYNC230
             f.write("[Server]\nhost = 127.0.0.1\n")
 
         response = await client.put(app.url_path_for("update_server_settings"), json={"Server": {"host": None}})
@@ -182,9 +182,9 @@ class TestSettingsRoutes:
         self, app: FastAPI, client: AsyncClient, config: Config, stable_jwt_secret: str
     ) -> None:
 
-        with open(config._main_config_file, "w") as f:
+        with open(config._main_config_file, "w") as f:  # noqa: ASYNC230
             f.write("[Server]\nhost = 127.0.0.1\n")
-        with open(config._main_config_file) as f:
+        with open(config._main_config_file) as f:  # noqa: ASYNC230
             content_before = f.read()
 
         # cross-field violation: console_end_port_range must be > console_start_port_range
@@ -194,7 +194,7 @@ class TestSettingsRoutes:
         )
         assert response.status_code == status.HTTP_400_BAD_REQUEST
 
-        with open(config._main_config_file) as f:
+        with open(config._main_config_file) as f:  # noqa: ASYNC230
             assert f.read() == content_before
 
     async def test_put_settings_unknown_option_rejected(
@@ -227,7 +227,7 @@ class TestSettingsRoutes:
     ) -> None:
 
         override_path = str(tmpdir / "override.conf")
-        with open(override_path, "w") as f:
+        with open(override_path, "w") as f:  # noqa: ASYNC230
             f.write("[Server]\nhost = 10.0.0.1\n")
         # a later configuration file takes precedence over the main one
         Config.instance()._files.append(override_path)

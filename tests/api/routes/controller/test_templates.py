@@ -228,11 +228,11 @@ class TestTemplateRoutes:
     ) -> None:
 
         image1 = os.path.join(tmpdir, "image1.qcow2")
-        with open(image1, "wb+") as f:
+        with open(image1, "wb+") as f:  # noqa: ASYNC230
             f.write(b"\x42\x42\x42\x42")
 
         image2 = os.path.join(tmpdir, "image2.qcow2")
-        with open(image2, "wb+") as f:
+        with open(image2, "wb+") as f:  # noqa: ASYNC230
             f.write(b"\x42\x42\x42\x42")
 
         images_repo = ImagesRepository(db_session)
@@ -279,7 +279,7 @@ class TestTemplateRoutes:
             "project_id": project_id,
             "topology": {"computes": [], "links": [], "drawings": [], "nodes": [node]},
         }
-        with open(os.path.join(project_dir, f"{name}.gns3"), "w+") as f:
+        with open(os.path.join(project_dir, f"{name}.gns3"), "w+") as f:  # noqa: ASYNC230
             json.dump(topology, f)
         # an explicit project_id marks this as an existing on-disk project
         # (same path load_project takes at startup)
@@ -348,7 +348,7 @@ class TestTemplateRoutes:
         """
 
         image_path = os.path.join(tmpdir, "used.qcow2")
-        with open(image_path, "wb+") as f:
+        with open(image_path, "wb+") as f:  # noqa: ASYNC230
             f.write(b"\x42\x42\x42\x42")
 
         images_repo = ImagesRepository(db_session)
@@ -1413,7 +1413,7 @@ class TestImageAssociationWithTemplate:
     ) -> None:
 
         path = os.path.join(tmpdir, image_name)
-        with open(path, "wb+") as f:
+        with open(path, "wb+") as f:  # noqa: ASYNC230
             f.write(b"\x42\x42\x42\x42")
         images_repo = ImagesRepository(db_session)
         await images_repo.add_image(image_name, image_type, 42, path, "e342eb86c1229b6c154367a5476969b5", "md5")
@@ -1476,7 +1476,7 @@ class TestImageAssociationWithTemplate:
     ) -> None:
 
         path = os.path.join(tmpdir, image_name)
-        with open(path, "wb+") as f:
+        with open(path, "wb+") as f:  # noqa: ASYNC230
             f.write(b"\x42\x42\x42\x42")
         images_repo = ImagesRepository(db_session)
         await images_repo.add_image(image_name, image_type, 42, path, "e342eb86c1229b6c154367a5476969b5", "md5")
@@ -1555,7 +1555,7 @@ class TestImageAssociationWithTemplate:
 
         path = os.path.join(tmpdir, "subdir", "image.qcow2")
         os.makedirs(os.path.dirname(path))
-        with open(path, "wb+") as f:
+        with open(path, "wb+") as f:  # noqa: ASYNC230
             f.write(b"\x42\x42\x42\x42")
         images_repo = ImagesRepository(db_session)
         await images_repo.add_image("image.qcow2", "qemu", 42, path, "e342eb86c1229b6c154367a5476969b5", "md5")

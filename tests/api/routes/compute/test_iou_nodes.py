@@ -104,7 +104,7 @@ class TestIOUNodesRoutes:
         assert response.json()["l1_keepalives"] is True
         assert response.json()["use_default_iou_values"] is False
 
-        with open(self.startup_config_file(compute_project, response.json())) as f:
+        with open(self.startup_config_file(compute_project, response.json())) as f:  # noqa: ASYNC230
             assert f.read() == "hostname test"
 
     @pytest.mark.parametrize(
@@ -142,7 +142,7 @@ class TestIOUNodesRoutes:
 
         node_id = str(uuid.uuid4())
         startup_config_file_path = self.startup_config_file(compute_project, {"node_id": node_id})
-        with open(startup_config_file_path, "w+") as f:
+        with open(startup_config_file_path, "w+") as f:  # noqa: ASYNC230
             f.write("echo hello")
 
         params = base_params
@@ -154,7 +154,7 @@ class TestIOUNodesRoutes:
         )
         assert response.status_code == status.HTTP_201_CREATED
 
-        with open(self.startup_config_file(compute_project, response.json())) as f:
+        with open(self.startup_config_file(compute_project, response.json())) as f:  # noqa: ASYNC230
             assert f.read() == "echo hello"
 
     async def test_iou_get(self, app: FastAPI, compute_client: AsyncClient, compute_project: Project, vm: dict) -> None:
@@ -436,10 +436,10 @@ class TestIOUNodesRoutes:
             )
             assert response.status_code == status.HTTP_204_NO_CONTENT
 
-        with open(str(tmpdir / "test2")) as f:
+        with open(str(tmpdir / "test2")) as f:  # noqa: ASYNC230
             assert f.read() == "TEST"
 
-        with open(str(tmpdir / "test2.md5sum")) as f:
+        with open(str(tmpdir / "test2.md5sum")) as f:  # noqa: ASYNC230
             checksum = f.read()
             assert checksum == "033bd94b1168d7e4f0d644c3c95e35bf"
 

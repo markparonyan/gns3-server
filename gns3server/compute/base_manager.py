@@ -392,7 +392,7 @@ class BaseManager:
             raise ComputeForbiddenError("Cannot stream PCAP file outside the capture working directory")
 
         try:
-            with open(path, "rb") as f:
+            with open(path, "rb") as f:  # noqa: ASYNC230
                 while nio.capturing:
                     data = f.read(CHUNK_SIZE)
                     if not data:

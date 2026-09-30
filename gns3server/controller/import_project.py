@@ -169,7 +169,7 @@ async def import_project(
     dot_gns3_path = os.path.join(path, project_name + ".gns3")
     # We change the project_id to avoid erasing the project
     topology["project_id"] = project_id
-    with open(dot_gns3_path, "w+") as f:
+    with open(dot_gns3_path, "w+") as f:  # noqa: ASYNC230
         json.dump(topology, f, indent=4, sort_keys=True)
     os.remove(os.path.join(path, "project.gns3"))
 
@@ -306,7 +306,7 @@ async def _upload_file(compute, project_id, file_path, path):
     """
 
     path = "/projects/{}/files/{}".format(project_id, path.replace("\\", "/"))
-    with open(file_path, "rb") as f:
+    with open(file_path, "rb") as f:  # noqa: ASYNC230
         await compute.http_query("POST", path, f, timeout=None)
 
 
@@ -325,7 +325,7 @@ async def _import_images(controller, images_path):
             if not os.path.exists(dst):
                 await wait_run_in_executor(shutil.move, path, dst)
                 try:
-                    with open(dst, "rb") as f:
+                    with open(dst, "rb") as f:  # noqa: ASYNC230
                         # read the first 7 bytes of the file.
                         elf_header_start = f.read(7)
                         # IOU images must start with the ELF magic number, be 32-bit or 64-bit, little endian and have an ELF version of 1
@@ -348,7 +348,7 @@ async def update_snapshots(snapshots_dir, project_path, project_name, project_id
         with tempfile.TemporaryDirectory(dir=snapshots_dir) as tmpdir:
             # extract everything to a temporary directory
             try:
-                with open(snapshot_path, "rb") as f:
+                with open(snapshot_path, "rb") as f:  # noqa: ASYNC230
                     with zipfile_zstd.ZipFile(f) as zip_file:
                         await wait_run_in_executor(zip_file.extractall, tmpdir)
                         _create_symbolic_links(zip_file, tmpdir)
@@ -362,12 +362,12 @@ async def update_snapshots(snapshots_dir, project_path, project_name, project_id
             # patch the topology with the correct project name and ID
             try:
                 topology_file_path = os.path.join(tmpdir, "project.gns3")
-                with open(topology_file_path, encoding="utf-8") as f:
+                with open(topology_file_path, encoding="utf-8") as f:  # noqa: ASYNC230
                     topology = json.load(f)
                     topology["name"] = project_name
                     topology["project_id"] = project_id
                     regenerate_topology_ids(topology, tmpdir, reset_mac_addresses)
-                with open(topology_file_path, "w+", encoding="utf-8") as f:
+                with open(topology_file_path, "w+", encoding="utf-8") as f:  # noqa: ASYNC230
                     json.dump(topology, f, indent=4, sort_keys=True)
             except OSError as e:
                 raise ControllerError(

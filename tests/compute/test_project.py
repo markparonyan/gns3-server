@@ -176,10 +176,10 @@ async def test_list_files():
     project = Project(project_id=str(uuid4()))
     path = project.path
     os.makedirs(os.path.join(path, "vm-1", "dynamips"))
-    with open(os.path.join(path, "vm-1", "dynamips", "test.bin"), "w+") as f:
+    with open(os.path.join(path, "vm-1", "dynamips", "test.bin"), "w+") as f:  # noqa: ASYNC230
         f.write("test")
-    open(os.path.join(path, "vm-1", "dynamips", "test.ghost"), "w+").close()
-    with open(os.path.join(path, "test.txt"), "w+") as f:
+    open(os.path.join(path, "vm-1", "dynamips", "test.ghost"), "w+").close()  # noqa: ASYNC230
+    with open(os.path.join(path, "test.txt"), "w+") as f:  # noqa: ASYNC230
         f.write("test2")
 
     files = await project.list_files()

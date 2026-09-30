@@ -2107,7 +2107,7 @@ class Project:
 
                     new_project_id = str(uuid.uuid4())
                     # import the duplicated project
-                    with open(project_path, "rb") as f:
+                    with open(project_path, "rb") as f:  # noqa: ASYNC230
                         project = await import_project(
                             self._controller,
                             new_project_id,
@@ -2179,7 +2179,7 @@ class Project:
         # dump the updated .gns3 project file
         dot_gns3_path = new_project_path.joinpath(f"{project_name}.gns3")
         topology["project_id"] = new_project_id
-        with open(dot_gns3_path, "w+") as f:
+        with open(dot_gns3_path, "w+") as f:  # noqa: ASYNC230
             json.dump(topology, f, indent=4, sort_keys=True)
 
         # update the snapshots with new IDs

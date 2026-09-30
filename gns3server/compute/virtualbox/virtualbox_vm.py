@@ -446,7 +446,7 @@ class VirtualBoxVM(BaseNode):
 
         hdd_info_file = os.path.join(self.working_dir, self._vmname, "hdd_info.json")
         try:
-            with open(hdd_info_file, encoding="utf-8") as f:
+            with open(hdd_info_file, encoding="utf-8") as f:  # noqa: ASYNC230
                 hdd_table = json.load(f)
         except (ValueError, OSError) as e:
             # The VM has never be started
@@ -525,7 +525,7 @@ class VirtualBoxVM(BaseNode):
             if hdd_table:
                 try:
                     hdd_info_file = os.path.join(self.working_dir, self._vmname, "hdd_info.json")
-                    with open(hdd_info_file, "w", encoding="utf-8") as f:
+                    with open(hdd_info_file, "w", encoding="utf-8") as f:  # noqa: ASYNC230
                         json.dump(hdd_table, f, indent=4)
                 except OSError as e:
                     log.warning(f"VirtualBox VM '{self.name}' [{self.id}] could not write HHD info file: {e.strerror}")

@@ -92,7 +92,7 @@ async def export_project(
                 if not os.path.islink(path):
                     try:
                         # check if we can export the file
-                        open(path).close()
+                        open(path).close()  # noqa: ASYNC230
                     except OSError as e:
                         msg = f"Could not export file {path}: {e}"
                         log.warning(msg)
@@ -210,7 +210,7 @@ async def _patch_project_file(
     images = []
 
     try:
-        with open(path) as f:
+        with open(path) as f:  # noqa: ASYNC230
             topology = json.load(f)
     except (OSError, ValueError) as e:
         raise ControllerError(f"Project file '{path}' cannot be read: {e}") from e

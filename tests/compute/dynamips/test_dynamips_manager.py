@@ -91,7 +91,7 @@ async def test_project_closed(manager, compute_project):
 
     project_dir = compute_project.module_working_path(manager.module_name.lower())
     os.makedirs(project_dir)
-    open(os.path.join(project_dir, "test.ghost"), "w+").close()
+    open(os.path.join(project_dir, "test.ghost"), "w+").close()  # noqa: ASYNC230
     await manager.project_closed(compute_project)
     assert not os.path.exists(os.path.join(project_dir, "test.ghost"))
     assert compute_project.id not in manager._dynamips_ids
@@ -108,13 +108,13 @@ async def test_duplicate_node(manager, compute_project):
         destination_node = await manager.create_node("R2", compute_project.id, str(uuid.uuid4()), platform="c7200")
         destination_node._hypervisor = AsyncioMagicMock()
 
-        with open(os.path.join(source_node.working_dir, "c3600_i1_nvram"), "w+") as f:
+        with open(os.path.join(source_node.working_dir, "c3600_i1_nvram"), "w+") as f:  # noqa: ASYNC230
             f.write("1")
-        with open(source_node.startup_config_path, "w+") as f:
+        with open(source_node.startup_config_path, "w+") as f:  # noqa: ASYNC230
             f.write("hostname R1\necho TEST")
         await manager.duplicate_node(source_node.id, destination_node.id)
         assert not os.path.exists(os.path.join(destination_node.working_dir, "c3600_i1_nvram"))
-        with open(destination_node.startup_config_path) as f:
+        with open(destination_node.startup_config_path) as f:  # noqa: ASYNC230
             content = f.read()
             assert content == "!\nhostname R2\necho TEST"
         with pytest.raises(DynamipsError):

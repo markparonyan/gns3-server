@@ -142,7 +142,7 @@ async def test_stop_unlinks_unix_socket(tmp_path, monkeypatch):
 
     hyp = _make("unix", tmp_path, monkeypatch)
     # Simulate the socket file ubridge would have created.
-    open(hyp._socket_path, "w").close()
+    open(hyp._socket_path, "w").close()  # noqa: ASYNC230
     # Stopped process => is_running() is False => skips UBridgeHypervisor.stop (no send).
     hyp._process = MagicMock()
     hyp._process.returncode = 0

@@ -181,7 +181,7 @@ class Hypervisor(UBridgeHypervisor):
             log.debug(f"starting ubridge: {command}")
             self._stdout_file = os.path.join(self._working_dir, "ubridge.log")
             log.debug(f"logging to {self._stdout_file}")
-            with open(self._stdout_file, "w", encoding="utf-8") as fd:
+            with open(self._stdout_file, "w", encoding="utf-8") as fd:  # noqa: ASYNC230
                 self._process = await asyncio.create_subprocess_exec(
                     *command, stdout=fd, stderr=subprocess.STDOUT, cwd=self._working_dir, env=env
                 )

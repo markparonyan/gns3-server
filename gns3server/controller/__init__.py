@@ -330,7 +330,7 @@ class Controller:
         try:
             if not os.path.exists(self._vars_file):
                 self.save()  # this will create the vars file
-            with open(self._vars_file) as f:
+            with open(self._vars_file) as f:  # noqa: ASYNC230
                 controller_vars = json.load(f)
         except (OSError, ValueError) as e:
             log.critical(f"Cannot load controller vars file '{self._vars_file}': {e}")
@@ -345,7 +345,7 @@ class Controller:
 
         if os.path.exists(iourc_path):
             try:
-                with open(iourc_path) as f:
+                with open(iourc_path) as f:  # noqa: ASYNC230
                     self._iou_license_settings["iourc_content"] = f.read()
                 log.info(f"iourc file '{iourc_path}' loaded")
             except OSError as e:

@@ -46,9 +46,9 @@ async def test_import_project(tmpdir, controller):
         "version": "2.0.0",
     }
 
-    with open(str(tmpdir / "project.gns3"), "w+") as f:
+    with open(str(tmpdir / "project.gns3"), "w+") as f:  # noqa: ASYNC230
         json.dump(topology, f)
-    with open(str(tmpdir / "b.png"), "w+") as f:
+    with open(str(tmpdir / "b.png"), "w+") as f:  # noqa: ASYNC230
         f.write("B")
 
     zip_path = str(tmpdir / "project.zip")
@@ -58,7 +58,7 @@ async def test_import_project(tmpdir, controller):
         myzip.write(str(tmpdir / "b.png"), "project-files/dynamips/test")
         myzip.write(str(tmpdir / "b.png"), "project-files/qemu/test")
 
-    with open(zip_path, "rb") as f:
+    with open(zip_path, "rb") as f:  # noqa: ASYNC230
         project = await import_project(controller, project_id, f)
 
     assert project.name == "test"
@@ -71,7 +71,7 @@ async def test_import_project(tmpdir, controller):
     assert os.path.exists(os.path.join(project.path, "project-files/qemu/test"))
 
     # A new project name is generated when you import twice the same name
-    with open(zip_path, "rb") as f:
+    with open(zip_path, "rb") as f:  # noqa: ASYNC230
         project = await import_project(controller, str(uuid.uuid4()), f)
     assert project.auto_open is False
     assert project.auto_start is False
@@ -90,21 +90,21 @@ async def test_import_project_override(projects_dir, controller):
     project_id = str(uuid.uuid4())
     topology = {"project_id": project_id, "name": "test", "topology": {}, "version": "2.0.0"}
 
-    with open(str(tmpdir / "project.gns3"), "w+") as f:
+    with open(str(tmpdir / "project.gns3"), "w+") as f:  # noqa: ASYNC230
         json.dump(topology, f)
 
     zip_path = str(tmpdir / "project.zip")
     with zipfile.ZipFile(zip_path, "w") as myzip:
         myzip.write(str(tmpdir / "project.gns3"), "project.gns3")
 
-    with open(zip_path, "rb") as f:
+    with open(zip_path, "rb") as f:  # noqa: ASYNC230
         project = await import_project(controller, project_id, f, location=str(tmpdir))
 
     assert project.name == "test"
     assert project.id == project_id
 
     # Overide the project with same project
-    with open(zip_path, "rb") as f:
+    with open(zip_path, "rb") as f:  # noqa: ASYNC230
         project = await import_project(controller, project_id, f, location=str(tmpdir))
     assert project.id == project_id
     assert project.name == "test"
@@ -112,7 +112,7 @@ async def test_import_project_override(projects_dir, controller):
 
 async def write_file(path, z):
 
-    with open(path, "wb") as f:
+    with open(path, "wb") as f:  # noqa: ASYNC230
         async for chunk in z:
             f.write(chunk)
 
@@ -132,7 +132,7 @@ def export_project_with_symlink(tmpdir, controller):
             "version": "2.0.0",
         }
 
-        with open(os.path.join(project.path, "project.gns3"), "w+") as f:
+        with open(os.path.join(project.path, "project.gns3"), "w+") as f:  # noqa: ASYNC230
             json.dump(topology, f)
 
         os.makedirs(os.path.join(project.path, "vm1", "dynamips"))
@@ -163,7 +163,7 @@ async def test_import_project_containing_symlink(controller, export_project_with
     symlink_target = "../symlink_target"
     zip_path = await export_project_with_symlink(symlink_target)
 
-    with open(zip_path, "rb") as f:
+    with open(zip_path, "rb") as f:  # noqa: ASYNC230
         project = await import_project(controller, project_id, f)
 
     assert project.name == "test"
@@ -185,7 +185,7 @@ async def test_import_project_containing_absolute_symlink(controller, export_pro
     zip_path = await export_project_with_symlink(symlink_target)
 
     with pytest.raises(ControllerError):
-        with open(zip_path, "rb") as f:
+        with open(zip_path, "rb") as f:  # noqa: ASYNC230
             await import_project(controller, project_id, f)
 
 
@@ -201,7 +201,7 @@ async def test_import_project_containing_escaping_symlink(controller, export_pro
     zip_path = await export_project_with_symlink(symlink_target)
 
     with pytest.raises(ControllerError):
-        with open(zip_path, "rb") as f:
+        with open(zip_path, "rb") as f:  # noqa: ASYNC230
             await import_project(controller, project_id, f)
 
 
@@ -214,17 +214,17 @@ async def test_import_upgrade(tmpdir, controller):
     project_id = str(uuid.uuid4())
     topology = {"project_id": str(uuid.uuid4()), "name": "test", "topology": {}, "version": "1.4.2"}
 
-    with open(str(tmpdir / "project.gns3"), "w+") as f:
+    with open(str(tmpdir / "project.gns3"), "w+") as f:  # noqa: ASYNC230
         json.dump(topology, f)
 
     zip_path = str(tmpdir / "project.zip")
     with zipfile.ZipFile(zip_path, "w") as myzip:
         myzip.write(str(tmpdir / "project.gns3"), "project.gns3")
 
-    with open(zip_path, "rb") as f:
+    with open(zip_path, "rb") as f:  # noqa: ASYNC230
         project = await import_project(controller, project_id, f)
 
-    with open(os.path.join(project.path, "test.gns3")) as f:
+    with open(os.path.join(project.path, "test.gns3")) as f:  # noqa: ASYNC230
         topo = json.load(f)
         assert topo["version"] == __version__
 
@@ -235,10 +235,10 @@ async def test_import_with_images(config, tmpdir, controller):
     project_id = str(uuid.uuid4())
     topology = {"project_id": str(uuid.uuid4()), "name": "test", "topology": {}, "version": "2.0.0"}
 
-    with open(str(tmpdir / "project.gns3"), "w+") as f:
+    with open(str(tmpdir / "project.gns3"), "w+") as f:  # noqa: ASYNC230
         json.dump(topology, f)
 
-    with open(str(tmpdir / "test.image"), "w+") as f:
+    with open(str(tmpdir / "test.image"), "w+") as f:  # noqa: ASYNC230
         f.write("B")
 
     zip_path = str(tmpdir / "project.zip")
@@ -246,7 +246,7 @@ async def test_import_with_images(config, tmpdir, controller):
         myzip.write(str(tmpdir / "project.gns3"), "project.gns3")
         myzip.write(str(tmpdir / "test.image"), "images/IOS/test.image")
 
-    with open(zip_path, "rb") as f:
+    with open(zip_path, "rb") as f:  # noqa: ASYNC230
         project = await import_project(controller, project_id, f)
 
     assert not os.path.exists(os.path.join(project.path, "images/IOS/test.image"))
@@ -278,17 +278,17 @@ async def test_import_iou_linux_no_vm(linux_platform, tmpdir, controller):
         "version": "2.0.0",
     }
 
-    with open(str(tmpdir / "project.gns3"), "w+") as f:
+    with open(str(tmpdir / "project.gns3"), "w+") as f:  # noqa: ASYNC230
         json.dump(topology, f)
 
     zip_path = str(tmpdir / "project.zip")
     with zipfile.ZipFile(zip_path, "w") as myzip:
         myzip.write(str(tmpdir / "project.gns3"), "project.gns3")
 
-    with open(zip_path, "rb") as f:
+    with open(zip_path, "rb") as f:  # noqa: ASYNC230
         project = await import_project(controller, project_id, f)
 
-    with open(os.path.join(project.path, "test.gns3")) as f:
+    with open(os.path.join(project.path, "test.gns3")) as f:  # noqa: ASYNC230
         topo = json.load(f)
         assert topo["topology"]["nodes"][0]["compute_id"] == "local"
 
@@ -324,17 +324,17 @@ async def test_import_iou_linux_with_vm(linux_platform, tmpdir, controller):
         "version": "2.0.0",
     }
 
-    with open(str(tmpdir / "project.gns3"), "w+") as f:
+    with open(str(tmpdir / "project.gns3"), "w+") as f:  # noqa: ASYNC230
         json.dump(topology, f)
 
     zip_path = str(tmpdir / "project.zip")
     with zipfile.ZipFile(zip_path, "w") as myzip:
         myzip.write(str(tmpdir / "project.gns3"), "project.gns3")
 
-    with open(zip_path, "rb") as f:
+    with open(zip_path, "rb") as f:  # noqa: ASYNC230
         project = await import_project(controller, project_id, f)
 
-    with open(os.path.join(project.path, "test.gns3")) as f:
+    with open(os.path.join(project.path, "test.gns3")) as f:  # noqa: ASYNC230
         topo = json.load(f)
         assert topo["topology"]["nodes"][0]["compute_id"] == "vm"
 
@@ -370,17 +370,17 @@ async def test_import_nat_non_linux(windows_platform, tmpdir, controller):
         "version": "2.0.0",
     }
 
-    with open(str(tmpdir / "project.gns3"), "w+") as f:
+    with open(str(tmpdir / "project.gns3"), "w+") as f:  # noqa: ASYNC230
         json.dump(topology, f)
 
     zip_path = str(tmpdir / "project.zip")
     with zipfile.ZipFile(zip_path, "w") as myzip:
         myzip.write(str(tmpdir / "project.gns3"), "project.gns3")
 
-    with open(zip_path, "rb") as f:
+    with open(zip_path, "rb") as f:  # noqa: ASYNC230
         project = await import_project(controller, project_id, f)
 
-    with open(os.path.join(project.path, "test.gns3")) as f:
+    with open(os.path.join(project.path, "test.gns3")) as f:  # noqa: ASYNC230
         topo = json.load(f)
         assert topo["topology"]["nodes"][0]["compute_id"] == "vm"
 
@@ -417,21 +417,21 @@ async def test_import_iou_non_linux(windows_platform, tmpdir, controller):
         "version": "2.0.0",
     }
 
-    with open(str(tmpdir / "project.gns3"), "w+") as f:
+    with open(str(tmpdir / "project.gns3"), "w+") as f:  # noqa: ASYNC230
         json.dump(topology, f)
 
     zip_path = str(tmpdir / "project.zip")
     with zipfile.ZipFile(zip_path, "w") as myzip:
         myzip.write(str(tmpdir / "project.gns3"), "project.gns3")
 
-    with open(zip_path, "rb") as f:
+    with open(zip_path, "rb") as f:  # noqa: ASYNC230
         with asyncio_patch("gns3server.controller.import_project._move_files_to_compute") as mock:
             project = await import_project(controller, project_id, f)
             controller._computes["vm"].post.assert_called_with(
                 "/projects", data={"name": "test", "project_id": project_id}
             )
 
-    with open(os.path.join(project.path, "test.gns3")) as f:
+    with open(os.path.join(project.path, "test.gns3")) as f:  # noqa: ASYNC230
         topo = json.load(f)
         assert topo["topology"]["nodes"][0]["compute_id"] == "vm"
         assert topo["topology"]["nodes"][1]["compute_id"] == "local"
@@ -492,7 +492,7 @@ async def test_import_node_id(linux_platform, tmpdir, controller):
         "version": "2.0.0",
     }
 
-    with open(str(tmpdir / "project.gns3"), "w+") as f:
+    with open(str(tmpdir / "project.gns3"), "w+") as f:  # noqa: ASYNC230
         json.dump(topology, f)
 
     # Fake .gns3project
@@ -502,10 +502,10 @@ async def test_import_node_id(linux_platform, tmpdir, controller):
         myzip.writestr("project-files/iou/0fd3dd4d-dc93-4a04-a9b9-7396a9e22e8b/startup.cfg", "test")
         myzip.writestr("project-files/iou/c3ae286c-c81f-40d9-a2d0-5874b2f2478d/startup.cfg", "test")
 
-    with open(zip_path, "rb") as f:
+    with open(zip_path, "rb") as f:  # noqa: ASYNC230
         project = await import_project(controller, project_id, f)
 
-    with open(os.path.join(project.path, "test.gns3")) as f:
+    with open(os.path.join(project.path, "test.gns3")) as f:  # noqa: ASYNC230
         topo = json.load(f)
         # Node id should have change
         assert topo["topology"]["nodes"][0]["node_id"] not in [
@@ -567,17 +567,17 @@ async def test_import_keep_compute_ids(windows_platform, tmpdir, controller):
         "version": "2.0.0",
     }
 
-    with open(str(tmpdir / "project.gns3"), "w+") as f:
+    with open(str(tmpdir / "project.gns3"), "w+") as f:  # noqa: ASYNC230
         json.dump(topology, f)
 
     zip_path = str(tmpdir / "project.zip")
     with zipfile.ZipFile(zip_path, "w") as myzip:
         myzip.write(str(tmpdir / "project.gns3"), "project.gns3")
 
-    with open(zip_path, "rb") as f:
+    with open(zip_path, "rb") as f:  # noqa: ASYNC230
         project = await import_project(controller, project_id, f, keep_compute_ids=True)
 
-    with open(os.path.join(project.path, "test.gns3")) as f:
+    with open(os.path.join(project.path, "test.gns3")) as f:  # noqa: ASYNC230
         topo = json.load(f)
         assert topo["topology"]["nodes"][0]["compute_id"] == "local"
 
@@ -619,14 +619,14 @@ async def test_import_project_name_and_location(projects_dir, controller):
     project_id = str(uuid.uuid4())
     topology = {"project_id": str(uuid.uuid4()), "name": "test", "topology": {}, "version": "2.0.0"}
 
-    with open(str(tmpdir / "project.gns3"), "w+") as f:
+    with open(str(tmpdir / "project.gns3"), "w+") as f:  # noqa: ASYNC230
         json.dump(topology, f)
 
     zip_path = str(tmpdir / "project.zip")
     with zipfile.ZipFile(zip_path, "w") as myzip:
         myzip.write(str(tmpdir / "project.gns3"), "project.gns3")
 
-    with open(zip_path, "rb") as f:
+    with open(zip_path, "rb") as f:  # noqa: ASYNC230
         project = await import_project(controller, project_id, f, name="hello", location=str(tmpdir / "hello"))
 
     assert project.name == "hello"
@@ -634,6 +634,6 @@ async def test_import_project_name_and_location(projects_dir, controller):
     assert os.path.exists(str(tmpdir / "hello" / "hello.gns3"))
 
     # A new project name is generated when you import twice the same name
-    with open(zip_path, "rb") as f:
+    with open(zip_path, "rb") as f:  # noqa: ASYNC230
         project = await import_project(controller, str(uuid.uuid4()), f, name="hello", location=str(tmpdir / "test"))
     assert project.name == "hello-1"

@@ -331,7 +331,7 @@ async def test_create_with_extra_configs(compute_project, manager):
             injected = [m for m in mounts if m.get("Target") == "/firstboot.cfg"]
             assert len(injected) == 1
             assert injected[0]["ReadOnly"] is True
-            with open(injected[0]["Source"]) as f:
+            with open(injected[0]["Source"]) as f:  # noqa: ASYNC230
                 assert f.read() == "username clab\n!\nend"
 
 
@@ -1859,7 +1859,7 @@ async def test_create_network_interfaces(vm):
     assert os.path.exists(os.path.join(network_config, "interfaces"))
     assert os.path.exists(os.path.join(network_config, "if-up.d"))
 
-    with open(os.path.join(network_config, "interfaces")) as f:
+    with open(os.path.join(network_config, "interfaces")) as f:  # noqa: ASYNC230
         content = f.read()
     assert "eth0" in content
     assert "eth4" in content

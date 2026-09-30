@@ -296,7 +296,7 @@ class Router(BaseNode):
                     raise DynamipsError(f'IOS image "{self._image}" is not accessible')
 
             try:
-                with open(self._image, "rb") as f:
+                with open(self._image, "rb") as f:  # noqa: ASYNC230
                     # read the first 7 bytes of the file.
                     elf_header_start = f.read(7)
             except OSError as e:
@@ -1401,7 +1401,7 @@ class Router(BaseNode):
         """
 
         try:
-            open(output_file, "w+").close()
+            open(output_file, "w+").close()  # noqa: ASYNC230
         except OSError as e:
             raise DynamipsError(f'Can not write capture to "{output_file}": {e!s}') from e
 
@@ -1502,7 +1502,7 @@ class Router(BaseNode):
         # change the hostname in the startup-config
         if os.path.isfile(self.startup_config_path):
             try:
-                with open(self.startup_config_path, "r+", encoding="utf-8", errors="replace") as f:
+                with open(self.startup_config_path, "r+", encoding="utf-8", errors="replace") as f:  # noqa: ASYNC230
                     old_config = f.read()
                     new_config = re.sub(r"hostname .+$", "hostname " + new_name, old_config, flags=re.MULTILINE)
                     f.seek(0)
@@ -1513,7 +1513,7 @@ class Router(BaseNode):
         # change the hostname in the private-config
         if os.path.isfile(self.private_config_path):
             try:
-                with open(self.private_config_path, "r+", encoding="utf-8", errors="replace") as f:
+                with open(self.private_config_path, "r+", encoding="utf-8", errors="replace") as f:  # noqa: ASYNC230
                     old_config = f.read()
                     new_config = old_config.replace(self.name, new_name)
                     f.seek(0)
@@ -1560,7 +1560,7 @@ class Router(BaseNode):
                 config = base64.b64decode(startup_config_base64).decode("utf-8", errors="replace")
                 config = "!\n" + config.replace("\r", "")
                 config_path = os.path.join(self._working_directory, startup_config)
-                with open(config_path, "wb") as f:
+                with open(config_path, "wb") as f:  # noqa: ASYNC230
                     log.debug(f"saving startup-config to {startup_config}")
                     f.write(config.encode("utf-8"))
             except (binascii.Error, OSError) as e:
@@ -1571,7 +1571,7 @@ class Router(BaseNode):
             try:
                 config = base64.b64decode(private_config_base64).decode("utf-8", errors="replace")
                 config_path = os.path.join(self._working_directory, private_config)
-                with open(config_path, "wb") as f:
+                with open(config_path, "wb") as f:  # noqa: ASYNC230
                     log.debug(f"saving private-config to {private_config}")
                     f.write(config.encode("utf-8"))
             except (binascii.Error, OSError) as e:

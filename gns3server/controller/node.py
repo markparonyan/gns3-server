@@ -1045,7 +1045,7 @@ class Node:
             return False
         self.project.emit_notification("log.info", {"message": f"Uploading missing image {img}"})
         try:
-            with open(image, "rb") as f:
+            with open(image, "rb") as f:  # noqa: ASYNC230
                 await self._compute.post(f"/{self._node_type}/images/{os.path.basename(img)}", data=f, timeout=None)
         except OSError as e:
             raise ControllerError(f"Can't upload {image}: {e!s}") from e

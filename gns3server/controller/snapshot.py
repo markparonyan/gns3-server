@@ -49,7 +49,7 @@ class Snapshot:
 
     def __init__(self, project, snapshot_id=None, name=None, filename=None, created_at=None, description=None):
 
-        assert filename or name, "You need to pass a name or a filename"
+        assert filename or name, "You need to pass a name or a filename"  # noqa: S101
 
         if snapshot_id:
             self._id = snapshot_id

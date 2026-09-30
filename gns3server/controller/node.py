@@ -111,7 +111,7 @@ class Node:
         :param kwargs: Node properties
         """
 
-        assert node_type
+        assert node_type  # noqa: S101
 
         if node_id is None:
             self._id = str(uuid.uuid4())

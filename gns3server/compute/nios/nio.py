@@ -116,7 +116,7 @@ class NIO:
         :param new_filters: packet filters (dictionary)
         """
 
-        assert isinstance(new_filters, dict)
+        assert isinstance(new_filters, dict)  # noqa: S101
         self._filters = new_filters
 
     @property
@@ -137,5 +137,5 @@ class NIO:
         :param new_markers: markers (dictionary: name -> {bpf, tag, link_id})
         """
 
-        assert isinstance(new_markers, dict)
+        assert isinstance(new_markers, dict)  # noqa: S101
         self._markers = new_markers

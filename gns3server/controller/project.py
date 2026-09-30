@@ -117,7 +117,7 @@ class Project:
     ):
 
         self._controller = controller
-        assert name is not None
+        assert name is not None  # noqa: S101
         self._name = name
         self._auto_start = auto_start
         self._auto_close = auto_close
@@ -169,7 +169,7 @@ class Project:
 
         # At project creation we write an empty .gns3 with the meta
         if not os.path.exists(self._topology_file()):
-            assert self._status != "closed"
+            assert self._status != "closed"  # noqa: S101
             self.dump()
 
         self._application_id_lock = asyncio.Lock()
@@ -2070,7 +2070,7 @@ class Project:
             await self.open()
 
         self.dump()
-        assert self._status != "closed"
+        assert self._status != "closed"  # noqa: S101
 
         try:
             proj = await self._fast_duplication(name, reset_mac_addresses)

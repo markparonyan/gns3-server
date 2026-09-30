@@ -369,7 +369,7 @@ class BaseManager:
             if not is_interface_up(ethernet_device):
                 raise ComputeError(f"Ethernet interface {ethernet_device} does not exist or is down")
             nio = NIOEthernet(ethernet_device)
-        assert nio is not None
+        assert nio is not None  # noqa: S101
         return nio
 
     async def stream_pcap_file(self, nio, project_id):

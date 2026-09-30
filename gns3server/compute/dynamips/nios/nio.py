@@ -289,7 +289,7 @@ class NIO:
         :param new_filters: packet filters (dictionary)
         """
 
-        assert isinstance(new_filters, dict)
+        assert isinstance(new_filters, dict)  # noqa: S101
         self._filters = new_filters
 
     @property

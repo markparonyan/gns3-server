@@ -195,7 +195,7 @@ class Link:
 
         :return: Node instance.
         """
-        assert self.capture_node
+        assert self.capture_node  # noqa: S101
         return self.capture_node["node"].compute
 
     def get_active_filters(self):
@@ -545,7 +545,7 @@ class Link:
         :returns: URL
         """
 
-        assert self.capture_node
+        assert self.capture_node  # noqa: S101
         compute = self.capture_node["node"].compute
         node_type = self.capture_node["node"].node_type
         node_id = self.capture_node["node"].id

@@ -223,7 +223,7 @@ class InputStream:
     # Hint: in order to know what sequences your terminal writes to stdin, run
     #       "od -c" and start typing.
     def __init__(self, feed_key_callback):
-        assert callable(feed_key_callback)
+        assert callable(feed_key_callback)  # noqa: S101
 
         self.feed_key_callback = feed_key_callback
         self.reset()
@@ -331,7 +331,7 @@ class InputStream:
 
         :param data: Input string (unicode).
         """
-        assert isinstance(data, str)
+        assert isinstance(data, str)  # noqa: S101
 
         if _DEBUG_RENDERER_INPUT:
             self.LOG.write(repr(data).encode("utf-8") + b"\n")

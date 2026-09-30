@@ -68,7 +68,7 @@ class Compute:
         ssl_context=None,
     ):
         self._http_session = None
-        assert controller is not None
+        assert controller is not None  # noqa: S101
         log.info("Create compute %s", compute_id)
 
         # if compute_id is None:

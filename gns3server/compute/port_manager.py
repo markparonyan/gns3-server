@@ -148,7 +148,7 @@ class PortManager:
     @property
     def console_host(self):
 
-        assert self._console_host is not None
+        assert self._console_host is not None  # noqa: S101
         return self._console_host
 
     @console_host.setter
@@ -178,7 +178,7 @@ class PortManager:
     @console_port_range.setter
     def console_port_range(self, new_range):
 
-        assert isinstance(new_range, tuple)
+        assert isinstance(new_range, tuple)  # noqa: S101
         self._console_port_range = new_range
 
     @property
@@ -199,7 +199,7 @@ class PortManager:
     @udp_port_range.setter
     def udp_port_range(self, new_range):
 
-        assert isinstance(new_range, tuple)
+        assert isinstance(new_range, tuple)  # noqa: S101
         self._udp_port_range = new_range
 
     @property

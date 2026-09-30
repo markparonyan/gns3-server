@@ -250,7 +250,7 @@ class Qemu(BaseManager):
         :returns: HAXM version number. Returns None if HAXM is not installed.
         """
 
-        assert sys.platform.startswith("win")
+        assert sys.platform.startswith("win")  # noqa: S101
         import winreg
 
         hkey = winreg.OpenKey(

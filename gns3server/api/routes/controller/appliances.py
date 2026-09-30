@@ -19,7 +19,6 @@ API routes for appliances.
 """
 
 import logging
-from typing import List, Union
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, status
@@ -42,11 +41,11 @@ router = APIRouter()
 
 @router.get(
     "",
-    response_model=List[schemas.Appliance],
+    response_model=list[schemas.Appliance],
     response_model_exclude_unset=True,
     dependencies=[Depends(has_privilege("Appliance.Audit"))],
 )
-async def get_appliances(update: bool | None = False, symbol_theme: str | None = None) -> List[schemas.Appliance]:
+async def get_appliances(update: bool | None = False, symbol_theme: str | None = None) -> list[schemas.Appliance]:
     """
     Return all appliances known by the controller.
 
@@ -86,7 +85,7 @@ def get_appliance(appliance_id: UUID) -> schemas.Appliance:
     dependencies=[Depends(has_privilege("Appliance.Allocate"))],
 )
 def add_appliance_version(
-    appliance_id: UUID, appliance_version: Union[schemas.ApplianceVersion, schemas.ApplianceVersionV8]
+    appliance_id: UUID, appliance_version: schemas.ApplianceVersion | schemas.ApplianceVersionV8
 ) -> dict:
     """
     Add a version to an appliance.

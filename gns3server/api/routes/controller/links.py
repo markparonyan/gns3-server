@@ -20,7 +20,7 @@ API routes for links.
 
 import logging
 import os
-from typing import Any, List, Union
+from typing import Any, Union
 from uuid import UUID, uuid4
 
 import aiohttp
@@ -63,11 +63,11 @@ async def dep_link(project_id: UUID, link_id: UUID) -> Link:
 
 @router.get(
     "",
-    response_model=List[schemas.Link],
+    response_model=list[schemas.Link],
     response_model_exclude_unset=True,
     dependencies=[Depends(has_privilege("Link.Audit"))],
 )
-async def get_links(project_id: UUID) -> List[schemas.Link]:
+async def get_links(project_id: UUID) -> list[schemas.Link]:
     """
     Return all links for a given project.
 
@@ -124,7 +124,7 @@ async def create_link(project_id: UUID, link_create: schemas.LinkCreate) -> sche
 
 
 @router.get("/{link_id}/available_filters", dependencies=[Depends(has_privilege("Link.Audit"))])
-async def get_filters(link: Link = Depends(dep_link)) -> List[dict]:
+async def get_filters(link: Link = Depends(dep_link)) -> list[dict]:
     """
     Return all filters available for a given link.
 

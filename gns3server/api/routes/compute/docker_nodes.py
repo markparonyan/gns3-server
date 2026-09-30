@@ -19,7 +19,7 @@ API routes for Docker nodes.
 """
 
 import os
-from typing import Any, Union
+from typing import Any
 from uuid import UUID
 
 from fastapi import APIRouter, Body, Depends, HTTPException, WebSocket, status
@@ -364,7 +364,7 @@ async def stream_pcap_file(
 
 @router.websocket("/{node_id}/console/ws")
 async def console_ws(
-    websocket: Union[None, WebSocket] = Depends(ws_compute_authentication), node: DockerVM = Depends(dep_node)
+    websocket: None | WebSocket = Depends(ws_compute_authentication), node: DockerVM = Depends(dep_node)
 ) -> None:
     """
     Console WebSocket.
@@ -376,7 +376,7 @@ async def console_ws(
 
 @router.websocket("/{node_id}/console/vnc")
 async def vnc_console_ws(
-    websocket: Union[None, WebSocket] = Depends(ws_compute_authentication), node: DockerVM = Depends(dep_node)
+    websocket: None | WebSocket = Depends(ws_compute_authentication), node: DockerVM = Depends(dep_node)
 ) -> None:
     """
     VNC Console WebSocket.

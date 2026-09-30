@@ -31,7 +31,7 @@ import gns3server.utils.zipfile_zstd as zipfile
 
 log = logging.getLogger()
 
-from typing import Any, List
+from typing import Any
 from uuid import UUID
 
 from fastapi import APIRouter, Body, Depends, HTTPException, Request, WebSocket, WebSocketDisconnect, status
@@ -74,11 +74,11 @@ def dep_project(project_id: UUID) -> Project:
     return project
 
 
-@router.get("", response_model=List[schemas.Project], response_model_exclude_unset=True)
+@router.get("", response_model=list[schemas.Project], response_model_exclude_unset=True)
 async def get_projects(
     current_user: schemas.User = Depends(get_current_active_user),
     rbac_repo: RbacRepository = Depends(get_repository(RbacRepository)),
-) -> List[schemas.Project]:
+) -> list[schemas.Project]:
     """
     Return all projects.
 

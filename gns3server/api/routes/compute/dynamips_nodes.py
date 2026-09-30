@@ -19,7 +19,7 @@ API routes for Dynamips nodes.
 """
 
 import os
-from typing import Any, List, Union
+from typing import Any
 from uuid import UUID
 
 from fastapi import APIRouter, Body, Depends, HTTPException, WebSocket, status
@@ -270,7 +270,7 @@ async def stream_pcap_file(
 
 
 @router.get("/{node_id}/idlepc_proposals", dependencies=[Depends(compute_authentication)])
-async def get_idlepcs(node: Router = Depends(dep_node)) -> List[str]:
+async def get_idlepcs(node: Router = Depends(dep_node)) -> list[str]:
     """
     Retrieve Dynamips idle-pc proposals
     """
@@ -308,7 +308,7 @@ async def duplicate_router(
 
 @router.websocket("/{node_id}/console/ws")
 async def console_ws(
-    websocket: Union[None, WebSocket] = Depends(ws_compute_authentication), node: Router = Depends(dep_node)
+    websocket: None | WebSocket = Depends(ws_compute_authentication), node: Router = Depends(dep_node)
 ) -> None:
     """
     Console WebSocket.

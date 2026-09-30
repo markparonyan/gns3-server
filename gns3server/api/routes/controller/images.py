@@ -22,7 +22,7 @@ import logging
 import os
 import tempfile
 import urllib.parse
-from typing import List, Literal
+from typing import Literal
 
 from fastapi import APIRouter, Depends, Query, Request, Response, status
 from fastapi.encoders import jsonable_encoder
@@ -154,12 +154,12 @@ async def create_qemu_image(
                 os.unlink(temporary)
 
 
-@router.get("", response_model=List[schemas.Image], dependencies=[Depends(has_privilege("Image.Audit"))])
+@router.get("", response_model=list[schemas.Image], dependencies=[Depends(has_privilege("Image.Audit"))])
 async def get_images(
     images_repo: ImagesRepository = Depends(get_repository(ImagesRepository)),
     image_type: schemas.ImageType | None = None,
     availability: Literal["unknown", "available", "missing", "unavailable", "invalid"] | None = None,
-) -> List[models.Image]:
+) -> list[models.Image]:
     """
     Return all images.
 

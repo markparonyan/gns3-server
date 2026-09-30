@@ -20,7 +20,6 @@ API routes for resource pools.
 """
 
 import logging
-from typing import List
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, status
@@ -40,10 +39,10 @@ log = logging.getLogger(__name__)
 router = APIRouter()
 
 
-@router.get("", response_model=List[schemas.ResourcePool], dependencies=[Depends(has_privilege("Pool.Audit"))])
+@router.get("", response_model=list[schemas.ResourcePool], dependencies=[Depends(has_privilege("Pool.Audit"))])
 async def get_resource_pools(
     pools_repo: ResourcePoolsRepository = Depends(get_repository(ResourcePoolsRepository)),
-) -> List[models.ResourcePool]:
+) -> list[models.ResourcePool]:
     """
     Get all resource pools.
 
@@ -170,13 +169,13 @@ async def delete_resource_pool(
 
 @router.get(
     "/{resource_pool_id}/resources",
-    response_model=List[schemas.Resource],
+    response_model=list[schemas.Resource],
     dependencies=[Depends(has_privilege("Pool.Audit"))],
 )
 async def get_pool_resources(
     resource_pool_id: UUID,
     pools_repo: ResourcePoolsRepository = Depends(get_repository(ResourcePoolsRepository)),
-) -> List[models.Resource]:
+) -> list[models.Resource]:
     """
     Get all resource in a pool.
 

@@ -16,7 +16,6 @@ API route for privileges
 """
 
 import logging
-from typing import List
 
 from fastapi import APIRouter, Depends
 
@@ -32,11 +31,11 @@ router = APIRouter()
 
 @router.get(
     "",
-    response_model=List[schemas.Privilege],
+    response_model=list[schemas.Privilege],
 )
 async def get_privileges(
     rbac_repo: RbacRepository = Depends(get_repository(RbacRepository)),
-) -> List[models.Privilege]:
+) -> list[models.Privilege]:
     """
     Get all privileges.
 

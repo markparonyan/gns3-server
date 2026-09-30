@@ -18,7 +18,7 @@
 API routes for drawings.
 """
 
-from typing import Any, List
+from typing import Any
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, status
@@ -40,11 +40,11 @@ router = APIRouter(responses=responses)
 
 @router.get(
     "",
-    response_model=List[schemas.Drawing],
+    response_model=list[schemas.Drawing],
     response_model_exclude_unset=True,
     dependencies=[Depends(has_privilege("Drawing.Audit"))],
 )
-async def get_drawings(project_id: UUID) -> List[schemas.Drawing]:
+async def get_drawings(project_id: UUID) -> list[schemas.Drawing]:
     """
     Return the list of all drawings for a given project.
 

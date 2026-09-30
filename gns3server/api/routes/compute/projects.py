@@ -27,7 +27,6 @@ import urllib.parse
 
 log = logging.getLogger()
 
-from typing import List
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
@@ -55,8 +54,8 @@ def dep_project(project_id: UUID) -> Project:
     return project
 
 
-@router.get("/projects", response_model=List[schemas.Project])
-def get_compute_projects() -> List[schemas.Project]:
+@router.get("/projects", response_model=list[schemas.Project])
+def get_compute_projects() -> list[schemas.Project]:
     """
     Get all projects opened on the compute.
     """
@@ -322,8 +321,8 @@ async def update_batch_nios(
     return {"updated": len(batch.nios)}
 
 
-@router.get("/projects/{project_id}/files", response_model=List[schemas.ProjectFile])
-async def get_compute_project_files(project: Project = Depends(dep_project)) -> List[schemas.ProjectFile]:
+@router.get("/projects/{project_id}/files", response_model=list[schemas.ProjectFile])
+async def get_compute_project_files(project: Project = Depends(dep_project)) -> list[schemas.ProjectFile]:
     """
     Return files belonging to a project.
     """
@@ -331,14 +330,14 @@ async def get_compute_project_files(project: Project = Depends(dep_project)) -> 
     return await project.list_files()
 
 
-@router.get("/projects/{project_id}/nodes/{node_type}/{node_id}/files", response_model=List[schemas.NodeFile])
+@router.get("/projects/{project_id}/nodes/{node_type}/{node_id}/files", response_model=list[schemas.NodeFile])
 async def get_compute_node_files(
     node_type: str,
     node_id: str,
     project: Project = Depends(dep_project),
     path: str = Query("", description="Subdirectory path within node directory"),
     recursive: bool = Query(False, description="Recursively list all files"),
-) -> List[schemas.NodeFile]:
+) -> list[schemas.NodeFile]:
     """
     Return files belonging to a specific node with detailed metadata.
     """

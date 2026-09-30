@@ -20,7 +20,6 @@ API routes for users.
 """
 
 import logging
-from typing import List
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -179,8 +178,8 @@ async def update_logged_in_user(
     return await users_repo.update_user(current_user.user_id, user_update)
 
 
-@router.get("", response_model=List[schemas.User], dependencies=[Depends(has_privilege("User.Audit"))])
-async def get_users(users_repo: UsersRepository = Depends(get_repository(UsersRepository))) -> List[models.User]:
+@router.get("", response_model=list[schemas.User], dependencies=[Depends(has_privilege("User.Audit"))])
+async def get_users(users_repo: UsersRepository = Depends(get_repository(UsersRepository))) -> list[models.User]:
     """
     Get all users.
 
@@ -283,11 +282,11 @@ async def delete_user(
 
 
 @router.get(
-    "/{user_id}/groups", response_model=List[schemas.UserGroup], dependencies=[Depends(has_privilege("Group.Audit"))]
+    "/{user_id}/groups", response_model=list[schemas.UserGroup], dependencies=[Depends(has_privilege("Group.Audit"))]
 )
 async def get_user_memberships(
     user_id: UUID, users_repo: UsersRepository = Depends(get_repository(UsersRepository))
-) -> List[models.UserGroup]:
+) -> list[models.UserGroup]:
     """
     Get user memberships.
 

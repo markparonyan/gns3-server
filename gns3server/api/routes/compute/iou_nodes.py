@@ -195,9 +195,9 @@ async def reload_iou_node(node: IOUVM = Depends(dep_node)) -> None:
 async def create_iou_node_nio(
     adapter_number: int,
     port_number: int,
-    nio_data: Union[schemas.EthernetNIO, schemas.TAPNIO, schemas.UDPNIO],
+    nio_data: schemas.EthernetNIO | schemas.TAPNIO | schemas.UDPNIO,
     node: IOUVM = Depends(dep_node),
-) -> Union[schemas.EthernetNIO, schemas.TAPNIO, schemas.UDPNIO]:
+) -> schemas.EthernetNIO | schemas.TAPNIO | schemas.UDPNIO:
     """
     Add a NIO (Network Input/Output) to the node.
     """
@@ -216,9 +216,9 @@ async def create_iou_node_nio(
 async def update_iou_node_nio(
     adapter_number: int,
     port_number: int,
-    nio_data: Union[schemas.EthernetNIO, schemas.TAPNIO, schemas.UDPNIO],
+    nio_data: schemas.EthernetNIO | schemas.TAPNIO | schemas.UDPNIO,
     node: IOUVM = Depends(dep_node),
-) -> Union[schemas.EthernetNIO, schemas.TAPNIO, schemas.UDPNIO]:
+) -> schemas.EthernetNIO | schemas.TAPNIO | schemas.UDPNIO:
     """
     Update a NIO (Network Input/Output) on the node.
     """
@@ -293,7 +293,7 @@ async def stream_pcap_file(adapter_number: int, port_number: int, node: IOUVM = 
     "/{node_id}/console/ws",
 )
 async def console_ws(
-    websocket: Union[None, WebSocket] = Depends(ws_compute_authentication), node: IOUVM = Depends(dep_node)
+    websocket: None | WebSocket = Depends(ws_compute_authentication), node: IOUVM = Depends(dep_node)
 ) -> None:
     """
     Console WebSocket.

@@ -19,7 +19,7 @@ API routes for VirtualBox nodes.
 """
 
 import os
-from typing import Any, Union
+from typing import Any
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, Path, WebSocket, status
@@ -323,7 +323,7 @@ async def stream_pcap_file(
 
 @router.websocket("/{node_id}/console/ws")
 async def console_ws(
-    websocket: Union[None, WebSocket] = Depends(ws_compute_authentication), node: VirtualBoxVM = Depends(dep_node)
+    websocket: None | WebSocket = Depends(ws_compute_authentication), node: VirtualBoxVM = Depends(dep_node)
 ) -> None:
     """
     Console WebSocket.

@@ -20,7 +20,6 @@ API routes for images.
 
 import os
 import urllib.parse
-from typing import List
 
 from fastapi import APIRouter, Body, HTTPException, Request, status
 from fastapi.responses import FileResponse
@@ -34,7 +33,7 @@ router = APIRouter()
 
 
 @router.get("/docker/images")
-async def get_docker_images() -> List[dict]:
+async def get_docker_images() -> list[dict]:
     """
     Get all Docker images.
     """
@@ -64,7 +63,7 @@ async def load_docker_image(request: Request) -> None:
 
 
 @router.get("/dynamips/images")
-async def get_dynamips_images() -> List[dict]:
+async def get_dynamips_images() -> list[dict]:
     """
     Get all Dynamips images.
     """
@@ -105,7 +104,7 @@ async def download_dynamips_image(filename: str) -> FileResponse:
 
 
 @router.get("/iou/images")
-async def get_iou_images() -> List[dict]:
+async def get_iou_images() -> list[dict]:
     """
     Get all IOU images.
     """
@@ -145,7 +144,7 @@ async def download_iou_image(filename: str) -> FileResponse:
 
 
 @router.get("/qemu/images")
-async def get_qemu_images() -> List[dict]:
+async def get_qemu_images() -> list[dict]:
 
     qemu_manager = Qemu.instance()
     return await qemu_manager.list_images()

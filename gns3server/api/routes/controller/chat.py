@@ -23,7 +23,7 @@ Nested under projects: /v3/projects/{project_id}/chat/...
 import json
 import logging
 import uuid
-from typing import Any, List
+from typing import Any
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
@@ -193,7 +193,7 @@ async def stream_chat(
 
 @router.get(
     "/sessions",
-    response_model=List[schemas.ChatSession],
+    response_model=list[schemas.ChatSession],
     summary="List chat sessions",
     description="List all chat sessions for a project, optionally filtered by copilot_mode.",
 )

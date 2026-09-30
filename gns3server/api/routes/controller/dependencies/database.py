@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import AsyncGenerator, Callable, Type
+from typing import AsyncGenerator, Callable
 
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -32,7 +32,7 @@ async def get_db_session(request: HTTPConnection) -> AsyncGenerator[AsyncSession
             await session.close()
 
 
-def get_repository(repo: Type[BaseRepository]) -> Callable:
+def get_repository(repo: type[BaseRepository]) -> Callable:
     def get_repo(db_session: AsyncSession = Depends(get_db_session)) -> BaseRepository:
         return repo(db_session)
 

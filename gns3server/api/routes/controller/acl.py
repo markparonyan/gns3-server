@@ -21,7 +21,7 @@ API routes for ACL.
 
 import logging
 import re
-from typing import Iterator, List, Sequence
+from typing import Iterator, Sequence
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, Request, status
@@ -86,7 +86,7 @@ async def endpoints(
     rbac_repo: RbacRepository = Depends(get_repository(RbacRepository)),
     images_repo: ImagesRepository = Depends(get_repository(ImagesRepository)),
     templates_repo: TemplatesRepository = Depends(get_repository(TemplatesRepository)),
-) -> List[dict]:
+) -> list[dict]:
     """
     List all endpoints to be used in ACL entries.
     """
@@ -173,8 +173,8 @@ async def endpoints(
     return endpoints
 
 
-@router.get("", response_model=List[schemas.ACE], dependencies=[Depends(has_privilege("ACE.Audit"))])
-async def get_aces(rbac_repo: RbacRepository = Depends(get_repository(RbacRepository))) -> List[models.ACE]:
+@router.get("", response_model=list[schemas.ACE], dependencies=[Depends(has_privilege("ACE.Audit"))])
+async def get_aces(rbac_repo: RbacRepository = Depends(get_repository(RbacRepository))) -> list[models.ACE]:
     """
     Get all ACL entries.
 

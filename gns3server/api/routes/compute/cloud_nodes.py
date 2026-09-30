@@ -148,9 +148,9 @@ async def create_cloud_nio(
     *,
     adapter_number: int = Path(..., ge=0, le=0),
     port_number: int,
-    nio_data: Union[schemas.EthernetNIO, schemas.TAPNIO, schemas.UDPNIO],
+    nio_data: schemas.EthernetNIO | schemas.TAPNIO | schemas.UDPNIO,
     node: Cloud = Depends(dep_node),
-) -> Union[schemas.EthernetNIO, schemas.TAPNIO, schemas.UDPNIO]:
+) -> schemas.EthernetNIO | schemas.TAPNIO | schemas.UDPNIO:
     """
     Add a NIO (Network Input/Output) to the node.
     The adapter number on the cloud is always 0.
@@ -170,9 +170,9 @@ async def update_cloud_nio(
     *,
     adapter_number: int = Path(..., ge=0, le=0),
     port_number: int,
-    nio_data: Union[schemas.EthernetNIO, schemas.TAPNIO, schemas.UDPNIO],
+    nio_data: schemas.EthernetNIO | schemas.TAPNIO | schemas.UDPNIO,
     node: Cloud = Depends(dep_node),
-) -> Union[schemas.EthernetNIO, schemas.TAPNIO, schemas.UDPNIO]:
+) -> schemas.EthernetNIO | schemas.TAPNIO | schemas.UDPNIO:
     """
     Update a NIO (Network Input/Output) to the node.
     The adapter number on the cloud is always 0.

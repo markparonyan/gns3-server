@@ -20,7 +20,6 @@ API routes for user groups.
 """
 
 import logging
-from typing import List
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, status
@@ -44,10 +43,10 @@ log = logging.getLogger(__name__)
 router = APIRouter()
 
 
-@router.get("", response_model=List[schemas.UserGroup], dependencies=[Depends(has_privilege("Group.Audit"))])
+@router.get("", response_model=list[schemas.UserGroup], dependencies=[Depends(has_privilege("Group.Audit"))])
 async def get_user_groups(
     users_repo: UsersRepository = Depends(get_repository(UsersRepository)),
-) -> List[models.UserGroup]:
+) -> list[models.UserGroup]:
     """
     Get all user groups.
 
@@ -144,11 +143,11 @@ async def delete_user_group(
 
 
 @router.get(
-    "/{user_group_id}/members", response_model=List[schemas.User], dependencies=[Depends(has_privilege("Group.Audit"))]
+    "/{user_group_id}/members", response_model=list[schemas.User], dependencies=[Depends(has_privilege("Group.Audit"))]
 )
 async def get_user_group_members(
     user_group_id: UUID, users_repo: UsersRepository = Depends(get_repository(UsersRepository))
-) -> List[models.User]:
+) -> list[models.User]:
     """
     Get all user group members.
 

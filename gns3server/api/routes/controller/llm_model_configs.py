@@ -20,7 +20,6 @@ API routes for LLM model configurations.
 """
 
 import logging
-from typing import List
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -88,12 +87,12 @@ async def get_user_llm_model_configs(
 
 @router.get(
     "/users/{user_id}/llm-model-configs/own",
-    response_model=List[schemas.LLMModelConfigResponse],
+    response_model=list[schemas.LLMModelConfigResponse],
     dependencies=[Depends(has_privilege("LLMConfig.Audit"))],
 )
 async def get_user_own_llm_model_configs(
     user_id: UUID, llm_repo: LLMModelConfigsRepository = Depends(get_repository(LLMModelConfigsRepository))
-) -> List[schemas.LLMModelConfigResponse]:
+) -> list[schemas.LLMModelConfigResponse]:
     """
     Get user's own LLM model configurations (excluding inherited ones).
 

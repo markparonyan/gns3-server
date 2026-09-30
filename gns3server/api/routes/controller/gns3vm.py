@@ -19,8 +19,6 @@
 API routes for managing the GNS3 VM.
 """
 
-from typing import List
-
 from fastapi import APIRouter
 from fastapi.encoders import jsonable_encoder
 
@@ -31,7 +29,7 @@ router = APIRouter()
 
 
 @router.get("/engines")
-async def get_engines() -> List[dict]:
+async def get_engines() -> list[dict]:
     """
     Return the list of supported engines for the GNS3VM.
     """
@@ -41,7 +39,7 @@ async def get_engines() -> List[dict]:
 
 
 @router.get("/engines/{engine}/vms")
-async def get_vms(engine: str) -> List[dict]:
+async def get_vms(engine: str) -> list[dict]:
     """
     Return all the available VMs for a specific virtualization engine.
     """

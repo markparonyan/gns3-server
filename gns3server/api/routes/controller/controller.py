@@ -19,7 +19,6 @@ import logging
 import os
 import signal
 import time
-from typing import Dict
 
 import psutil
 from fastapi import APIRouter, Depends, FastAPI, Request, WebSocket, WebSocketDisconnect, status
@@ -189,8 +188,8 @@ async def statistics() -> dict:
     # Node statistics - distinguish open vs closed project nodes
     open_project_nodes = []
     closed_project_nodes = []
-    node_by_type: Dict[str, int] = {}
-    node_by_status: Dict[str, int] = {}
+    node_by_type: dict[str, int] = {}
+    node_by_status: dict[str, int] = {}
 
     for project in projects:
         nodes = project.nodes.values()

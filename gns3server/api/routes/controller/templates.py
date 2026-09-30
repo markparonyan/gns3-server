@@ -25,7 +25,7 @@ import os
 
 log = logging.getLogger(__name__)
 
-from typing import Any, List, Union
+from typing import Any
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, Query, Request, Response, status
@@ -82,7 +82,7 @@ async def get_template(
     request: Request,
     response: Response,
     templates_repo: TemplatesRepository = Depends(get_repository(TemplatesRepository)),
-) -> Union[dict, Response]:
+) -> dict | Response:
     """
     Return a template.
 
@@ -186,7 +186,7 @@ async def delete_template(
 
 @router.get(
     "",
-    response_model=List[schemas.Template],
+    response_model=list[schemas.Template],
     response_model_exclude_unset=True,
     dependencies=[Depends(get_current_active_user)],
     # dependencies=[Depends(has_privilege("Template.Audit"))]  # FIXME: this is a temporary workaround due to a bug in the web-ui
@@ -194,8 +194,8 @@ async def delete_template(
 async def get_templates(
     templates_repo: TemplatesRepository = Depends(get_repository(TemplatesRepository)),
     current_user: schemas.User = Depends(get_current_active_user),
-    tags: List[str] | None = Query(None, description="Filter by tags (e.g. tags=vendor:cisco&tags=model:7200)"),
-) -> List[dict]:
+    tags: list[str] | None = Query(None, description="Filter by tags (e.g. tags=vendor:cisco&tags=model:7200)"),
+) -> list[dict]:
     """
     Return all templates.
 

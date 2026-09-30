@@ -22,7 +22,7 @@ import asyncio
 import contextlib
 import ipaddress
 import logging
-from typing import Any, Callable, List
+from typing import Any, Callable
 from uuid import UUID
 
 import aiohttp
@@ -144,14 +144,14 @@ async def create_node(node_create: schemas.NodeCreate, project: Project = Depend
 
 @router.get(
     "",
-    response_model=List[schemas.Node],
+    response_model=list[schemas.Node],
     response_model_exclude_unset=True,
     dependencies=[Depends(has_privilege("Node.Audit"))],
 )
 def get_nodes(
     project: Project = Depends(dep_project),
-    tags: List[str] | None = Query(None, description="Filter by tags (e.g. tags=vendor:cisco&tags=model:7200)"),
-) -> List[schemas.Node]:
+    tags: list[str] | None = Query(None, description="Filter by tags (e.g. tags=vendor:cisco&tags=model:7200)"),
+) -> list[schemas.Node]:
     """
     Return all nodes belonging to a given project.
 
@@ -430,11 +430,11 @@ async def unisolate_node(node: Node = Depends(dep_node)) -> None:
 
 @router.get(
     "/{node_id}/links",
-    response_model=List[schemas.Link],
+    response_model=list[schemas.Link],
     response_model_exclude_unset=True,
     dependencies=[Depends(has_privilege("Link.Audit"))],
 )
-async def get_node_links(node: Node = Depends(dep_node)) -> List[schemas.Link]:
+async def get_node_links(node: Node = Depends(dep_node)) -> list[schemas.Link]:
     """
     Return all the links connected to a node.
 
@@ -460,7 +460,7 @@ async def auto_idlepc(node: Node = Depends(dep_node)) -> dict:
 
 
 @router.get("/{node_id}/dynamips/idlepc_proposals", dependencies=[Depends(has_privilege("Node.Audit"))])
-async def idlepc_proposals(node: Node = Depends(dep_node)) -> List[str]:
+async def idlepc_proposals(node: Node = Depends(dep_node)) -> list[str]:
     """
     Compute a list of potential idle-pc values for a Dynamips node
 
@@ -524,13 +524,13 @@ async def delete_disk_image(disk_name: str, node: Node = Depends(dep_node)) -> N
 
 
 @router.get(
-    "/{node_id}/files", response_model=List[schemas.NodeFile], dependencies=[Depends(has_privilege("Node.Audit"))]
+    "/{node_id}/files", response_model=list[schemas.NodeFile], dependencies=[Depends(has_privilege("Node.Audit"))]
 )
 async def list_node_files(
     node: Node = Depends(dep_node),
     path: str = Query("", description="Subdirectory path within node directory"),
     recursive: bool = Query(False, description="Recursively list all files"),
-) -> List[schemas.NodeFile]:
+) -> list[schemas.NodeFile]:
     """
     List files in a node directory with detailed metadata.
 

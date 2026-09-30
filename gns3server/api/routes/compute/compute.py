@@ -20,7 +20,6 @@ API routes for compute.
 """
 
 from functools import lru_cache
-from typing import List
 from uuid import UUID
 
 import cpuinfo
@@ -80,7 +79,7 @@ def batch_allocate_udp_ports(project_id: UUID, body: dict) -> dict:
 
 
 @router.get("/network/interfaces")
-def network_interfaces() -> List[dict]:
+def network_interfaces() -> list[dict]:
     """
     List all the network interfaces available on the compute"
     """
@@ -166,14 +165,14 @@ async def get_qemu_capabilities() -> dict:
     return capabilities
 
 
-@router.get("/virtualbox/vms", response_model=List[dict])
-async def get_virtualbox_vms() -> List[dict]:
+@router.get("/virtualbox/vms", response_model=list[dict])
+async def get_virtualbox_vms() -> list[dict]:
 
     vbox_manager = VirtualBox.instance()
     return await vbox_manager.list_vms()
 
 
-@router.get("/vmware/vms", response_model=List[dict])
-async def get_vms() -> List[dict]:
+@router.get("/vmware/vms", response_model=list[dict])
+async def get_vms() -> list[dict]:
     vmware_manager = VMware.instance()
     return await vmware_manager.list_vms()

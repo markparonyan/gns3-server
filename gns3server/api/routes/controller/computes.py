@@ -18,7 +18,7 @@
 API routes for computes.
 """
 
-from typing import Any, List, Union
+from typing import Any
 from uuid import UUID
 
 from fastapi import APIRouter, Body, Depends, status
@@ -68,7 +68,7 @@ async def create_compute(
     status_code=status.HTTP_204_NO_CONTENT,
     # dependencies=[Depends(has_privilege("Compute.Audit"))]  # FIXME: this is a temporary workaround due to a bug in the web-ui
 )
-async def connect_compute(compute_id: Union[str, UUID]) -> None:
+async def connect_compute(compute_id: str | UUID) -> None:
     """
     Connect to compute on the controller.
 
@@ -87,8 +87,8 @@ async def connect_compute(compute_id: Union[str, UUID]) -> None:
     # dependencies=[Depends(has_privilege("Compute.Audit"))]  # FIXME: this is a temporary workaround due to a bug in the web-ui
 )
 async def get_compute(
-    compute_id: Union[str, UUID], computes_repo: ComputesRepository = Depends(get_repository(ComputesRepository))
-) -> Union[models.Compute, dict]:
+    compute_id: str | UUID, computes_repo: ComputesRepository = Depends(get_repository(ComputesRepository))
+) -> models.Compute | dict:
     """
     Return a compute from the controller.
 
@@ -100,13 +100,13 @@ async def get_compute(
 
 @router.get(
     "",
-    response_model=List[schemas.Compute],
+    response_model=list[schemas.Compute],
     response_model_exclude_unset=True,
     # dependencies=[Depends(has_privilege("Compute.Audit"))]  # FIXME: this is a temporary workaround due to a bug in the web-ui
 )
 async def get_computes(
     computes_repo: ComputesRepository = Depends(get_repository(ComputesRepository)),
-) -> List[models.Compute]:
+) -> list[models.Compute]:
     """
     Return all computes known by the controller.
 
@@ -123,7 +123,7 @@ async def get_computes(
     dependencies=[Depends(has_privilege("Compute.Modify"))],
 )
 async def update_compute(
-    compute_id: Union[str, UUID],
+    compute_id: str | UUID,
     compute_update: schemas.ComputeUpdate,
     computes_repo: ComputesRepository = Depends(get_repository(ComputesRepository)),
 ) -> models.Compute:
@@ -140,7 +140,7 @@ async def update_compute(
     "/{compute_id}", status_code=status.HTTP_204_NO_CONTENT, dependencies=[Depends(has_privilege("Compute.Allocate"))]
 )
 async def delete_compute(
-    compute_id: Union[str, UUID],
+    compute_id: str | UUID,
     computes_repo: ComputesRepository = Depends(get_repository(ComputesRepository)),
     rbac_repo: RbacRepository = Depends(get_repository(RbacRepository)),
 ) -> None:
@@ -154,8 +154,8 @@ async def delete_compute(
     await rbac_repo.delete_all_ace_starting_with_path(f"/computes/{compute_id}")
 
 
-@router.get("/{compute_id}/docker/images", response_model=List[schemas.ComputeDockerImage])
-async def docker_get_images(compute_id: Union[str, UUID]) -> List[schemas.ComputeDockerImage]:
+@router.get("/{compute_id}/docker/images", response_model=list[schemas.ComputeDockerImage])
+async def docker_get_images(compute_id: str | UUID) -> list[schemas.ComputeDockerImage]:
     """
     Get Docker images from a compute.
     """
@@ -171,7 +171,7 @@ async def docker_get_images(compute_id: Union[str, UUID]) -> List[schemas.Comput
     dependencies=[Depends(has_privilege("Compute.Modify"))],
 )
 async def docker_pull_image(
-    compute_id: Union[str, UUID], image: str = Body(..., embed=True, min_length=1, pattern=r"^\S+$")
+    compute_id: str | UUID, image: str = Body(..., embed=True, min_length=1, pattern=r"^\S+$")
 ) -> None:
     """
     Pull or update a Docker image on a compute.
@@ -183,8 +183,8 @@ async def docker_pull_image(
     await compute.forward("POST", "docker", "images/pull", data={"image": image})
 
 
-@router.get("/{compute_id}/virtualbox/vms", response_model=List[schemas.ComputeVirtualBoxVM])
-async def virtualbox_vms(compute_id: Union[str, UUID]) -> List[schemas.ComputeVirtualBoxVM]:
+@router.get("/{compute_id}/virtualbox/vms", response_model=list[schemas.ComputeVirtualBoxVM])
+async def virtualbox_vms(compute_id: str | UUID) -> list[schemas.ComputeVirtualBoxVM]:
     """
     Get VirtualBox VMs from a compute.
     """
@@ -194,8 +194,8 @@ async def virtualbox_vms(compute_id: Union[str, UUID]) -> List[schemas.ComputeVi
     return result
 
 
-@router.get("/{compute_id}/vmware/vms", response_model=List[schemas.ComputeVMwareVM])
-async def vmware_vms(compute_id: Union[str, UUID]) -> List[schemas.ComputeVMwareVM]:
+@router.get("/{compute_id}/vmware/vms", response_model=list[schemas.ComputeVMwareVM])
+async def vmware_vms(compute_id: str | UUID) -> list[schemas.ComputeVMwareVM]:
     """
     Get VMware VMs from a compute.
     """
@@ -206,7 +206,7 @@ async def vmware_vms(compute_id: Union[str, UUID]) -> List[schemas.ComputeVMware
 
 
 @router.post("/{compute_id}/dynamips/auto_idlepc")
-async def dynamips_autoidlepc(compute_id: Union[str, UUID], auto_idle_pc: schemas.AutoIdlePC):
+async def dynamips_autoidlepc(compute_id: str | UUID, auto_idle_pc: schemas.AutoIdlePC):
     """
     Find a suitable Idle-PC value for a given IOS image. This may take a few minutes.
     """
@@ -216,7 +216,7 @@ async def dynamips_autoidlepc(compute_id: Union[str, UUID], auto_idle_pc: schema
 
 
 @router.get("/{compute_id}/{emulator}/{endpoint_path:path}", deprecated=True)
-async def forward_get(compute_id: Union[str, UUID], emulator: str, endpoint_path: str) -> Any:
+async def forward_get(compute_id: str | UUID, emulator: str, endpoint_path: str) -> Any:
     """
     Forward a GET request to a compute.
     Read the full compute API documentation for available routes.
@@ -228,7 +228,7 @@ async def forward_get(compute_id: Union[str, UUID], emulator: str, endpoint_path
 
 
 @router.post("/{compute_id}/{emulator}/{endpoint_path:path}", deprecated=True)
-async def forward_post(compute_id: Union[str, UUID], emulator: str, endpoint_path: str, compute_data: dict) -> Any:
+async def forward_post(compute_id: str | UUID, emulator: str, endpoint_path: str, compute_data: dict) -> Any:
     """
     Forward a POST request to a compute.
     Read the full compute API documentation for available routes.
@@ -239,7 +239,7 @@ async def forward_post(compute_id: Union[str, UUID], emulator: str, endpoint_pat
 
 
 @router.put("/{compute_id}/{emulator}/{endpoint_path:path}", deprecated=True)
-async def forward_put(compute_id: Union[str, UUID], emulator: str, endpoint_path: str, compute_data: dict) -> Any:
+async def forward_put(compute_id: str | UUID, emulator: str, endpoint_path: str, compute_data: dict) -> Any:
     """
     Forward a PUT request to a compute.
     Read the full compute API documentation for available routes.

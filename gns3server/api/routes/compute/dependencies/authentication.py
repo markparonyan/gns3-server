@@ -18,7 +18,6 @@ import base64
 import binascii
 import logging
 import secrets
-from typing import Union
 
 from fastapi import Depends, HTTPException, WebSocket, status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
@@ -60,7 +59,7 @@ def compute_authentication(credentials: HTTPBasicCredentials | None = Depends(se
         )
 
 
-async def ws_compute_authentication(websocket: WebSocket) -> Union[None, WebSocket]:
+async def ws_compute_authentication(websocket: WebSocket) -> None | WebSocket:
     """ """
 
     server_settings = Config.instance().settings.Server

@@ -19,7 +19,7 @@ API routes for VMware nodes.
 """
 
 import os
-from typing import Any, Union
+from typing import Any
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, Path, WebSocket, status
@@ -303,7 +303,7 @@ def allocate_vmnet(node: VMwareVM = Depends(dep_node)) -> dict:
 
 @router.websocket("/{node_id}/console/ws")
 async def console_ws(
-    websocket: Union[None, WebSocket] = Depends(ws_compute_authentication), node: VMwareVM = Depends(dep_node)
+    websocket: None | WebSocket = Depends(ws_compute_authentication), node: VMwareVM = Depends(dep_node)
 ) -> None:
     """
     Console WebSocket.

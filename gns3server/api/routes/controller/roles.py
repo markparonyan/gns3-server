@@ -20,7 +20,6 @@ API routes for roles.
 """
 
 import logging
-from typing import List
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, status
@@ -43,8 +42,8 @@ log = logging.getLogger(__name__)
 router = APIRouter()
 
 
-@router.get("", response_model=List[schemas.Role], dependencies=[Depends(has_privilege("Role.Audit"))])
-async def get_roles(rbac_repo: RbacRepository = Depends(get_repository(RbacRepository))) -> List[models.Role]:
+@router.get("", response_model=list[schemas.Role], dependencies=[Depends(has_privilege("Role.Audit"))])
+async def get_roles(rbac_repo: RbacRepository = Depends(get_repository(RbacRepository))) -> list[models.Role]:
     """
     Get all roles.
 
@@ -139,11 +138,11 @@ async def delete_role(
 
 
 @router.get(
-    "/{role_id}/privileges", response_model=List[schemas.Privilege], dependencies=[Depends(has_privilege("Role.Audit"))]
+    "/{role_id}/privileges", response_model=list[schemas.Privilege], dependencies=[Depends(has_privilege("Role.Audit"))]
 )
 async def get_role_privileges(
     role_id: UUID, rbac_repo: RbacRepository = Depends(get_repository(RbacRepository))
-) -> List[models.Privilege]:
+) -> list[models.Privilege]:
     """
     Get all role privileges.
 

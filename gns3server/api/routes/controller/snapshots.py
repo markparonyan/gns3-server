@@ -23,7 +23,7 @@ import logging
 
 log = logging.getLogger()
 
-from typing import Any, List
+from typing import Any
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, status
@@ -73,11 +73,11 @@ async def create_snapshot(
 
 @router.get(
     "",
-    response_model=List[schemas.Snapshot],
+    response_model=list[schemas.Snapshot],
     response_model_exclude_unset=True,
     dependencies=[Depends(has_privilege("Snapshot.Audit"))],
 )
-def get_snapshots(project: Project = Depends(dep_project)) -> List[schemas.Snapshot]:
+def get_snapshots(project: Project = Depends(dep_project)) -> list[schemas.Snapshot]:
     """
     Return all snapshots belonging to a given project.
 

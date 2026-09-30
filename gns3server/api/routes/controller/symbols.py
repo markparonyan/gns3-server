@@ -21,7 +21,6 @@ API routes for symbols.
 
 import logging
 import os
-from typing import List
 
 from fastapi import APIRouter, Depends, Request, Response, status
 from fastapi.responses import FileResponse
@@ -40,7 +39,7 @@ router = APIRouter()
 
 
 @router.get("", dependencies=[Depends(has_privilege("Symbol.Audit"))])
-def get_symbols() -> List[dict]:
+def get_symbols() -> list[dict]:
     """
     Return all symbols.
 

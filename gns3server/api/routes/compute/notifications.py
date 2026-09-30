@@ -19,7 +19,6 @@ API routes for compute notifications.
 """
 
 import logging
-from typing import Union
 
 from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
 from websockets.exceptions import ConnectionClosed, WebSocketException
@@ -34,7 +33,7 @@ router = APIRouter()
 
 
 @router.websocket("/notifications/ws")
-async def project_ws_notifications(websocket: Union[None, WebSocket] = Depends(ws_compute_authentication)) -> None:
+async def project_ws_notifications(websocket: None | WebSocket = Depends(ws_compute_authentication)) -> None:
     """
     Receive project notifications about the project from WebSocket.
     """

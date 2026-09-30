@@ -64,7 +64,7 @@ class DynamipsHypervisor:
 
         # connect to a local address by default
         # if listening to all addresses (IPv4 or IPv6)
-        if self._host == "0.0.0.0":
+        if self._host == "0.0.0.0":  # noqa: S104
             host = "127.0.0.1"
         elif self._host == "::":
             host = "::1"

@@ -31,8 +31,8 @@ def validate_bpf_syntax(bpf_expression: str) -> dict[str, Any]:
         dict with 'valid' (bool) and 'error' (str or None) keys
     """
     try:
-        result = subprocess.run(
-            ["tcpdump", "-d", bpf_expression],
+        result = subprocess.run(  # noqa: S603
+            ["tcpdump", "-d", bpf_expression],  # noqa: S607
             capture_output=True,
             text=True,
         )

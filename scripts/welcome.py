@@ -46,7 +46,7 @@ class Welcome_dialog:
         Return the active IP
         """
         # request 'ip addr' data in JSON format from shell
-        ip_addr_response = subprocess.run(["ip", "--json", "addr"], capture_output=True)
+        ip_addr_response = subprocess.run(["ip", "--json", "addr"], capture_output=True)  # noqa: S607
 
         # process response, decode and use json.loads to convert the string to a dict
         ip_addr_data = convert(ip_addr_response.stdout.decode("utf-8"))
@@ -70,11 +70,12 @@ class Welcome_dialog:
         This method is only called by remote-install.sh during setup to ensure it is setting the same IP as shown by Dialog
         """
         ip_addr = self.get_ip()
-        subprocess.run(
-            ["sed", "-i", f"s/host = 0.0.0.0/host = {ip_addr}/", "/etc/gns3/gns3_server.conf"], capture_output=False
+        subprocess.run(  # noqa: S603
+            ["sed", "-i", f"s/host = 0.0.0.0/host = {ip_addr}/", "/etc/gns3/gns3_server.conf"],
+            capture_output=False,  # noqa: S607
         )
-        subprocess.run(["service", "gns3", "stop"], capture_output=False)
-        subprocess.run(["service", "gns3", "start"], capture_output=False)
+        subprocess.run(["service", "gns3", "stop"], capture_output=False)  # noqa: S607
+        subprocess.run(["service", "gns3", "start"], capture_output=False)  # noqa: S607
 
     def get_config(self):
         """
@@ -109,7 +110,7 @@ class Welcome_dialog:
         Return the GNS3 server version
         """
         try:
-            return subprocess.check_output(["gns3server", "--version"]).strip().decode()
+            return subprocess.check_output(["gns3server", "--version"]).strip().decode()  # noqa: S607
         except (subprocess.CalledProcessError, FileNotFoundError):
             return None
 
@@ -183,30 +184,33 @@ class Welcome_dialog:
         )
         if code == Dialog.OK:
             if option == "Upgrade GNS3":
-                ret = os.system(
-                    "sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A2E3EF7B \
-                    && sudo apt-get update \
-                    && sudo apt-get install -y --only-upgrade gns3-server"
+                upgrade_cmd = (
+                    "sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys A2E3EF7B "
+                    "&& sudo apt-get update "
+                    "&& sudo apt-get install -y --only-upgrade gns3-server"
                 )
+                ret = os.system(upgrade_cmd)  # noqa: S605
             elif option == "Upgrade All":
-                ret = os.system(
-                    'sudo apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com \
-                    && sudo apt-get update \
-                    && sudo apt-get upgrade --yes --force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"'
+                upgrade_cmd = (
+                    "sudo apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com "
+                    "&& sudo apt-get update "
+                    '&& sudo apt-get upgrade --yes --force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"'
                 )
+                ret = os.system(upgrade_cmd)  # noqa: S605
             elif option == "Dist Upgrade":
-                ret = os.system(
-                    'sudo apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com \
-                    && sudo apt-get update \
-                    && sudo apt-get dist-upgrade --yes --force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"'
+                upgrade_cmd = (
+                    "sudo apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com "
+                    "&& sudo apt-get update "
+                    '&& sudo apt-get dist-upgrade --yes --force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"'
                 )
+                ret = os.system(upgrade_cmd)  # noqa: S605
             if ret != 0:
                 print("ERROR DURING UPGRADE PROCESS PLEASE TAKE A SCREENSHOT IF YOU NEED SUPPORT")
                 time.sleep(15)
                 return
             if option == "Dist Upgrade":
                 if self.display.yesno("Reboot now?") == self.display.OK:
-                    os.system("sudo reboot now")
+                    os.system("sudo reboot now")  # noqa: S605, S607
 
     def migrate(self):
         """
@@ -232,10 +236,10 @@ class Welcome_dialog:
                 return
             if option == "Send":
                 # first make sure they are no files belonging to root
-                os.system("sudo chown -R gns3:gns3 /opt/gns3")
+                os.system("sudo chown -R gns3:gns3 /opt/gns3")  # noqa: S605, S607
                 # then rsync the data
                 command = rf"rsync -az --progress -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /home/gns3/.ssh/gns3-vm-key' /opt/gns3 gns3@{destination}:/opt"
-                ret = os.system(f'bash -c "{command}"')
+                ret = os.system(f'bash -c "{command}"')  # noqa: S605
                 time.sleep(10)
                 if ret != 0:
                     self.display.msgbox(f"Could not send data to the other GNS3 VM located at {destination}")
@@ -251,7 +255,7 @@ class Welcome_dialog:
     fi
     ssh-copy-id -i ~/.ssh/gns3-vm-key gns3@{destination}
     """
-                ret = os.system(f'bash -c "{script}"')
+                ret = os.system(f'bash -c "{script}"')  # noqa: S605
                 time.sleep(10)
                 if ret != 0:
                     self.display.msgbox("Error while setting up the migrate feature")
@@ -262,7 +266,7 @@ class Welcome_dialog:
 
     def shrink_disk(self):
 
-        ret = os.system("lspci | grep -i vmware")
+        ret = os.system("lspci | grep -i vmware")  # noqa: S605, S607
         if ret != 0:
             self.display.msgbox("Shrinking the disk is only supported when running inside VMware")
             return
@@ -275,13 +279,13 @@ class Welcome_dialog:
         ):
             return
 
-        os.system("sudo service gns3 stop")
-        os.system("sudo service docker stop")
-        os.system("sudo vmware-toolbox-cmd disk shrink /opt")
-        os.system("sudo vmware-toolbox-cmd disk shrink /")
+        os.system("sudo service gns3 stop")  # noqa: S605, S607
+        os.system("sudo service docker stop")  # noqa: S605, S607
+        os.system("sudo vmware-toolbox-cmd disk shrink /opt")  # noqa: S605, S607
+        os.system("sudo vmware-toolbox-cmd disk shrink /")  # noqa: S605, S607
 
         self.display.msgbox("The GNS3 VM will reboot")
-        os.execvp("sudo", ["/usr/bin/sudo", "reboot"])
+        os.execvp("sudo", ["/usr/bin/sudo", "reboot"])  # noqa: S606, S607
 
     def vm_information(self):
         """
@@ -319,7 +323,7 @@ Images and projects are located in /opt/gns3
             self.display.msgbox(content)
         # If it's an scp command or any bugs
         except:
-            os.execvp("bash", ["/bin/bash"])
+            os.execvp("bash", ["/bin/bash"])  # noqa: S606, S607
 
     def check_internet_connectivity(self):
         self.display.pause("Please wait...\n\n")
@@ -336,7 +340,7 @@ Images and projects are located in /opt/gns3
         """
         Allow user to change the keyboard layout
         """
-        os.system("/usr/bin/sudo dpkg-reconfigure keyboard-configuration")
+        os.system("/usr/bin/sudo dpkg-reconfigure keyboard-configuration")  # noqa: S605
 
     def set_security(self):
         config = self.get_config()
@@ -358,7 +362,7 @@ Images and projects are located in /opt/gns3
         self.write_config(config)
 
     def log(self):
-        os.system("/usr/bin/sudo chmod 755 /var/log/upstart/gns3.log")
+        os.system("/usr/bin/sudo chmod 755 /var/log/upstart/gns3.log")  # noqa: S605
         with open("/var/log/upstart/gns3.log") as f:
             try:
                 while True:
@@ -374,9 +378,9 @@ Images and projects are located in /opt/gns3
 
         major_version = self.gns3_major_version()
         if major_version == "2.2":
-            os.system(f"nano ~/.config/GNS3/{major_version}/gns3_server.conf")
+            os.system(f"nano ~/.config/GNS3/{major_version}/gns3_server.conf")  # noqa: S605
         else:
-            os.system("nano ~/.config/GNS3/gns3_server.conf")
+            os.system("nano ~/.config/GNS3/gns3_server.conf")  # noqa: S605, S607
 
     def edit_network(self):
         """
@@ -384,8 +388,8 @@ Images and projects are located in /opt/gns3
         """
         if self.display.yesno("The server will reboot at the end of the process. Continue?") != self.display.OK:
             return
-        os.system("sudo nano /etc/network/interfaces")
-        os.execvp("sudo", ["/usr/bin/sudo", "reboot"])
+        os.system("sudo nano /etc/network/interfaces")  # noqa: S605, S607
+        os.execvp("sudo", ["/usr/bin/sudo", "reboot"])  # noqa: S606, S607
 
     def edit_proxy(self):
         """
@@ -402,30 +406,30 @@ Images and projects are located in /opt/gns3
         if res != self.display.OK:
             return
 
-        with open("/tmp/00proxy", "w+") as f:
+        with open("/tmp/00proxy", "w+") as f:  # noqa: S108
             f.write('Acquire::http::Proxy "' + http_proxy + '";')
-        os.system("sudo mv /tmp/00proxy /etc/apt/apt.conf.d/00proxy")
-        os.system("sudo chown root /etc/apt/apt.conf.d/00proxy")
-        os.system("sudo chmod 744 /etc/apt/apt.conf.d/00proxy")
+        os.system("sudo mv /tmp/00proxy /etc/apt/apt.conf.d/00proxy")  # noqa: S605, S607
+        os.system("sudo chown root /etc/apt/apt.conf.d/00proxy")  # noqa: S605, S607
+        os.system("sudo chmod 744 /etc/apt/apt.conf.d/00proxy")  # noqa: S605, S607
 
-        with open("/tmp/proxy.sh", "w+") as f:
+        with open("/tmp/proxy.sh", "w+") as f:  # noqa: S108
             f.write('export http_proxy="' + http_proxy + '"\n')
             f.write('export https_proxy="' + https_proxy + '"\n')
             f.write('export HTTP_PROXY="' + http_proxy + '"\n')
             f.write('export HTTPS_PROXY="' + https_proxy + '"\n')
-        os.system("sudo mv /tmp/proxy.sh /etc/profile.d/proxy.sh")
-        os.system("sudo chown root /etc/profile.d/proxy.sh")
-        os.system("sudo chmod 744 /etc/profile.d/proxy.sh")
-        os.system("sudo cp /etc/profile.d/proxy.sh /etc/default/docker")
+        os.system("sudo mv /tmp/proxy.sh /etc/profile.d/proxy.sh")  # noqa: S605, S607
+        os.system("sudo chown root /etc/profile.d/proxy.sh")  # noqa: S605, S607
+        os.system("sudo chmod 744 /etc/profile.d/proxy.sh")  # noqa: S605, S607
+        os.system("sudo cp /etc/profile.d/proxy.sh /etc/default/docker")  # noqa: S605, S607
 
         self.display.msgbox("The GNS3 VM will reboot")
-        os.execvp("sudo", ["/usr/bin/sudo", "reboot"])
+        os.execvp("sudo", ["/usr/bin/sudo", "reboot"])  # noqa: S606, S607
 
     def kvm_support(self):
         """
         Returns true if KVM is available
         """
-        return subprocess.call("kvm-ok") == 0
+        return subprocess.call("kvm-ok") == 0  # noqa: S607
 
     def kvm_control(self):
         """
@@ -445,7 +449,7 @@ Images and projects are located in /opt/gns3
                     ):
                         config.set("Qemu", "enable_kvm", False)
                         self.write_config(config)
-                        os.execvp("sudo", ["/usr/bin/sudo", "reboot"])
+                        os.execvp("sudo", ["/usr/bin/sudo", "reboot"])  # noqa: S606, S607
             else:
                 if kvm_ok is True:
                     if (
@@ -456,7 +460,7 @@ Images and projects are located in /opt/gns3
                     ):
                         config.set("Qemu", "enable_kvm", True)
                         self.write_config(config)
-                        os.execvp("sudo", ["/usr/bin/sudo", "reboot"])
+                        os.execvp("sudo", ["/usr/bin/sudo", "reboot"])  # noqa: S606, S607
         except configparser.NoSectionError:
             return
 
@@ -492,11 +496,11 @@ Images and projects are located in /opt/gns3
                     elif tag == "Version":
                         self.mode()
                     elif tag == "Restore":
-                        os.execvp("sudo", ["/usr/bin/sudo", "/usr/local/bin/gns3restore"])
+                        os.execvp("sudo", ["/usr/bin/sudo", "/usr/local/bin/gns3restore"])  # noqa: S606, S607
                     elif tag == "Reboot":
-                        os.execvp("sudo", ["/usr/bin/sudo", "reboot"])
+                        os.execvp("sudo", ["/usr/bin/sudo", "reboot"])  # noqa: S606, S607
                     elif tag == "Shutdown":
-                        os.execvp("sudo", ["/usr/bin/sudo", "poweroff"])
+                        os.execvp("sudo", ["/usr/bin/sudo", "poweroff"])  # noqa: S606, S607
                     elif tag == "Upgrade":
                         self.update()
                     elif tag == "Information":

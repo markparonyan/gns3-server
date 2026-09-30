@@ -59,7 +59,7 @@ def test_getUrl(controller):
     assert compute._getUrl("/test") == "https://[::1]:84/v3/compute/test"
 
     # Listen on all interfaces aka 0.0.0.0 require us to connect via 127.0.0.1
-    compute = Compute("my_compute_id", protocol="https", host="0.0.0.0", port=84, controller=controller)
+    compute = Compute("my_compute_id", protocol="https", host="0.0.0.0", port=84, controller=controller)  # noqa: S104
     assert compute._getUrl("/test") == "https://127.0.0.1:84/v3/compute/test"
     # IPV6
     compute = Compute("my_compute_id", protocol="https", host="::", port=84, controller=controller)
@@ -135,7 +135,7 @@ async def test_compute_httpQueryAuth(compute):
             timeout=120,
         )
         assert compute._auth.login == "root"
-        assert compute._auth.password == "toor"
+        assert compute._auth.password == "toor"  # noqa: S105
 
 
 # @pytest.mark.asyncio

@@ -106,7 +106,7 @@ class VendorDockerVM(DockerVM):
         self._console_resize = True
         self._stop_timeout = 60
         self._unix_socket_nio = False
-        self._unix_socket_dir = "/tmp"
+        self._unix_socket_dir = "/tmp"  # noqa: S108
         if self._environment:
             for _line in self._environment.splitlines():
                 _line = _line.strip().rstrip(",")

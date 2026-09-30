@@ -66,7 +66,7 @@ async def login(
 
     token = schemas.Token(
         access_token=auth_service.create_access_token(user.username, token_version=user.token_version),
-        token_type="bearer",
+        token_type="bearer",  # noqa: S106
         refresh_token=auth_service.create_refresh_token(user.username, token_version=user.token_version),
     )
     return token
@@ -92,7 +92,7 @@ async def authenticate(
 
     token = schemas.Token(
         access_token=auth_service.create_access_token(user.username, token_version=user.token_version),
-        token_type="bearer",
+        token_type="bearer",  # noqa: S106
         refresh_token=auth_service.create_refresh_token(user.username, token_version=user.token_version),
     )
     return token
@@ -114,7 +114,7 @@ async def refresh_access_token(
     """
 
     token_data = auth_service.get_token_data(request.refresh_token)
-    if token_data.token_use != "refresh":
+    if token_data.token_use != "refresh":  # noqa: S105
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid refresh token",
@@ -136,7 +136,7 @@ async def refresh_access_token(
 
     return schemas.Token(
         access_token=auth_service.create_access_token(user.username, token_version=user.token_version),
-        token_type="bearer",
+        token_type="bearer",  # noqa: S106
         refresh_token=auth_service.create_refresh_token(user.username, token_version=user.token_version),
     )
 

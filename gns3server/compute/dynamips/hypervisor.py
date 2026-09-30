@@ -200,7 +200,7 @@ class Hypervisor(DynamipsHypervisor):
         if self._bind_console_host:
             # support was added in Dynamips version 0.2.23
             command.extend(["-H", f"{self._host}:{self._port}", "--console-binding-addr", self._console_host])
-        elif self._console_host != "0.0.0.0" and self._console_host != "::":
+        elif self._console_host != "0.0.0.0" and self._console_host != "::":  # noqa: S104
             command.extend(["-H", f"{self._host}:{self._port}"])
         else:
             command.extend(["-H", str(self._port)])

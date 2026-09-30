@@ -41,7 +41,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/v3/access/users/login", auto_err
 def _reject_refresh_token(token_data) -> None:
     """Reject tokens with type == 'refresh' — they must not grant API access."""
 
-    if token_data.token_use == "refresh":
+    if token_data.token_use == "refresh":  # noqa: S105
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Refresh tokens cannot be used for API access",
@@ -83,7 +83,7 @@ async def get_user_from_token(
         token_data = TokenData(
             username=ticket.username,
             token_version=ticket.token_version,
-            token_use="access",
+            token_use="access",  # noqa: S106
         )
         user = await user_repo.get_user_by_username(token_data.username)
         if user is None:
@@ -198,7 +198,7 @@ async def get_current_active_user_from_websocket(
             token_data = TokenData(
                 username=ticket.username,
                 token_version=ticket.token_version,
-                token_use="access",
+                token_use="access",  # noqa: S106
             )
         else:
             token_data = auth_service.get_token_data(token)

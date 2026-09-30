@@ -208,8 +208,8 @@ async def test_create_vnc(compute_project, manager):
                             },
                             {
                                 "Type": "bind",
-                                "Source": f"/tmp/.X11-unix/X{vm._display}",
-                                "Target": f"/tmp/.X11-unix/X{vm._display}",
+                                "Source": f"/tmp/.X11-unix/X{vm._display}",  # noqa: S108
+                                "Target": f"/tmp/.X11-unix/X{vm._display}",  # noqa: S108
                                 "ReadOnly": True,
                             },
                         ],
@@ -358,7 +358,7 @@ async def test_create_with_colon_in_project_name(compute_project, manager):
 
     with asyncio_patch("gns3server.compute.docker.Docker.list_images", return_value=[{"image": "ubuntu"}]):
         with asyncio_patch("gns3server.compute.docker.Docker.query", return_value=response):
-            with patch("gns3server.compute.project.Project.node_working_directory", return_value="/tmp/test_:_/"):
+            with patch("gns3server.compute.project.Project.node_working_directory", return_value="/tmp/test_:_/"):  # noqa: S108
                 vm = DockerVM("test", str(uuid.uuid4()), compute_project, manager, "ubuntu")
                 with pytest.raises(DockerError):
                     await vm.create()
@@ -1536,7 +1536,7 @@ async def test_add_ubridge_connection(vm):
 
     nio = {"type": "nio_udp", "lport": 4242, "rport": 4343, "rhost": "127.0.0.1"}
     nio = vm.manager.create_nio(nio)
-    nio.start_packet_capture("/tmp/capture.pcap")
+    nio.start_packet_capture("/tmp/capture.pcap")  # noqa: S108
     vm._ubridge_hypervisor = MagicMock()
     vm._namespace = 42
     await vm._add_ubridge_connection(nio, 0)
@@ -1823,7 +1823,7 @@ async def test_start_vnc(vm):
         "test",
         f":{vm._display}",
     )
-    mock_wait.assert_called_with(f"/tmp/.X11-unix/X{vm._display}")
+    mock_wait.assert_called_with(f"/tmp/.X11-unix/X{vm._display}")  # noqa: S108
 
 
 @pytest.mark.asyncio

@@ -246,7 +246,7 @@ async def test_add_node_from_template_seeds_default_credentials(controller):
 
     # credentials seeded from the appliance metadata
     assert node.default_username == "admin"
-    assert node.default_password == "secret"
+    assert node.default_password == "secret"  # noqa: S105
     # the metadata itself never reaches the node properties
     assert "appliance_metadata" not in node.properties
     assert "default_username" not in node.properties

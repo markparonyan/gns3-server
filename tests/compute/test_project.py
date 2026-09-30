@@ -149,7 +149,7 @@ async def test_project_delete_permission_issue():
     os.chmod(directory, 0)
     with pytest.raises(ComputeError):
         await project.delete()
-    os.chmod(directory, 700)
+    os.chmod(directory, 700)  # noqa: S103
 
 
 @pytest.mark.asyncio

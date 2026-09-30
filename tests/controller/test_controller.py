@@ -536,7 +536,7 @@ async def test_find_projects_using_template_and_images(controller):
         None,
         node_type="vpcs",
         template_id=template_id,
-        properties={"hda_disk_image": "/tmp/images/disk.qcow2", "hda_disk_image_backing_file": "base.qcow2"},
+        properties={"hda_disk_image": "/tmp/images/disk.qcow2", "hda_disk_image_backing_file": "base.qcow2"},  # noqa: S108
     )
     await project2.add_node(compute, "n2", None, node_type="vpcs", properties={})
 

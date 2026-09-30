@@ -161,7 +161,7 @@ class TestSettingsRoutes:
         assert response.json()["Server"]["compute_password"] == SECRET_MASK  # masked in the response
         parsed = configparser.ConfigParser()
         parsed.read(config._main_config_file)
-        assert parsed["Server"]["compute_password"] == "secret123"
+        assert parsed["Server"]["compute_password"] == "secret123"  # noqa: S105
 
     async def test_put_settings_null_removes_option(
         self, app: FastAPI, client: AsyncClient, config: Config, stable_jwt_secret: str
@@ -176,7 +176,7 @@ class TestSettingsRoutes:
         parsed = configparser.ConfigParser()
         parsed.read(config._main_config_file)
         assert not parsed.has_option("Server", "host")
-        assert response.json()["Server"]["host"] == "0.0.0.0"  # default restored
+        assert response.json()["Server"]["host"] == "0.0.0.0"  # default restored  # noqa: S104
 
     async def test_put_settings_validation_failure(
         self, app: FastAPI, client: AsyncClient, config: Config, stable_jwt_secret: str

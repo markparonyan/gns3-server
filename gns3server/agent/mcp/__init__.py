@@ -289,7 +289,7 @@ async def _resolve_token(token: str) -> str | None:
 def _server_url() -> str:
     cfg = Config.instance().settings
     host = cfg.Server.host
-    if host in ("0.0.0.0", "::"):
+    if host in ("0.0.0.0", "::"):  # noqa: S104
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
                 s.settimeout(0.1)

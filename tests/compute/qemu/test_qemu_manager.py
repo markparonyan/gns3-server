@@ -46,7 +46,7 @@ async def test_get_qemu_version():
         "gns3server.compute.qemu.subprocess_check_output",
         return_value="QEMU emulator version 2.2.0, Copyright (c) 2003-2008 Fabrice Bellard",
     ):
-        version = await Qemu.get_qemu_version("/tmp/qemu-test")
+        version = await Qemu.get_qemu_version("/tmp/qemu-test")  # noqa: S108
         assert version == "2.2.0"
 
 

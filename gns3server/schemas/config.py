@@ -159,7 +159,7 @@ class ServerSettings(BaseModel):
         description="Server name, default is what is returned by socket.gethostname()",
     )
     protocol: ServerProtocol = Field(ServerProtocol.http, description="Protocol used by the server: http or https")
-    host: str = Field("0.0.0.0", description="IP address where the server listens for connections")
+    host: str = Field("0.0.0.0", description="IP address where the server listens for connections")  # noqa: S104
     port: int = Field(3080, gt=0, le=65535, description="HTTP port used to control the server")
     secrets_dir: DirectoryPath | None = Field(
         None, description="Directory where secrets are stored (e.g. the JWT secret key)"

@@ -98,7 +98,7 @@ async def test_vm_invalid_vpcs_version(vm, manager):
 @pytest.mark.asyncio
 async def test_vm_invalid_vpcs_path(vm, manager):
 
-    with patch("gns3server.compute.vpcs.vpcs_vm.VPCSVM._vpcs_path", return_value="/tmp/fake/path/vpcs"):
+    with patch("gns3server.compute.vpcs.vpcs_vm.VPCSVM._vpcs_path", return_value="/tmp/fake/path/vpcs"):  # noqa: S108
         with pytest.raises(VPCSError):
             nio = manager.create_nio({"type": "nio_udp", "lport": 4242, "rport": 4243, "rhost": "127.0.0.1"})
             await vm.port_add_nio_binding(0, nio)

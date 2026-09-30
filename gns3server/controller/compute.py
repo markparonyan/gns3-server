@@ -231,7 +231,7 @@ class Compute:
             try:
                 self._host_ip_cache = socket.gethostbyname(self._host)
             except socket.gaierror:
-                self._host_ip_cache = "0.0.0.0"
+                self._host_ip_cache = "0.0.0.0"  # noqa: S104
         return self._host_ip_cache
 
     @property
@@ -526,7 +526,7 @@ class Compute:
                 if host == "::":
                     host = "::1"
                 host = f"[{host}]"
-            elif host == "0.0.0.0":
+            elif host == "0.0.0.0":  # noqa: S104
                 host = "127.0.0.1"
         return f"{self._protocol}://{host}:{self._port}/v3/compute{path}"
 
@@ -691,7 +691,7 @@ class Compute:
             return self.host_ip, self.host_ip
 
         # Perhaps the user has correct network gateway, we trust him
-        if self.host_ip not in ("0.0.0.0", "127.0.0.1") and other_compute.host_ip not in ("0.0.0.0", "127.0.0.1"):
+        if self.host_ip not in ("0.0.0.0", "127.0.0.1") and other_compute.host_ip not in ("0.0.0.0", "127.0.0.1"):  # noqa: S104
             return self.host_ip, other_compute.host_ip
 
         this_compute_interfaces = await self.interfaces()

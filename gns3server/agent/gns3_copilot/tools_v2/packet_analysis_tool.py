@@ -131,13 +131,13 @@ class PacketAnalysisTool(BaseTool):
                 )
 
             tshark = subprocess.Popen(
-                ["tshark", "-G", "fields"],
+                ["tshark", "-G", "fields"],  # noqa: S607
                 stdout=subprocess.PIPE,
                 stderr=subprocess.DEVNULL,
                 text=True,
             )
-            grep = subprocess.Popen(
-                ["grep", "-iF", query, "-"],
+            grep = subprocess.Popen(  # noqa: S603
+                ["grep", "-iF", query, "-"],  # noqa: S607
                 stdin=tshark.stdout,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.DEVNULL,
@@ -194,7 +194,7 @@ class PacketAnalysisTool(BaseTool):
 
         try:
             result = subprocess.run(
-                ["tshark", "-G", "fields"],
+                ["tshark", "-G", "fields"],  # noqa: S607
                 capture_output=True,
                 text=True,
                 timeout=30,
@@ -449,7 +449,7 @@ class PacketAnalysisTool(BaseTool):
         logger.info(f"Running tshark: {' '.join(cmd)}")
 
         try:
-            result = subprocess.run(
+            result = subprocess.run(  # noqa: S603
                 cmd,
                 capture_output=True,
                 text=True,

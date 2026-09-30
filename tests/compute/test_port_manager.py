@@ -217,4 +217,4 @@ def test_set_console_host(config):
     p = PortManager()
     config.settings.Server.allow_remote_console = True
     p.console_host = "10.42.1.42"
-    assert p.console_host == "0.0.0.0"
+    assert p.console_host == "0.0.0.0"  # noqa: S104

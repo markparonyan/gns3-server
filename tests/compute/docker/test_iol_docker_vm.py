@@ -167,7 +167,7 @@ def test_marker_forces_skip_init_and_unix_nio(compute_project, manager):
     vm = _make_vm(compute_project, manager, environment="GNS3_IOL_RUNNER=1")
     assert vm._gns3_init is False
     assert vm._unix_socket_nio is True
-    assert vm._unix_socket_dir == "/tmp"
+    assert vm._unix_socket_dir == "/tmp"  # noqa: S108
     assert vm._iol_memory == 2048
 
 
@@ -215,13 +215,13 @@ async def test_create_auto_adds_config_and_tmp_run_volumes(compute_project, mana
                 # (skip-init retargeting); /tmp is the ephemeral runtime-dir
                 # bind holding the netiomux sockets
                 assert "/config" in targets
-                assert "/tmp/run" in targets
-                tmp_mounts = [m for m in mounts if m["Target"] == "/tmp"]
+                assert "/tmp/run" in targets  # noqa: S108
+                tmp_mounts = [m for m in mounts if m["Target"] == "/tmp"]  # noqa: S108
                 assert len(tmp_mounts) == 1
                 assert tmp_mounts[0]["Source"] == _wiring_dir(vm)
                 assert not any(t.startswith("/gns3volumes/") for t in targets)
                 vol_env = [v for v in sent["Env"] if v.startswith("GNS3_VOLUMES=")][0]
-                assert "/config" in vol_env and "/tmp/run" in vol_env
+                assert "/config" in vol_env and "/tmp/run" in vol_env  # noqa: S108
 
 
 @pytest.mark.asyncio
@@ -566,7 +566,7 @@ def test_env_unix_socket_nio_parsing(compute_project, manager):
         environment="GNS3_SKIP_INIT=1\nGNS3_UNIX_SOCKET_NIO=yes\nGNS3_UNIX_SOCKET_DIR=../../etc",
     )
     assert vm._unix_socket_nio is True
-    assert vm._unix_socket_dir == "/tmp"
+    assert vm._unix_socket_dir == "/tmp"  # noqa: S108
 
     # off by default / explicit off
     vm = VendorDockerVM(
@@ -597,7 +597,7 @@ def test_unix_socket_dir_bound_from_runtime_dir(compute_project, manager):
     # runtime dir, not a volume: writable by the (unprivileged) agent and
     # short enough for AF_UNIX
     binds = vm._mount_binds({"Config": {"Volumes": {}}})
-    socket_binds = [b for b in binds if b.get("Target") == "/tmp"]
+    socket_binds = [b for b in binds if b.get("Target") == "/tmp"]  # noqa: S108
     assert len(socket_binds) == 1
     assert socket_binds[0]["Type"] == "bind"
     assert socket_binds[0]["Source"] == _wiring_dir(vm)
@@ -611,11 +611,11 @@ def test_unix_socket_dir_bound_from_runtime_dir(compute_project, manager):
         "vendor:latest",
         console_type="docker_exec",
         environment="GNS3_SKIP_INIT=1\nGNS3_UNIX_SOCKET_NIO=1",
-        extra_volumes=["/tmp"],
+        extra_volumes=["/tmp"],  # noqa: S108
     )
     binds = vm._mount_binds({"Config": {"Volumes": {}}})
     assert not any(b.get("Source") == _wiring_dir(vm) for b in binds)
-    assert any(b.get("Target") == "/tmp" for b in binds)
+    assert any(b.get("Target") == "/tmp" for b in binds)  # noqa: S108
 
 
 @pytest.mark.asyncio

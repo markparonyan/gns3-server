@@ -181,7 +181,7 @@ async def test_import_project_containing_absolute_symlink(controller, export_pro
     """
 
     project_id = str(uuid.uuid4())
-    symlink_target = "/tmp/anywhere"
+    symlink_target = "/tmp/anywhere"  # noqa: S108
     zip_path = await export_project_with_symlink(symlink_target)
 
     with pytest.raises(ControllerError):

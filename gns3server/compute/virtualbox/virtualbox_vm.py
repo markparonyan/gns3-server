@@ -237,7 +237,7 @@ class VirtualBoxVM(BaseNode):
             raise VirtualBoxError(f"Cannot find VirtualBox linked node file: {linked_vbox_file}")
 
         try:
-            tree = ET.parse(linked_vbox_file)
+            tree = ET.parse(linked_vbox_file)  # noqa: S314
         except ET.ParseError:
             raise VirtualBoxError(
                 "Cannot modify VirtualBox linked node file. File {linked_vbox_file} is corrupted."

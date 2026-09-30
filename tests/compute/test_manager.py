@@ -128,7 +128,7 @@ def test_get_abs_image_additional_image_paths(qemu, tmpdir, config):
     path2 = force_unix_path(str(path2))
 
     config.settings.Server.images_path = str(tmpdir / "images1")
-    config.settings.Server.additional_images_paths = "/tmp/null24564;" + str(tmpdir / "images2")
+    config.settings.Server.additional_images_paths = "/tmp/null24564;" + str(tmpdir / "images2")  # noqa: S108
 
     assert qemu.get_abs_image_path("test1.bin") == path1
     assert qemu.get_abs_image_path("test2.bin") == path2

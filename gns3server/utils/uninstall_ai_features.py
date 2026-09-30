@@ -70,7 +70,7 @@ def uninstall(packages, yes=False):
     print("Uninstalling...")
     for package in packages:
         try:
-            result = subprocess.run(
+            result = subprocess.run(  # noqa: S603
                 [sys.executable, "-m", "pip", "uninstall", "-y", package], capture_output=True, text=True
             )
             if result.returncode == 0:

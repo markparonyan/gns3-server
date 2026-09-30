@@ -75,7 +75,7 @@ def test_parse_arguments(capsys, config, tmpdir):
     # assert "optional arguments" in out
 
     assert parse_arguments(server, ["--host", "192.168.1.1"]).host == "192.168.1.1"
-    assert parse_arguments(server, []).host == "0.0.0.0"
+    assert parse_arguments(server, []).host == "0.0.0.0"  # noqa: S104
     server_config.host = "192.168.1.2"
 
     assert parse_arguments(server, ["--host", "192.168.1.1"]).host == "192.168.1.1"

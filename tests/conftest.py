@@ -80,7 +80,7 @@ async def db_session(db_engine):
     async with db_engine.connect() as conn:
         # Speed up tests by avoiding to hash the 'admin' password everytime the default super admin is added
         # to the database using the "after_create" sqlalchemy event
-        hashed_password = "$2b$12$jPsNU9IS7.EWEqXahtDfo.26w6VLOLCuFEHKNvDpOjxs5e0WpqJfa"
+        hashed_password = "$2b$12$jPsNU9IS7.EWEqXahtDfo.26w6VLOLCuFEHKNvDpOjxs5e0WpqJfa"  # noqa: S105
         with patch("gns3server.services.authentication.AuthService.hash_password", return_value=hashed_password):
             await conn.run_sync(Base.metadata.drop_all)
             await conn.run_sync(Base.metadata.create_all)
@@ -137,7 +137,7 @@ async def test_user(db_session: AsyncSession) -> User:
     new_user = schemas.UserCreate(
         username="user1",
         email="user1@email.com",
-        password="user1_password",
+        password="user1_password",  # noqa: S106
     )
     user_repo = UsersRepository(db_session)
     existing_user = await user_repo.get_user_by_username(new_user.username)
@@ -155,7 +155,12 @@ async def test_user(db_session: AsyncSession) -> User:
 async def test_compute(db_session: AsyncSession) -> Compute:
 
     new_compute = schemas.ComputeCreate(
-        compute_id=uuid.uuid4(), protocol=Protocol.http, host="localhost", port=4242, user="julien", password="secure"
+        compute_id=uuid.uuid4(),
+        protocol=Protocol.http,
+        host="localhost",
+        port=4242,
+        user="julien",
+        password="secure",  # noqa: S106
     )
 
     compute_repo = ComputesRepository(db_session)

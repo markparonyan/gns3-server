@@ -73,7 +73,7 @@ class UBridgeHypervisor:
                     self._reader, self._writer = await asyncio.open_unix_connection(self._socket_path)
                 else:
                     # connect to a local address by default if listening on all addresses
-                    if self._host == "0.0.0.0":
+                    if self._host == "0.0.0.0":  # noqa: S104
                         host = "127.0.0.1"
                     elif self._host == "::":
                         host = "::1"

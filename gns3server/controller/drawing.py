@@ -92,7 +92,7 @@ class Drawing:
             return
 
         try:
-            root = ET.fromstring(value)
+            root = ET.fromstring(value)  # noqa: S314
         except ET.ParseError as e:
             log.error(f"Can't parse SVG: {e}")
             return

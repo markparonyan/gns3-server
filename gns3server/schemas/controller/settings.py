@@ -43,7 +43,7 @@ from ..config import (
 )
 
 # matches the pydantic v2 SecretStr serialization mask
-SECRET_MASK = "**********"
+SECRET_MASK = "**********"  # noqa: S105
 
 
 class ServerSettingsResponse(ServerSettings):

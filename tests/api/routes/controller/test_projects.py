@@ -180,9 +180,9 @@ class TestControllerProjectRoutes:
     async def test_load_project(self, app: FastAPI, client: AsyncClient, project: Project, config) -> None:
 
         with asyncio_patch("gns3server.controller.Controller.load_project", return_value=project) as mock:
-            response = await client.post(app.url_path_for("load_project"), json={"path": "/tmp/test.gns3"})
+            response = await client.post(app.url_path_for("load_project"), json={"path": "/tmp/test.gns3"})  # noqa: S108
             assert response.status_code == status.HTTP_201_CREATED
-            mock.assert_called_with("/tmp/test.gns3")
+            mock.assert_called_with("/tmp/test.gns3")  # noqa: S108
             assert response.json()["project_id"] == project.id
 
     # @pytest.mark.asyncio

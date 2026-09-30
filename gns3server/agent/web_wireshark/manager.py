@@ -577,7 +577,7 @@ class WebWiresharkManager:
         """
         try:
             parsed = urlparse(url)
-            if parsed.hostname in ("localhost", "127.0.0.1", "0.0.0.0"):
+            if parsed.hostname in ("localhost", "127.0.0.1", "0.0.0.0"):  # noqa: S104
                 gateway = await self._get_container_gateway_ip(container_id)
                 if gateway:
                     fixed_url = f"{parsed.scheme}://{gateway}:{parsed.port or 3080}{parsed.path}"

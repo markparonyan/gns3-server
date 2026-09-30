@@ -193,9 +193,9 @@ class TestAuthTokens:
     ) -> None:
 
         token = auth_service.create_access_token(test_user.username)
-        if wrong_secret == "use correct secret":
+        if wrong_secret == "use correct secret":  # noqa: S105
             wrong_secret = config.settings.Controller.jwt_secret_key
-        if wrong_token == "use correct token":
+        if wrong_token == "use correct token":  # noqa: S105
             wrong_token = token
         with pytest.raises(HTTPException):
             auth_service.get_username_from_token(wrong_token, secret_key=wrong_secret)

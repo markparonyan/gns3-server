@@ -24,22 +24,22 @@ def convert_pickle_to_json(conn, table_name: str, column_name: str) -> None:
     import json
     import pickle
 
-    result = conn.execute(sa.text(f"SELECT template_id, {column_name} FROM {table_name}"))
+    result = conn.execute(sa.text(f"SELECT template_id, {column_name} FROM {table_name}"))  # noqa: S608
     for row in result:
         column_data = getattr(row, column_name)
         if column_data:
             # Unpickle and convert to JSON
-            data = pickle.loads(column_data)
+            data = pickle.loads(column_data)  # noqa: S301
             if data:
                 json_data = json.dumps(data)
                 conn.execute(
-                    sa.text(f"UPDATE {table_name} SET {column_name} = :data WHERE template_id = :template_id"),
+                    sa.text(f"UPDATE {table_name} SET {column_name} = :data WHERE template_id = :template_id"),  # noqa: S608
                     {"data": json_data, "template_id": row.template_id},
                 )
             else:
                 # Set NULL if there is no data to be converted
                 conn.execute(
-                    sa.text(f"UPDATE {table_name} SET {column_name} = NULL WHERE template_id = :template_id"),
+                    sa.text(f"UPDATE {table_name} SET {column_name} = NULL WHERE template_id = :template_id"),  # noqa: S608
                     {"template_id": row.template_id},
                 )
 
@@ -52,7 +52,7 @@ def convert_json_to_pickle(conn, table_name: str, column_name: str) -> None:
     import json
     import pickle
 
-    result = conn.execute(sa.text(f"SELECT template_id, {column_name} FROM {table_name}"))
+    result = conn.execute(sa.text(f"SELECT template_id, {column_name} FROM {table_name}"))  # noqa: S608
     for row in result:
         column_data = getattr(row, column_name)
         if column_data:
@@ -61,13 +61,13 @@ def convert_json_to_pickle(conn, table_name: str, column_name: str) -> None:
             if data:
                 pickle_data = pickle.dumps(data)
                 conn.execute(
-                    sa.text(f"UPDATE {table_name} SET {column_name} = :data WHERE template_id = :template_id"),
+                    sa.text(f"UPDATE {table_name} SET {column_name} = :data WHERE template_id = :template_id"),  # noqa: S608
                     {"data": pickle_data, "template_id": row.template_id},
                 )
             else:
                 # Set NULL if there is no data to be converted
                 conn.execute(
-                    sa.text(f"UPDATE {table_name} SET {column_name} = NULL WHERE template_id = :template_id"),
+                    sa.text(f"UPDATE {table_name} SET {column_name} = NULL WHERE template_id = :template_id"),  # noqa: S608
                     {"template_id": row.template_id},
                 )
 

@@ -116,7 +116,7 @@ async def test_export(tmpdir, project):
     with open(os.path.join(path, "project-files", "snapshots", "test"), "w+") as f:  # noqa: ASYNC230
         f.write("WORLD")
 
-    os.symlink("/tmp/anywhere", os.path.join(path, "vm-1", "dynamips", "symlink"))
+    os.symlink("/tmp/anywhere", os.path.join(path, "vm-1", "dynamips", "symlink"))  # noqa: S108
 
     with aiozipstream.ZipFile() as z:
         with patch(
@@ -244,7 +244,7 @@ async def test_export_fix_path(tmpdir, project):
     topology = {
         "topology": {
             "nodes": [
-                {"properties": {"image": "/tmp/c3725-adventerprisek9-mz.124-25d.image"}, "node_type": "dynamips"},
+                {"properties": {"image": "/tmp/c3725-adventerprisek9-mz.124-25d.image"}, "node_type": "dynamips"},  # noqa: S108
                 {"properties": {"image": "gns3/webterm:lastest"}, "node_type": "docker"},
             ]
         }

@@ -571,7 +571,7 @@ def test_v8_appliance_metadata_copied_to_template():
     overriding the appliance level ones.
     """
 
-    appliance = dict(VYOS_V8, default_username="vyos", default_password="vyospass")
+    appliance = dict(VYOS_V8, default_username="vyos", default_password="vyospass")  # noqa: S106
     version = dict(VYOS_V8["versions"][1], default_username="vyos145")
 
     template = ApplianceToTemplate().new_template(appliance, version, "local")
@@ -582,7 +582,7 @@ def test_v8_appliance_metadata_copied_to_template():
     assert metadata["status"] == "stable"
     # the version level default_username overrides the appliance level one
     assert metadata["default_username"] == "vyos145"
-    assert metadata["default_password"] == "vyospass"
+    assert metadata["default_password"] == "vyospass"  # noqa: S105
 
 
 def test_v8_appliance_metadata_version_level_overrides():

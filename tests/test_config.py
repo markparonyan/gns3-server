@@ -201,7 +201,7 @@ def test_update_config_null_removes_option(tmpdir):
     parsed = configparser.ConfigParser()
     parsed.read(path)
     assert not parsed.has_option("Server", "host")
-    assert config.settings.Server.host == "0.0.0.0"  # default restored
+    assert config.settings.Server.host == "0.0.0.0"  # default restored  # noqa: S104
 
 
 def test_update_config_validation_failure_leaves_file_unchanged(tmpdir):

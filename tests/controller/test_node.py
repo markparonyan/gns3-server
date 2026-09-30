@@ -746,7 +746,7 @@ def test_symbol(node, symbols_dir):
     assert node.height == 71
 
     # No abs path, fix them (bug of 1.5)
-    node.symbol = "/tmp/cloud2.svg"
+    node.symbol = "/tmp/cloud2.svg"  # noqa: S108
     assert node.symbol == "cloud2.svg"
     assert node.width == 159
     assert node.height == 71
@@ -878,12 +878,12 @@ async def test_update_default_credentials(node, compute):
     node._project.emit_notification = AsyncioMagicMock()
     node._project.dump = MagicMock()
 
-    await node.update(default_username="admin", default_password="secret")
+    await node.update(default_username="admin", default_password="secret")  # noqa: S106
     assert not compute.put.called
     assert node.default_username == "admin"
-    assert node.default_password == "secret"
+    assert node.default_password == "secret"  # noqa: S105
     assert node.asdict()["default_username"] == "admin"
-    assert node.asdict(topology_dump=True)["default_password"] == "secret"
+    assert node.asdict(topology_dump=True)["default_password"] == "secret"  # noqa: S105
 
     # credentials never leak into the compute properties
     assert "default_username" not in node.properties
@@ -901,9 +901,9 @@ def test_default_credentials_from_template_kwargs(compute, project):
     default credentials without sending them to the compute.
     """
 
-    node = Node(project, compute, "test", node_type="vpcs", default_username="root", default_password="cisco123")
+    node = Node(project, compute, "test", node_type="vpcs", default_username="root", default_password="cisco123")  # noqa: S106
     assert node.default_username == "root"
-    assert node.default_password == "cisco123"
+    assert node.default_password == "cisco123"  # noqa: S105
     assert "default_username" not in node.properties
     assert "default_password" not in node.properties
     assert node.asdict(topology_dump=True)["default_username"] == "root"

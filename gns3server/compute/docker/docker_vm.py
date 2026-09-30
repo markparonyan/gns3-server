@@ -212,10 +212,10 @@ class DockerVM(BaseNode):
         Search a free display port
         """
         display = 100
-        if not os.path.exists("/tmp/.X11-unix/"):
+        if not os.path.exists("/tmp/.X11-unix/"):  # noqa: S108
             return display
         while True:
-            if not os.path.exists(f"/tmp/.X11-unix/X{display}"):
+            if not os.path.exists(f"/tmp/.X11-unix/X{display}"):  # noqa: S108
                 return display
             display += 1
 
@@ -755,8 +755,8 @@ class DockerVM(BaseNode):
             params["HostConfig"]["Mounts"].append(
                 {
                     "Type": "bind",
-                    "Source": f"/tmp/.X11-unix/X{self._display}",
-                    "Target": f"/tmp/.X11-unix/X{self._display}",
+                    "Source": f"/tmp/.X11-unix/X{self._display}",  # noqa: S108
+                    "Target": f"/tmp/.X11-unix/X{self._display}",  # noqa: S108
                     "ReadOnly": True,
                 }
             )
@@ -1200,7 +1200,7 @@ class DockerVM(BaseNode):
         if not tigervnc_path:
             raise DockerError("Please install TigerVNC server before using VNC support")
         await self._start_vnc_process()
-        x11_socket = os.path.join("/tmp/.X11-unix/", f"X{self._display}")
+        x11_socket = os.path.join("/tmp/.X11-unix/", f"X{self._display}")  # noqa: S108
         try:
             await wait_for_file_creation(x11_socket)
         except asyncio.TimeoutError:
@@ -1521,7 +1521,7 @@ class DockerVM(BaseNode):
                         pass
 
                 if self._display:
-                    display = f"/tmp/.X11-unix/X{self._display}"
+                    display = f"/tmp/.X11-unix/X{self._display}"  # noqa: S108
                     try:
                         if os.path.exists(display):  # noqa: ASYNC240
                             os.remove(display)

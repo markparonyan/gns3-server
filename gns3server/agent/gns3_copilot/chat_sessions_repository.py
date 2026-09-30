@@ -306,7 +306,7 @@ class ChatSessionsRepository:
         params.append(now)
         params.append(thread_id)
 
-        query = f"UPDATE chat_sessions SET {', '.join(updates)} WHERE thread_id = ?"
+        query = f"UPDATE chat_sessions SET {', '.join(updates)} WHERE thread_id = ?"  # noqa: S608
 
         await self.conn.execute(query, params)
         await self.conn.commit()

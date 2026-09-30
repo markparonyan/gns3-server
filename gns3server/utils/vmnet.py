@@ -77,12 +77,12 @@ def write_networking_file(version, pairs):
     if sys.platform.startswith("darwin"):
         if not os.path.exists("/Applications/VMware Fusion.app/Contents/Library/vmnet-cli"):
             raise SystemExit("VMware Fusion is not installed in Applications")
-        os.system(r"/Applications/VMware\ Fusion.app/Contents/Library/vmnet-cli --configure")
-        os.system(r"/Applications/VMware\ Fusion.app/Contents/Library/vmnet-cli --stop")
-        os.system(r"/Applications/VMware\ Fusion.app/Contents/Library/vmnet-cli --start")
+        os.system(r"/Applications/VMware\ Fusion.app/Contents/Library/vmnet-cli --configure")  # noqa: S605
+        os.system(r"/Applications/VMware\ Fusion.app/Contents/Library/vmnet-cli --stop")  # noqa: S605
+        os.system(r"/Applications/VMware\ Fusion.app/Contents/Library/vmnet-cli --start")  # noqa: S605
     else:
-        os.system("vmware-networks --stop")
-        os.system("vmware-networks --start")
+        os.system("vmware-networks --stop")  # noqa: S605, S607
+        os.system("vmware-networks --start")  # noqa: S605, S607
 
 
 def parse_vmnet_range(start, end):
@@ -177,17 +177,17 @@ def vmnet_windows(args, vmnet_range_start, vmnet_range_end):
             if vmnet_number in (1, 8):
                 continue
             print(f"Removing vmnet{vmnet_number}...")
-            os.system(f'"{vnetlib_path}" -- remove adapter vmnet{vmnet_number}')
+            os.system(f'"{vnetlib_path}" -- remove adapter vmnet{vmnet_number}')  # noqa: S605
     else:
         for vmnet_number in range(vmnet_range_start, vmnet_range_end + 1):
             if vmnet_number in (1, 8):
                 continue
             print(f"Adding vmnet{vmnet_number}...")
-            os.system(f'"{vnetlib_path}" -- add adapter vmnet{vmnet_number}')
-    os.system("net stop npf")
-    os.system("net start npf")
-    os.system("net stop npcap")
-    os.system("net start npcap")
+            os.system(f'"{vnetlib_path}" -- add adapter vmnet{vmnet_number}')  # noqa: S605
+    os.system("net stop npf")  # noqa: S605, S607
+    os.system("net start npf")  # noqa: S605, S607
+    os.system("net stop npcap")  # noqa: S605, S607
+    os.system("net start npcap")  # noqa: S605, S607
 
 
 def vmnet_unix(args, vmnet_range_start, vmnet_range_end):
@@ -266,7 +266,7 @@ def main():
         try:
             vmnet_windows(args, vmnet_range[0], vmnet_range[1])
         except SystemExit:
-            os.system("pause")
+            os.system("pause")  # noqa: S605, S607
             raise
     else:
         vmnet_unix(args, vmnet_range[0], vmnet_range[1])

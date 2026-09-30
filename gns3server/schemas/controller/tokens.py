@@ -27,7 +27,7 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     username: str
     token_version: int = 0
-    token_use: str = "access"
+    token_use: str = "access"  # noqa: S105
 
 
 class RefreshTokenRequest(BaseModel):

@@ -118,7 +118,7 @@ class GNS3HuaweiTelnetCE(HuaweiBase):
         pri_prompt_terminator: str = r"<\S+>|>\s*$",
         alt_prompt_terminator: str = r"\[\S+\]",
         username_pattern: str = r"(?:user:|username|login|user name)",
-        pwd_pattern: str = r"assword",
+        pwd_pattern: str = r"assword",  # noqa: S107
         delay_factor: float = 1.0,
         max_loops: int = 10,
     ) -> str:

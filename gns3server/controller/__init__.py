@@ -165,7 +165,7 @@ class Controller:
         # clients will use the IP they use to connect to
         # the controller if console_host is 0.0.0.0
         console_host = host
-        if host == "0.0.0.0":
+        if host == "0.0.0.0":  # noqa: S104
             host = "127.0.0.1"
 
         await self._load_controller_vars()
@@ -703,7 +703,7 @@ class Controller:
             else:
                 # randomly pick a compute until we have proper scalability handling
                 # https://github.com/GNS3/gns3-server/issues/1676
-                return random.choice(computes)
+                return random.choice(computes)  # noqa: S311
 
         try:
             return self._computes[compute_id]

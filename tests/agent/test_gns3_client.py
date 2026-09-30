@@ -57,7 +57,7 @@ def test_nodes_inventory_emits_default_credentials():
 
     inventory = build_nodes_inventory(nodes, "127.0.0.1")
     assert inventory["R1"]["default_username"] == "admin"
-    assert inventory["R1"]["default_password"] == "admin123"
+    assert inventory["R1"]["default_password"] == "admin123"  # noqa: S105
     assert inventory["R1"]["console_port"] == 5000
     assert inventory["R1"]["type"] == "dynamips"
     assert inventory["R1"]["server"] == "127.0.0.1"
@@ -228,7 +228,7 @@ def test_device_ports_inject_default_credentials(monkeypatch):
 
     # set credentials land at host level
     assert hosts["R1"]["username"] == "admin"
-    assert hosts["R1"]["password"] == "admin123"
+    assert hosts["R1"]["password"] == "admin123"  # noqa: S105
     # cleared ("") and absent credentials do not override the group fallback
     assert "username" not in hosts["R2"]
     assert "password" not in hosts["R2"]

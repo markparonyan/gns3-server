@@ -21,8 +21,8 @@ def parse_args() -> argparse.Namespace:
 
 
 def run_git(args: list[str], repo_root: Path) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(
-        ["git", *args],
+    return subprocess.run(  # noqa: S603
+        ["git", *args],  # noqa: S607
         cwd=repo_root,
         check=False,
         capture_output=True,

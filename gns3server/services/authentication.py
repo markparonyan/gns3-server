@@ -32,7 +32,7 @@ from gns3server.schemas.controller.tokens import TokenData
 
 log = logging.getLogger(__name__)
 
-DEFAULT_JWT_SECRET_KEY = "efd08eccec3bd0a1be2e086670e5efa90969c68d07e072d7354a76cea5e33d4e"
+DEFAULT_JWT_SECRET_KEY = "efd08eccec3bd0a1be2e086670e5efa90969c68d07e072d7354a76cea5e33d4e"  # noqa: S105
 
 
 def _extract_alg(token: str) -> str:

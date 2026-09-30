@@ -80,7 +80,7 @@ class IOLDockerVM(VendorDockerVM):
     """
 
     _IOL_CONFIG_DIR = "/config"
-    _IOL_RUN_DIR = "/tmp/run"
+    _IOL_RUN_DIR = "/tmp/run"  # noqa: S108
     # The runner launches IOL with a fixed 256KB nvram (-n 256)
     _IOL_NVRAM_SIZE_KB = 256
 
@@ -103,7 +103,7 @@ class IOLDockerVM(VendorDockerVM):
         # are never created. The console is IOS itself on PID 1 stdio.
         self._gns3_init = False
         self._unix_socket_nio = True
-        self._unix_socket_dir = "/tmp"
+        self._unix_socket_dir = "/tmp"  # noqa: S108
 
         self._iol_memory = 2048
         if self._environment:

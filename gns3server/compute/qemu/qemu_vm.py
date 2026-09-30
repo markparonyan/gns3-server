@@ -1062,7 +1062,7 @@ class QemuVM(BaseNode):
                 f"--pid={self._process.pid}",
                 f"--limit={self._cpu_throttling}",
             ]
-            self._cpulimit_process = subprocess.Popen(command, cwd=self.working_dir)
+            self._cpulimit_process = subprocess.Popen(command, cwd=self.working_dir)  # noqa: S603
             log.debug(f"CPU throttled to {self._cpu_throttling}%")
         except FileNotFoundError:
             raise QemuError("cpulimit could not be found, please install it or deactivate CPU throttling") from None
@@ -1802,7 +1802,7 @@ class QemuVM(BaseNode):
 
         if port:
             console_host = self._manager.port_manager.console_host
-            if console_host == "0.0.0.0":
+            if console_host == "0.0.0.0":  # noqa: S104
                 try:
                     if is_ipv6_enabled():
                         # to fix an issue with Qemu when IPv4 is not enabled
@@ -2337,7 +2337,7 @@ class QemuVM(BaseNode):
             ]
             command_string = " ".join(shlex.quote(s) for s in command)
             log.debug(f"Starting swtpm (TPM emulator) with: {command_string}")
-            self._swtpm_process = subprocess.Popen(command, cwd=self.working_dir)
+            self._swtpm_process = subprocess.Popen(command, cwd=self.working_dir)  # noqa: S603
             log.debug("swtpm (TPM emulator) has started")
         except (OSError, subprocess.SubprocessError) as e:
             raise QemuError(f"Could not start swtpm (TPM emulator): {e}") from e

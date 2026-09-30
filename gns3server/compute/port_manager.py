@@ -103,7 +103,7 @@ class PortManager:
     def __init__(self):
         self._console_host = None
         # UDP host must be 0.0.0.0, reason: https://github.com/GNS3/gns3-server/issues/265
-        self._udp_host = "0.0.0.0"
+        self._udp_host = "0.0.0.0"  # noqa: S104
         self._used_tcp_ports = set()
         self._used_udp_ports = set()
         # Guards the find-then-add port allocation against concurrent threads:
@@ -160,7 +160,7 @@ class PortManager:
         remote_console_connections = Config.instance().settings.Server.allow_remote_console
         if remote_console_connections:
             log.warning("Remote console connections are allowed")
-            self._console_host = "0.0.0.0"
+            self._console_host = "0.0.0.0"  # noqa: S104
             try:
                 ip = ipaddress.ip_address(new_host)
                 if isinstance(ip, ipaddress.IPv6Address):
@@ -236,8 +236,8 @@ class PortManager:
 
             try:
                 PortManager._check_port(host, port, socket_type)
-                if host != "0.0.0.0":
-                    PortManager._check_port("0.0.0.0", port, socket_type)
+                if host != "0.0.0.0":  # noqa: S104
+                    PortManager._check_port("0.0.0.0", port, socket_type)  # noqa: S104
                 return port
             except OSError as e:
                 last_exception = e

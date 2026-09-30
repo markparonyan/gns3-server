@@ -277,8 +277,8 @@ class GNS3PacketFilterTool(BaseTool):
         try:
             # Use tshark to validate BPF syntax with 1 second timeout
             # Use -i lo (loopback) to avoid "(null)" interface in error messages
-            result = subprocess.run(
-                ["tshark", "-f", bpf_expression, "-i", "lo"],
+            result = subprocess.run(  # noqa: S603
+                ["tshark", "-f", bpf_expression, "-i", "lo"],  # noqa: S607
                 timeout=1,
                 capture_output=True,
                 text=True,

@@ -250,10 +250,8 @@ class HyperVGNS3VM(BaseGNS3VM):
         """
 
         wql = (
-            "SELECT * FROM Msvm_GuestNetworkAdapterConfiguration WHERE InstanceID like \
-               'Microsoft:GuestNetwork\\"
-            + self._vm.Name
-            + "%' and ProtocolIFType > 0 "
+            "SELECT * FROM Msvm_GuestNetworkAdapterConfiguration WHERE InstanceID like "  # noqa: S608
+            "               'Microsoft:GuestNetwork\\" + self._vm.Name + "%' and ProtocolIFType > 0 "
         )
         nic_count = len(self._conn.query(wql))
         while nic_count == 0:

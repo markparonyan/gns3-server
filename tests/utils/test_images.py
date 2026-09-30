@@ -35,7 +35,7 @@ def test_images_directories(tmpdir, config):
     path2 = force_unix_path(str(path2))
 
     config.settings.Server.images_path = str(tmpdir / "images1")
-    config.settings.Server.additional_images_paths = "/tmp/null24564;" + str(tmpdir / "images2")
+    config.settings.Server.additional_images_paths = "/tmp/null24564;" + str(tmpdir / "images2")  # noqa: S108
 
     # /tmp/null24564 is ignored because doesn't exists
     res = images_directories("qemu")
@@ -156,7 +156,7 @@ async def test_list_images(tmpdir, config):
     md5sum_file = force_unix_path(str(md5sum_file))
 
     config.settings.Server.images_path = str(tmpdir / "images1")
-    config.settings.Server.additional_images_paths = "/tmp/null24564;" + str(tmpdir / "images2")
+    config.settings.Server.additional_images_paths = "/tmp/null24564;" + str(tmpdir / "images2")  # noqa: S108
 
     assert sorted(await list_images("dynamips"), key=lambda k: k["filename"]) == [
         {

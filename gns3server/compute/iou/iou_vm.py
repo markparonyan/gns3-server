@@ -966,7 +966,7 @@ class IOUVM(BaseNode):
     @property
     def l1_socket_directory(self):
         # IOU hard-codes this directory independently from TMPDIR.
-        return os.path.join("/tmp", f"netl1{os.geteuid()}")
+        return os.path.join("/tmp", f"netl1{os.geteuid()}")  # noqa: S108
 
     @property
     def l1_bridge_socket_path(self):

@@ -49,7 +49,7 @@ class VirtualBoxGNS3VM(BaseGNS3VM):
             result = await self._virtualbox_manager.execute(subcommand, args, timeout)
             return "\n".join(result)
         except VirtualBoxError as e:
-            raise GNS3VMError(f"Error while executing VBoxManage command: {e}")
+            raise GNS3VMError(f"Error while executing VBoxManage command: {e}") from e
 
     async def _get_state(self):
         """
@@ -189,7 +189,7 @@ class VirtualBoxGNS3VM(BaseGNS3VM):
             lower_ip = str(interface.ip + 2)
             upper_ip = str(subnet.network_address + subnet.num_addresses - 2)
         except ValueError:
-            raise GNS3VMError(f"Invalid IP address and netmask for vboxnet {vboxnet}: {ip_address}/{netmask}")
+            raise GNS3VMError(f"Invalid IP address and netmask for vboxnet {vboxnet}: {ip_address}/{netmask}") from None
 
         dhcp_server_args = [
             "add",
@@ -259,7 +259,7 @@ class VirtualBoxGNS3VM(BaseGNS3VM):
             await self._check_requirements()
             return await self._virtualbox_manager.list_vms()
         except VirtualBoxError as e:
-            raise GNS3VMError(f"Could not list VirtualBox VMs: {e!s}")
+            raise GNS3VMError(f"Could not list VirtualBox VMs: {e!s}") from e
 
     async def start(self):
         """
@@ -321,13 +321,15 @@ class VirtualBoxGNS3VM(BaseGNS3VM):
                 except GNS3VMError:
                     raise GNS3VMError(
                         f'VirtualBox host-only network "{vboxnet}" does not exist and could not be automatically created, please make the sure the network adapter {interface_number} configuration is valid for "{self._vmname}"'
-                    )
+                    ) from None
 
         if backend_type == "hostonlyadapter" and not (await self._check_dhcp_server(vboxnet)):
             try:
                 await self._add_dhcp_server(vboxnet)
             except GNS3VMError as e:
-                raise GNS3VMError(f"Could not add DHCP server for vboxnet {vboxnet}: {e}, please configure manually")
+                raise GNS3VMError(
+                    f"Could not add DHCP server for vboxnet {vboxnet}: {e}, please configure manually"
+                ) from e
 
         vm_state = await self._get_state()
         log.info(f'"{self._vmname}" state is {vm_state}')
@@ -368,7 +370,7 @@ class VirtualBoxGNS3VM(BaseGNS3VM):
                     s.bind((ip_address, 0))
                     api_port = s.getsockname()[1]
             except OSError as e:
-                raise GNS3VMError(f"Error while getting random port: {e}")
+                raise GNS3VMError(f"Error while getting random port: {e}") from e
 
             if await self._check_vbox_port_forwarding():
                 # delete the GNS3VM NAT port forwarding rule if it exists

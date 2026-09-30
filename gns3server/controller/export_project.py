@@ -139,7 +139,7 @@ async def export_project(
                                     "Timeout when downloading file '{}' from remote compute {}:{}".format(
                                         compute_file["path"], compute.host, compute.port
                                     )
-                                )
+                                ) from None
                             if not data:
                                 break
                             await f.write(data)
@@ -213,7 +213,7 @@ async def _patch_project_file(
         with open(path) as f:
             topology = json.load(f)
     except (OSError, ValueError) as e:
-        raise ControllerError(f"Project file '{path}' cannot be read: {e}")
+        raise ControllerError(f"Project file '{path}' cannot be read: {e}") from e
 
     if "topology" in topology:
         if "nodes" in topology["topology"]:
@@ -313,7 +313,9 @@ async def _export_remote_images(project, compute_id, image_type, image, project_
     try:
         compute = next(c for c in project.computes if c.id == compute_id)
     except IndexError:
-        raise ControllerNotFoundError(f"Cannot export image from '{compute_id}' compute. Compute doesn't exist.")
+        raise ControllerNotFoundError(
+            f"Cannot export image from '{compute_id}' compute. Compute doesn't exist."
+        ) from None
 
     response = await compute.download_image(image_type, image)
     if response.status != 200:
@@ -329,7 +331,7 @@ async def _export_remote_images(project, compute_id, image_type, image, project_
             except asyncio.TimeoutError:
                 raise ControllerTimeoutError(
                     f"Timeout when downloading image '{image}' from remote compute {compute.host}:{compute.port}"
-                )
+                ) from None
             if not data:
                 break
             await f.write(data)

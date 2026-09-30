@@ -222,7 +222,7 @@ class Link:
         try:
             validate_all_filters(new_filters)
         except FilterValidationError as e:
-            raise ControllerError(f"Invalid packet filter parameters: {e!s}")
+            raise ControllerError(f"Invalid packet filter parameters: {e!s}") from e
 
         if new_filters != self.filters:
             self._filters = new_filters
@@ -485,7 +485,7 @@ class Link:
         except Exception as e:
             error_msg = f"Error starting Web Wireshark: {e!s}"
             log.error(error_msg)
-            raise ControllerError(error_msg)
+            raise ControllerError(error_msg) from e
         finally:
             await manager.close()
 
@@ -534,7 +534,7 @@ class Link:
         except Exception as e:
             error_msg = f"Error restarting Web Wireshark: {e!s}"
             log.error(error_msg)
-            raise ControllerError(error_msg)
+            raise ControllerError(error_msg) from e
         finally:
             await manager.close()
 

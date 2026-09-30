@@ -935,7 +935,7 @@ class Node:
             else:
                 await self.post("/start", data=data, timeout=240)
         except asyncio.TimeoutError:
-            raise ControllerTimeoutError(f"Timeout when starting {self._name}")
+            raise ControllerTimeoutError(f"Timeout when starting {self._name}") from None
 
     async def stop(self):
         """
@@ -949,7 +949,7 @@ class Node:
         except (ComputeError, ControllerError):
             pass
         except asyncio.TimeoutError:
-            raise ControllerTimeoutError(f"Timeout when stopping {self._name}")
+            raise ControllerTimeoutError(f"Timeout when stopping {self._name}") from None
 
     async def suspend(self):
         """
@@ -958,7 +958,7 @@ class Node:
         try:
             await self.post("/suspend", timeout=240)
         except asyncio.TimeoutError:
-            raise ControllerTimeoutError(f"Timeout when reloading {self._name}")
+            raise ControllerTimeoutError(f"Timeout when reloading {self._name}") from None
 
     async def reload(self):
         """
@@ -967,7 +967,7 @@ class Node:
         try:
             await self.post("/reload", timeout=240)
         except asyncio.TimeoutError:
-            raise ControllerTimeoutError(f"Timeout when reloading {self._name}")
+            raise ControllerTimeoutError(f"Timeout when reloading {self._name}") from None
 
     async def reset_console(self):
         """
@@ -978,7 +978,7 @@ class Node:
             try:
                 await self.post("/console/reset", timeout=240)
             except asyncio.TimeoutError:
-                raise ControllerTimeoutError(f"Timeout when reset console {self._name}")
+                raise ControllerTimeoutError(f"Timeout when reset console {self._name}") from None
 
     async def get(self, path="", **kwargs):
         """
@@ -1048,7 +1048,7 @@ class Node:
             with open(image, "rb") as f:
                 await self._compute.post(f"/{self._node_type}/images/{os.path.basename(img)}", data=f, timeout=None)
         except OSError as e:
-            raise ControllerError(f"Can't upload {image}: {e!s}")
+            raise ControllerError(f"Can't upload {image}: {e!s}") from e
         self.project.emit_notification("log.info", {"message": f"Upload finished for {img}"})
         return True
 

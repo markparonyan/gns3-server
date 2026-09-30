@@ -66,7 +66,7 @@ def _check_topology_schema(topo, path):
     except pydantic.ValidationError as e:
         error = f"Invalid data in topology file {path}: {e}"
         log.critical(error)
-        raise ControllerError(error)
+        raise ControllerError(error) from e
 
 
 def project_to_topology(project):
@@ -137,7 +137,7 @@ def load_topology(path):
         with open(path, encoding="utf-8") as f:
             topo = json.load(f)
     except (OSError, UnicodeDecodeError, ValueError) as e:
-        raise ControllerError(f"Could not load topology {path}: {e!s}")
+        raise ControllerError(f"Could not load topology {path}: {e!s}") from e
 
     if topo.get("revision", 0) > GNS3_FILE_FORMAT_REVISION:
         raise ControllerError(
@@ -152,7 +152,7 @@ def load_topology(path):
         try:
             shutil.copy(path, path + ".backup{}".format(topo.get("revision", 0)))
         except OSError as e:
-            raise ControllerError(f"Can't write backup of the topology {path}: {e!s}")
+            raise ControllerError(f"Can't write backup of the topology {path}: {e!s}") from e
         changed = True
         # update the version because we converted the topology
         topo["version"] = __version__
@@ -208,7 +208,7 @@ def load_topology(path):
             with open(path, "w+", encoding="utf-8") as f:
                 json.dump(topo, f, indent=4, sort_keys=True)
         except OSError as e:
-            raise ControllerError(f"Can't write the topology {path}: {e!s}")
+            raise ControllerError(f"Can't write the topology {path}: {e!s}") from e
     return topo
 
 
@@ -324,7 +324,7 @@ def _convert_2_0_0_beta_2(topo, topo_path):
                 for path in glob.glob(os.path.join(glob.escape(dynamips_dir), "configs", f"i{dynamips_id}_*")):
                     shutil.move(path, os.path.join(node_dir, "configs", os.path.basename(path)))
             except OSError as e:
-                raise ControllerError(f"Can't convert project {topo_path}: {e!s}")
+                raise ControllerError(f"Can't convert project {topo_path}: {e!s}") from e
     return topo
 
 
@@ -719,7 +719,7 @@ def _create_cloud(node, old_node, icon):
             try:
                 _, lport, rhost, rport = old_port["name"].split(":")
             except ValueError:
-                raise ControllerError("UDP tunnel using IPV6 is not supported in cloud")
+                raise ControllerError("UDP tunnel using IPV6 is not supported in cloud") from None
             port = {
                 "name": f"UDP tunnel {len(ports) + 1}",
                 "port_number": len(ports) + 1,

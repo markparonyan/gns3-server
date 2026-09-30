@@ -76,9 +76,9 @@ async def import_project(
         with zipfile_zstd.ZipFile(stream) as zip_file:
             project_file = zip_file.read("project.gns3").decode()
     except zipfile_zstd.BadZipFile:
-        raise ControllerError("Cannot import project, not a GNS3 project (invalid zip)")
+        raise ControllerError("Cannot import project, not a GNS3 project (invalid zip)") from None
     except KeyError:
-        raise ControllerError("Cannot import project, project.gns3 file could not be found")
+        raise ControllerError("Cannot import project, project.gns3 file could not be found") from None
 
     try:
         topology = json.loads(project_file)
@@ -94,7 +94,7 @@ async def import_project(
                 project_name = controller.get_free_project_name(topology["name"])
             restoring_snapshot = False
     except (ValueError, KeyError):
-        raise ControllerError("Cannot import project, the project.gns3 file is corrupted")
+        raise ControllerError("Cannot import project, the project.gns3 file is corrupted") from None
 
     if location:
         path = location
@@ -104,14 +104,14 @@ async def import_project(
     try:
         os.makedirs(path, exist_ok=True)
     except UnicodeEncodeError:
-        raise ControllerError("The project name contain non supported or invalid characters")
+        raise ControllerError("The project name contain non supported or invalid characters") from None
 
     try:
         with zipfile_zstd.ZipFile(stream) as zip_file:
             await wait_run_in_executor(zip_file.extractall, path)
             _create_symbolic_links(zip_file, path)
     except zipfile_zstd.BadZipFile:
-        raise ControllerError("Cannot extract files from GNS3 project (invalid zip)")
+        raise ControllerError("Cannot extract files from GNS3 project (invalid zip)") from None
 
     topology = load_topology(os.path.join(path, "project.gns3"))
     topology["name"] = project_name
@@ -222,7 +222,7 @@ def _create_symbolic_links(zip_file, path):
             os.remove(symlink_path)
             os.symlink(symlink_target, symlink_path)
         except OSError as e:
-            raise ControllerError(f"Cannot create symbolic link: {e}")
+            raise ControllerError(f"Cannot create symbolic link: {e}") from e
 
 
 def regenerate_topology_ids(topology, new_project_path, reset_mac_addresses=False):
@@ -353,11 +353,11 @@ async def update_snapshots(snapshots_dir, project_path, project_name, project_id
                         await wait_run_in_executor(zip_file.extractall, tmpdir)
                         _create_symbolic_links(zip_file, tmpdir)
             except OSError as e:
-                raise ControllerError(f"Cannot open snapshot '{os.path.basename(snapshot)}': {e}")
+                raise ControllerError(f"Cannot open snapshot '{os.path.basename(snapshot)}': {e}") from e
             except zipfile_zstd.BadZipFile:
                 raise ControllerError(
                     f"Cannot extract files from snapshot '{os.path.basename(snapshot)}': not a GNS3 project (invalid zip)"
-                )
+                ) from None
 
             # patch the topology with the correct project name and ID
             try:
@@ -372,11 +372,11 @@ async def update_snapshots(snapshots_dir, project_path, project_name, project_id
             except OSError as e:
                 raise ControllerError(
                     f"Cannot update snapshot '{os.path.basename(snapshot)}': the project.gns3 file cannot be modified: {e}"
-                )
+                ) from e
             except (ValueError, KeyError):
                 raise ControllerError(
                     f"Cannot update snapshot '{os.path.basename(snapshot)}': the project.gns3 file is corrupted"
-                )
+                ) from None
 
             # write everything back to the original snapshot file
             try:
@@ -392,4 +392,4 @@ async def update_snapshots(snapshots_dir, project_path, project_name, project_id
             except OSError as e:
                 raise ControllerError(
                     f"Cannot update snapshot '{os.path.basename(snapshot)}': the snapshot cannot be recreated: {e}"
-                )
+                ) from e

@@ -145,7 +145,7 @@ def _parse_ts(ts: str) -> int:
         usec = int(frac.ljust(6, "0")[:6]) if frac else 0
         return int(sec) * 1_000_000 + usec
     except ValueError:
-        raise ControllerBadRequestError(f"Invalid timestamp: {ts!r}")
+        raise ControllerBadRequestError(f"Invalid timestamp: {ts!r}") from None
 
 
 def scan_pcap_frames(path):
@@ -162,7 +162,7 @@ def scan_pcap_frames(path):
         with open(path, "rb") as f:
             data = f.read()
     except OSError as e:
-        raise ControllerError(f"Cannot read marker pcap {path}: {e}")
+        raise ControllerError(f"Cannot read marker pcap {path}: {e}") from e
 
     if len(data) < 24:
         return frames  # not even a global header — zero frames
@@ -428,7 +428,7 @@ class _SharkdManager:
         except FileNotFoundError:
             # Deleted between the directory listing and here (marker removed,
             # project cleaned up) — not a server fault.
-            raise ControllerNotFoundError(f"Capture file {os.path.basename(pcap)} no longer exists")
+            raise ControllerNotFoundError(f"Capture file {os.path.basename(pcap)} no longer exists") from None
         async with self._mu:
             session = self._sessions.get(pcap)
             if session is not None and session.matches(stat) and session.alive():
@@ -497,13 +497,13 @@ class _SharkdManager:
             )
         except OSError as e:
             shutil.rmtree(scratch_dir, ignore_errors=True)
-            raise SharkdError(f"Could not run sharkd: {e}")
+            raise SharkdError(f"Could not run sharkd: {e}") from e
         session = _SharkdSession(pcap, scratch_dir, scratch, proc, stat)
         try:
             await session.rpc("load", {"file": scratch})
         except Exception as e:
             await session.close()
-            raise SharkdError(f"sharkd failed to load {os.path.basename(pcap)}: {e}")
+            raise SharkdError(f"sharkd failed to load {os.path.basename(pcap)}: {e}") from e
         return session
 
     async def close_all(self):
@@ -569,9 +569,9 @@ async def _columns_for(pcap, filter_expr):
                 rows = await session.rpc("frames", params)
             except _SharkdRpcError as e:
                 if filter_expr is not None and e.code == _ERR_INVALID_FILTER:
-                    raise FilterError(f"Invalid display filter: {e.message}")
+                    raise FilterError(f"Invalid display filter: {e.message}") from e
                 # Anything else is an engine fault, not the client's filter.
-                raise SharkdError(f"sharkd frames failed on {os.path.basename(pcap)}: {e.message}")
+                raise SharkdError(f"sharkd frames failed on {os.path.basename(pcap)}: {e.message}") from e
             for row in rows or []:
                 try:
                     frame_number = int(row.get("num"))
@@ -811,7 +811,7 @@ async def decode_frame(project, tag, ts, node_id, link_id, marker, frame_number=
         except _SharkdRpcError as e:
             # The frame range was validated against the file above, so an
             # engine error here is a real fault (502), not a client 404.
-            raise SharkdError(f"sharkd frame failed: {e.message}")
+            raise SharkdError(f"sharkd frame failed: {e.message}") from e
 
     tree = _rename_value(result.get("tree", []))
     return {

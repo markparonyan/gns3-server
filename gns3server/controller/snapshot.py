@@ -117,7 +117,7 @@ class Snapshot:
         try:
             os.makedirs(snapshot_directory, exist_ok=True)
         except OSError as e:
-            raise ControllerError(f"Could not create the snapshot directory '{snapshot_directory}': {e}")
+            raise ControllerError(f"Could not create the snapshot directory '{snapshot_directory}': {e}") from e
 
         try:
             begin = time.time()
@@ -130,7 +130,7 @@ class Snapshot:
                             await f.write(chunk)
             log.info(f"Snapshot '{self.name}' created in {time.time() - begin:.4f} seconds")
         except (ValueError, OSError, RuntimeError) as e:
-            raise ControllerError(f"Could not create snapshot file '{self.path}': {e}")
+            raise ControllerError(f"Could not create snapshot file '{self.path}': {e}") from e
 
     async def restore(self):
         """
@@ -159,7 +159,7 @@ class Snapshot:
                 )
             log.info(f"Snapshot '{self.name}' restored in {time.time() - begin:.4f} seconds")
         except (OSError, PermissionError) as e:
-            raise ControllerError(str(e))
+            raise ControllerError(str(e)) from e
         await project.open()
         self._project.emit_notification("snapshot.restored", self.asdict())
         return self._project

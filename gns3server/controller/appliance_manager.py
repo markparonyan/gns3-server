@@ -149,11 +149,11 @@ class ApplianceManager:
                     image_name, image_path, response.content.iter_any(), images_repo, allow_raw_image=True
                 )
         except (OSError, InvalidImageError) as e:
-            raise ControllerError(f"Could not save {image_type} image '{image_path}': {e}")
+            raise ControllerError(f"Could not save {image_type} image '{image_path}': {e}") from e
         except ClientError as e:
-            raise ControllerError(f"Could not connect to download '{image_name}': {e}")
+            raise ControllerError(f"Could not connect to download '{image_name}': {e}") from e
         except asyncio.TimeoutError:
-            raise ControllerError(f"Timeout while downloading '{image_name}' from '{image_url}'")
+            raise ControllerError(f"Timeout while downloading '{image_name}' from '{image_url}'") from None
 
     async def _find_appliance_version_images(
         self, appliance: Appliance, version: dict, images_repo: ImagesRepository, image_dir: str
@@ -203,7 +203,7 @@ class ApplianceManager:
         try:
             template_create = schemas.TemplateCreate(**template_data)
         except ValidationError as e:
-            raise ControllerError(message=f"Could not validate template data: {e}")
+            raise ControllerError(message=f"Could not validate template data: {e}") from e
         template = await TemplatesService(templates_repo).create_template(template_create)
         # template_id = template.get("template_id")
         # await rbac_repo.add_permission_to_user_with_path(current_user.user_id, f"/templates/{template_id}/*")
@@ -327,7 +327,7 @@ class ApplianceManager:
             # Validate with discriminated union - automatically routes to correct version
             ApplianceModel.model_validate(appliance.asdict())
         except ValidationError as e:
-            raise ControllerError(message=f"Could not validate appliance '{appliance_id}': {e}")
+            raise ControllerError(message=f"Could not validate appliance '{appliance_id}': {e}") from e
 
         if version:
             if not appliance.versions:
@@ -346,7 +346,7 @@ class ApplianceManager:
                                 appliance, appliance_version_info, images_repo, image_dir
                             )
                     except InvalidImageError as e:
-                        raise ControllerError(message=f"Image error: {e}")
+                        raise ControllerError(message=f"Image error: {e}") from e
                     template_data = await self._appliance_to_template(appliance, appliance_version_info)
                     return await self._create_template(template_data, templates_repo, rbac_repo, current_user)
 
@@ -526,7 +526,7 @@ class ApplianceManager:
                             with open(path, "wb") as f:
                                 f.write(appliance_data)
                         except OSError as e:
-                            raise ControllerError(f"Could not write appliance file '{path}': {e}")
+                            raise ControllerError(f"Could not write appliance file '{path}': {e}") from e
                         downloaded_appliance_files.append(appliance_name)
 
             # delete old appliance files
@@ -543,7 +543,7 @@ class ApplianceManager:
                     continue
 
         except ValueError as e:
-            raise ControllerError(f"Could not read appliances information from GitHub: {e}")
+            raise ControllerError(f"Could not read appliances information from GitHub: {e}") from e
 
         # download the custom symbols
         await self.download_custom_symbols()

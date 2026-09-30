@@ -153,7 +153,7 @@ class Project:
             try:
                 UUID(project_id, version=4)
             except ValueError:
-                raise ControllerError(f"{project_id} is not a valid UUID")
+                raise ControllerError(f"{project_id} is not a valid UUID") from None
             self._id = project_id
 
         if path is None:
@@ -495,7 +495,7 @@ class Project:
         try:
             os.makedirs(path, exist_ok=True)
         except OSError as e:
-            raise ControllerError(f"Could not create project directory: {e}")
+            raise ControllerError(f"Could not create project directory: {e}") from e
 
         if '"' in path:
             raise ControllerForbiddenError(
@@ -577,9 +577,11 @@ class Project:
                 try:
                     name = base_name.format(number, id=number, name="Node")
                 except KeyError as e:
-                    raise ControllerError("{" + e.args[0] + "} is not a valid replacement string in the node name")
+                    raise ControllerError(
+                        "{" + e.args[0] + "} is not a valid replacement string in the node name"
+                    ) from e
                 except (ValueError, IndexError):
-                    raise ControllerError(f"{base_name} is not a valid replacement string in the node name")
+                    raise ControllerError(f"{base_name} is not a valid replacement string in the node name") from None
                 if name not in self._allocated_node_names:
                     self._allocated_node_names.add(name)
                     return name
@@ -748,7 +750,7 @@ class Project:
         try:
             return self._nodes[node_id]
         except KeyError:
-            raise ControllerNotFoundError(f"Node ID {node_id} doesn't exist")
+            raise ControllerNotFoundError(f"Node ID {node_id} doesn't exist") from None
 
     def _get_closed_data(self, section, id_key):
         """
@@ -764,7 +766,7 @@ class Project:
             with open(path) as f:
                 topology = json.load(f)
         except OSError as e:
-            raise ControllerError(f"Could not load topology: {e}")
+            raise ControllerError(f"Could not load topology: {e}") from e
 
         try:
             data = {}
@@ -772,7 +774,7 @@ class Project:
                 data[elem[id_key]] = elem
             return data
         except KeyError:
-            raise ControllerNotFoundError(f"Section {section} not found in the topology")
+            raise ControllerNotFoundError(f"Section {section} not found in the topology") from None
 
     @property
     def nodes(self):
@@ -817,7 +819,7 @@ class Project:
         try:
             return self._drawings[drawing_id]
         except KeyError:
-            raise ControllerNotFoundError(f"Drawing ID {drawing_id} doesn't exist")
+            raise ControllerNotFoundError(f"Drawing ID {drawing_id} doesn't exist") from None
 
     @open_required
     async def delete_drawing(self, drawing_id):
@@ -1101,7 +1103,7 @@ class Project:
         try:
             return self._links[link_id]
         except KeyError:
-            raise ControllerNotFoundError(f"Link ID {link_id} doesn't exist")
+            raise ControllerNotFoundError(f"Link ID {link_id} doesn't exist") from None
 
     @property
     def links(self):
@@ -1462,7 +1464,7 @@ class Project:
         try:
             return self._snapshots[snapshot_id]
         except KeyError:
-            raise ControllerNotFoundError(f"Snapshot ID {snapshot_id} doesn't exist")
+            raise ControllerNotFoundError(f"Snapshot ID {snapshot_id} doesn't exist") from None
 
     def _load_snapshot_config(self):
 
@@ -1474,7 +1476,7 @@ class Project:
                 with open(self._snapshot_conf_path, encoding="utf-8") as f:
                     self._snapshot_conf = json.load(f)
             except (OSError, UnicodeDecodeError, ValueError) as e:
-                raise ControllerError(f"Could not read snapshot config {e}")
+                raise ControllerError(f"Could not read snapshot config {e}") from e
 
         # Load all legacy snapshots (.gns3project files) to create an initial snapshot config if it doesn't exist
         if os.path.exists(snapshot_dir) and not self._snapshot_conf:
@@ -1729,7 +1731,7 @@ class Project:
                 )
             shutil.rmtree(self.path)
         except OSError as e:
-            raise ControllerError(f"Cannot delete project directory {self.path}: {e!s}")
+            raise ControllerError(f"Cannot delete project directory {self.path}: {e!s}") from e
         self.emit_controller_notification("project.deleted", self.asdict())
 
     def _get_disconnected_computes(self):
@@ -1793,7 +1795,7 @@ class Project:
         try:
             os.makedirs(path, exist_ok=True)
         except OSError as e:
-            raise ControllerError(f"Could not create project directory: {e}")
+            raise ControllerError(f"Could not create project directory: {e}") from e
         return path
 
     def _topology_file(self):
@@ -2025,7 +2027,7 @@ class Project:
             self._status = "closed"
             self._loading = False
             if isinstance(e, ComputeError):
-                raise ControllerError(str(e))
+                raise ControllerError(str(e)) from e
             else:
                 raise e
         try:
@@ -2079,7 +2081,7 @@ class Project:
             else:
                 log.info("Fast duplication failed, fallback to normal duplication")
         except Exception as e:
-            raise ControllerError(f"Cannot duplicate project: {e!s}")
+            raise ControllerError(f"Cannot duplicate project: {e!s}") from e
 
         try:
             begin = time.time()
@@ -2117,7 +2119,7 @@ class Project:
 
             log.info(f"Project '{project.name}' duplicated in {time.time() - begin:.4f} seconds")
         except (ValueError, OSError, UnicodeEncodeError) as e:
-            raise ControllerError(f"Cannot duplicate project: {e!s}")
+            raise ControllerError(f"Cannot duplicate project: {e!s}") from e
 
         if previous_status == "closed":
             await self.close()
@@ -2264,7 +2266,7 @@ class Project:
                 json.dump(topo, f, indent=4, sort_keys=True)
             shutil.move(path + ".tmp", path)
         except OSError as e:
-            raise ControllerError(f"Could not write topology: {e}")
+            raise ControllerError(f"Could not write topology: {e}") from e
 
     @open_required
     async def start_all(self):
@@ -2358,7 +2360,7 @@ class Project:
             await node.post("/duplicate", timeout=None, data={"destination_node_id": new_node_uuid})
         except ControllerNotFoundError:
             await self.delete_node(new_node_uuid)
-            raise ControllerError("This node type cannot be duplicated")
+            raise ControllerError("This node type cannot be duplicated") from None
         except ControllerError as e:
             await self.delete_node(new_node_uuid)
             raise e

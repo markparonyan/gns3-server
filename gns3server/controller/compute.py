@@ -574,7 +574,7 @@ class Compute:
                 timeout=timeout,
             )
         except asyncio.TimeoutError:
-            raise ComputeError(f"Timeout error for {method} call to {url} after {timeout}s")
+            raise ComputeError(f"Timeout error for {method} call to {url} after {timeout}s") from None
         except (
             aiohttp.ClientError,
             aiohttp.ServerDisconnectedError,
@@ -584,7 +584,7 @@ class Compute:
             socket.gaierror,
         ) as e:
             #  aiohttp 2.3.1 raises socket.gaierror when cannot find host
-            raise ComputeError(str(e))
+            raise ComputeError(str(e)) from e
 
         if stream:
             if response.status >= 300:
@@ -626,7 +626,7 @@ class Compute:
                     raise ComputeConflictError(url, json.loads(body))
                 # If the 409 doesn't come from a GNS3 server
                 except ValueError:
-                    raise ControllerError(msg)
+                    raise ControllerError(msg) from None
             else:
                 raise HTTPException(
                     status_code=response.status,
@@ -641,7 +641,7 @@ class Compute:
                 try:
                     response.json = json.loads(body)
                 except ValueError:
-                    raise ControllerError(f"The server {self._id} is not a GNS3 server")
+                    raise ControllerError(f"The server {self._id} is not a GNS3 server") from None
         else:
             response.json = {}
             response.body = b""
@@ -669,7 +669,7 @@ class Compute:
             action = f"/{type}/{path}"
             res = await self.http_query(method, action, data=data, timeout=None)
         except aiohttp.ServerDisconnectedError:
-            raise ControllerError(f"Connection lost to {self._id} during {method} {action}")
+            raise ControllerError(f"Connection lost to {self._id} during {method} {action}") from None
         return res.json
 
     async def list_files(self, project):

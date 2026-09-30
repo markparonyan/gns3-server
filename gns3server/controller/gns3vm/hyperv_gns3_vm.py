@@ -78,7 +78,7 @@ class HyperVGNS3VM(BaseGNS3VM):
             self._wmi = wmi
             conn = self._wmi.WMI()
         except self._wmi.x_wmi as e:
-            raise GNS3VMError(f"Could not connect to WMI: {e}")
+            raise GNS3VMError(f"Could not connect to WMI: {e}") from e
 
         if not conn.Win32_ComputerSystem()[0].HypervisorPresent:
             raise GNS3VMError("Hyper-V is not installed or activated")
@@ -108,7 +108,7 @@ class HyperVGNS3VM(BaseGNS3VM):
         try:
             self._conn = self._wmi.WMI(namespace=r"root\virtualization\v2")
         except self._wmi.x_wmi as e:
-            raise GNS3VMError(f"Could not connect to WMI: {e}")
+            raise GNS3VMError(f"Could not connect to WMI: {e}") from e
 
         if not self._conn.Msvm_VirtualSystemManagementService():
             raise GNS3VMError("The Windows account running GNS3 does not have the required permissions for Hyper-V")
@@ -192,7 +192,7 @@ class HyperVGNS3VM(BaseGNS3VM):
 
             log.info(f"GNS3 VM vCPU count set to {vcpus} and RAM amount set to {ram}")
         except Exception as e:
-            raise GNS3VMError(f"Could not set to {vcpus} and RAM amount set to {ram}: {e}")
+            raise GNS3VMError(f"Could not set to {vcpus} and RAM amount set to {ram}: {e}") from e
 
     async def list(self):
         """
@@ -208,7 +208,7 @@ class HyperVGNS3VM(BaseGNS3VM):
                 if vm.ElementName != self._management.SystemName:
                     vms.append({"vmname": vm.ElementName})
         except self._wmi.x_wmi as e:
-            raise GNS3VMError(f"Could not list Hyper-V VMs: {e}")
+            raise GNS3VMError(f"Could not list Hyper-V VMs: {e}") from e
         return vms
 
     def _get_wmi_obj(self, path):
@@ -279,7 +279,7 @@ class HyperVGNS3VM(BaseGNS3VM):
             try:
                 await self._set_state(HyperVGNS3VM._HYPERV_VM_STATE_ENABLED)
             except GNS3VMError as e:
-                raise GNS3VMError(f"Failed to start the GNS3 VM: {e}")
+                raise GNS3VMError(f"Failed to start the GNS3 VM: {e}") from e
             log.info("GNS3 VM has been started")
 
         # check if VM network is active
@@ -329,7 +329,7 @@ class HyperVGNS3VM(BaseGNS3VM):
         try:
             await self._set_state(HyperVGNS3VM._HYPERV_VM_STATE_PAUSED)
         except GNS3VMError as e:
-            raise GNS3VMError(f"Failed to suspend the GNS3 VM: {e}")
+            raise GNS3VMError(f"Failed to suspend the GNS3 VM: {e}") from e
         log.info("GNS3 VM has been suspended")
         self.running = False
 
@@ -341,6 +341,6 @@ class HyperVGNS3VM(BaseGNS3VM):
         try:
             await self._set_state(HyperVGNS3VM._HYPERV_VM_STATE_SHUTDOWN)
         except GNS3VMError as e:
-            raise GNS3VMError(f"Failed to stop the GNS3 VM: {e}")
+            raise GNS3VMError(f"Failed to stop the GNS3 VM: {e}") from e
         log.info("GNS3 VM has been stopped")
         self.running = False

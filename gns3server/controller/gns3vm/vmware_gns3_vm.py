@@ -47,7 +47,7 @@ class VMwareGNS3VM(BaseGNS3VM):
             result = await self._vmware_manager.execute(subcommand, args, timeout, log_level=log_level)
             return "".join(result)
         except VMwareError as e:
-            raise GNS3VMError(f"Error while executing VMware command: {e}")
+            raise GNS3VMError(f"Error while executing VMware command: {e}") from e
 
     async def _is_running(self):
         result = await self._vmware_manager.execute("list", [])
@@ -86,7 +86,7 @@ class VMwareGNS3VM(BaseGNS3VM):
                 VMware.write_vmx_file(self._vmx_path, pairs)
             log.info(f"GNS3 VM vCPU count set to {vcpus} and RAM amount set to {ram}")
         except OSError as e:
-            raise GNS3VMError(f'Could not read/write VMware VMX file "{self._vmx_path}": {e}')
+            raise GNS3VMError(f'Could not read/write VMware VMX file "{self._vmx_path}": {e}') from e
 
     async def _set_extra_options(self):
         try:
@@ -107,7 +107,7 @@ class VMwareGNS3VM(BaseGNS3VM):
                 VMware.write_vmx_file(self._vmx_path, pairs)
                 log.info("GNS3 VM VMX has been updated.")
         except OSError as e:
-            raise GNS3VMError(f'Could not read/write VMware VMX file "{self._vmx_path}": {e}')
+            raise GNS3VMError(f'Could not read/write VMware VMX file "{self._vmx_path}": {e}') from e
 
     async def list(self):
         """
@@ -117,7 +117,7 @@ class VMwareGNS3VM(BaseGNS3VM):
         try:
             return await self._vmware_manager.list_vms()
         except VMwareError as e:
-            raise GNS3VMError(f"Could not list VMware VMs: {e!s}")
+            raise GNS3VMError(f"Could not list VMware VMs: {e!s}") from e
 
     async def start(self):
         """
@@ -144,7 +144,7 @@ class VMwareGNS3VM(BaseGNS3VM):
         try:
             running = await self._is_running()
         except VMwareError as e:
-            raise GNS3VMError(f"Could not list VMware VMs: {e!s}")
+            raise GNS3VMError(f"Could not list VMware VMs: {e!s}") from e
         if not running:
             # set the number of vCPUs and amount of RAM
             if self.allocate_vcpus_ram:

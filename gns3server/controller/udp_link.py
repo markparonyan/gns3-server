@@ -139,7 +139,7 @@ class UDPLink(Link):
         try:
             (node1_host, node2_host) = await node1.compute.get_ip_on_same_subnet(node2.compute)
         except ValueError as e:
-            raise ControllerError(f"Cannot get an IP address on same subnet: {e}")
+            raise ControllerError(f"Cannot get an IP address on same subnet: {e}") from e
 
         # Reserve a UDP port on both sides in parallel. Pre-allocated ports
         # (used during batch project loading) are popped from memory; otherwise

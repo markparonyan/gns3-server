@@ -36,7 +36,7 @@ import json
 import logging
 import os
 from datetime import datetime
-from typing import Any, AsyncGenerator, Dict, List
+from typing import Any, AsyncGenerator
 from uuid import uuid4
 
 import aiosqlite
@@ -223,8 +223,8 @@ class AgentService:
         user_id: str | None = None,
         jwt_token: str | None = None,
         mode: str = "text",
-        llm_config: Dict[str, Any] | None = None,
-    ) -> AsyncGenerator[Dict[str, Any], None]:
+        llm_config: dict[str, Any] | None = None,
+    ) -> AsyncGenerator[dict[str, Any], None]:
         """
         Stream chat responses from the agent.
 
@@ -512,7 +512,7 @@ class AgentService:
                 "session_id": session_id,
             }
 
-    def _convert_event_to_chunk(self, event: Dict[str, Any], session_id: str) -> Dict[str, Any] | None:
+    def _convert_event_to_chunk(self, event: dict[str, Any], session_id: str) -> dict[str, Any] | None:
         """
         Convert LangGraph event to API response chunk.
 
@@ -561,7 +561,7 @@ class AgentService:
 
         return None
 
-    async def get_history(self, session_id: str, limit: int = 100) -> Dict[str, Any]:
+    async def get_history(self, session_id: str, limit: int = 100) -> dict[str, Any]:
         """
         Get conversation history for a session.
 
@@ -599,13 +599,13 @@ class AgentService:
             "messages": [],
         }
 
-    def _convert_message_to_dict(self, msg) -> Dict[str, Any]:
+    def _convert_message_to_dict(self, msg) -> dict[str, Any]:
         """Convert a LangChain message to OpenAI-compatible dict format."""
         return convert_langchain_to_openai(msg)
 
     async def list_sessions(
         self, user_id: str | None = None, copilot_mode: str | None = None, limit: int = 100
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """
         List chat sessions for this project.
 
@@ -638,7 +638,7 @@ class AgentService:
         repo = ChatSessionsRepository(checkpointer.conn)
         return await repo.delete_session(session_id)
 
-    async def rename_session(self, session_id: str, new_title: str) -> Dict[str, Any] | None:
+    async def rename_session(self, session_id: str, new_title: str) -> dict[str, Any] | None:
         """
         Rename a chat session.
 
@@ -655,7 +655,7 @@ class AgentService:
         session = await repo.update_session(thread_id=session_id, title=new_title)
         return session.to_dict() if session else None
 
-    async def pin_session(self, session_id: str, pinned: bool = True) -> Dict[str, Any] | None:
+    async def pin_session(self, session_id: str, pinned: bool = True) -> dict[str, Any] | None:
         """
         Pin or unpin a chat session.
 

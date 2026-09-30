@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import List, Union, cast
+from typing import Union, cast
 from uuid import UUID
 
 from sqlalchemy import delete, func, select, update
@@ -66,7 +66,7 @@ class UsersRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_users(self) -> List[models.User]:
+    async def get_users(self) -> list[models.User]:
         """
         Get all users.
         """
@@ -163,7 +163,7 @@ class UsersRepository(BaseRepository):
         await self._db_session.commit()
         return user
 
-    async def get_user_memberships(self, user_id: UUID) -> List[models.UserGroup]:
+    async def get_user_memberships(self, user_id: UUID) -> list[models.UserGroup]:
         """
         Get all user memberships (user groups).
         """
@@ -191,7 +191,7 @@ class UsersRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_user_groups(self) -> List[models.UserGroup]:
+    async def get_user_groups(self) -> list[models.UserGroup]:
         """
         Get all user groups.
         """
@@ -280,7 +280,7 @@ class UsersRepository(BaseRepository):
         await self._db_session.refresh(user_group_db)
         return user_group_db
 
-    async def get_user_group_members(self, user_group_id: UUID) -> List[models.User]:
+    async def get_user_group_members(self, user_group_id: UUID) -> list[models.User]:
         """
         Get all members from a user group.
         """

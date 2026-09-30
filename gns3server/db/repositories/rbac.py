@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import List, Union, cast
+from typing import Union, cast
 from urllib.parse import urlparse
 from uuid import UUID
 
@@ -56,7 +56,7 @@ class RbacRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_roles(self) -> List[models.Role]:
+    async def get_roles(self) -> list[models.Role]:
         """
         Get all roles.
         """
@@ -142,7 +142,7 @@ class RbacRepository(BaseRepository):
         await self._db_session.refresh(role_db)
         return role_db
 
-    async def get_role_privileges(self, role_id: UUID) -> List[models.Privilege]:
+    async def get_role_privileges(self, role_id: UUID) -> list[models.Privilege]:
         """
         Get all the role privileges.
         """
@@ -170,7 +170,7 @@ class RbacRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_privileges(self) -> List[models.Privilege]:
+    async def get_privileges(self) -> list[models.Privilege]:
         """
         Get all privileges.
         """
@@ -197,7 +197,7 @@ class RbacRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_aces(self) -> List[models.ACE]:
+    async def get_aces(self) -> list[models.ACE]:
         """
         Get all ACEs.
         """
@@ -206,7 +206,7 @@ class RbacRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return list(result.scalars().all())
 
-    async def get_aces_for_path(self, path: str) -> List[models.ACE]:
+    async def get_aces_for_path(self, path: str) -> list[models.ACE]:
         """
         Get all ACEs for a specific path (exact match or starting with path).
 
@@ -298,7 +298,7 @@ class RbacRepository(BaseRepository):
                         return True  # only allow if the path is the original path or the ACE is set to propagate
         return False
 
-    async def _get_resources_in_pools(self, aces, path: str | None = None) -> List[models.Resource]:
+    async def _get_resources_in_pools(self, aces, path: str | None = None) -> list[models.Resource]:
         """
         Get all resources in pools.
         """
@@ -362,7 +362,7 @@ class RbacRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.all()
 
-    async def get_user_pool_resources(self, user_id: UUID, privilege_name: str) -> List[models.Resource]:
+    async def get_user_pool_resources(self, user_id: UUID, privilege_name: str) -> list[models.Resource]:
         """
         Get all resources in pools belonging to a user and groups
         """
@@ -373,7 +373,7 @@ class RbacRepository(BaseRepository):
         pool_resources.extend(await self._get_resources_in_pools(group_aces))
         return list(set(pool_resources))
 
-    async def get_accessible_project_ids(self, user_id: UUID, privilege_name: str, all_project_ids: List[str]):
+    async def get_accessible_project_ids(self, user_id: UUID, privilege_name: str, all_project_ids: list[str]):
         """
         Batch check which projects a user can access via direct ACE or resource pools.
         Performs 3 fixed DB queries regardless of project count.

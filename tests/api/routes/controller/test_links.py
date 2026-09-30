@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import uuid
-from typing import Tuple
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -36,7 +35,7 @@ pytestmark = pytest.mark.asyncio
 
 class TestLinkRoutes:
     @pytest_asyncio.fixture
-    async def nodes(self, compute: Compute, project: Project) -> Tuple[Node, Node]:
+    async def nodes(self, compute: Compute, project: Project) -> tuple[Node, Node]:
 
         response = MagicMock()
         response.json = {"console": 2048}
@@ -49,7 +48,7 @@ class TestLinkRoutes:
         return node1, node2
 
     async def test_create_link(
-        self, app: FastAPI, client: AsyncClient, project: Project, nodes: Tuple[Node, Node]
+        self, app: FastAPI, client: AsyncClient, project: Project, nodes: tuple[Node, Node]
     ) -> None:
 
         node1, node2 = nodes
@@ -116,7 +115,7 @@ class TestLinkRoutes:
         assert len(project.links) == 0
 
     async def test_get_link(
-        self, app: FastAPI, client: AsyncClient, project: Project, nodes: Tuple[Node, Node]
+        self, app: FastAPI, client: AsyncClient, project: Project, nodes: tuple[Node, Node]
     ) -> None:
 
         node1, node2 = nodes
@@ -144,7 +143,7 @@ class TestLinkRoutes:
         assert response.json()["nodes"][0]["label"]["x"] == 42
 
     async def test_update_link_suspend(
-        self, app: FastAPI, client: AsyncClient, project: Project, nodes: Tuple[Node, Node]
+        self, app: FastAPI, client: AsyncClient, project: Project, nodes: tuple[Node, Node]
     ) -> None:
 
         node1, node2 = nodes
@@ -190,7 +189,7 @@ class TestLinkRoutes:
         assert response.json()["filters"] == {}
 
     async def test_update_link(
-        self, app: FastAPI, client: AsyncClient, project: Project, nodes: Tuple[Node, Node]
+        self, app: FastAPI, client: AsyncClient, project: Project, nodes: tuple[Node, Node]
     ) -> None:
 
         filters = {"delay": [10, 0], "frequency_drop": [50]}
@@ -237,7 +236,7 @@ class TestLinkRoutes:
         assert list(project.links.values())[0].filters == filters
 
     async def test_list_link(
-        self, app: FastAPI, client: AsyncClient, project: Project, nodes: Tuple[Node, Node]
+        self, app: FastAPI, client: AsyncClient, project: Project, nodes: tuple[Node, Node]
     ) -> None:
 
         filters = {"delay": [10, 0], "frequency_drop": [50]}

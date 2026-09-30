@@ -19,7 +19,6 @@ import asyncio
 import contextlib
 import logging
 from types import SimpleNamespace
-from typing import List
 from unittest.mock import MagicMock, patch
 
 import aiohttp
@@ -522,7 +521,7 @@ class FakeComputeConsoleWebSocket:
     to the compute console WebSocket, yielding queued messages.
     """
 
-    def __init__(self, messages: List[aiohttp.WSMessage]):
+    def __init__(self, messages: list[aiohttp.WSMessage]):
 
         self._messages = messages
         self.closed = False
@@ -568,7 +567,7 @@ class FakeClientWebSocket:
 
         self.url = SimpleNamespace(scheme="http")
         self.client = SimpleNamespace(host="127.0.0.1", port=5000)
-        self.sent: List[tuple] = []
+        self.sent: list[tuple] = []
         self._fail_after = fail_after
 
     async def receive(self) -> dict:
@@ -630,7 +629,7 @@ class TestNodeConsoleWebSocketRoutes:
         server_config.compute_password = SecretStr("password")
 
     @staticmethod
-    def _forward_compute_ws(monkeypatch, messages: List[aiohttp.WSMessage]) -> FakeComputeConsoleWebSocket:
+    def _forward_compute_ws(monkeypatch, messages: list[aiohttp.WSMessage]) -> FakeComputeConsoleWebSocket:
 
         compute_ws = FakeComputeConsoleWebSocket(messages)
         monkeypatch.setattr(

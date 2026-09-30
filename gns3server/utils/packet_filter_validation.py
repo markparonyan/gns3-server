@@ -4,7 +4,7 @@ Packet filter parameter validation utilities.
 
 import logging
 import subprocess
-from typing import Any, Dict, List
+from typing import Any
 
 log = logging.getLogger(__name__)
 
@@ -15,7 +15,7 @@ class FilterValidationError(Exception):
     pass
 
 
-def validate_bpf_syntax(bpf_expression: str) -> Dict[str, Any]:
+def validate_bpf_syntax(bpf_expression: str) -> dict[str, Any]:
     """
     Validate BPF filter expression syntax using tcpdump.
 
@@ -65,7 +65,7 @@ def validate_bpf_syntax(bpf_expression: str) -> Dict[str, Any]:
         return {"valid": False, "error": f"BPF validation error: {e!s}"}
 
 
-def validate_filter_parameters(filter_type: str, values: List[Any]) -> None:
+def validate_filter_parameters(filter_type: str, values: list[Any]) -> None:
     """
     Validate packet filter parameters.
 
@@ -78,7 +78,7 @@ def validate_filter_parameters(filter_type: str, values: List[Any]) -> None:
     """
 
     # Define validation rules based on ubridge implementation
-    VALIDATION_RULES: Dict[str, Dict[str, Any]] = {
+    VALIDATION_RULES: dict[str, dict[str, Any]] = {
         "frequency_drop": {
             "params_count": 1,
             "ranges": [(-1, 32767)],  # min, max
@@ -150,7 +150,7 @@ def validate_filter_parameters(filter_type: str, values: List[Any]) -> None:
                 )
 
 
-def filter_inactive_filters(filters: Dict[str, List[Any]]) -> Dict[str, List[Any]]:
+def filter_inactive_filters(filters: dict[str, list[Any]]) -> dict[str, list[Any]]:
     """
     Filter out inactive packet filters before validation.
 
@@ -177,7 +177,7 @@ def filter_inactive_filters(filters: Dict[str, List[Any]]) -> Dict[str, List[Any
             continue
 
         # Normalize values (strip strings, convert to int)
-        normalized_values: List[Any] = []
+        normalized_values: list[Any] = []
         for value in values:
             if isinstance(value, str):
                 normalized_values.append(value.strip("\n "))
@@ -213,7 +213,7 @@ def filter_inactive_filters(filters: Dict[str, List[Any]]) -> Dict[str, List[Any
     return active_filters
 
 
-def validate_all_filters(filters: Dict[str, List[Any]]) -> None:
+def validate_all_filters(filters: dict[str, list[Any]]) -> None:
     """
     Validate all packet filters.
 

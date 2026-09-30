@@ -33,7 +33,7 @@ checkpoint database.
 import json
 import logging
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any
 
 import aiosqlite
 
@@ -79,7 +79,7 @@ class ChatSession:
         self.stats = stats
         self.pinned = pinned
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
         return {
             "id": self.id,
@@ -199,7 +199,7 @@ class ChatSessionsRepository:
         project_id: str | None = None,
         copilot_mode: str | None = None,
         limit: int = 100,
-    ) -> List[ChatSession]:
+    ) -> list[ChatSession]:
         """
         List sessions with optional filters.
 
@@ -213,7 +213,7 @@ class ChatSessionsRepository:
             List of ChatSession
         """
         query = "SELECT * FROM chat_sessions"
-        params: List[Any] = []
+        params: list[Any] = []
 
         conditions = []
         if user_id:
@@ -267,7 +267,7 @@ class ChatSessionsRepository:
             Updated ChatSession or None
         """
         updates = []
-        params: List[Any] = []
+        params: list[Any] = []
 
         now = datetime.utcnow().isoformat()
 

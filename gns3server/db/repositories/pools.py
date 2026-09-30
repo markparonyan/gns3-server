@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import List, Union, cast
+from typing import Union, cast
 from uuid import UUID
 
 from sqlalchemy import delete, select, update
@@ -46,7 +46,7 @@ class ResourcePoolsRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_resources(self) -> List[models.Resource]:
+    async def get_resources(self) -> list[models.Resource]:
         """
         Get all resources.
         """
@@ -78,7 +78,7 @@ class ResourcePoolsRepository(BaseRepository):
         await self._db_session.commit()
         return cast(CursorResult, result).rowcount > 0
 
-    async def get_resource_memberships(self, resource_id: UUID) -> List[models.ResourcePool]:
+    async def get_resource_memberships(self, resource_id: UUID) -> list[models.ResourcePool]:
         """
         Get all resource memberships in resource pools.
         """
@@ -110,7 +110,7 @@ class ResourcePoolsRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_resource_pools(self) -> List[models.ResourcePool]:
+    async def get_resource_pools(self) -> list[models.ResourcePool]:
         """
         Get all resource pools.
         """
@@ -214,7 +214,7 @@ class ResourcePoolsRepository(BaseRepository):
 
         return resource_pool_db
 
-    async def get_pool_resources(self, resource_pool_id: UUID) -> List[models.Resource]:
+    async def get_pool_resources(self, resource_pool_id: UUID) -> list[models.Resource]:
         """
         Get all resources from a resource pool.
         """

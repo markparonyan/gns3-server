@@ -17,7 +17,7 @@
 
 import logging
 from datetime import datetime
-from typing import Any, Dict, List, cast
+from typing import Any, cast
 from uuid import UUID
 
 from sqlalchemy import and_, delete, select, update
@@ -34,7 +34,7 @@ class LLMModelConfigsRepository(BaseRepository):
     """Repository for LLM model configurations with inheritance support."""
 
     @staticmethod
-    def _hide_api_key(config: Dict[str, Any]) -> Dict[str, Any]:
+    def _hide_api_key(config: dict[str, Any]) -> dict[str, Any]:
         """
         Remove API key from config dict for security.
         API keys should NEVER be returned via API endpoints.
@@ -57,7 +57,7 @@ class LLMModelConfigsRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_user_configs(self, user_id: UUID) -> List[models.LLMModelConfig]:
+    async def get_user_configs(self, user_id: UUID) -> list[models.LLMModelConfig]:
         """Get all LLM model configurations for a user."""
         query = (
             select(models.LLMModelConfig)
@@ -76,7 +76,7 @@ class LLMModelConfigsRepository(BaseRepository):
         return result.scalars().first()
 
     async def create_user_config(
-        self, user_id: UUID, name: str, model_type: str, config_data: Dict[str, Any], is_default: bool = False
+        self, user_id: UUID, name: str, model_type: str, config_data: dict[str, Any], is_default: bool = False
     ) -> models.LLMModelConfig:
         """Create a new LLM model configuration for a user."""
         # Encrypt API key if present
@@ -107,7 +107,7 @@ class LLMModelConfigsRepository(BaseRepository):
         return db_config
 
     async def update_user_config(
-        self, config_id: UUID, user_id: UUID, updates: Dict[str, Any], expected_version: int | None = None
+        self, config_id: UUID, user_id: UUID, updates: dict[str, Any], expected_version: int | None = None
     ) -> models.LLMModelConfig | None:
         """
         Update a user's LLM model configuration.
@@ -216,7 +216,7 @@ class LLMModelConfigsRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_group_configs(self, group_id: UUID) -> List[models.LLMModelConfig]:
+    async def get_group_configs(self, group_id: UUID) -> list[models.LLMModelConfig]:
         """Get all LLM model configurations for a group."""
         query = (
             select(models.LLMModelConfig)
@@ -235,7 +235,7 @@ class LLMModelConfigsRepository(BaseRepository):
         return result.scalars().first()
 
     async def create_group_config(
-        self, group_id: UUID, name: str, model_type: str, config_data: Dict[str, Any], is_default: bool = False
+        self, group_id: UUID, name: str, model_type: str, config_data: dict[str, Any], is_default: bool = False
     ) -> models.LLMModelConfig:
         """Create a new LLM model configuration for a group."""
         # Encrypt API key if present
@@ -266,7 +266,7 @@ class LLMModelConfigsRepository(BaseRepository):
         return db_config
 
     async def update_group_config(
-        self, config_id: UUID, group_id: UUID, updates: Dict[str, Any], expected_version: int | None = None
+        self, config_id: UUID, group_id: UUID, updates: dict[str, Any], expected_version: int | None = None
     ) -> models.LLMModelConfig | None:
         """
         Update a group's LLM model configuration.
@@ -369,7 +369,7 @@ class LLMModelConfigsRepository(BaseRepository):
 
     async def get_user_effective_configs(
         self, user_id: UUID, current_user_id: UUID | None = None, current_user_is_superadmin: bool = False
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Get user's effective configurations (own + inherited from groups).
         Returns a dict with 'configs' list and 'default_config'.

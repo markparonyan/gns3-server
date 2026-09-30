@@ -19,7 +19,6 @@ import asyncio
 import json
 import logging
 import os
-from typing import List, Tuple
 from uuid import UUID
 
 import platformdirs
@@ -120,7 +119,7 @@ class ApplianceManager:
         except OSError as e:
             log.error(f"Could not install built-in appliance files to {dst_path}: {e}")
 
-    def _find_appliances_from_image_checksum(self, image_checksum: str) -> List[Tuple[Appliance, str]]:
+    def _find_appliances_from_image_checksum(self, image_checksum: str) -> list[tuple[Appliance, str]]:
         """
         Find appliances that matches an image checksum.
         """
@@ -237,7 +236,7 @@ class ApplianceManager:
         rbac_repo: RbacRepository,
         current_user: schemas.User,
         image_dir: str,
-    ) -> List[dict]:
+    ) -> list[dict]:
         """
         Install appliances using an image checksum.
 
@@ -246,7 +245,7 @@ class ApplianceManager:
         {"status": "skipped", "name", "reason"}.
         """
 
-        results: List[dict] = []
+        results: list[dict] = []
         appliances_info = self._find_appliances_from_image_checksum(image_checksum)
         for appliance, image_version in appliances_info:
             try:

@@ -33,7 +33,7 @@ database.
 
 import asyncio
 import logging
-from typing import Dict, Optional
+from typing import Optional
 
 from gns3server.agent.gns3_copilot.agent_service import AgentService
 
@@ -51,7 +51,7 @@ class ProjectAgentManager:
 
     _instance: Optional["ProjectAgentManager"] = None
     _lock: asyncio.Lock = asyncio.Lock()
-    _agents: Dict[str, AgentService] = {}
+    _agents: dict[str, AgentService] = {}
 
     def __new__(cls):
         if cls._instance is None:

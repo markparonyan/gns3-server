@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from typing import List, Union
+from typing import Union
 from uuid import UUID
 
 import gns3server.db.models as models
@@ -34,7 +34,7 @@ class ComputesService:
         self._computes_repo = computes_repo
         self._controller = Controller.instance()
 
-    async def get_computes(self) -> List[models.Compute]:
+    async def get_computes(self) -> list[models.Compute]:
 
         db_computes = await self._computes_repo.get_computes()
         return db_computes

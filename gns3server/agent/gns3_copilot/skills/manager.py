@@ -33,7 +33,7 @@ including Git operations and hot reload of skills.
 import logging
 import os
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 try:
     import git
@@ -384,7 +384,7 @@ class SkillsManager:
         """
         return self._prompt_count
 
-    def get_repository_info(self) -> Dict[str, Any]:
+    def get_repository_info(self) -> dict[str, Any]:
         """
         Get information about the skills repository.
 

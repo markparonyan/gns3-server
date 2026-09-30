@@ -16,7 +16,6 @@
 
 import os
 import uuid
-from typing import List
 from uuid import UUID
 
 import pydantic
@@ -178,7 +177,7 @@ class TemplatesService:
     def _base_path(self):
         return self._templates_repo.configs_path()
 
-    async def get_templates(self) -> List[dict]:
+    async def get_templates(self) -> list[dict]:
 
         templates = []
         db_templates = await self._templates_repo.get_templates()
@@ -198,7 +197,7 @@ class TemplatesService:
             raise ControllerNotFoundError(f"Image '{image.path}' could not be found on disk")
         return image
 
-    async def _find_images(self, template_type: str, settings: dict) -> List[models.Image]:
+    async def _find_images(self, template_type: str, settings: dict) -> list[models.Image]:
 
         images_to_add_to_template = []
         if template_type == "dynamips":

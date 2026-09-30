@@ -16,7 +16,6 @@
 
 import hashlib
 from types import SimpleNamespace
-from typing import List
 
 import aiohttp
 import pytest
@@ -166,7 +165,7 @@ class TestAccessTicketWebSocketAuth:
         return AsyncClient(base_url="http://test-api", transport=ASGIWebSocketTransport(app=app))
 
     @staticmethod
-    def _forward_compute_ws(monkeypatch, messages: List[aiohttp.WSMessage]) -> FakeComputeConsoleWebSocket:
+    def _forward_compute_ws(monkeypatch, messages: list[aiohttp.WSMessage]) -> FakeComputeConsoleWebSocket:
 
         compute_ws = FakeComputeConsoleWebSocket(messages)
         monkeypatch.setattr(

@@ -7,12 +7,12 @@ about Web Wireshark containers and sessions.
 
 import logging
 import subprocess
-from typing import Any, Dict, List
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
 
-async def collect_webwireshark_stats(projects: List) -> Dict:
+async def collect_webwireshark_stats(projects: list) -> dict:
     """
     Collect Web Wireshark container statistics across all projects.
 
@@ -30,7 +30,7 @@ async def collect_webwireshark_stats(projects: List) -> Dict:
     """
     from .manager import WebWiresharkManager
 
-    stats: Dict[str, Any] = {"total_containers": 0, "running_containers": 0, "active_sessions": 0, "containers": []}
+    stats: dict[str, Any] = {"total_containers": 0, "running_containers": 0, "active_sessions": 0, "containers": []}
 
     # Create a single manager instance and reuse it
     manager = WebWiresharkManager()
@@ -93,7 +93,7 @@ async def collect_webwireshark_stats(projects: List) -> Dict:
     return stats
 
 
-async def _get_container_resource_stats(container_id: str) -> Dict | None:
+async def _get_container_resource_stats(container_id: str) -> dict | None:
     """
     Get resource usage statistics for a container.
 

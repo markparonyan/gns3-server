@@ -32,7 +32,6 @@ Features:
 import os
 import sys
 from datetime import datetime
-from typing import Dict, List, Tuple
 
 
 def get_netmiko_version() -> str:
@@ -159,7 +158,7 @@ def extract_brand_name(device_type: str) -> str:
     return name.split("_")[0].capitalize()
 
 
-def group_devices_by_brand(device_types: List[str]) -> Dict[str, List[str]]:
+def group_devices_by_brand(device_types: list[str]) -> dict[str, list[str]]:
     """
     Group device types by brand.
 
@@ -182,7 +181,7 @@ def group_devices_by_brand(device_types: List[str]) -> Dict[str, List[str]]:
     return brands
 
 
-def get_devices_by_protocol() -> Tuple[List[str], List[str]]:
+def get_devices_by_protocol() -> tuple[list[str], list[str]]:
     """
     Get all SSH and Telnet device types from Netmiko.
 
@@ -230,7 +229,7 @@ def get_total_device_count() -> int:
 
 
 def generate_markdown(
-    version: str, ssh_devices: List[str], telnet_devices: List[str], total_count: int, custom_devices: set
+    version: str, ssh_devices: list[str], telnet_devices: list[str], total_count: int, custom_devices: set
 ) -> str:
     """
     Generate Markdown documentation with table format.

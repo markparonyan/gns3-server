@@ -18,7 +18,7 @@
 import logging
 import os
 import uuid
-from typing import List, Union, cast
+from typing import Union, cast
 from uuid import UUID
 
 from sqlalchemy import delete, select
@@ -88,7 +88,7 @@ class TemplatesRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_templates(self) -> List[models.Template]:
+    async def get_templates(self) -> list[models.Template]:
 
         query = select(models.Template).options(selectinload(models.Template.images))
         result = await self._db_session.execute(query)
@@ -213,7 +213,7 @@ class TemplatesRepository(BaseRepository):
             await self._db_session.refresh(template_in_db)
         return template_in_db
 
-    async def get_template_images(self, template_id: UUID) -> List[models.Image]:
+    async def get_template_images(self, template_id: UUID) -> list[models.Image]:
         """
         Return all images attached to a template.
         """

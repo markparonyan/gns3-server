@@ -32,7 +32,7 @@ Supports loading injection skills and device/feature skills.
 
 import logging
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 try:
     import yaml
@@ -61,7 +61,7 @@ class SkillsLoader:
         if not self.skills_dir.exists():
             logger.warning(f"Skills directory does not exist: {self.skills_dir}")
 
-    def load_injection_skills(self) -> Dict[str, Dict[str, Any]]:
+    def load_injection_skills(self) -> dict[str, dict[str, Any]]:
         """
         Load all injection skills from YAML files.
 
@@ -95,7 +95,7 @@ class SkillsLoader:
         logger.debug(f"Loaded {len(skills)} injection skills from {injection_dir}")
         return skills
 
-    def load_device_skills(self) -> Dict[str, Dict[str, Any]]:
+    def load_device_skills(self) -> dict[str, dict[str, Any]]:
         """
         Load all device skills from YAML files.
 
@@ -112,7 +112,7 @@ class SkillsLoader:
             logger.error("PyYAML is not installed. Cannot load skills from YAML.")
             return {}
 
-        skills: Dict[str, Dict[str, Any]] = {}
+        skills: dict[str, dict[str, Any]] = {}
         device_dir = self.skills_dir / "device"
 
         if not device_dir.exists():
@@ -128,7 +128,7 @@ class SkillsLoader:
         logger.debug(f"Loaded {len(skills)} device skills from device directory")
         return skills
 
-    def _load_single_device_skill(self, skills: Dict[str, Dict[str, Any]], yaml_file: Path) -> None:
+    def _load_single_device_skill(self, skills: dict[str, dict[str, Any]], yaml_file: Path) -> None:
         """
         Load a single-file device skill into the skills dictionary.
         """
@@ -148,7 +148,7 @@ class SkillsLoader:
         except Exception as e:
             logger.error(f"Failed to load skill from {yaml_file}: {e}")
 
-    def _load_split_device_skill(self, skills: Dict[str, Dict[str, Any]], device_path: Path) -> None:
+    def _load_split_device_skill(self, skills: dict[str, dict[str, Any]], device_path: Path) -> None:
         """
         Load a split device skill (directory with _base.yaml + topic files).
 
@@ -176,7 +176,7 @@ class SkillsLoader:
 
         # Seed topics from the base file (if any), then merge topic files
         base_topics = base_data.get("topics")
-        topics: Dict[str, Any] = dict(base_topics) if isinstance(base_topics, dict) else {}
+        topics: dict[str, Any] = dict(base_topics) if isinstance(base_topics, dict) else {}
 
         for yaml_file in sorted(device_path.glob("*.yaml")):
             if yaml_file.name == "_base.yaml":
@@ -218,7 +218,7 @@ class SkillsLoader:
         skills[skill_key] = base_data
         logger.debug(f"Loaded device skill: {skill_key} from {device_path} ({len(topics)} topics)")
 
-    def load_feature_skills(self) -> Dict[str, Dict[str, Any]]:
+    def load_feature_skills(self) -> dict[str, dict[str, Any]]:
         """
         Load all feature skills from YAML files.
 
@@ -313,7 +313,7 @@ class SkillsLoader:
             logger.error(f"Failed to load forbidden commands from {config_file}: {e}")
             return []
 
-    def load_packet_analysis_protocols(self) -> Dict[str, Dict[str, Any]]:
+    def load_packet_analysis_protocols(self) -> dict[str, dict[str, Any]]:
         """
         Load packet analysis protocol definitions from YAML files.
 
@@ -353,7 +353,7 @@ class SkillsLoader:
         logger.debug(f"Loaded {len(protocols)} packet analysis protocols from {packet_analysis_dir}")
         return protocols
 
-    def _load_yaml(self, file_path: Path) -> Dict[str, Any]:
+    def _load_yaml(self, file_path: Path) -> dict[str, Any]:
         """
         Load a YAML file and return its content.
 
@@ -370,7 +370,7 @@ class SkillsLoader:
             return {}
         return data
 
-    def validate_skill_format(self, skill_data: Dict[str, Any]) -> bool:
+    def validate_skill_format(self, skill_data: dict[str, Any]) -> bool:
         """
         Validate that a skill dictionary has the required fields.
 

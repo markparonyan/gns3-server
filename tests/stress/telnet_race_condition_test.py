@@ -15,7 +15,6 @@ import asyncio
 import logging
 import sys
 import time
-from typing import List
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -291,7 +290,7 @@ async def run_stress_test(
     log.info("Expected behavior: Rapid clients disconnect, long-lived clients unaffected")
     log.info("=" * 70)
 
-    tasks: List[asyncio.Task] = []
+    tasks: list[asyncio.Task] = []
 
     # Start long-lived clients first (simulate web console users)
     for i in range(long_lived_clients):
@@ -306,7 +305,7 @@ async def run_stress_test(
 
     # Start rapid-fire clients (simulate automated scripts)
     log.info("Starting rapid-fire clients...")
-    rapid_tasks: List[asyncio.Task] = []
+    rapid_tasks: list[asyncio.Task] = []
 
     for i in range(rapid_clients):
         task = asyncio.create_task(

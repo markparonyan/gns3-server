@@ -31,7 +31,7 @@ Converts between LangChain messages and OpenAI-compatible format.
 
 import json
 import uuid
-from typing import Any, Dict
+from typing import Any
 
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, ToolCall, ToolMessage
 
@@ -46,7 +46,7 @@ def _ensure_string(content: Any) -> str:
         return str(content)
 
 
-def convert_langchain_to_openai(lc_message) -> Dict[str, Any]:
+def convert_langchain_to_openai(lc_message) -> dict[str, Any]:
     """
     Convert LangChain message to OpenAI-compatible format.
 
@@ -114,7 +114,7 @@ def convert_langchain_to_openai(lc_message) -> Dict[str, Any]:
         return {**base_msg, "role": "unknown", "content": str(lc_message)}
 
 
-def convert_openai_to_langchain(msg: Dict[str, Any]):
+def convert_openai_to_langchain(msg: dict[str, Any]):
     """
     Convert OpenAI-compatible format to LangChain message.
 
@@ -163,7 +163,7 @@ def convert_openai_to_langchain(msg: Dict[str, Any]):
         return HumanMessage(content=content)
 
 
-def convert_stream_event_to_openai(event: Dict[str, Any]) -> Dict[str, Any]:
+def convert_stream_event_to_openai(event: dict[str, Any]) -> dict[str, Any]:
     """
     Convert LangGraph streaming event to OpenAI-compatible format.
 

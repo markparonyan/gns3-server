@@ -29,7 +29,6 @@ import aiofiles
 
 log = logging.getLogger(__name__)
 
-from typing import Type
 from uuid import UUID, uuid4
 
 from gns3server.compute.compute_error import ComputeError, ComputeForbiddenError, ComputeNotFoundError
@@ -150,7 +149,7 @@ class BaseManager:
             BaseManager._instance = None
         log.debug(f"Module {self.module_name} unloaded")
 
-    def get_node(self, node_id, project_id=None) -> Type[BaseNode]:
+    def get_node(self, node_id, project_id=None) -> type[BaseNode]:
         """
         Returns a Node instance.
 

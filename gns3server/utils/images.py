@@ -31,7 +31,7 @@ except ImportError:
 
 import logging
 from io import DEFAULT_BUFFER_SIZE
-from typing import AsyncGenerator, List
+from typing import AsyncGenerator
 
 import gns3server.db.models as models
 from gns3server.db.repositories.images import ImagesRepository
@@ -122,7 +122,7 @@ async def list_images(image_type):
     return images
 
 
-def get_builtin_disks() -> List[str]:
+def get_builtin_disks() -> list[str]:
     builtin_disks = []
     for entry in importlib_resources.files("gns3server").joinpath("disks").iterdir():
         if entry.is_file():
@@ -172,7 +172,7 @@ async def read_image_info(path: str, expected_image_type: str | None = None, all
         raise InvalidImageError(f"Cannot read image '{path}': {e}") from e
 
 
-async def discover_images(image_type: str, skip_image_paths: list | None = None) -> List[dict]:
+async def discover_images(image_type: str, skip_image_paths: list | None = None) -> list[dict]:
     """
     Scan directories for available images
     """

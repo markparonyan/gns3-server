@@ -17,7 +17,6 @@
 
 import logging
 import os
-from typing import List
 
 import sqlalchemy as sa
 from alembic import command, config
@@ -176,7 +175,7 @@ async def disconnect_from_db(app: FastAPI) -> None:
         log.info("Disconnected from database")
 
 
-async def get_computes(app: FastAPI) -> List[schemas.Compute]:
+async def get_computes(app: FastAPI) -> list[schemas.Compute]:
 
     computes = []
     async with AsyncSession(app.state._db_engine) as db_session:
@@ -191,7 +190,7 @@ async def get_computes(app: FastAPI) -> List[schemas.Compute]:
     return computes
 
 
-async def update_disk_checksums(updated_disks: List[str]) -> None:
+async def update_disk_checksums(updated_disks: list[str]) -> None:
     """Refresh complete metadata after a server-managed disk modification."""
     from gns3server.api.server import app
     from gns3server.utils.image_inventory import image_lock

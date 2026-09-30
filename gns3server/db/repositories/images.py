@@ -18,8 +18,9 @@
 import asyncio
 import logging
 import os
+from collections.abc import Callable
 from datetime import datetime, timezone
-from typing import Callable, List, cast
+from typing import cast
 
 from sqlalchemy import delete, select, update
 from sqlalchemy.engine import CursorResult
@@ -83,7 +84,7 @@ class ImagesRepository(BaseRepository):
         except (OSError, InvalidImageError):
             return False
 
-    async def get_images(self, image_type=None, availability=None) -> List[models.Image]:
+    async def get_images(self, image_type=None, availability=None) -> list[models.Image]:
         """
         Get all images.
         """
@@ -97,7 +98,7 @@ class ImagesRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return list(result.scalars().all())
 
-    async def get_image_templates(self, image_id: int) -> List[models.Template]:
+    async def get_image_templates(self, image_id: int) -> list[models.Template]:
         """
         Get all templates that an image belongs to.
         """

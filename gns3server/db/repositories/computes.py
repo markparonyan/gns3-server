@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Union, cast
+from typing import Union, cast
 from uuid import UUID
 
 from sqlalchemy import delete, select, update
@@ -45,7 +45,7 @@ class ComputesRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_computes(self) -> List[models.Compute]:
+    async def get_computes(self) -> list[models.Compute]:
 
         query = select(models.Compute)
         result = await self._db_session.execute(query)

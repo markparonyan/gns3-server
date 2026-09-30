@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Iterator, Sequence, Tuple
+from typing import Iterator, Sequence
 
 import pytest
 from fastapi import FastAPI, status
@@ -63,7 +63,7 @@ def _join_paths(prefix: str, path: str) -> str:
 
 def _iter_routes(
     routes: Sequence[BaseRoute], prefix: str = "", include_mounted_routes: bool = False
-) -> Iterator[Tuple[str, BaseRoute]]:
+) -> Iterator[tuple[str, BaseRoute]]:
     for route in routes:
         if isinstance(route, _IncludedRouter):
             include_prefix = route.include_context.prefix or ""

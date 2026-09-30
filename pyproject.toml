@@ -108,7 +108,6 @@ ignore = [
   "UP006",     #  270  non-pep585-annotation
   "UP007",     #   81  non-pep604-annotation-union
   "UP035",     #  106  deprecated-import
-  "UP045",     # 1100  non-pep604-annotation-optional
 ]
 
 [tool.ruff.lint.mccabe]

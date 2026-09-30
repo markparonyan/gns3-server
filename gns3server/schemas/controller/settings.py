@@ -26,7 +26,7 @@ a secret leak at worst.
 """
 
 from pathlib import Path
-from typing import List, Optional
+from typing import List
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -50,26 +50,24 @@ SECRET_MASK = "**********"
 class ServerSettingsResponse(ServerSettings):
     # plain strings instead of FilePath/DirectoryPath: paths are validated when
     # the settings are loaded or updated, not when echoed back to the client
-    secrets_dir: Optional[Path] = Field(
-        None, description="Directory where secrets are stored (e.g. the JWT secret key)"
-    )
-    certfile: Optional[Path] = Field(None, description="SSL certificate file, requires enable_ssl")
-    certkey: Optional[Path] = Field(None, description="SSL key file, requires enable_ssl")
+    secrets_dir: Path | None = Field(None, description="Directory where secrets are stored (e.g. the JWT secret key)")
+    certfile: Path | None = Field(None, description="SSL certificate file, requires enable_ssl")
+    certkey: Path | None = Field(None, description="SSL key file, requires enable_ssl")
     # Optional overrides: typed as plain "str = None" in the config schema,
     # which fails re-validation when the value actually is None
-    resources_path: Optional[str] = Field(
+    resources_path: str | None = Field(
         None,
         description="Path where files like built-in appliances and Docker resources are stored "
         "(defaults to the local user data directory)",
     )
-    default_nat_interface: Optional[str] = Field(
+    default_nat_interface: str | None = Field(
         None, description="Interface used by the NAT node, default is virbr0 on Linux (requires libvirt)"
     )
 
 
 class ControllerSettingsResponse(ControllerSettings):
     # never serialized: managed via the secrets directory, not the configuration file
-    jwt_secret_key: Optional[str] = Field(
+    jwt_secret_key: str | None = Field(
         default=None,
         exclude=True,
         description="Secret key used to sign the JWT authentication tokens "
@@ -78,7 +76,7 @@ class ControllerSettingsResponse(ControllerSettings):
 
 
 class IOUSettingsResponse(IOUSettings):
-    iourc_path: Optional[str] = Field(
+    iourc_path: str | None = Field(
         None, description="Path of your .iourc file, the file is searched in $HOME/.iourc if not provided"
     )
 
@@ -101,52 +99,52 @@ class ServerSettingsUpdate(BaseModel):
 
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
 
-    local: Optional[bool] = None
-    enable_http_auth: Optional[bool] = None
-    name: Optional[str] = None
-    protocol: Optional[ServerProtocol] = None
-    host: Optional[str] = None
-    port: Optional[int] = Field(None, gt=0, le=65535)
-    secrets_dir: Optional[str] = None
-    certfile: Optional[str] = None
-    certkey: Optional[str] = None
-    enable_ssl: Optional[bool] = None
-    images_path: Optional[str] = None
-    projects_path: Optional[str] = None
-    appliances_path: Optional[str] = None
-    symbols_path: Optional[str] = None
-    configs_path: Optional[str] = None
-    resources_path: Optional[str] = None
-    default_symbol_theme: Optional[BuiltinSymbolTheme] = None
-    allow_raw_images: Optional[bool] = None
-    auto_discover_images: Optional[bool] = None
-    image_sync_interval: Optional[int] = Field(None, ge=10)
-    report_errors: Optional[bool] = None
-    additional_images_paths: Optional[List[str]] = None
-    console_start_port_range: Optional[int] = Field(None, gt=0, le=65535)
-    console_end_port_range: Optional[int] = Field(None, gt=0, le=65535)
-    vnc_console_start_port_range: Optional[int] = Field(None, ge=5900, le=65535)
-    vnc_console_end_port_range: Optional[int] = Field(None, ge=5900, le=65535)
-    udp_start_port_range: Optional[int] = Field(None, gt=0, le=65535)
-    udp_end_port_range: Optional[int] = Field(None, gt=0, le=65535)
-    ubridge_path: Optional[str] = None
-    ubridge_control_transport: Optional[UbridgeControlTransport] = None
-    marker_listen_host: Optional[str] = None
-    marker_listen_port: Optional[int] = Field(None, ge=0, le=65535)
-    compute_username: Optional[str] = None
+    local: bool | None = None
+    enable_http_auth: bool | None = None
+    name: str | None = None
+    protocol: ServerProtocol | None = None
+    host: str | None = None
+    port: int | None = Field(None, gt=0, le=65535)
+    secrets_dir: str | None = None
+    certfile: str | None = None
+    certkey: str | None = None
+    enable_ssl: bool | None = None
+    images_path: str | None = None
+    projects_path: str | None = None
+    appliances_path: str | None = None
+    symbols_path: str | None = None
+    configs_path: str | None = None
+    resources_path: str | None = None
+    default_symbol_theme: BuiltinSymbolTheme | None = None
+    allow_raw_images: bool | None = None
+    auto_discover_images: bool | None = None
+    image_sync_interval: int | None = Field(None, ge=10)
+    report_errors: bool | None = None
+    additional_images_paths: List[str] | None = None
+    console_start_port_range: int | None = Field(None, gt=0, le=65535)
+    console_end_port_range: int | None = Field(None, gt=0, le=65535)
+    vnc_console_start_port_range: int | None = Field(None, ge=5900, le=65535)
+    vnc_console_end_port_range: int | None = Field(None, ge=5900, le=65535)
+    udp_start_port_range: int | None = Field(None, gt=0, le=65535)
+    udp_end_port_range: int | None = Field(None, gt=0, le=65535)
+    ubridge_path: str | None = None
+    ubridge_control_transport: UbridgeControlTransport | None = None
+    marker_listen_host: str | None = None
+    marker_listen_port: int | None = Field(None, ge=0, le=65535)
+    compute_username: str | None = None
     # plain str so the route can compare against SECRET_MASK / empty string
-    compute_password: Optional[str] = None
-    allowed_interfaces: Optional[List[str]] = None
-    default_nat_interface: Optional[str] = None
-    allow_remote_console: Optional[bool] = None
-    enable_builtin_templates: Optional[bool] = None
-    install_builtin_appliances: Optional[bool] = None
-    skills_repo_url: Optional[str] = None
-    skills_repo_branch: Optional[str] = None
-    skills_auto_update: Optional[bool] = None
-    mcp_enable_dns_rebinding_protection: Optional[bool] = None
-    mcp_allowed_hosts: Optional[List[str]] = None
-    mcp_allowed_origins: Optional[List[str]] = None
+    compute_password: str | None = None
+    allowed_interfaces: List[str] | None = None
+    default_nat_interface: str | None = None
+    allow_remote_console: bool | None = None
+    enable_builtin_templates: bool | None = None
+    install_builtin_appliances: bool | None = None
+    skills_repo_url: str | None = None
+    skills_repo_branch: str | None = None
+    skills_auto_update: bool | None = None
+    mcp_enable_dns_rebinding_protection: bool | None = None
+    mcp_allowed_hosts: List[str] | None = None
+    mcp_allowed_origins: List[str] | None = None
 
 
 class ControllerSettingsUpdate(BaseModel):
@@ -156,68 +154,68 @@ class ControllerSettingsUpdate(BaseModel):
 
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
 
-    jwt_algorithm: Optional[str] = None
-    jwt_access_token_expire_minutes: Optional[int] = None
-    jwt_refresh_token_expire_minutes: Optional[int] = None
-    default_admin_username: Optional[str] = None
-    default_admin_password: Optional[str] = None
+    jwt_algorithm: str | None = None
+    jwt_access_token_expire_minutes: int | None = None
+    jwt_refresh_token_expire_minutes: int | None = None
+    default_admin_username: str | None = None
+    default_admin_password: str | None = None
 
 
 class VPCSSettingsUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
 
-    vpcs_path: Optional[str] = None
+    vpcs_path: str | None = None
 
 
 class DynamipsSettingsUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
 
-    allocate_aux_console_ports: Optional[bool] = None
-    mmap_support: Optional[bool] = None
-    dynamips_path: Optional[str] = None
-    sparse_memory_support: Optional[bool] = None
-    ghost_ios_support: Optional[bool] = None
+    allocate_aux_console_ports: bool | None = None
+    mmap_support: bool | None = None
+    dynamips_path: str | None = None
+    sparse_memory_support: bool | None = None
+    ghost_ios_support: bool | None = None
 
 
 class IOUSettingsUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
 
-    iourc_path: Optional[str] = None
-    license_check: Optional[bool] = None
+    iourc_path: str | None = None
+    license_check: bool | None = None
 
 
 class QemuSettingsUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
 
-    enable_monitor: Optional[bool] = None
-    monitor_host: Optional[str] = None
-    enable_hardware_acceleration: Optional[bool] = None
-    require_hardware_acceleration: Optional[bool] = None
-    allow_unsafe_options: Optional[bool] = None
-    ovmf_firmware_dir: Optional[str] = None
+    enable_monitor: bool | None = None
+    monitor_host: str | None = None
+    enable_hardware_acceleration: bool | None = None
+    require_hardware_acceleration: bool | None = None
+    allow_unsafe_options: bool | None = None
+    ovmf_firmware_dir: str | None = None
 
 
 class WebWiresharkSettingsUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
 
-    enabled: Optional[bool] = None
-    image: Optional[str] = None
-    network_subnet: Optional[str] = None
-    memory: Optional[str] = None
-    cpus: Optional[float] = None
-    pids_limit: Optional[int] = None
+    enabled: bool | None = None
+    image: str | None = None
+    network_subnet: str | None = None
+    memory: str | None = None
+    cpus: float | None = None
+    pids_limit: int | None = None
 
 
 class SettingsUpdate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    Server: Optional[ServerSettingsUpdate] = None
-    Controller: Optional[ControllerSettingsUpdate] = None
-    VPCS: Optional[VPCSSettingsUpdate] = None
-    Dynamips: Optional[DynamipsSettingsUpdate] = None
-    IOU: Optional[IOUSettingsUpdate] = None
-    Qemu: Optional[QemuSettingsUpdate] = None
-    WebWireshark: Optional[WebWiresharkSettingsUpdate] = None
+    Server: ServerSettingsUpdate | None = None
+    Controller: ControllerSettingsUpdate | None = None
+    VPCS: VPCSSettingsUpdate | None = None
+    Dynamips: DynamipsSettingsUpdate | None = None
+    IOU: IOUSettingsUpdate | None = None
+    Qemu: QemuSettingsUpdate | None = None
+    WebWireshark: WebWiresharkSettingsUpdate | None = None
 
 
 class SettingsUpdateResponse(SettingsResponse):

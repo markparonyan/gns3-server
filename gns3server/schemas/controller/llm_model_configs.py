@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Literal, Optional, Union
+from typing import Literal, Union
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -42,15 +42,15 @@ class LLMModelConfigData(BaseModel):
     base_url: str = Field(..., description="API base URL")
     model: str = Field(..., description="Model name")
     temperature: float = Field(default=0.7, ge=0.0, le=2.0, description="Temperature parameter")
-    api_key: Optional[str] = Field(None, description="API key (will be encrypted)")
-    max_tokens: Optional[int] = Field(None, gt=0, description="Max tokens for generation")
+    api_key: str | None = Field(None, description="API key (will be encrypted)")
+    max_tokens: int | None = Field(None, gt=0, description="Max tokens for generation")
     context_limit: int = Field(
         ..., gt=0, description="Model context window limit in K tokens (e.g., 128 = 128K tokens)"
     )
     context_strategy: Literal["conservative", "balanced", "aggressive"] = Field(
         "balanced", description="Context trimming strategy: conservative (60%), balanced (75%), aggressive (85%)"
     )
-    copilot_mode: Optional[str] = Field(
+    copilot_mode: str | None = Field(
         None, description="GNS3-Copilot mode: 'teaching_assistant' or 'lab_automation_assistant'"
     )
 
@@ -65,21 +65,21 @@ class LLMModelConfigCreate(BaseModel):
 
     name: str = Field(..., min_length=1, max_length=100, description="Configuration name")
     model_type: ModelType = Field(..., description="Model type")
-    is_default: Optional[bool] = Field(False, description="Set as default configuration")
+    is_default: bool | None = Field(False, description="Set as default configuration")
     # Config fields
     provider: str = Field(..., description="LLM provider")
     base_url: str = Field(..., description="API base URL")
     model: str = Field(..., description="Model name")
     temperature: float = Field(default=0.7, ge=0.0, le=2.0)
-    api_key: Optional[str] = None
-    max_tokens: Optional[int] = Field(None, gt=0)
+    api_key: str | None = None
+    max_tokens: int | None = Field(None, gt=0)
     context_limit: int = Field(
         ..., gt=0, description="Model context window limit in K tokens (e.g., 128 = 128K tokens)"
     )
     context_strategy: Literal["conservative", "balanced", "aggressive"] = Field(
         "balanced", description="Context trimming strategy"
     )
-    copilot_mode: Optional[str] = Field(
+    copilot_mode: str | None = Field(
         None, description="GNS3-Copilot mode: 'teaching_assistant' or 'lab_automation_assistant'"
     )
 
@@ -91,25 +91,25 @@ class LLMModelConfigUpdate(BaseModel):
     """Request to update an existing LLM model configuration."""
 
     # Table-level fields
-    name: Optional[str] = Field(None, min_length=1, max_length=100)
-    model_type: Optional[ModelType] = None
-    is_default: Optional[bool] = None
-    expected_version: Optional[int] = Field(None, description="Expected version for optimistic locking")
+    name: str | None = Field(None, min_length=1, max_length=100)
+    model_type: ModelType | None = None
+    is_default: bool | None = None
+    expected_version: int | None = Field(None, description="Expected version for optimistic locking")
 
     # Config fields
-    provider: Optional[str] = None
-    base_url: Optional[str] = None
-    model: Optional[str] = None
-    temperature: Optional[float] = Field(None, ge=0.0, le=2.0)
-    api_key: Optional[str] = None
-    max_tokens: Optional[Union[int, str]] = Field(None, description="Max tokens for generation (can be null)")
-    context_limit: Optional[int] = Field(
+    provider: str | None = None
+    base_url: str | None = None
+    model: str | None = None
+    temperature: float | None = Field(None, ge=0.0, le=2.0)
+    api_key: str | None = None
+    max_tokens: Union[int, str] | None = Field(None, description="Max tokens for generation (can be null)")
+    context_limit: int | None = Field(
         None, gt=0, description="Model context window limit in K tokens (e.g., 128 = 128K tokens)"
     )
-    context_strategy: Optional[Literal["conservative", "balanced", "aggressive"]] = Field(
+    context_strategy: Literal["conservative", "balanced", "aggressive"] | None = Field(
         None, description="Context trimming strategy"
     )
-    copilot_mode: Optional[str] = Field(
+    copilot_mode: str | None = Field(
         None, description="GNS3-Copilot mode: 'teaching_assistant' or 'lab_automation_assistant'"
     )
 
@@ -138,15 +138,15 @@ class LLMModelConfigDataWithoutSecret(BaseModel):
     base_url: str = Field(..., description="API base URL")
     model: str = Field(..., description="Model name")
     temperature: float = Field(default=0.7, ge=0.0, le=2.0, description="Temperature parameter")
-    api_key: Optional[str] = Field(None, description="API key (always hidden in API responses)")
-    max_tokens: Optional[int] = Field(None, gt=0, description="Max tokens for generation")
+    api_key: str | None = Field(None, description="API key (always hidden in API responses)")
+    max_tokens: int | None = Field(None, gt=0, description="Max tokens for generation")
     context_limit: int = Field(
         ..., gt=0, description="Model context window limit in K tokens (e.g., 128 = 128K tokens)"
     )
     context_strategy: Literal["conservative", "balanced", "aggressive"] = Field(
         "balanced", description="Context trimming strategy: conservative (60%), balanced (75%), aggressive (85%)"
     )
-    copilot_mode: Optional[str] = Field(
+    copilot_mode: str | None = Field(
         None, description="GNS3-Copilot mode: 'teaching_assistant' or 'lab_automation_assistant'"
     )
 
@@ -162,8 +162,8 @@ class LLMModelConfigResponse(DateTimeModelMixin):
     name: str
     model_type: ModelType
     config: LLMModelConfigDataWithoutSecret
-    user_id: Optional[UUID] = None
-    group_id: Optional[UUID] = None
+    user_id: UUID | None = None
+    group_id: UUID | None = None
     is_default: bool
     version: int = Field(..., description="Optimistic locking version")
 
@@ -177,12 +177,12 @@ class LLMModelConfigWithSource(DateTimeModelMixin):
     name: str
     model_type: ModelType
     config: LLMModelConfigDataWithoutSecret
-    user_id: Optional[UUID] = None
-    group_id: Optional[UUID] = None
+    user_id: UUID | None = None
+    group_id: UUID | None = None
     is_default: bool
     version: int
     source: str = Field(..., description="Source: 'user' or 'group'")
-    group_name: Optional[str] = Field(None, description="Group name if source is 'group'")
+    group_name: str | None = Field(None, description="Group name if source is 'group'")
 
     model_config = ConfigDict(from_attributes=True, extra="allow")
 
@@ -191,7 +191,7 @@ class LLMModelConfigInheritedResponse(BaseModel):
     """Response containing user's effective configs (own + inherited from groups)."""
 
     configs: list[LLMModelConfigWithSource]
-    default_config: Optional[LLMModelConfigWithSource] = None
+    default_config: LLMModelConfigWithSource | None = None
     total: int
 
 
@@ -199,5 +199,5 @@ class LLMModelConfigListResponse(BaseModel):
     """Response containing a list of model configurations with default."""
 
     configs: list[LLMModelConfigResponse]
-    default_config: Optional[LLMModelConfigResponse] = None
+    default_config: LLMModelConfigResponse | None = None
     total: int

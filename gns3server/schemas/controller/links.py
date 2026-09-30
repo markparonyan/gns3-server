@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import List, Optional, Tuple
+from typing import List, Tuple
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel, Field, field_validator
@@ -31,7 +31,7 @@ class LinkNode(BaseModel):
     node_id: UUID
     adapter_number: int
     port_number: int
-    label: Optional[Label] = None
+    label: Label | None = None
 
 
 class LinkType(str, Enum):
@@ -44,13 +44,13 @@ class LinkType(str, Enum):
 
 
 class LinkStyle(BaseModel):
-    color: Optional[str] = None
-    width: Optional[int] = None
-    type: Optional[int] = None
-    link_type: Optional[str] = None
-    bezier_curviness: Optional[int] = None
-    flowchart_roundness: Optional[int] = None
-    control_offset: Optional[Tuple[float, float]] = None
+    color: str | None = None
+    width: int | None = None
+    type: int | None = None
+    link_type: str | None = None
+    bezier_curviness: int | None = None
+    flowchart_roundness: int | None = None
+    control_offset: Tuple[float, float] | None = None
 
 
 class LinkBase(BaseModel):
@@ -58,14 +58,12 @@ class LinkBase(BaseModel):
     Link data.
     """
 
-    nodes: Optional[List[LinkNode]] = Field(None, min_length=0, max_length=2)
-    suspend: Optional[bool] = None
-    link_style: Optional[LinkStyle] = None
-    filters: Optional[dict] = None
-    markers: Optional[dict] = Field(
-        None, description="Traffic-insight markers on this link: name → {bpf, tag, enabled}"
-    )
-    show_filters_icon: Optional[bool] = Field(True, description="Show filters icon in Web UI")
+    nodes: List[LinkNode] | None = Field(None, min_length=0, max_length=2)
+    suspend: bool | None = None
+    link_style: LinkStyle | None = None
+    filters: dict | None = None
+    markers: dict | None = Field(None, description="Traffic-insight markers on this link: name → {bpf, tag, enabled}")
+    show_filters_icon: bool | None = Field(True, description="Show filters icon in Web UI")
 
 
 class LinkCreate(LinkBase):
@@ -79,19 +77,19 @@ class LinkUpdate(LinkBase):
 
 class Link(LinkBase):
     link_id: UUID
-    project_id: Optional[UUID] = None
-    link_type: Optional[LinkType] = None
-    capturing: Optional[bool] = Field(None, description="Read only property. True if a capture running on the link")
-    capture_file_name: Optional[str] = Field(
+    project_id: UUID | None = None
+    link_type: LinkType | None = None
+    capturing: bool | None = Field(None, description="Read only property. True if a capture running on the link")
+    capture_file_name: str | None = Field(
         None, description="Read only property. The name of the capture file if a capture is running"
     )
-    capture_file_path: Optional[str] = Field(
+    capture_file_path: str | None = Field(
         None, description="Read only property. The full path of the capture file if a capture is running"
     )
-    capture_compute_id: Optional[str] = Field(
+    capture_compute_id: str | None = Field(
         None, description="Read only property. The compute identifier where a capture is running"
     )
-    wireshark: Optional[bool] = Field(
+    wireshark: bool | None = Field(
         False, description="Read only property. True if a Web Wireshark session is active on the link"
     )
 
@@ -124,7 +122,7 @@ class LinkCapture(BaseModel):
     """
 
     data_link_type: str = "DLT_EN10MB"
-    capture_file_name: Optional[str] = None
+    capture_file_name: str | None = None
     wireshark: bool = False
 
 
@@ -136,20 +134,20 @@ class MarkerCreate(BaseModel):
     absent) but always set when the controller forwards to the compute.
     """
 
-    name: Optional[str] = Field(
+    name: str | None = Field(
         None,
         pattern=r"^[A-Za-z0-9][A-Za-z0-9_.-]*$",
         max_length=32,
         description="Unique marker name on the link. Auto-generated when absent.",
     )
     bpf: str
-    tag: Optional[int] = None
-    link_id: Optional[str] = None
-    color: Optional[str] = Field(
+    tag: int | None = None
+    link_id: str | None = None
+    color: str | None = Field(
         None,
         description="User-chosen hex color for this marker in the Web UI, e.g. '#ff5722'",
     )
-    highlight_duration: Optional[int] = Field(
+    highlight_duration: int | None = Field(
         None,
         ge=1,
         description=(
@@ -158,16 +156,16 @@ class MarkerCreate(BaseModel):
             "stored on the link, never sent to uBridge."
         ),
     )
-    enabled: Optional[bool] = Field(
+    enabled: bool | None = Field(
         None,
         description="Whether the marker is active. Defaults to true on creation.",
     )
-    direction: Optional[str] = Field(
+    direction: str | None = Field(
         None,
         pattern=r"^(tx|rx|both)$",
         description="Direction filter: 'tx' = capture node sending only, 'rx' = capture node receiving only, 'both' or null = both directions.",
     )
-    capture_node_id: Optional[UUID] = Field(
+    capture_node_id: UUID | None = Field(
         None,
         description=(
             "Which endpoint's uBridge hosts this marker (the 'observer'). "
@@ -205,16 +203,16 @@ class MarkerUpdate(BaseModel):
     ``direction: null`` clears the direction back to both (omitting keeps it).
     """
 
-    bpf: Optional[str] = None
-    tag: Optional[int] = None
-    direction: Optional[str] = Field(
+    bpf: str | None = None
+    tag: int | None = None
+    direction: str | None = Field(
         None,
         pattern=r"^(tx|rx|both)$",
         description="Direction filter; 'both' or an explicit null clears it to both. Omit to keep.",
     )
-    color: Optional[str] = Field(None, description="Hex color render hint, e.g. '#ff5722'")
-    highlight_duration: Optional[int] = Field(None, ge=1, description="UI highlight duration in ms; null = UI default")
-    enabled: Optional[bool] = Field(None, description="Toggle the marker on/off (instant).")
+    color: str | None = Field(None, description="Hex color render hint, e.g. '#ff5722'")
+    highlight_duration: int | None = Field(None, ge=1, description="UI highlight duration in ms; null = UI default")
+    enabled: bool | None = Field(None, description="Toggle the marker on/off (instant).")
 
     @field_validator("direction", mode="before")
     @classmethod
@@ -231,19 +229,19 @@ class MarkerDefinitionCreate(BaseModel):
     collide with a per-link private marker.
     """
 
-    name: Optional[str] = Field(
+    name: str | None = Field(
         None,
         pattern=r"^[A-Za-z0-9][A-Za-z0-9_.-]*$",
         max_length=32,
         description="Unique definition name. Auto-generated when absent.",
     )
     bpf: str
-    tag: Optional[int] = None
-    color: Optional[str] = Field(
+    tag: int | None = None
+    color: str | None = Field(
         None,
         description="User-chosen hex color for the marker in the Web UI, e.g. '#ff5722'",
     )
-    highlight_duration: Optional[int] = Field(
+    highlight_duration: int | None = Field(
         None,
         ge=1,
         description=(
@@ -252,7 +250,7 @@ class MarkerDefinitionCreate(BaseModel):
             "stored with the definition, never sent to uBridge."
         ),
     )
-    direction: Optional[str] = Field(
+    direction: str | None = Field(
         None,
         pattern=r"^(tx|rx|both)$",
         description="Direction filter: 'tx' = capture node sending only, 'rx' = capture node receiving only, 'both' or null = both directions.",

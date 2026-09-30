@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import List, Optional, Union
+from typing import List, Union
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel, Field
@@ -51,8 +51,8 @@ class Image(BaseModel):
 
     filename: str
     path: str
-    md5sum: Optional[str] = None
-    filesize: Optional[int] = None
+    md5sum: str | None = None
+    filesize: int | None = None
 
 
 class LinkType(str, Enum):
@@ -82,7 +82,7 @@ class NodeCapture(BaseModel):
     """
 
     capture_file_name: str
-    data_link_type: Optional[DataLinkType] = None
+    data_link_type: DataLinkType | None = None
 
 
 class NodePort(BaseModel):
@@ -93,7 +93,7 @@ class NodePort(BaseModel):
     name: str = Field(..., description="Port name")
     short_name: str = Field(..., description="Port name")
     adapter_number: int = Field(..., description="Adapter slot")
-    adapter_type: Optional[str] = Field(None, description="Adapter type")
+    adapter_type: str | None = Field(None, description="Adapter type")
     port_number: int = Field(..., description="Port slot")
     link_type: LinkType = Field(..., description="Type of link")
     data_link_types: dict = Field(..., description="Available PCAP types for capture")
@@ -105,9 +105,9 @@ class MissingImage(BaseModel):
     A missing image referenced by a node.
     """
 
-    property: Optional[str] = Field(None, description="Node property referencing the image")
+    property: str | None = Field(None, description="Node property referencing the image")
     image: str = Field(..., description="Requested image filename")
-    image_type: Optional[str] = Field(None, description="Type of image (qemu/ios/iou/docker)")
+    image_type: str | None = Field(None, description="Type of image (qemu/ios/iou/docker)")
 
 
 class NodeBase(BaseModel):
@@ -115,49 +115,49 @@ class NodeBase(BaseModel):
     Node data.
     """
 
-    compute_id: Optional[Union[UUID, str]] = None
-    name: Optional[str] = None
-    node_type: Optional[NodeType] = None
+    compute_id: Union[UUID, str] | None = None
+    name: str | None = None
+    node_type: NodeType | None = None
 
-    node_id: Optional[UUID] = None
+    node_id: UUID | None = None
 
-    console: Optional[int] = Field(None, gt=0, le=65535, description="Console TCP port")
+    console: int | None = Field(None, gt=0, le=65535, description="Console TCP port")
 
-    console_type: Optional[ConsoleType] = None
-    console_auto_start: Optional[bool] = Field(
+    console_type: ConsoleType | None = None
+    console_auto_start: bool | None = Field(
         False, description="Automatically start the console when the node has started"
     )
-    netmiko_device_type: Optional[str] = Field(
+    netmiko_device_type: str | None = Field(
         None,
         description="Device type for Netmiko-based automation tools, overrides the template value",
         pattern=r"^[a-z0-9_]+$|^$",
     )
-    default_username: Optional[str] = Field(
+    default_username: str | None = Field(
         None,
         description="Default username to log into the node, seeded from the template appliance metadata",
     )
-    default_password: Optional[str] = Field(
+    default_password: str | None = Field(
         None,
         description="Default password to log into the node, seeded from the template appliance metadata",
     )
-    aux: Optional[int] = Field(None, gt=0, le=65535, description="Auxiliary console TCP port")
-    aux_type: Optional[ConsoleType] = None
-    properties: Optional[dict] = Field(default_factory=dict, description="Properties specific to an emulator")
+    aux: int | None = Field(None, gt=0, le=65535, description="Auxiliary console TCP port")
+    aux_type: ConsoleType | None = None
+    properties: dict | None = Field(default_factory=dict, description="Properties specific to an emulator")
 
-    label: Optional[Label] = None
-    symbol: Optional[str] = None
+    label: Label | None = None
+    symbol: str | None = None
 
-    x: Optional[int] = 0
-    y: Optional[int] = 0
-    z: Optional[int] = 1
-    locked: Optional[bool] = Field(False, description="Whether the element locked or not")
-    port_name_format: Optional[str] = Field(
+    x: int | None = 0
+    y: int | None = 0
+    z: int | None = 1
+    locked: bool | None = Field(False, description="Whether the element locked or not")
+    port_name_format: str | None = Field(
         None, description="Formatting for port name {0} will be replace by port number"
     )
-    port_segment_size: Optional[int] = Field(None, description="Size of the port segment")
-    first_port_name: Optional[str] = Field(None, description="Name of the first port")
-    custom_adapters: Optional[List[CustomAdapter]] = None
-    tags: Optional[List[str]] = Field(
+    port_segment_size: int | None = Field(None, description="Size of the port segment")
+    first_port_name: str | None = Field(None, description="Name of the first port")
+    custom_adapters: List[CustomAdapter] | None = None
+    tags: List[str] | None = Field(
         default_factory=list, description="User-defined metadata tags (e.g. 'vendor:cisco' or 'model:7200')"
     )
 
@@ -181,17 +181,15 @@ class Node(NodeBase):
     compute_id: Union[UUID, str]
     name: str
     node_type: NodeType
-    template_id: Optional[UUID] = Field(
-        None, description="Template UUID from which the node has been created. Read only"
-    )
-    project_id: Optional[UUID] = None
-    node_directory: Optional[str] = Field(None, description="Working directory of the node. Read only")
-    status: Optional[NodeStatus] = Field(None, description="Node status. Read only")
-    command_line: Optional[str] = Field(None, description="Command line use to start the node. Read only")
-    width: Optional[int] = Field(None, description="Width of the node. Read only")
-    height: Optional[int] = Field(None, description="Height of the node. Read only")
-    ports: Optional[List[NodePort]] = Field(None, description="List of node ports. Read only")
-    console_host: Optional[str] = Field(
+    template_id: UUID | None = Field(None, description="Template UUID from which the node has been created. Read only")
+    project_id: UUID | None = None
+    node_directory: str | None = Field(None, description="Working directory of the node. Read only")
+    status: NodeStatus | None = Field(None, description="Node status. Read only")
+    command_line: str | None = Field(None, description="Command line use to start the node. Read only")
+    width: int | None = Field(None, description="Width of the node. Read only")
+    height: int | None = Field(None, description="Height of the node. Read only")
+    ports: List[NodePort] | None = Field(None, description="List of node ports. Read only")
+    console_host: str | None = Field(
         None,
         description="Console host. Warning if the host is 0.0.0.0 or :: (listen on all interfaces) you need to use the same address you use to connect to the controller",
     )
@@ -211,4 +209,4 @@ class NodeDuplicate(BaseModel):
 
     x: int
     y: int
-    z: Optional[int] = 0
+    z: int | None = 0

@@ -417,7 +417,7 @@ class TestIOUNodesRoutes:
     #
     #     with asyncio_patch("gns3server.compute.iou.iou_vm.IOUVM.get_nio"):
     #         with asyncio_patch("gns3server.compute.iou.IOU.stream_pcap_file"):
-    #             response = await compute_client.get("/projects/{project_id}/iou/nodes/{node_id}/adapters/0/ports/0/pcap".format(project_id=compute_project.id, node_id=vm["node_id"]), raw=True)
+    #             response = await compute_client.get("/projects/{project_id}/iou/nodes/{node_id}/adapters/0/ports/0/pcap".format(project_id=compute_project.id, node_id=vm["node_id"]), raw=True)  # noqa: E501
     #             assert response.status_code == status.HTTP_200_OK
 
     async def test_images(self, app: FastAPI, compute_client: AsyncClient, fake_iou_bin: str) -> None:

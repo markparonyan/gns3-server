@@ -402,7 +402,7 @@ async def test_install_busybox_dynamic_linked():
                     await Docker.install_busybox(dst_dir)
                 assert (
                     str(e.value)
-                    == "No busybox executable could be found, please install busybox (apt install busybox-static on Debian/Ubuntu) and make sure it is in your PATH"
+                    == "No busybox executable could be found, please install busybox (apt install busybox-static on Debian/Ubuntu) and make sure it is in your PATH"  # noqa: E501
                 )
 
 
@@ -416,7 +416,7 @@ async def test_install_busybox_no_executables():
                 await Docker.install_busybox(dst_dir)
             assert (
                 str(e.value)
-                == "No busybox executable could be found, please install busybox (apt install busybox-static on Debian/Ubuntu) and make sure it is in your PATH"
+                == "No busybox executable could be found, please install busybox (apt install busybox-static on Debian/Ubuntu) and make sure it is in your PATH"  # noqa: E501
             )
 
 

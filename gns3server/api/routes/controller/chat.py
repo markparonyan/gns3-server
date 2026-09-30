@@ -207,7 +207,7 @@ async def list_sessions(
 
     Query Parameters:
     - copilot_mode: Optional filter by copilot mode (e.g., "troubleshooting_injection", "teaching_assistant", "lab_automation_assistant")
-    """
+    """  # noqa: E501
 
     # Check if project is opened
     if project.status != "opened":

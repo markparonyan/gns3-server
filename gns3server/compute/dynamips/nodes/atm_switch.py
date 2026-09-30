@@ -185,7 +185,7 @@ class ATMSwitch(Device):
                 destination_port, destination_vpi, destination_vci = destination
                 if port_number == source_port:
                     log.info(
-                        f'ATM switch "{self._name}" [{self._id}]: unmapping VCC between port {source_port} VPI {source_vpi} VCI {source_vci} and port {destination_port} VPI {destination_vpi} VCI {destination_vci}'
+                        f'ATM switch "{self._name}" [{self._id}]: unmapping VCC between port {source_port} VPI {source_vpi} VCI {source_vci} and port {destination_port} VPI {destination_vpi} VCI {destination_vci}'  # noqa: E501
                     )
                     await self.unmap_pvc(
                         source_port, source_vpi, source_vci, destination_port, destination_vpi, destination_vci
@@ -199,7 +199,7 @@ class ATMSwitch(Device):
                 destination_port, destination_vpi = destination
                 if port_number == source_port:
                     log.info(
-                        f'ATM switch "{self._name}" [{self._id}]: unmapping VPC between port {source_port} VPI {source_vpi} and port {destination_port} VPI {destination_vpi}'
+                        f'ATM switch "{self._name}" [{self._id}]: unmapping VPC between port {source_port} VPI {source_vpi} and port {destination_port} VPI {destination_vpi}'  # noqa: E501
                     )
                     await self.unmap_vp(source_port, source_vpi, destination_port, destination_vpi)
                     await self.unmap_vp(destination_port, destination_vpi, source_port, source_vpi)
@@ -255,7 +255,7 @@ class ATMSwitch(Device):
                         destination_vci,
                     ) not in self._active_mappings:
                         log.info(
-                            f'ATM switch "{self._name}" [{self._id}]: mapping VCC between port {source_port} VPI {source_vpi} VCI {source_vci} and port {destination_port} VPI {destination_vpi} VCI {destination_vci}'
+                            f'ATM switch "{self._name}" [{self._id}]: mapping VCC between port {source_port} VPI {source_vpi} VCI {source_vci} and port {destination_port} VPI {destination_vpi} VCI {destination_vci}'  # noqa: E501
                         )
                         await self.map_pvc(
                             source_port, source_vpi, source_vci, destination_port, destination_vpi, destination_vci
@@ -273,7 +273,7 @@ class ATMSwitch(Device):
                         destination_vpi,
                     ) not in self._active_mappings:
                         log.info(
-                            f'ATM switch "{self._name}" [{self._id}]: mapping VPC between port {source_port} VPI {source_vpi} and port {destination_port} VPI {destination_vpi}'
+                            f'ATM switch "{self._name}" [{self._id}]: mapping VPC between port {source_port} VPI {source_vpi} and port {destination_port} VPI {destination_vpi}'  # noqa: E501
                         )
                         await self.map_vp(source_port, source_vpi, destination_port, destination_vpi)
                         await self.map_vp(destination_port, destination_vpi, source_port, source_vpi)
@@ -300,7 +300,7 @@ class ATMSwitch(Device):
         await self._hypervisor.send(f'atmsw create_vpc "{self._name}" {nio1} {vpi1} {nio2} {vpi2}')
 
         log.info(
-            f'ATM switch "{self._name}" [{self._id}]: VPC from port {port1} VPI {vpi1} to port {port2} VPI {vpi2} created'
+            f'ATM switch "{self._name}" [{self._id}]: VPC from port {port1} VPI {vpi1} to port {port2} VPI {vpi2} created'  # noqa: E501
         )
 
         self._active_mappings[(port1, vpi1)] = (port2, vpi2)
@@ -327,7 +327,7 @@ class ATMSwitch(Device):
         await self._hypervisor.send(f'atmsw delete_vpc "{self._name}" {nio1} {vpi1} {nio2} {vpi2}')
 
         log.info(
-            f'ATM switch "{self._name}" [{self._id}]: VPC from port {port1} VPI {vpi1} to port {port2} VPI {vpi2} deleted'
+            f'ATM switch "{self._name}" [{self._id}]: VPC from port {port1} VPI {vpi1} to port {port2} VPI {vpi2} deleted'  # noqa: E501
         )
 
         del self._active_mappings[(port1, vpi1)]
@@ -356,7 +356,7 @@ class ATMSwitch(Device):
         await self._hypervisor.send(f'atmsw create_vcc "{self._name}" {nio1} {vpi1} {vci1} {nio2} {vpi2} {vci2}')
 
         log.info(
-            f'ATM switch "{self._name}" [{self._id}]: VCC from port {port1} VPI {vpi1} VCI {vci1} to port {port2} VPI {vpi2} VCI {vci2} created'
+            f'ATM switch "{self._name}" [{self._id}]: VCC from port {port1} VPI {vpi1} VCI {vci1} to port {port2} VPI {vpi2} VCI {vci2} created'  # noqa: E501
         )
 
         self._active_mappings[(port1, vpi1, vci1)] = (port2, vpi2, vci2)
@@ -385,7 +385,7 @@ class ATMSwitch(Device):
         await self._hypervisor.send(f'atmsw delete_vcc "{self._name}" {nio1} {vpi1} {vci1} {nio2} {vpi2} {vci2}')
 
         log.info(
-            f'ATM switch "{self._name}" [{self._id}]: VCC from port {port1} VPI {vpi1} VCI {vci1} to port {port2} VPI {vpi2} VCI {vci2} deleted'
+            f'ATM switch "{self._name}" [{self._id}]: VCC from port {port1} VPI {vpi1} VCI {vci1} to port {port2} VPI {vpi2} VCI {vci2} deleted'  # noqa: E501
         )
         del self._active_mappings[(port1, vpi1, vci1)]
 

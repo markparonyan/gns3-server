@@ -203,7 +203,7 @@ class QemuVM(BaseNode):
 
         if not is_rfc1123_hostname_valid(new_name):
             raise QemuError(
-                f"'{new_name}' is an invalid name to rename Qemu node '{self._name}'. Allowed characters: letters (a-z, A-Z), digits (0-9), and hyphens (-). The name cannot start or end with a hyphen."
+                f"'{new_name}' is an invalid name to rename Qemu node '{self._name}'. Allowed characters: letters (a-z, A-Z), digits (0-9), and hyphens (-). The name cannot start or end with a hyphen."  # noqa: E501
             )
         super(QemuVM, QemuVM).name.__set__(self, new_name)
 
@@ -314,7 +314,7 @@ class QemuVM(BaseNode):
             for node in self.manager.nodes:
                 if node != self and getattr(node, variable) == value:
                     raise QemuError(
-                        f"Sorry a node without the linked base setting enabled can only be used once on your server. {value} is already used by {node.name} in project {node.project.name}"
+                        f"Sorry a node without the linked base setting enabled can only be used once on your server. {value} is already used by {node.name} in project {node.project.name}"  # noqa: E501
                     )
         setattr(self, "_" + variable, value)
         log.debug(f'QEMU VM "{self._name}" [{self._id}] has set the QEMU {variable} path to {value}')
@@ -957,7 +957,7 @@ class QemuVM(BaseNode):
             self.project.emit(
                 "log.warning",
                 {
-                    "message": "Warning ASA 8 is not supported by GNS3 and Cisco, please use ASAv instead. Depending of your hardware and OS this could not work or you could be limited to one instance. If ASA 8 is not booting their is no GNS3 solution, you must to upgrade to ASAv."
+                    "message": "Warning ASA 8 is not supported by GNS3 and Cisco, please use ASAv instead. Depending of your hardware and OS this could not work or you could be limited to one instance. If ASA 8 is not booting their is no GNS3 solution, you must to upgrade to ASAv."  # noqa: E501
                 },
             )
         self._initrd = initrd
@@ -1201,9 +1201,9 @@ class QemuVM(BaseNode):
                     partition = self._find_partition_for_path(self.project.path)
                     if partition and partition.mountpoint != "/":
                         qemu_stdout += (
-                            "\nTPM error: the project directory is not on the same partition as the root directory which can be a problem when using AppArmor.\n"
+                            "\nTPM error: the project directory is not on the same partition as the root directory which can be a problem when using AppArmor.\n"  # noqa: E501
                             "Please try to execute the following commands on the server:\n\n"
-                            f"echo 'owner {os.path.dirname(self.project.path)}/** rwk,' | sudo tee /etc/apparmor.d/local/usr.bin.swtpm > /dev/null\n"
+                            f"echo 'owner {os.path.dirname(self.project.path)}/** rwk,' | sudo tee /etc/apparmor.d/local/usr.bin.swtpm > /dev/null\n"  # noqa: E501
                             "sudo service apparmor restart"
                         )
                 self.project.emit(
@@ -1285,7 +1285,7 @@ class QemuVM(BaseNode):
             log.warning(f"Could not connect to QEMU monitor on {self._monitor_host}:{self._monitor}: {last_exception}")
         else:
             log.debug(
-                f"Connected to QEMU monitor on {self._monitor_host}:{self._monitor} after {time.time() - begin:.4f} seconds"
+                f"Connected to QEMU monitor on {self._monitor_host}:{self._monitor} after {time.time() - begin:.4f} seconds"  # noqa: E501
             )
         return reader, writer
 
@@ -2090,7 +2090,7 @@ class QemuVM(BaseNode):
             )
             options.extend(["-device", f"scsi-hd,drive=drive{disk_index}"])
         # elif interface == "sd":
-        #    options.extend(["-drive", 'file={},id=drive{},index={}{}'.format(disk, disk_index, disk_index, extra_drive_options)])
+        #    options.extend(["-drive", 'file={},id=drive{},index={}{}'.format(disk, disk_index, disk_index, extra_drive_options)])  # noqa: E501
         #    options.extend(["-device", 'sd-card,drive=drive{},id=drive{}'.format(disk_index, disk_index, disk_index)])
         else:
             options.extend(
@@ -2204,7 +2204,7 @@ class QemuVM(BaseNode):
             if not os.path.isfile(self._cdrom_image) or not os.path.exists(self._cdrom_image):
                 if os.path.islink(self._cdrom_image):
                     raise QemuError(
-                        f"cdrom image '{self._cdrom_image}' linked to '{os.path.realpath(self._cdrom_image)}' is not accessible"
+                        f"cdrom image '{self._cdrom_image}' linked to '{os.path.realpath(self._cdrom_image)}' is not accessible"  # noqa: E501
                     )
                 else:
                     raise QemuError(f"cdrom image '{self._cdrom_image}' is not accessible")
@@ -2222,7 +2222,7 @@ class QemuVM(BaseNode):
             if not os.path.isfile(self._bios_image) or not os.path.exists(self._bios_image):
                 if os.path.islink(self._bios_image):
                     raise QemuError(
-                        f"bios image '{self._bios_image}' linked to '{os.path.realpath(self._bios_image)}' is not accessible"
+                        f"bios image '{self._bios_image}' linked to '{os.path.realpath(self._bios_image)}' is not accessible"  # noqa: E501
                     )
                 else:
                     raise QemuError(f"bios image '{self._bios_image}' is not accessible")
@@ -2299,7 +2299,7 @@ class QemuVM(BaseNode):
             if not os.path.isfile(self._kernel_image) or not os.path.exists(self._kernel_image):
                 if os.path.islink(self._kernel_image):
                     raise QemuError(
-                        f"kernel image '{self._kernel_image}' linked to '{os.path.realpath(self._kernel_image)}' is not accessible"
+                        f"kernel image '{self._kernel_image}' linked to '{os.path.realpath(self._kernel_image)}' is not accessible"  # noqa: E501
                     )
                 else:
                     raise QemuError(f"kernel image '{self._kernel_image}' is not accessible")
@@ -2474,7 +2474,7 @@ class QemuVM(BaseNode):
             if sys.platform.startswith("linux") and not os.path.exists("/dev/kvm"):  # noqa: ASYNC240
                 if require_hardware_accel:
                     raise QemuError(
-                        "KVM acceleration cannot be used (/dev/kvm doesn't exist). It is possible to turn off KVM support in the gns3_server.conf by adding enable_hardware_acceleration = false to the [Qemu] section."
+                        "KVM acceleration cannot be used (/dev/kvm doesn't exist). It is possible to turn off KVM support in the gns3_server.conf by adding enable_hardware_acceleration = false to the [Qemu] section."  # noqa: E501
                     )
                 else:
                     return False
@@ -2484,7 +2484,7 @@ class QemuVM(BaseNode):
                 if process.returncode != 0:
                     if require_hardware_accel:
                         raise QemuError(
-                            "HAXM acceleration support is not installed on this host (com.intel.kext.intelhaxm extension not loaded)"
+                            "HAXM acceleration support is not installed on this host (com.intel.kext.intelhaxm extension not loaded)"  # noqa: E501
                         )
                     else:
                         return False
@@ -2512,7 +2512,7 @@ class QemuVM(BaseNode):
                         json_data = json.loads(output)
                     except ValueError as e:
                         raise QemuError(
-                            f"Invalid JSON data returned by qemu-img while looking for the Qemu VM saved state snapshot: {e}"
+                            f"Invalid JSON data returned by qemu-img while looking for the Qemu VM saved state snapshot: {e}"  # noqa: E501
                         ) from e
                     if "snapshots" in json_data:
                         for snapshot in json_data["snapshots"]:
@@ -2549,13 +2549,13 @@ class QemuVM(BaseNode):
                         json_data = json.loads(output)
                     except ValueError as e:
                         raise QemuError(
-                            f"Invalid JSON data returned by qemu-img while looking for the Qemu VM saved state snapshot: {e}"
+                            f"Invalid JSON data returned by qemu-img while looking for the Qemu VM saved state snapshot: {e}"  # noqa: E501
                         ) from e
                     if "snapshots" in json_data:
                         for snapshot in json_data["snapshots"]:
                             if snapshot["name"] == snapshot_name:
                                 log.debug(
-                                    f'QEMU VM "{self._name}" [{self.id}] VM saved state detected (snapshot name: {snapshot_name})'
+                                    f'QEMU VM "{self._name}" [{self.id}] VM saved state detected (snapshot name: {snapshot_name})'  # noqa: E501
                                 )
                                 return ["-loadvm", snapshot_name.replace(",", ",,")]
 

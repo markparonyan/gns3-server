@@ -155,7 +155,7 @@ async def delete_resource_pool(
             ace_details.append(f"- {identifier}")
 
         error_message = (
-            f"Resource pool '{resource_pool.name}' cannot be deleted because it is being used by {len(using_aces)} ACE configuration(s):\n"
+            f"Resource pool '{resource_pool.name}' cannot be deleted because it is being used by {len(using_aces)} ACE configuration(s):\n"  # noqa: E501
             + "\n".join(ace_details)
             + f"\n\nPlease delete the ACE configuration(s) for resource pool '{resource_pool.name}' first."
         )

@@ -57,7 +57,7 @@ class HyperVGNS3VM(BaseGNS3VM):
 
         if sys.getwindowsversion().platform_version[0] < 10:
             raise GNS3VMError(
-                f"Windows 10/Windows Server 2016 or a later version is required to run Hyper-V with nested virtualization enabled (version {sys.getwindowsversion().platform_version[0]} detected)"
+                f"Windows 10/Windows Server 2016 or a later version is required to run Hyper-V with nested virtualization enabled (version {sys.getwindowsversion().platform_version[0]} detected)"  # noqa: E501
             )
 
         is_windows_10 = (
@@ -66,7 +66,7 @@ class HyperVGNS3VM(BaseGNS3VM):
 
         if is_windows_10 and sys.getwindowsversion().platform_version[2] < 14393:
             raise GNS3VMError(
-                "Hyper-V with nested virtualization is only supported on Windows 10 Anniversary Update (build 10.0.14393) or later"
+                "Hyper-V with nested virtualization is only supported on Windows 10 Anniversary Update (build 10.0.14393) or later"  # noqa: E501
             )
 
         try:
@@ -87,11 +87,11 @@ class HyperVGNS3VM(BaseGNS3VM):
             if is_windows_10 and conn.Win32_Processor()[0].Manufacturer == "AuthenticAMD":
                 if sys.getwindowsversion().platform_version[2] < 19640:
                     raise GNS3VMError(
-                        "Windows 10 (build 10.0.19640) or later is required by Hyper-V to support nested virtualization with AMD processors"
+                        "Windows 10 (build 10.0.19640) or later is required by Hyper-V to support nested virtualization with AMD processors"  # noqa: E501
                     )
             else:
                 raise GNS3VMError(
-                    "An Intel processor is required by Hyper-V to support nested virtualization on this version of Windows"
+                    "An Intel processor is required by Hyper-V to support nested virtualization on this version of Windows"  # noqa: E501
                 )
 
         # This is not reliable

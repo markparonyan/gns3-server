@@ -97,12 +97,12 @@ class VirtualBoxGNS3VM(BaseGNS3VM):
         if vendor_id == "GenuineIntel":
             if parse_version(self._system_properties["API version"]) < parse_version("6_1"):
                 raise VirtualBoxError(
-                    "VirtualBox version 6.1 or above is required to run the GNS3 VM with nested virtualization enabled on Intel processors"
+                    "VirtualBox version 6.1 or above is required to run the GNS3 VM with nested virtualization enabled on Intel processors"  # noqa: E501
                 )
         elif vendor_id == "AuthenticAMD":
             if parse_version(self._system_properties["API version"]) < parse_version("6_0"):
                 raise VirtualBoxError(
-                    "VirtualBox version 6.0 or above is required to run the GNS3 VM with nested virtualization enabled on AMD processors"
+                    "VirtualBox version 6.0 or above is required to run the GNS3 VM with nested virtualization enabled on AMD processors"  # noqa: E501
                 )
         else:
             log.warning(f"Could not determine CPU vendor: {vendor_id}")
@@ -301,7 +301,7 @@ class VirtualBoxGNS3VM(BaseGNS3VM):
         vboxnet = await self._look_for_vboxnet(backend_type, interface_number)
         if vboxnet is None:
             raise GNS3VMError(
-                f'A VirtualBox host-only network could not be found on network adapter {interface_number} for "{self._vmname}"'
+                f'A VirtualBox host-only network could not be found on network adapter {interface_number} for "{self._vmname}"'  # noqa: E501
             )
 
         if not (await self._check_vboxnet_exists(vboxnet, vboxnet_type)):
@@ -311,7 +311,7 @@ class VirtualBoxGNS3VM(BaseGNS3VM):
                 first_available_vboxnet = await self._find_first_available_vboxnet()
                 if first_available_vboxnet is None:
                     raise GNS3VMError(
-                        f'Please add a VirtualBox host-only network with DHCP enabled and attached it to network adapter {interface_number} for "{self._vmname}"'
+                        f'Please add a VirtualBox host-only network with DHCP enabled and attached it to network adapter {interface_number} for "{self._vmname}"'  # noqa: E501
                     )
                 await self.set_hostonly_network(interface_number, first_available_vboxnet)
                 vboxnet = first_available_vboxnet
@@ -320,7 +320,7 @@ class VirtualBoxGNS3VM(BaseGNS3VM):
                     await self._execute("hostonlyif", ["create"])
                 except GNS3VMError:
                     raise GNS3VMError(
-                        f'VirtualBox host-only network "{vboxnet}" does not exist and could not be automatically created, please make the sure the network adapter {interface_number} configuration is valid for "{self._vmname}"'
+                        f'VirtualBox host-only network "{vboxnet}" does not exist and could not be automatically created, please make the sure the network adapter {interface_number} configuration is valid for "{self._vmname}"'  # noqa: E501
                     ) from None
 
         if backend_type == "hostonlyadapter" and not (await self._check_dhcp_server(vboxnet)):
@@ -358,7 +358,7 @@ class VirtualBoxGNS3VM(BaseGNS3VM):
         if ip:
             self.ip_address = ip
         else:
-            # if we can't get the IP address from the guest property, we try to get it from the GNS3 server (a NAT interface is required)
+            # if we can't get the IP address from the guest property, we try to get it from the GNS3 server (a NAT interface is required)  # noqa: E501
             if nat_interface_number < 0:
                 raise GNS3VMError(f"Could not find guest IP address for {self.vmname}")
             log.warning("Could not find IP address from guest property, trying to get it from GNS3 server")
@@ -520,5 +520,5 @@ class VirtualBoxGNS3VM(BaseGNS3VM):
             "modifyvm", [self._vmname, f"--hostonlyadapter{adapter_number}", hostonly_network_name], timeout=3
         )
         log.info(
-            f'VirtualBox host-only network "{hostonly_network_name}" set on network adapter {adapter_number} for "{self._vmname}"'
+            f'VirtualBox host-only network "{hostonly_network_name}" set on network adapter {adapter_number} for "{self._vmname}"'  # noqa: E501
         )

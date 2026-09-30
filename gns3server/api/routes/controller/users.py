@@ -54,7 +54,7 @@ async def login(
     """
     Default user login method using forms (x-www-form-urlencoded).
     Example: curl -X POST http://host:port/v3/access/users/login -H "Content-Type: application/x-www-form-urlencoded" -d "username=admin&password=admin"
-    """
+    """  # noqa: E501
 
     user = await users_repo.authenticate_user(username=form_data.username, password=form_data.password)
     if not user:
@@ -80,7 +80,7 @@ async def authenticate(
     """
     Alternative authentication method using json.
     Example: curl -X POST http://host:port/v3/access/users/authenticate -d '{"username": "admin", "password": "admin"}' -H "Content-Type: application/json"
-    """
+    """  # noqa: E501
 
     user = await users_repo.authenticate_user(username=user_credentials.username, password=user_credentials.password)
     if not user:

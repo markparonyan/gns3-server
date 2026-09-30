@@ -80,7 +80,7 @@ def has_privilege_on_websocket(privilege_name: str):
 #     ) -> bool:
 #
 #         if not await rbac_repo.check_user_has_privilege(current_user.user_id, "/projects", self._required_privilege):
-#             raise HTTPException(status_code=403, detail=f"Permission denied (privilege {self._required_privilege} is required)")
+#             raise HTTPException(status_code=403, detail=f"Permission denied (privilege {self._required_privilege} is required)")  # noqa: E501
 #         return True
 
 # Depends(PrivilegeChecker("Project.Audit"))

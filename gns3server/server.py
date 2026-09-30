@@ -256,7 +256,7 @@ class Server:
             log.info(f"Compute authentication is enabled with username '{config.Server.compute_username}'")
 
         log.info(
-            f"Running with Python {sys.version_info[0]}.{sys.version_info[1]}.{sys.version_info[2]} and has PID {os.getpid()}"
+            f"Running with Python {sys.version_info[0]}.{sys.version_info[1]}.{sys.version_info[2]} and has PID {os.getpid()}"  # noqa: E501
         )
 
         # check for the correct locale (UNIX/Linux only)

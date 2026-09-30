@@ -191,7 +191,7 @@ class C7200(Router):
             await self._hypervisor.send(f'c7200 set_temp_sensor "{self._name}" {sensor_id} {sensor}')
 
             log.info(
-                f'Router "{self._name}" [{self._id}]: sensor {sensor_id} temperature updated from {self._sensors[sensor_id]}C to {sensors[sensor_id]}C'
+                f'Router "{self._name}" [{self._id}]: sensor {sensor_id} temperature updated from {self._sensors[sensor_id]}C to {sensors[sensor_id]}C'  # noqa: E501
             )
 
             sensor_id += 1

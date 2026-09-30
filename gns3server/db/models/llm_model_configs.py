@@ -84,4 +84,4 @@ class LLMModelConfig(BaseTable):
 
     def __repr__(self):
         owner = f"user_{self.user_id}" if self.user_id else f"group_{self.group_id}"
-        return f"<LLMModelConfig {self.name} ({self.model_type}) for {owner} (default={self.is_default}, version={self.version})>"
+        return f"<LLMModelConfig {self.name} ({self.model_type}) for {owner} (default={self.is_default}, version={self.version})>"  # noqa: E501

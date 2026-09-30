@@ -104,7 +104,7 @@ class AsyncioRawCommandServer:
 
                     for replace in replaces:
                         data = data.replace(replace[0], replace[1])
-                    timeout = 2  # We reduce the timeout when the process start to return stuff to avoid problem with server not closing the connection
+                    timeout = 2  # We reduce the timeout when the process start to return stuff to avoid problem with server not closing the connection  # noqa: E501
 
                     network_writer.write(data)
                     await network_writer.drain()

@@ -450,7 +450,7 @@ class Compute:
                     self._last_error = msg
                     raise ControllerError(msg)
                 else:
-                    msg = f"{msg}\nUsing different versions may result in unexpected problems. Please use at your own risk."
+                    msg = f"{msg}\nUsing different versions may result in unexpected problems. Please use at your own risk."  # noqa: E501
                     self._controller.notification.controller_emit("log.warning", {"message": msg})
 
             self._notifications = asyncio.gather(self._connect_notification())
@@ -508,7 +508,7 @@ class Compute:
             self._disk_usage_percent = None
             log.info(f"Connection closed to compute '{self._id}' WebSocket '{ws_url}'")
             self._controller.notification.controller_emit("compute.updated", self.asdict())
-            # Try to reconnect after 1 second if server unavailable only if not during tests (otherwise we create a resources usage bomb)
+            # Try to reconnect after 1 second if server unavailable only if not during tests (otherwise we create a resources usage bomb)  # noqa: E501
             from gns3server.api.server import app
 
             if not app.state.exiting and not hasattr(sys, "_called_from_test"):

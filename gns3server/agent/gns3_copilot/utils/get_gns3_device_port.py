@@ -124,7 +124,7 @@ def get_device_ports_from_topology(
                     f"Device '{device_name}': no device type found. "
                     f"Set the template/node 'netmiko_device_type' field (e.g. 'cisco_ios_telnet'), "
                     f"or add a 'device_type:<type>' tag to this device in GNS3. "
-                    f"To configure via Web UI: right-click the device -> Configure -> Tags -> add 'device_type:<type>'. "
+                    f"To configure via Web UI: right-click the device -> Configure -> Tags -> add 'device_type:<type>'. "  # noqa: E501
                     f"Tested types: {tested_device_types}. "
                     f"Current tags: {tags}"
                 )

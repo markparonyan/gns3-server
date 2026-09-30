@@ -157,7 +157,7 @@ class TestVMwareNodesRoutes:
     #     with asyncio_patch('gns3server.compute.vmware.vmware_vm.VMwareVM._ubridge_send'):
     #         with asyncio_patch('gns3server.compute.vmware.vmware_vm.VMwareVM.ethernet_adapters'):
     #             with patch('gns3server.compute.vmware.vmware_vm.VMwareVM._get_vnet') as mock:
-    #                 response = await compute_client.put("/projects/{project_id}/vmware/nodes/{node_id}/adapters/0/ports/0/nio".format(project_id=vm["project_id"], node_id=vm["node_id"]), params)
+    #                 response = await compute_client.put("/projects/{project_id}/vmware/nodes/{node_id}/adapters/0/ports/0/nio".format(project_id=vm["project_id"], node_id=vm["node_id"]), params)  # noqa: E501
     #                 assert response.status_code == status.HTTP_201_CREATED
     #                 assert response.json()["type"] == "nio_udp"
 
@@ -233,5 +233,5 @@ class TestVMwareNodesRoutes:
     #
     #     with asyncio_patch("gns3server.compute.vmware.vmware_vm.VMwareVM.get_nio"):
     #         with asyncio_patch("gns3server.compute.vmware.VMware.stream_pcap_file"):
-    #             response = await compute_client.get("/projects/{project_id}/vmware/nodes/{node_id}/adapters/0/ports/0/pcap".format(project_id=compute_project.id, node_id=vm["node_id"]), raw=True)
+    #             response = await compute_client.get("/projects/{project_id}/vmware/nodes/{node_id}/adapters/0/ports/0/pcap".format(project_id=compute_project.id, node_id=vm["node_id"]), raw=True)  # noqa: E501
     #             assert response.status_code == status.HTTP_200_OK

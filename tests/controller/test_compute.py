@@ -148,8 +148,8 @@ async def test_compute_httpQueryAuth(compute):
 #     response.status = 200
 #     with asyncio_patch("aiohttp.ClientSession.request", return_value=response) as mock:
 #         await compute.post("/projects", {"a": "b"})
-#         mock.assert_any_call("GET", "https://example.com:84/v2/compute/capabilities", headers={'content-type': 'application/json'}, data=None, auth=None, chunked=None, timeout=20)
-#         mock.assert_any_call("POST", "https://example.com:84/v2/compute/projects", data=b'{"a": "b"}', headers={'content-type': 'application/json'}, auth=None, chunked=None, timeout=20)
+#         mock.assert_any_call("GET", "https://example.com:84/v2/compute/capabilities", headers={'content-type': 'application/json'}, data=None, auth=None, chunked=None, timeout=20)  # noqa: E501
+#         mock.assert_any_call("POST", "https://example.com:84/v2/compute/projects", data=b'{"a": "b"}', headers={'content-type': 'application/json'}, auth=None, chunked=None, timeout=20)  # noqa: E501
 #     #assert compute._connected
 #     assert compute._capabilities["version"] == __version__
 #     controller.notification.controller_emit.assert_called_with("compute.updated", compute.asdict())
@@ -173,8 +173,8 @@ async def test_compute_httpQueryAuth(compute):
 #     response.status = 200
 #     with asyncio_patch("aiohttp.ClientSession.request", return_value=response) as mock:
 #         await compute.post("/projects", {"a": "b"})
-#         mock.assert_any_call("GET", "https://example.com:84/v2/compute/capabilities", headers={'content-type': 'application/json'}, data=None, auth=None, chunked=None, timeout=20)
-#         mock.assert_any_call("POST", "https://example.com:84/v2/compute/projects", data=b'{"a": "b"}', headers={'content-type': 'application/json'}, auth=None, chunked=None, timeout=20)
+#         mock.assert_any_call("GET", "https://example.com:84/v2/compute/capabilities", headers={'content-type': 'application/json'}, data=None, auth=None, chunked=None, timeout=20)  # noqa: E501
+#         mock.assert_any_call("POST", "https://example.com:84/v2/compute/projects", data=b'{"a": "b"}', headers={'content-type': 'application/json'}, auth=None, chunked=None, timeout=20)  # noqa: E501
 #
 #     assert controller.gns3vm.start.called
 #     #assert compute._connected

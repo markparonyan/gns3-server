@@ -209,6 +209,6 @@ class TestCloudNodesRoutes:
     #
     #     with asyncio_patch("gns3server.compute.builtin.nodes.cloud.Cloud.get_nio"):
     #         with asyncio_patch("gns3server.compute.builtin.Builtin.stream_pcap_file", return_value=stream):
-    #             response = await compute_api.get("/projects/{project_id}/cloud/nodes/{node_id}/adapters/0/ports/0/pcap".format(project_id=compute_project.id, node_id=vm["node_id"]))
+    #             response = await compute_api.get("/projects/{project_id}/cloud/nodes/{node_id}/adapters/0/ports/0/pcap".format(project_id=compute_project.id, node_id=vm["node_id"]))  # noqa: E501
     #             assert response.status_code == 200
     #

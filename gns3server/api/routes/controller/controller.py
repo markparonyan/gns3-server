@@ -320,7 +320,7 @@ async def controller_ws_notifications(
 #         with open(os.path.join(debug_dir, "controller.txt"), "w+") as f:
 #             f.write(ServerHandler._getDebugData())
 #     except Exception as e:
-#         # If something is wrong we log the info to the log and we hope the log will be include correctly to the debug export
+#         # If something is wrong we log the info to the log and we hope the log will be include correctly to the debug export  # noqa: E501
 #         log.error("Could not export debug information {}".format(e), exc_info=1)
 #
 #     try:
@@ -329,7 +329,7 @@ async def controller_ws_notifications(
 #             if vmx_path:
 #                 shutil.copy(vmx_path, os.path.join(debug_dir, os.path.basename(vmx_path)))
 #     except OSError as e:
-#         # If something is wrong we log the info to the log and we hope the log will be include correctly to the debug export
+#         # If something is wrong we log the info to the log and we hope the log will be include correctly to the debug export  # noqa: E501
 #         log.error("Could not copy VMware VMX file {}".format(e), exc_info=1)
 #
 #     for compute in list(Controller.instance().computes.values()):

@@ -233,7 +233,7 @@ class DockerVM(BaseNode):
 
         if not is_rfc1123_hostname_valid(new_name):
             raise DockerError(
-                f"'{new_name}' is an invalid name to rename Docker container '{self._name}'. Allowed characters: letters (a-z, A-Z), digits (0-9), and hyphens (-). The name cannot start or end with a hyphen."
+                f"'{new_name}' is an invalid name to rename Docker container '{self._name}'. Allowed characters: letters (a-z, A-Z), digits (0-9), and hyphens (-). The name cannot start or end with a hyphen."  # noqa: E501
             )
         super(DockerVM, DockerVM).name.__set__(self, new_name)
 
@@ -894,7 +894,7 @@ class DockerVM(BaseNode):
             state = await self._get_container_state()
         except DockerHttp404Error:
             raise DockerError(
-                f"Docker container '{self.name}' with ID {self._cid} does not exist or is not ready yet. Please try again in a few seconds."
+                f"Docker container '{self.name}' with ID {self._cid} does not exist or is not ready yet. Please try again in a few seconds."  # noqa: E501
             ) from None
         if state == "paused":
             await self.unpause()
@@ -940,7 +940,7 @@ class DockerVM(BaseNode):
                             log.error("Container %s failed to start", self.name)
                             await self.stop()
 
-                            # The container can crash soon after the start, this means we can not move the interface to the container namespace
+                            # The container can crash soon after the start, this means we can not move the interface to the container namespace  # noqa: E501
                             logdata = await self._get_log()
                             for line in logdata.split("\n"):
                                 log.error(line)
@@ -979,7 +979,7 @@ class DockerVM(BaseNode):
             process = await asyncio.subprocess.create_subprocess_exec(
                 "script",
                 "-qfc",
-                f"docker exec -i -t {self._cid} /gns3/bin/busybox sh -c 'while true; do TERM=vt100 /gns3/bin/busybox sh; done'",
+                f"docker exec -i -t {self._cid} /gns3/bin/busybox sh -c 'while true; do TERM=vt100 /gns3/bin/busybox sh; done'",  # noqa: E501
                 "/dev/null",
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.STDOUT,
@@ -997,7 +997,7 @@ class DockerVM(BaseNode):
             self._telnet_servers.append(await server.start(self._manager.port_manager.console_host, self.aux))
         except OSError as e:
             raise DockerError(
-                f"Could not start {transport} server on socket {self._manager.port_manager.console_host}:{self.aux}: {e}"
+                f"Could not start {transport} server on socket {self._manager.port_manager.console_host}:{self.aux}: {e}"  # noqa: E501
             ) from e
         log.debug(f"Docker container '{self.name}' started listening for auxiliary {self.aux_type} on {self.aux}")
 
@@ -1232,7 +1232,7 @@ class DockerVM(BaseNode):
             self.project.emit(
                 "log.error",
                 {
-                    "message": f"The vnc process has stopped with return code {returncode} for node '{self.name}'. Please restart this node."
+                    "message": f"The vnc process has stopped with return code {returncode} for node '{self.name}'. Please restart this node."  # noqa: E501
                 },
             )
             self._vnc_process = None
@@ -1322,7 +1322,7 @@ class DockerVM(BaseNode):
             self._telnet_servers.append(await telnet.start(self._manager.port_manager.console_host, self.console))
         except OSError as e:
             raise DockerError(
-                f"Could not start {transport} server on socket {self._manager.port_manager.console_host}:{self.console}: {e}"
+                f"Could not start {transport} server on socket {self._manager.port_manager.console_host}:{self.console}: {e}"  # noqa: E501
             ) from e
 
         self._console_websocket = await self.manager.websocket_query(
@@ -1532,7 +1532,7 @@ class DockerVM(BaseNode):
                     except OSError as e:
                         log.warning(f"Could not remove display {display}: {e}")
 
-            # v – 1/True/true or 0/False/false, Remove the volumes associated to the container. Default false.  # noqa: RUF003
+            # v – 1/True/true or 0/False/false, Remove the volumes associated to the container. Default false.  # noqa: E501, RUF003
             # force - 1/True/true or 0/False/false, Kill then remove the container. Default false.
             try:
                 await self.manager.query("DELETE", f"containers/{self._cid}", params={"force": 1, "v": 1})
@@ -1737,7 +1737,7 @@ class DockerVM(BaseNode):
         :param adapter_number: adapter number
         :param port_number: port number on the adapter (standard Docker
             adapters have a single port, so this is always 0 on the TAP path)
-        """
+        """  # noqa: E501
 
         try:
             adapter = self._ethernet_adapters[adapter_number]
@@ -1755,7 +1755,7 @@ class DockerVM(BaseNode):
                 break
         if adapter.host_ifc is None:
             raise DockerError(
-                f"Adapter {adapter_number} couldn't allocate interface on Docker container '{self.name}'. Too many Docker interfaces already exists"
+                f"Adapter {adapter_number} couldn't allocate interface on Docker container '{self.name}'. Too many Docker interfaces already exists"  # noqa: E501
             )
         bridge_name = self._bridge_name(adapter_number, port_number)
         await self._ubridge_send(f"bridge create {bridge_name}")

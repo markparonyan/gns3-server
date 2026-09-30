@@ -264,7 +264,7 @@ class TestQemuNodesRoutes:
     #                                              fake_qemu_vm: str) -> None:
     #
     #     response = await compute_client.post(
-    #         app.url_path_for("compute:write_compute_project_file", project_id=compute_project.id, file_path="hello.img"),
+    #         app.url_path_for("compute:write_compute_project_file", project_id=compute_project.id, file_path="hello.img"),  # noqa: E501
     #         content=b"world"
     #     )
     #     assert response.status_code == status.HTTP_204_NO_CONTENT
@@ -832,5 +832,5 @@ class TestQemuNodesRoutes:
     #
     #     with asyncio_patch("gns3server.compute.qemu.qemu_vm.QemuVM.get_nio"):
     #         with asyncio_patch("gns3server.compute.qemu.Qemu.stream_pcap_file"):
-    #             response = await compute_client.get("/projects/{project_id}/qemu/nodes/{node_id}/adapters/0/ports/0/pcap".format(project_id=compute_project.id, node_id=vm["node_id"]), raw=True)
+    #             response = await compute_client.get("/projects/{project_id}/qemu/nodes/{node_id}/adapters/0/ports/0/pcap".format(project_id=compute_project.id, node_id=vm["node_id"]), raw=True)  # noqa: E501
     #             assert response.status_code == status.HTTP_200_OK

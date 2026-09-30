@@ -245,7 +245,7 @@ class SkillsManager:
             SKILLS_REGISTRY.update(all_skills)
 
             logger.info(
-                f"Loaded {len(new_injection_skills)} injection skills, {len(new_device_skills)} device skills, and {len(new_feature_skills)} feature skills"
+                f"Loaded {len(new_injection_skills)} injection skills, {len(new_device_skills)} device skills, and {len(new_feature_skills)} feature skills"  # noqa: E501
             )
             return True
         except Exception as e:  # noqa: BLE001

@@ -33,8 +33,8 @@
 #     reader = asyncio.StreamReader()
 #     writer = asyncio.StreamReader()
 #     app = Application(reader, writer)
-#     assert async_run(app._parse_command('help')) == 'Help:\nhello: The hello world function\n\nhelp command for details about a command\n'
-#     assert async_run(app._parse_command('?')) == 'Help:\nhello: The hello world function\n\nhelp command for details about a command\n'
+#     assert async_run(app._parse_command('help')) == 'Help:\nhello: The hello world function\n\nhelp command for details about a command\n'  # noqa: E501
+#     assert async_run(app._parse_command('?')) == 'Help:\nhello: The hello world function\n\nhelp command for details about a command\n'  # noqa: E501
 #     assert async_run(app._parse_command('? hello')) == 'hello: The hello world function\n\nThe hello usage\n'
 
 

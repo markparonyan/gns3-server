@@ -39,7 +39,7 @@ class VMwareTemplateBase(TemplateBase):
     )
     port_segment_size: int | None = Field(
         0,
-        description="Optional port segment size. A port segment is a block of port. For example Ethernet0/0 Ethernet0/1 is the module 0 with a port segment size of 2",
+        description="Optional port segment size. A port segment is a block of port. For example Ethernet0/0 Ethernet0/1 is the module 0 with a port segment size of 2",  # noqa: E501
     )
     adapters: int | None = Field(
         1, ge=0, le=10, description="Number of adapters"

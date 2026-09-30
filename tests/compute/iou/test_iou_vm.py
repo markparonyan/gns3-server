@@ -533,7 +533,7 @@ async def test_enable_l1_keepalives(vm):
 
     with asyncio_patch(
         "gns3server.utils.asyncio.subprocess_check_output",
-        return_value="***************************************************************\n\n-l		Enable Layer 1 keepalive messages\n-u <n>		UDP port base for distributed networks\n",
+        return_value="***************************************************************\n\n-l		Enable Layer 1 keepalive messages\n-u <n>		UDP port base for distributed networks\n",  # noqa: E501
     ):
         command = ["test"]
         await vm._enable_l1_keepalives(command)
@@ -541,7 +541,7 @@ async def test_enable_l1_keepalives(vm):
 
     with asyncio_patch(
         "gns3server.utils.asyncio.subprocess_check_output",
-        return_value="***************************************************************\n\n-u <n>		UDP port base for distributed networks\n",
+        return_value="***************************************************************\n\n-u <n>		UDP port base for distributed networks\n",  # noqa: E501
     ):
         command = ["test"]
         with pytest.raises(IOUError):

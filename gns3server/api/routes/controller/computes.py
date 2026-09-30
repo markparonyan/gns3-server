@@ -66,7 +66,7 @@ async def create_compute(
 @router.post(
     "/{compute_id}/connect",
     status_code=status.HTTP_204_NO_CONTENT,
-    # dependencies=[Depends(has_privilege("Compute.Audit"))]  # FIXME: this is a temporary workaround due to a bug in the web-ui
+    # dependencies=[Depends(has_privilege("Compute.Audit"))]  # FIXME: this is a temporary workaround due to a bug in the web-ui  # noqa: E501
 )
 async def connect_compute(compute_id: str | UUID) -> None:
     """
@@ -84,7 +84,7 @@ async def connect_compute(compute_id: str | UUID) -> None:
     "/{compute_id}",
     response_model=schemas.Compute,
     response_model_exclude_unset=True,
-    # dependencies=[Depends(has_privilege("Compute.Audit"))]  # FIXME: this is a temporary workaround due to a bug in the web-ui
+    # dependencies=[Depends(has_privilege("Compute.Audit"))]  # FIXME: this is a temporary workaround due to a bug in the web-ui  # noqa: E501
 )
 async def get_compute(
     compute_id: str | UUID, computes_repo: ComputesRepository = Depends(get_repository(ComputesRepository))
@@ -102,7 +102,7 @@ async def get_compute(
     "",
     response_model=list[schemas.Compute],
     response_model_exclude_unset=True,
-    # dependencies=[Depends(has_privilege("Compute.Audit"))]  # FIXME: this is a temporary workaround due to a bug in the web-ui
+    # dependencies=[Depends(has_privilege("Compute.Audit"))]  # FIXME: this is a temporary workaround due to a bug in the web-ui  # noqa: E501
 )
 async def get_computes(
     computes_repo: ComputesRepository = Depends(get_repository(ComputesRepository)),

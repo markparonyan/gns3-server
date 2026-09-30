@@ -188,7 +188,7 @@ class TestControllerProjectRoutes:
     # @pytest.mark.asyncio
     # async def test_notification(controller_api, http_client, project, controller):
     #
-    #     async with http_client.get(controller_api.get_url("/projects/{project_id}/notifications".format(project_id=project.id))) as response:
+    #     async with http_client.get(controller_api.get_url("/projects/{project_id}/notifications".format(project_id=project.id))) as response:  # noqa: E501
     #         response.body = await response.content.read(200)
     #         controller.notification.project_emit("node.created", {"a": "b"})
     #         response.body += await response.content.readany()
@@ -208,7 +208,7 @@ class TestControllerProjectRoutes:
     # @pytest.mark.asyncio
     # async def test_notification_ws(controller_api, http_client, controller, project):
     #
-    #     ws = await http_client.ws_connect(controller_api.get_url("/projects/{project_id}/notifications/ws".format(project_id=project.id)))
+    #     ws = await http_client.ws_connect(controller_api.get_url("/projects/{project_id}/notifications/ws".format(project_id=project.id)))  # noqa: E501
     #     answer = await ws.receive()
     #     answer = json.loads(answer.data)
     #     assert answer["action"] == "ping"
@@ -492,7 +492,7 @@ class TestControllerProjectRoutes:
 
         # add a drawing and node to the project
         params = {
-            "svg": '<svg height="210" width="500"><line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" /></svg>',
+            "svg": '<svg height="210" width="500"><line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" /></svg>',  # noqa: E501
             "x": 10,
             "y": 20,
             "z": 0,

@@ -141,7 +141,7 @@ def load_topology(path):  # noqa: C901
 
     if topo.get("revision", 0) > GNS3_FILE_FORMAT_REVISION:
         raise ControllerError(
-            "This project was created with more recent version of GNS3 (file revision: {}). Please upgrade GNS3 to version {} or later".format(
+            "This project was created with more recent version of GNS3 (file revision: {}). Please upgrade GNS3 to version {} or later".format(  # noqa: E501
                 topo["revision"], topo["version"]
             )
         )
@@ -559,7 +559,7 @@ def _convert_1_3_later(topo, topo_path):  # noqa: C901
 
     # Ellipse
     for ellipse in topo.get("ellipses", []):
-        svg = '<svg height="{height}" width="{width}"><ellipse cx="{cx}" cy="{cy}" fill="{fill}" fill-opacity="1.0" rx="{rx}" ry="{ry}" {border_style} /></svg>'.format(
+        svg = '<svg height="{height}" width="{width}"><ellipse cx="{cx}" cy="{cy}" fill="{fill}" fill-opacity="1.0" rx="{rx}" ry="{ry}" {border_style} /></svg>'.format(  # noqa: E501
             height=int(ellipse["height"]),
             width=int(ellipse["width"]),
             cx=int(ellipse["width"] / 2),
@@ -592,7 +592,7 @@ def _convert_1_3_later(topo, topo_path):  # noqa: C901
         else:
             style = "normal"
 
-        svg = '<svg height="{height}" width="{width}"><text fill="{fill}" fill-opacity="{opacity}" font-family="{family}" font-size="{size}" font-weight="{weight}" font-style="{style}">{text}</text></svg>'.format(
+        svg = '<svg height="{height}" width="{width}"><text fill="{fill}" fill-opacity="{opacity}" font-family="{family}" font-size="{size}" font-weight="{weight}" font-style="{style}">{text}</text></svg>'.format(  # noqa: E501
             height=int(font_info[1]) * 2,
             width=int(font_info[1]) * len(note["text"]),
             fill="#" + note.get("color", "#00000000")[-6:],
@@ -637,7 +637,7 @@ def _convert_1_3_later(topo, topo_path):  # noqa: C901
 
     # Rectangles
     for rectangle in topo.get("rectangles", []):
-        svg = '<svg height="{height}" width="{width}"><rect fill="{fill}" fill-opacity="1.0" height="{height}" width="{width}" {border_style} /></svg>'.format(
+        svg = '<svg height="{height}" width="{width}"><rect fill="{fill}" fill-opacity="1.0" height="{height}" width="{width}" {border_style} /></svg>'.format(  # noqa: E501
             height=int(rectangle["height"]),
             width=int(rectangle["width"]),
             fill=rectangle.get("color", "#ffffff"),

@@ -102,7 +102,7 @@ async def test_binary_list(monkeypatch, tmpdir):
 #             f.write("1")
 #         os.chmod(path, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
 #
-#     with asyncio_patch("gns3server.compute.qemu.subprocess_check_output", return_value="qemu-img version 2.2.0, Copyright (c) 2004-2008 Fabrice Bellard") as mock:
+#     with asyncio_patch("gns3server.compute.qemu.subprocess_check_output", return_value="qemu-img version 2.2.0, Copyright (c) 2004-2008 Fabrice Bellard") as mock:  # noqa: E501
 #         qemus = await Qemu.img_binary_list()
 #
 #         version = "2.2.0"

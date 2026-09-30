@@ -63,7 +63,7 @@ class GNS3VM:
         download_url = f"https://github.com/GNS3/gns3-gui/releases/download/v{__version__}/GNS3.VM.VMware.Workstation.{__version__}.zip"
         vmware_info = {
             "engine_id": "vmware",
-            "description": f'VMware is the recommended choice for best performances.<br>The GNS3 VM can be <a href="{download_url}">downloaded here</a>.',
+            "description": f'VMware is the recommended choice for best performances.<br>The GNS3 VM can be <a href="{download_url}">downloaded here</a>.',  # noqa: E501
             "support_when_exit": True,
             "support_headless": True,
             "support_ram": True,
@@ -79,7 +79,7 @@ class GNS3VM:
         hyperv_info = {
             "engine_id": "hyper-v",
             "name": "Hyper-V",
-            "description": f'Hyper-V support (Windows 10/Server 2016 and above). Nested virtualization must be supported and enabled (Intel processor only)<br>The GNS3 VM can be <a href="{download_url}">downloaded here</a>',
+            "description": f'Hyper-V support (Windows 10/Server 2016 and above). Nested virtualization must be supported and enabled (Intel processor only)<br>The GNS3 VM can be <a href="{download_url}">downloaded here</a>',  # noqa: E501
             "support_when_exit": True,
             "support_headless": False,
             "support_ram": True,
@@ -91,7 +91,7 @@ class GNS3VM:
         virtualbox_info = {
             "engine_id": "virtualbox",
             "name": "VirtualBox",
-            "description": f'VirtualBox support. Nested virtualization for both Intel and AMD processors is supported since version 6.1<br>The GNS3 VM can be <a href="{download_url}">downloaded here</a>',
+            "description": f'VirtualBox support. Nested virtualization for both Intel and AMD processors is supported since version 6.1<br>The GNS3 VM can be <a href="{download_url}">downloaded here</a>',  # noqa: E501
             "support_when_exit": True,
             "support_headless": True,
             "support_ram": True,
@@ -371,7 +371,7 @@ class GNS3VM:
                         if netmask:
                             compute_network = ipaddress.ip_interface(f"{compute.host_ip}/{netmask}").network
                             if vm_network.compare_networks(compute_network) != 0:
-                                msg = f"The GNS3 VM (IP={self.ip_address}, NETWORK={vm_network}) is not on the same network as the {compute_id} server (IP={compute.host_ip}, NETWORK={compute_network}), please make sure the local server binding is in the same network as the GNS3 VM"
+                                msg = f"The GNS3 VM (IP={self.ip_address}, NETWORK={vm_network}) is not on the same network as the {compute_id} server (IP={compute.host_ip}, NETWORK={compute_network}), please make sure the local server binding is in the same network as the GNS3 VM"  # noqa: E501
                                 self._controller.notification.controller_emit("log.warning", {"message": msg})
         except ComputeError as e:
             log.warning(f"Could not check the VM is in the same subnet as the local server: {e}")

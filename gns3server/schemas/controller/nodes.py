@@ -190,11 +190,11 @@ class Node(NodeBase):
     ports: list[NodePort] | None = Field(None, description="List of node ports. Read only")
     console_host: str | None = Field(
         None,
-        description="Console host. Warning if the host is 0.0.0.0 or :: (listen on all interfaces) you need to use the same address you use to connect to the controller",
+        description="Console host. Warning if the host is 0.0.0.0 or :: (listen on all interfaces) you need to use the same address you use to connect to the controller",  # noqa: E501
     )
     missing_image: bool = Field(
         False,
-        description="True when the node could not be created on its compute because a required image is missing. Read only",
+        description="True when the node could not be created on its compute because a required image is missing. Read only",  # noqa: E501
     )
     missing_images: list[MissingImage] = Field(
         default_factory=list, description="List of missing images referenced by the node. Read only"

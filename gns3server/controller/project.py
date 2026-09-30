@@ -1698,7 +1698,7 @@ class Project:
         if disconnected:
             compute_names = ", ".join([f"'{c.name}'" for c in disconnected])
             raise ControllerForbiddenError(
-                f"Cannot delete project '{self.name}': {len(disconnected)} compute(s) are disconnected: {compute_names}. "
+                f"Cannot delete project '{self.name}': {len(disconnected)} compute(s) are disconnected: {compute_names}. "  # noqa: E501
                 f"Please fix the connection or delete the project manually on those computes."
             )
 
@@ -1720,14 +1720,14 @@ class Project:
             path = os.path.realpath(self.path)  # noqa: ASYNC240
             if os.path.commonpath([path, project_directory]) != project_directory:
                 raise ControllerError(
-                    f"Project '{self._name}' cannot be deleted because it is not in the default project directory: '{project_directory}'"
+                    f"Project '{self._name}' cannot be deleted because it is not in the default project directory: '{project_directory}'"  # noqa: E501
                 )
             if path == project_directory:
                 # A poisoned or hand-crafted entry whose path is the
                 # projects root itself must never be deletable: rmtree
                 # would wipe every project on the controller.
                 raise ControllerError(
-                    f"Project '{self._name}' cannot be deleted because its directory is the projects directory itself: '{path}'"
+                    f"Project '{self._name}' cannot be deleted because its directory is the projects directory itself: '{path}'"  # noqa: E501
                 )
             shutil.rmtree(self.path)
         except OSError as e:
@@ -1901,7 +1901,7 @@ class Project:
             if disconnected:
                 compute_names = ", ".join([f"'{c.name}'" for c in disconnected])
                 raise ControllerError(
-                    f"Cannot open project '{self.name}': {len(disconnected)} compute(s) are disconnected: {compute_names}. "
+                    f"Cannot open project '{self.name}': {len(disconnected)} compute(s) are disconnected: {compute_names}. "  # noqa: E501
                     f"Please check the connection and try again."
                 )
 

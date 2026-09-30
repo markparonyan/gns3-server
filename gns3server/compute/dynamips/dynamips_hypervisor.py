@@ -253,7 +253,7 @@ class DynamipsHypervisor:
                 await self._writer.drain()
             except OSError as e:
                 raise DynamipsError(
-                    f"Could not send Dynamips command '{command.strip()}' to {self._host}:{self._port}: {e}, process running: {self.is_running()}"
+                    f"Could not send Dynamips command '{command.strip()}' to {self._host}:{self._port}: {e}, process running: {self.is_running()}"  # noqa: E501
                 ) from e
 
             # Now retrieve the result
@@ -279,7 +279,7 @@ class DynamipsHypervisor:
                     if not chunk:
                         if retries > max_retries:
                             raise DynamipsError(
-                                f"No data returned from {self._host}:{self._port}, Dynamips process running: {self.is_running()}"
+                                f"No data returned from {self._host}:{self._port}, Dynamips process running: {self.is_running()}"  # noqa: E501
                             )
                         else:
                             retries += 1
@@ -289,7 +289,7 @@ class DynamipsHypervisor:
                     buf += chunk.decode("utf-8", errors="ignore")
                 except OSError as e:
                     raise DynamipsError(
-                        f"Could not read response for '{command.strip()}' from {self._host}:{self._port}: {e}, process running: {self.is_running()}"
+                        f"Could not read response for '{command.strip()}' from {self._host}:{self._port}: {e}, process running: {self.is_running()}"  # noqa: E501
                     ) from e
 
                 # If the buffer doesn't end in '\n' then we can't be done
@@ -298,7 +298,7 @@ class DynamipsHypervisor:
                         continue
                 except IndexError:
                     raise DynamipsError(
-                        f"Could not communicate with {self._host}:{self._port}, Dynamips process running: {self.is_running()}"
+                        f"Could not communicate with {self._host}:{self._port}, Dynamips process running: {self.is_running()}"  # noqa: E501
                     ) from None
 
                 data += buf.split("\r\n")

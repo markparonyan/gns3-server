@@ -39,7 +39,7 @@ log = logging.getLogger(__name__)
 #     """
 #
 #     def __init__(self, node):
-#         super().__init__(welcome_message="Welcome to GNS3 builtin Ethernet switch.\n\nType help for available commands\n")
+#         super().__init__(welcome_message="Welcome to GNS3 builtin Ethernet switch.\n\nType help for available commands\n")  # noqa: E501
 #         self._node = node
 #
 #     async def mac(self):
@@ -192,9 +192,9 @@ class EthernetSwitch(Device):
         # self._telnet_shell.prompt = self._name + '> '
         # self._telnet = create_telnet_shell(self._telnet_shell)
         # try:
-        #    self._telnet_server = (await asyncio.start_server(self._telnet.run, self._manager.port_manager.console_host, self.console))
+        #    self._telnet_server = (await asyncio.start_server(self._telnet.run, self._manager.port_manager.console_host, self.console))  # noqa: E501
         # except OSError as e:
-        #    self.project.emit("log.warning", {"message": "Could not start Telnet server on socket {}:{}: {}".format(self._manager.port_manager.console_host, self.console, e)})
+        #    self.project.emit("log.warning", {"message": "Could not start Telnet server on socket {}:{}: {}".format(self._manager.port_manager.console_host, self.console, e)})  # noqa: E501
         if self._console_type == "telnet":
             self.project.emit(
                 "log.warning",
@@ -377,7 +377,7 @@ class EthernetSwitch(Device):
         await self._hypervisor.send(f'ethsw set_dot1q_port "{self._name}" {nio} {native_vlan}')
 
         log.info(
-            f'Ethernet switch "{self._name}" [{self._id}]: port {port_number} set as a 802.1Q port with native VLAN {native_vlan}'
+            f'Ethernet switch "{self._name}" [{self._id}]: port {port_number} set as a 802.1Q port with native VLAN {native_vlan}'  # noqa: E501
         )
 
         self._mappings[port_number] = ("dot1q", native_vlan)
@@ -396,7 +396,7 @@ class EthernetSwitch(Device):
         nio = self._nios[port_number]
         if ethertype != "0x8100" and parse_version(self.hypervisor.version) < parse_version("0.2.16"):
             raise DynamipsError(
-                f"Dynamips version required is >= 0.2.16 to change the default QinQ Ethernet type, detected version is {self.hypervisor.version}"
+                f"Dynamips version required is >= 0.2.16 to change the default QinQ Ethernet type, detected version is {self.hypervisor.version}"  # noqa: E501
             )
 
         await self._hypervisor.send(
@@ -406,7 +406,7 @@ class EthernetSwitch(Device):
         )
 
         log.info(
-            f'Ethernet switch "{self._name}" [{self._id}]: port {port_number} set as a QinQ ({ethertype}) port with outer VLAN {outer_vlan}'
+            f'Ethernet switch "{self._name}" [{self._id}]: port {port_number} set as a QinQ ({ethertype}) port with outer VLAN {outer_vlan}'  # noqa: E501
         )
         self._mappings[port_number] = ("qinq", outer_vlan, ethertype)
 

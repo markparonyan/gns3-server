@@ -130,5 +130,5 @@ class TestRoutes:
                     async with aconnect_ws(path, client, auth=("wrong_user", "password123")) as ws:
                         json_notification = await ws.receive_json()
                         assert json_notification["event"] == {
-                            "message": "Could not authenticate while connecting to compute WebSocket: Could not validate credentials"
+                            "message": "Could not authenticate while connecting to compute WebSocket: Could not validate credentials"  # noqa: E501
                         }

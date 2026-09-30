@@ -237,7 +237,7 @@ def generate_ellipse_svg(
     svg_height: int,
 ) -> str:
     """Generate SVG for ellipse."""
-    return f"""<svg width="{svg_width}" height="{svg_height}"><ellipse cx="{rx}" cy="{ry}" rx="{rx}" ry="{ry}" fill="{color_scheme["fill"]}" fill-opacity="{color_scheme["fill_opacity"]}"/></svg>"""
+    return f"""<svg width="{svg_width}" height="{svg_height}"><ellipse cx="{rx}" cy="{ry}" rx="{rx}" ry="{ry}" fill="{color_scheme["fill"]}" fill-opacity="{color_scheme["fill_opacity"]}"/></svg>"""  # noqa: E501
 
 
 def generate_rectangle_svg(
@@ -246,7 +246,7 @@ def generate_rectangle_svg(
     color_scheme: dict[str, Any],
 ) -> str:
     """Generate SVG for rectangle."""
-    return f"""<svg width="{width}" height="{height}"><rect x="0" y="0" width="{width}" height="{height}" fill="{color_scheme["fill"]}" fill-opacity="{color_scheme["fill_opacity"]}"/></svg>"""
+    return f"""<svg width="{width}" height="{height}"><rect x="0" y="0" width="{width}" height="{height}" fill="{color_scheme["fill"]}" fill-opacity="{color_scheme["fill_opacity"]}"/></svg>"""  # noqa: E501
 
 
 def generate_text_svg(text: str, color_scheme: dict[str, Any]) -> str:
@@ -254,7 +254,7 @@ def generate_text_svg(text: str, color_scheme: dict[str, Any]) -> str:
     text_width = len(text) * 8 + 20
     text_height = DEFAULT_FONT_SIZE + 16
 
-    return f"""<svg width="{text_width}" height="{text_height}"><text font-family="TypeWriter" font-size="{DEFAULT_FONT_SIZE}.0" font-weight="bold" fill="{color_scheme["stroke"]}" text-anchor="middle" x="{text_width / 2}" y="{text_height / 2 + 4}">{text}</text></svg>"""
+    return f"""<svg width="{text_width}" height="{text_height}"><text font-family="TypeWriter" font-size="{DEFAULT_FONT_SIZE}.0" font-weight="bold" fill="{color_scheme["stroke"]}" text-anchor="middle" x="{text_width / 2}" y="{text_height / 2 + 4}">{text}</text></svg>"""  # noqa: E501
 
 
 def _hsv_to_hex(h: int, s: int, v: int) -> str:

@@ -175,12 +175,12 @@ class VirtualBoxVM(BaseNode):
                     if node.project != self.project:
                         if trial >= 30:
                             raise VirtualBoxError(
-                                f"Sorry a node without the linked clone setting enabled can only be used once on your server.\n{self.vmname} is already used by {node.name} in project {self.project.name}"
+                                f"Sorry a node without the linked clone setting enabled can only be used once on your server.\n{self.vmname} is already used by {node.name} in project {self.project.name}"  # noqa: E501
                             )
                     else:
                         if trial >= 5:
                             raise VirtualBoxError(
-                                f"Sorry a node without the linked clone setting enabled can only be used once on your server.\n{self.vmname} is already used by {node.name} in this project"
+                                f"Sorry a node without the linked clone setting enabled can only be used once on your server.\n{self.vmname} is already used by {node.name} in this project"  # noqa: E501
                             )
             if not found:
                 return
@@ -258,7 +258,7 @@ class VirtualBoxVM(BaseNode):
                     os.path.join(self.working_dir, self._vmname, "Snapshots", newSnapshot) + ".vdi",
                 )
                 log.info(
-                    f"VirtualBox VM '{self.name}' [{self.id}] snapshot file moved from '{currentSnapshot}' to '{newSnapshot}'"
+                    f"VirtualBox VM '{self.name}' [{self.id}] snapshot file moved from '{currentSnapshot}' to '{newSnapshot}'"  # noqa: E501
                 )
                 image.set("uuid", newSnapshot)
 
@@ -475,7 +475,7 @@ class VirtualBoxVM(BaseNode):
 
                 except VirtualBoxError as e:
                     log.warning(
-                        "VirtualBox VM '{name}' [{id}] error reattaching HDD {controller} {port} {device} {medium}: {error}".format(
+                        "VirtualBox VM '{name}' [{id}] error reattaching HDD {controller} {port} {device} {medium}: {error}".format(  # noqa: E501
                             name=self.name,
                             id=self.id,
                             controller=hdd_info["controller"],
@@ -579,7 +579,7 @@ class VirtualBoxVM(BaseNode):
                     )
                 except VirtualBoxError as e:
                     log.warning(
-                        "VirtualBox VM '{name}' [{id}] error detaching HDD {controller} {port} {device}: {error}".format(
+                        "VirtualBox VM '{name}' [{id}] error detaching HDD {controller} {port} {device}: {error}".format(  # noqa: E501
                             name=self.name,
                             id=self.id,
                             controller=hdd["controller"],
@@ -727,17 +727,17 @@ class VirtualBoxVM(BaseNode):
                     self._maximum_adapters = int(self._system_properties[max_adapter_string])
                 except ValueError:
                     log.error(
-                        f"Could not convert system property to integer: {max_adapter_string} = {self._system_properties[max_adapter_string]}"
+                        f"Could not convert system property to integer: {max_adapter_string} = {self._system_properties[max_adapter_string]}"  # noqa: E501
                     )
             else:
                 log.warning(f"Could not find system property '{max_adapter_string}' for chipset {chipset}")
 
         log.info(
-            f"VirtualBox VM '{self.name}' [{self.id}] can have a maximum of {self._maximum_adapters} network adapters for chipset {chipset.upper()}"
+            f"VirtualBox VM '{self.name}' [{self.id}] can have a maximum of {self._maximum_adapters} network adapters for chipset {chipset.upper()}"  # noqa: E501
         )
         if adapters > self._maximum_adapters:
             raise VirtualBoxError(
-                f"The configured {chipset.upper()} chipset limits the VM to {self._maximum_adapters} network adapters. The chipset can be changed outside GNS3 in the VirtualBox VM settings."
+                f"The configured {chipset.upper()} chipset limits the VM to {self._maximum_adapters} network adapters. The chipset can be changed outside GNS3 in the VirtualBox VM settings."  # noqa: E501
             )
 
         self._ethernet_adapters.clear()
@@ -1008,7 +1008,7 @@ class VirtualBoxVM(BaseNode):
                 self.project.emit(
                     "log.warning",
                     {
-                        "message": f"Could not start {transport} server on socket {self._manager.port_manager.console_host}:{self.console}: {e}"
+                        "message": f"Could not start {transport} server on socket {self._manager.port_manager.console_host}:{self.console}: {e}"  # noqa: E501
                     },
                 )
 

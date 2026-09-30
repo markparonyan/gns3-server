@@ -1843,7 +1843,7 @@ async def test_start_aux(vm):
         mock_exec.assert_called_with(
             "script",
             "-qfc",
-            "docker exec -i -t e90e34656842 /gns3/bin/busybox sh -c 'while true; do TERM=vt100 /gns3/bin/busybox sh; done'",
+            "docker exec -i -t e90e34656842 /gns3/bin/busybox sh -c 'while true; do TERM=vt100 /gns3/bin/busybox sh; done'",  # noqa: E501
             "/dev/null",
             stderr=asyncio.subprocess.STDOUT,
             stdin=asyncio.subprocess.PIPE,
@@ -1882,7 +1882,7 @@ async def test_fix_permission(vm):
         "/gns3/bin/busybox",
         "sh",
         "-c",
-        f'(/gns3/bin/busybox find "/etc" -depth -print0 | /gns3/bin/busybox xargs -0 /gns3/bin/busybox stat -c \'%a:%u:%g:%n\' > "/etc/.gns3_perms") && /gns3/bin/busybox chmod -R u+rX "/etc" && /gns3/bin/busybox chown {os.getuid()}:{os.getgid()} -R "/etc"',
+        f'(/gns3/bin/busybox find "/etc" -depth -print0 | /gns3/bin/busybox xargs -0 /gns3/bin/busybox stat -c \'%a:%u:%g:%n\' > "/etc/.gns3_perms") && /gns3/bin/busybox chmod -R u+rX "/etc" && /gns3/bin/busybox chown {os.getuid()}:{os.getgid()} -R "/etc"',  # noqa: E501
         stderr=asyncio.subprocess.PIPE,
     )
     assert process.wait.called
@@ -1905,7 +1905,7 @@ async def test_fix_permission_not_running(vm):
         "/gns3/bin/busybox",
         "sh",
         "-c",
-        f'(/gns3/bin/busybox find "/etc" -depth -print0 | /gns3/bin/busybox xargs -0 /gns3/bin/busybox stat -c \'%a:%u:%g:%n\' > "/etc/.gns3_perms") && /gns3/bin/busybox chmod -R u+rX "/etc" && /gns3/bin/busybox chown {os.getuid()}:{os.getgid()} -R "/etc"',
+        f'(/gns3/bin/busybox find "/etc" -depth -print0 | /gns3/bin/busybox xargs -0 /gns3/bin/busybox stat -c \'%a:%u:%g:%n\' > "/etc/.gns3_perms") && /gns3/bin/busybox chmod -R u+rX "/etc" && /gns3/bin/busybox chown {os.getuid()}:{os.getgid()} -R "/etc"',  # noqa: E501
         stderr=asyncio.subprocess.PIPE,
     )
     assert mock_start.called

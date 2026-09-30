@@ -89,5 +89,5 @@ async def web_ui(file_path: str):
 # def check_version(version: str):
 #
 #     if version != __version__:
-#         raise HTTPException(status_code=409, detail="Client version {} is not the same as server version {}".format(version, __version__))
+#         raise HTTPException(status_code=409, detail="Client version {} is not the same as server version {}".format(version, __version__))  # noqa: E501
 #     return {"version": __version__}

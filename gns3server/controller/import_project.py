@@ -328,7 +328,7 @@ async def _import_images(controller, images_path):
                     with open(dst, "rb") as f:  # noqa: ASYNC230
                         # read the first 7 bytes of the file.
                         elf_header_start = f.read(7)
-                        # IOU images must start with the ELF magic number, be 32-bit or 64-bit, little endian and have an ELF version of 1
+                        # IOU images must start with the ELF magic number, be 32-bit or 64-bit, little endian and have an ELF version of 1  # noqa: E501
                         if elf_header_start == b"\x7fELF\x01\x01\x01" or elf_header_start == b"\x7fELF\x02\x01\x01":
                             os.chmod(dst, stat.S_IWRITE | stat.S_IREAD | stat.S_IEXEC)
                 except OSError as e:  # noqa: F841
@@ -356,7 +356,7 @@ async def update_snapshots(snapshots_dir, project_path, project_name, project_id
                 raise ControllerError(f"Cannot open snapshot '{os.path.basename(snapshot)}': {e}") from e
             except zipfile_zstd.BadZipFile:
                 raise ControllerError(
-                    f"Cannot extract files from snapshot '{os.path.basename(snapshot)}': not a GNS3 project (invalid zip)"
+                    f"Cannot extract files from snapshot '{os.path.basename(snapshot)}': not a GNS3 project (invalid zip)"  # noqa: E501
                 ) from None
 
             # patch the topology with the correct project name and ID
@@ -371,7 +371,7 @@ async def update_snapshots(snapshots_dir, project_path, project_name, project_id
                     json.dump(topology, f, indent=4, sort_keys=True)
             except OSError as e:
                 raise ControllerError(
-                    f"Cannot update snapshot '{os.path.basename(snapshot)}': the project.gns3 file cannot be modified: {e}"
+                    f"Cannot update snapshot '{os.path.basename(snapshot)}': the project.gns3 file cannot be modified: {e}"  # noqa: E501
                 ) from e
             except (ValueError, KeyError):
                 raise ControllerError(

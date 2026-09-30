@@ -120,7 +120,7 @@ class Docker(BaseManager):
                 except OSError as e:
                     raise DockerError(f"Could not install busybox: {e}") from e
         raise DockerError(
-            "No busybox executable could be found, please install busybox (apt install busybox-static on Debian/Ubuntu) and make sure it is in your PATH"
+            "No busybox executable could be found, please install busybox (apt install busybox-static on Debian/Ubuntu) and make sure it is in your PATH"  # noqa: E501
         )
 
     @staticmethod

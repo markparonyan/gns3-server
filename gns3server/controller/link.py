@@ -45,7 +45,7 @@ FILTERS = [
     {
         "type": "frequency_drop",
         "name": "Frequency drop",
-        "description": "It will drop everything with a -1 frequency, drop every Nth packet with a positive frequency, or drop nothing",
+        "description": "It will drop everything with a -1 frequency, drop every Nth packet with a positive frequency, or drop nothing",  # noqa: E501
         "parameters": [{"name": "Frequency", "minimum": -1, "maximum": 32767, "type": "int", "unit": "th packet"}],
     },
     {

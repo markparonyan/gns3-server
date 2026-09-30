@@ -28,7 +28,7 @@ class TestDrawingsRoutes:
     async def test_create_drawing(self, app: FastAPI, client: AsyncClient, project: Project) -> None:
 
         params = {
-            "svg": '<svg height="210" width="500"><line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" /></svg>',
+            "svg": '<svg height="210" width="500"><line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" /></svg>',  # noqa: E501
             "x": 10,
             "y": 20,
             "z": 0,
@@ -41,7 +41,7 @@ class TestDrawingsRoutes:
     async def test_get_drawing(self, app: FastAPI, client: AsyncClient, project: Project) -> None:
 
         params = {
-            "svg": '<svg height="210" width="500"><line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" /></svg>',
+            "svg": '<svg height="210" width="500"><line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" /></svg>',  # noqa: E501
             "x": 10,
             "y": 20,
             "z": 0,
@@ -57,7 +57,7 @@ class TestDrawingsRoutes:
     async def test_update_drawing(self, app: FastAPI, client: AsyncClient, project: Project) -> None:
 
         params = {
-            "svg": '<svg height="210" width="500"><line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" /></svg>',
+            "svg": '<svg height="210" width="500"><line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" /></svg>',  # noqa: E501
             "x": 10,
             "y": 20,
             "z": 0,
@@ -75,7 +75,7 @@ class TestDrawingsRoutes:
     async def test_all_drawings(self, app: FastAPI, client: AsyncClient, project: Project) -> None:
 
         params = {
-            "svg": '<svg height="210" width="500"><line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" /></svg>',
+            "svg": '<svg height="210" width="500"><line x1="0" y1="0" x2="200" y2="200" style="stroke:rgb(255,0,0);stroke-width:2" /></svg>',  # noqa: E501
             "x": 10,
             "y": 20,
             "z": 0,

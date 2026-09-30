@@ -390,7 +390,7 @@ class ApplianceManager:
                             if appliance.status != "broken":
                                 # Validate using discriminated union - automatically routes to correct version
                                 log.debug(
-                                    f"Validating appliance '{appliance.id}' with registry version {appliance.registry_version}"
+                                    f"Validating appliance '{appliance.id}' with registry version {appliance.registry_version}"  # noqa: E501
                                 )
                                 ApplianceModel.model_validate(json_data)
                                 self._appliances[appliance.id] = appliance

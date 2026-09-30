@@ -279,7 +279,7 @@ class VMware(BaseManager):
 
         if not self._vmnets:
             raise VMwareError(
-                f"No VMnet interface available between vmnet{self._vmnet_start_range} and vmnet{self._vmnet_end_range}. Go to preferences VMware / Network / Configure to add more interfaces."
+                f"No VMnet interface available between vmnet{self._vmnet_start_range} and vmnet{self._vmnet_end_range}. Go to preferences VMware / Network / Configure to add more interfaces."  # noqa: E501
             )
         return self._vmnets.pop(0)
 
@@ -350,7 +350,7 @@ class VMware(BaseManager):
             try:
                 return await self._execute(subcommand, args, timeout=timeout, log_level=log_level)
             except VMwareError as e:
-                # We can fail to detect that it's VMware player instead of Workstation (due to marketing change Player is now Player Workstation)
+                # We can fail to detect that it's VMware player instead of Workstation (due to marketing change Player is now Player Workstation)  # noqa: E501
                 if self.host_type == "ws" and "VIX_SERVICEPROVIDER_VMWARE_WORKSTATION" in str(e):
                     self._host_type = "player"
                     return await self._execute(subcommand, args, timeout=timeout, log_level=log_level)
@@ -383,14 +383,14 @@ class VMware(BaseManager):
             stdout_data, _ = await asyncio.wait_for(process.communicate(), timeout=timeout)
         except asyncio.TimeoutError:
             raise VMwareError(
-                f"vmrun has timed out after {timeout} seconds!\nTry to run {command_string} in a terminal to see more details.\n\nMake sure GNS3 and VMware run under the same user and whitelist vmrun.exe in your antivirus."
+                f"vmrun has timed out after {timeout} seconds!\nTry to run {command_string} in a terminal to see more details.\n\nMake sure GNS3 and VMware run under the same user and whitelist vmrun.exe in your antivirus."  # noqa: E501
             ) from None
 
         if process.returncode:
             # vmrun print errors on stdout
             vmrun_error = stdout_data.decode("utf-8", errors="ignore")
             raise VMwareError(
-                f"vmrun has returned an error: {vmrun_error}\nTry to run {command_string} in a terminal to see more details.\nAnd make sure GNS3 and VMware run under the same user."
+                f"vmrun has returned an error: {vmrun_error}\nTry to run {command_string} in a terminal to see more details.\nAnd make sure GNS3 and VMware run under the same user."  # noqa: E501
             )
 
         return stdout_data.decode("utf-8", errors="ignore").splitlines()
@@ -676,7 +676,7 @@ class VMware(BaseManager):
                     default_vm_path = pairs["prefvmx.defaultvmpath"]
                     if not os.path.isdir(default_vm_path):  # noqa: ASYNC240
                         raise VMwareError(
-                            f'Could not find or access the default VM directory: "{default_vm_path}". Please change "prefvmx.defaultvmpath={default_vm_path}" in "{vmware_preferences_path}"'
+                            f'Could not find or access the default VM directory: "{default_vm_path}". Please change "prefvmx.defaultvmpath={default_vm_path}" in "{vmware_preferences_path}"'  # noqa: E501
                         )
                     vmware_vms = self._get_vms_from_directory(default_vm_path)
 

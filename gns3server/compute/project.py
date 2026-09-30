@@ -414,7 +414,7 @@ class Project:
     async def list_files(self):
         """
         :returns: Array of files in project without temporary files. The files are dictionary {"path": "test.bin", "md5sum": "aaaaa"}
-        """
+        """  # noqa: E501
 
         files = []
         for dirpath, dirnames, filenames in os.walk(self.path, followlinks=False):  # noqa: B007

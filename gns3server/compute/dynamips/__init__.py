@@ -482,7 +482,7 @@ class Dynamips(BaseManager):
                             await vm.slot_remove_binding(slot_id)
                         else:
                             log.warning(
-                                f"Slot {slot_id} on router '{vm.name}' has a non-removable adapter, skipping replacement"
+                                f"Slot {slot_id} on router '{vm.name}' has a non-removable adapter, skipping replacement"  # noqa: E501
                             )
                             continue
                     if not isinstance(vm.slots[slot_id], type(adapter)):

@@ -68,7 +68,7 @@ class Welcome_dialog:
     def repair_remote_install(self):
         """
         This method is only called by remote-install.sh during setup to ensure it is setting the same IP as shown by Dialog
-        """
+        """  # noqa: E501
         ip_addr = self.get_ip()
         subprocess.run(  # noqa: S603
             ["sed", "-i", f"s/host = 0.0.0.0/host = {ip_addr}/", "/etc/gns3/gns3_server.conf"],  # noqa: S607
@@ -128,7 +128,7 @@ class Welcome_dialog:
     def mode(self):
         if (
             self.display.yesno(
-                "This feature is for testers only. You may break your GNS3 installation. Are you REALLY sure you want to continue?",
+                "This feature is for testers only. You may break your GNS3 installation. Are you REALLY sure you want to continue?",  # noqa: E501
                 yes_label="Exit (Safe option)",
                 no_label="Continue",
             )
@@ -195,14 +195,14 @@ class Welcome_dialog:
                 upgrade_cmd = (
                     "sudo apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com "
                     "&& sudo apt-get update "
-                    '&& sudo apt-get upgrade --yes --force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"'
+                    '&& sudo apt-get upgrade --yes --force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"'  # noqa: E501
                 )
                 ret = os.system(upgrade_cmd)  # noqa: S605
             elif option == "Dist Upgrade":
                 upgrade_cmd = (
                     "sudo apt-key adv --refresh-keys --keyserver keyserver.ubuntu.com "
                     "&& sudo apt-get update "
-                    '&& sudo apt-get dist-upgrade --yes --force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"'
+                    '&& sudo apt-get dist-upgrade --yes --force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"'  # noqa: E501
                 )
                 ret = os.system(upgrade_cmd)  # noqa: S605
             if ret != 0:
@@ -239,7 +239,7 @@ class Welcome_dialog:
                 # first make sure they are no files belonging to root
                 os.system("sudo chown -R gns3:gns3 /opt/gns3")  # noqa: S605, S607
                 # then rsync the data
-                command = rf"rsync -az --progress -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /home/gns3/.ssh/gns3-vm-key' /opt/gns3 gns3@{destination}:/opt"
+                command = rf"rsync -az --progress -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /home/gns3/.ssh/gns3-vm-key' /opt/gns3 gns3@{destination}:/opt"  # noqa: E501
                 ret = os.system(f'bash -c "{command}"')  # noqa: S605
                 time.sleep(10)
                 if ret != 0:
@@ -262,7 +262,7 @@ class Welcome_dialog:
                     self.display.msgbox("Error while setting up the migrate feature")
                 else:
                     self.display.msgbox(
-                        f"Configuration successful, you can now send data to the GNS3 VM located at {destination} without password"
+                        f"Configuration successful, you can now send data to the GNS3 VM located at {destination} without password"  # noqa: E501
                     )
 
     def shrink_disk(self):
@@ -297,9 +297,9 @@ class Welcome_dialog:
 
         version = self.gns3_version()
         if version is None:
-            content += "GNS3 is not installed please install it with sudo pip3 install gns3-server. Or download a preinstalled VM.\n\n"
+            content += "GNS3 is not installed please install it with sudo pip3 install gns3-server. Or download a preinstalled VM.\n\n"  # noqa: E501
         else:
-            content = f"GNS3 version: {version}\nVM version: {self.gns3vm_version()}\nKVM support available: {self.kvm_support()}\n\n"
+            content = f"GNS3 version: {version}\nVM version: {self.gns3vm_version()}\nKVM support available: {self.kvm_support()}\n\n"  # noqa: E501
 
         ip = self.get_ip()
 
@@ -444,7 +444,7 @@ Images and projects are located in /opt/gns3
                 if kvm_ok is False:
                     if (
                         self.display.yesno(
-                            "KVM is not available!\n\nQemu VM will crash!!\n\nThe reason could be unsupported hardware or another virtualization solution is already running.\n\nDisable KVM and get lower performances?"
+                            "KVM is not available!\n\nQemu VM will crash!!\n\nThe reason could be unsupported hardware or another virtualization solution is already running.\n\nDisable KVM and get lower performances?"  # noqa: E501
                         )
                         == self.display.OK
                     ):

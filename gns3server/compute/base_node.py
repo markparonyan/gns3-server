@@ -891,7 +891,7 @@ class BaseNode:
 
         self._console_type = console_type
         log.info(
-            f"{self.manager.module_name}: '{self.name}' [{self.id}]: console type set to {console_type} (console port is {self.console})"
+            f"{self.manager.module_name}: '{self.name}' [{self.id}]: console type set to {console_type} (console port is {self.console})"  # noqa: E501
         )
 
     @property
@@ -927,7 +927,7 @@ class BaseNode:
 
         self._aux_type = aux_type
         log.info(
-            f"{self.manager.module_name}: '{self.name}' [{self.id}]: console type set to {aux_type} (auxiliary console port is {self.aux})"
+            f"{self.manager.module_name}: '{self.name}' [{self.id}]: console type set to {aux_type} (auxiliary console port is {self.aux})"  # noqa: E501
         )
 
     @property
@@ -994,7 +994,7 @@ class BaseNode:
 
         if self.ubridge_path is None:
             raise NodeError(
-                "uBridge is not available, path doesn't exist, or you just installed GNS3 and need to restart your user session to refresh user permissions."
+                "uBridge is not available, path doesn't exist, or you just installed GNS3 and need to restart your user session to refresh user permissions."  # noqa: E501
             )
 
         if require_privileged_access and not self._manager.has_privileged_access(self.ubridge_path):
@@ -1476,7 +1476,7 @@ class BaseNode:
         source_nio = self.manager.create_nio(source_nio_settings)
         destination_nio = self.manager.create_nio(destination_nio_settings)
         log.info(
-            f"{self.manager.module_name}: '{self.name}' [{self.id}]:local UDP tunnel created between port {lport} and {rport}"
+            f"{self.manager.module_name}: '{self.name}' [{self.id}]:local UDP tunnel created between port {lport} and {rport}"  # noqa: E501
         )
         return source_nio, destination_nio
 
@@ -1500,7 +1500,7 @@ class BaseNode:
         available_ram = int(psutil.virtual_memory().available / (1024 * 1024))
         percentage_left = 100 - psutil.virtual_memory().percent
         if requested_ram > available_ram:
-            message = f'"{self.name}" requires {requested_ram}MB of RAM to run but there is only {available_ram}MB - {percentage_left}% of RAM left on "{platform.node()}"'
+            message = f'"{self.name}" requires {requested_ram}MB of RAM to run but there is only {available_ram}MB - {percentage_left}% of RAM left on "{platform.node()}"'  # noqa: E501
             self.project.emit("log.warning", {"message": message})
 
     def _get_custom_adapter_settings(self, adapter_number):

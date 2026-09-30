@@ -185,7 +185,7 @@ class FrameRelaySwitch(Device):
             destination_port, destination_dlci = destination
             if port_number == source_port:
                 log.info(
-                    f'Frame Relay switch "{self._name}" [{self._id}]: unmapping VC between port {source_port} DLCI {source_dlci} and port {destination_port} DLCI {destination_dlci}'
+                    f'Frame Relay switch "{self._name}" [{self._id}]: unmapping VC between port {source_port} DLCI {source_dlci} and port {destination_port} DLCI {destination_dlci}'  # noqa: E501
                 )
                 await self.unmap_vc(source_port, source_dlci, destination_port, destination_dlci)
                 await self.unmap_vc(destination_port, destination_dlci, source_port, source_dlci)
@@ -236,7 +236,7 @@ class FrameRelaySwitch(Device):
                     destination_dlci,
                 ) not in self._active_mappings:
                     log.info(
-                        f'Frame Relay switch "{self._name}" [{self._id}]: mapping VC between port {source_port} DLCI {source_dlci} and port {destination_port} DLCI {destination_dlci}'
+                        f'Frame Relay switch "{self._name}" [{self._id}]: mapping VC between port {source_port} DLCI {source_dlci} and port {destination_port} DLCI {destination_dlci}'  # noqa: E501
                     )
 
                     await self.map_vc(source_port, source_dlci, destination_port, destination_dlci)
@@ -264,7 +264,7 @@ class FrameRelaySwitch(Device):
         await self._hypervisor.send(f'frsw create_vc "{self._name}" {nio1} {dlci1} {nio2} {dlci2}')
 
         log.info(
-            f'Frame Relay switch "{self._name}" [{self._id}]: VC from port {port1} DLCI {dlci1} to port {port2} DLCI {dlci2} created'
+            f'Frame Relay switch "{self._name}" [{self._id}]: VC from port {port1} DLCI {dlci1} to port {port2} DLCI {dlci2} created'  # noqa: E501
         )
 
         self._active_mappings[(port1, dlci1)] = (port2, dlci2)
@@ -291,7 +291,7 @@ class FrameRelaySwitch(Device):
         await self._hypervisor.send(f'frsw delete_vc "{self._name}" {nio1} {dlci1} {nio2} {dlci2}')
 
         log.info(
-            f'Frame Relay switch "{self._name}" [{self._id}]: VC from port {port1} DLCI {dlci1} to port {port2} DLCI {dlci2} deleted'
+            f'Frame Relay switch "{self._name}" [{self._id}]: VC from port {port1} DLCI {dlci1} to port {port2} DLCI {dlci2} deleted'  # noqa: E501
         )
         del self._active_mappings[(port1, dlci1)]
 

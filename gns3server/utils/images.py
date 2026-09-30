@@ -93,7 +93,7 @@ async def list_images(image_type):
                         # read the first 7 bytes of the file.
                         elf_header_start = f.read(7)
                     if image_type == "dynamips" and elf_header_start != b"\x7fELF\x01\x02\x01":
-                        # IOS images must start with the ELF magic number, be 32-bit, big endian and have an ELF version of 1
+                        # IOS images must start with the ELF magic number, be 32-bit, big endian and have an ELF version of 1  # noqa: E501
                         log.warning(f"IOS image {filename} does not start with a valid ELF magic number, skipping...")
                         continue
                     elif (
@@ -101,7 +101,7 @@ async def list_images(image_type):
                         and elf_header_start != b"\x7fELF\x02\x01\x01"
                         and elf_header_start != b"\x7fELF\x01\x01\x01"
                     ):
-                        # IOU images must start with the ELF magic number, be 32-bit or 64-bit, little endian and have an ELF version of 1
+                        # IOU images must start with the ELF magic number, be 32-bit or 64-bit, little endian and have an ELF version of 1  # noqa: E501
                         log.warning(f"IOU image {filename} does not start with a valid ELF magic number, skipping...")
                         continue
                     elif image_type == "qemu" and elf_header_start[:4] == b"\x7fELF":

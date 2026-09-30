@@ -121,7 +121,7 @@ def test_patch_vm_uuid(vm):
         <Machine uuid="{f8138a63-e361-49ee-a5a4-ba0559bc00e2}" name="Debian-1" OSType="Debian_64" currentSnapshot="{8bd00b14-4c14-4992-a165-cb09e80fe8e4    }" snapshotFolder="Snapshots" lastStateChange="2016-10-28T12:54:26Z">
         </Machine>
     </VirtualBox>
-    """
+    """  # noqa: E501
 
     os.makedirs(os.path.join(vm.working_dir, vm._vmname), exist_ok=True)
     with open(vm._linked_vbox_file(), "w+") as f:

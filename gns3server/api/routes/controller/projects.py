@@ -623,7 +623,7 @@ async def project_marker_ws_notifications(
                 await websocket.send_text(notification)
     except (ConnectionClosed, WebSocketDisconnect):
         log.info(
-            f"Client has disconnected from the marker notification stream for project ID '{project.id}' (WebSocket method)"
+            f"Client has disconnected from the marker notification stream for project ID '{project.id}' (WebSocket method)"  # noqa: E501
         )
     except WebSocketException as e:
         log.warning(f"Error while sending marker event to WebSocket client: {e}")

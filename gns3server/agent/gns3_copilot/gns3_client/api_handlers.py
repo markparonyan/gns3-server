@@ -1003,7 +1003,7 @@ def link_marker_handler(params: dict[str, Any], gns3_ctx: dict[str, Any]) -> dic
             body["direction"] = direction
         if not body:
             return {
-                "error": "At least one update field is required (bpf, tag, enabled, direction, color, highlight_duration)"
+                "error": "At least one update field is required (bpf, tag, enabled, direction, color, highlight_duration)"  # noqa: E501
             }
         return conn.http_call("put", url, json_data=body).json()
 

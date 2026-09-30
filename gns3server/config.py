@@ -132,7 +132,7 @@ class Config:
                             ignore_dangling_symlinks=True,
                         )
                         log.info(
-                            f"Migrated configuration files and database from '{previous_versioned_user_dir}' to '{versioned_user_dir}'"
+                            f"Migrated configuration files and database from '{previous_versioned_user_dir}' to '{versioned_user_dir}'"  # noqa: E501
                         )
                     except OSError as e:
                         log.error(

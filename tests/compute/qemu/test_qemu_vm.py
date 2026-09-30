@@ -739,7 +739,7 @@ async def test_build_command_two_adapters(vm, fake_qemu_binary):
             "-netdev",
             f"socket,id=gns3-0,udp=127.0.0.1:{nio1.rport},localaddr=127.0.0.1:{nio1.lport}",
             "-device",
-            f"e1000,mac={int_to_macaddress(macaddress_to_int(vm._mac_address) + 1)},bus=pci-bridge1,addr=0x01,netdev=gns3-1",
+            f"e1000,mac={int_to_macaddress(macaddress_to_int(vm._mac_address) + 1)},bus=pci-bridge1,addr=0x01,netdev=gns3-1",  # noqa: E501
             "-netdev",
             f"socket,id=gns3-1,udp=127.0.0.1:{nio2.rport},localaddr=127.0.0.1:{nio2.lport}",
             "-nographic",

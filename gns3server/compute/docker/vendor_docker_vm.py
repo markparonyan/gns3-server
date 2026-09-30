@@ -606,7 +606,7 @@ class VendorDockerVM(DockerVM):
                     f" | /gns3/bin/busybox xargs -0 /gns3/bin/busybox stat -c '%a:%u:%g:%n' > \"{target}/.gns3_perms\""
                     ")"
                     f' && /gns3/bin/busybox chmod -R u+rX "{target}"'
-                    f' && ( command -v chown >/dev/null 2>&1 && chown {uid}:{gid} -R "{target}" || /gns3/bin/busybox chown {uid}:{gid} -R "{target}" )',
+                    f' && ( command -v chown >/dev/null 2>&1 && chown {uid}:{gid} -R "{target}" || /gns3/bin/busybox chown {uid}:{gid} -R "{target}" )',  # noqa: E501
                     stderr=asyncio.subprocess.PIPE,
                 )
             except OSError as e:
@@ -660,7 +660,7 @@ class VendorDockerVM(DockerVM):
             self._telnet_servers.append(await telnet.start(self._manager.port_manager.console_host, self.console))
         except OSError as e:
             raise DockerError(
-                f"Could not start console server on socket {self._manager.port_manager.console_host}:{self.console}: {e}"
+                f"Could not start console server on socket {self._manager.port_manager.console_host}:{self.console}: {e}"  # noqa: E501
             ) from e
         log.debug(f"Docker container '{self.name}' started docker_exec console (lazy) on {self.console}")
 

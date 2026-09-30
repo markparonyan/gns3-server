@@ -175,7 +175,7 @@ class TestComputeFeatures:
     #
     #     params = {"path": "/test"}
     #     with asyncio_patch("gns3server.controller.compute.Compute.forward", return_value=[]) as mock:
-    #         response = await client.post(app.url_path_for("get_compute", compute_id=compute_id) + "/qemu/img", json=params)
+    #         response = await client.post(app.url_path_for("get_compute", compute_id=compute_id) + "/qemu/img", json=params)  # noqa: E501
     #         assert response.json() == []
     #         mock.assert_called_with("POST", "qemu", "img", data=unittest.mock.ANY)
 
@@ -199,7 +199,7 @@ class TestComputeFeatures:
     #         "ram": 512
     #     }
     #
-    #     with asyncio_patch("gns3server.controller.Controller.autoidlepc", return_value={"idlepc": "0x606de20c"}) as mock:
-    #         response = await client.post(app.url_path_for("autoidlepc", compute_id=compute_id) + "/auto_idlepc", json=params)
+    #     with asyncio_patch("gns3server.controller.Controller.autoidlepc", return_value={"idlepc": "0x606de20c"}) as mock:  # noqa: E501
+    #         response = await client.post(app.url_path_for("autoidlepc", compute_id=compute_id) + "/auto_idlepc", json=params)  # noqa: E501
     #         assert mock.called
     #         assert response.status_code == status.HTTP_200_OK

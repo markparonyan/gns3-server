@@ -481,7 +481,7 @@ async def node_list(
     fields: Annotated[
         list[str] | None,
         Field(
-            description='Optional: return only these fields per node. e.g. ["name","status"]. Available: name, status, node_type, console, console_type, console_host, node_id, project_id, compute_id, symbol, x, y, z, locked, ports, properties, command_line, node_directory, label, tags, template_id, width, height, aux, aux_type'
+            description='Optional: return only these fields per node. e.g. ["name","status"]. Available: name, status, node_type, console, console_type, console_host, node_id, project_id, compute_id, symbol, x, y, z, locked, ports, properties, command_line, node_directory, label, tags, template_id, width, height, aux, aux_type'  # noqa: E501
         ),
     ] = None,
 ) -> list[dict[str, Any]]:
@@ -496,7 +496,7 @@ async def node_get(
     fields: Annotated[
         list[str] | None,
         Field(
-            description='Optional: return only these fields. e.g. ["name","status"]. Available: name, status, node_type, console, console_type, console_host, node_id, project_id, compute_id, symbol, x, y, z, locked, ports, properties, command_line, node_directory, label, tags, template_id, width, height, aux, aux_type'
+            description='Optional: return only these fields. e.g. ["name","status"]. Available: name, status, node_type, console, console_type, console_host, node_id, project_id, compute_id, symbol, x, y, z, locked, ports, properties, command_line, node_directory, label, tags, template_id, width, height, aux, aux_type'  # noqa: E501
         ),
     ] = None,
 ) -> list[dict[str, Any]]:
@@ -575,7 +575,7 @@ async def node_create(
     nodes: Annotated[
         list | None,
         Field(
-            description="Batch mode: [{name, template_id?, x?, y?, compute_id?}] — top-level template_id applies as default"
+            description="Batch mode: [{name, template_id?, x?, y?, compute_id?}] — top-level template_id applies as default"  # noqa: E501
         ),
     ] = None,
     fields: Annotated[
@@ -697,7 +697,7 @@ async def link_list(
     fields: Annotated[
         list[str] | None,
         Field(
-            description='Optional: return only these fields. e.g. ["link_id","nodes"]. Available: link_id, project_id, link_type, nodes, suspend, filters, capturing, capture_file_name, link_style'
+            description='Optional: return only these fields. e.g. ["link_id","nodes"]. Available: link_id, project_id, link_type, nodes, suspend, filters, capturing, capture_file_name, link_style'  # noqa: E501
         ),
     ] = None,
 ) -> list[dict[str, Any]]:
@@ -726,7 +726,7 @@ async def link_create(
     links: Annotated[
         list | None,
         Field(
-            description="Batch mode: [{nodes, link_type?, filters?}] — nodes supports compact [id, ad, pt, id, ad, pt] format"
+            description="Batch mode: [{nodes, link_type?, filters?}] — nodes supports compact [id, ad, pt, id, ad, pt] format"  # noqa: E501
         ),
     ] = None,
     fields: Annotated[
@@ -837,7 +837,7 @@ async def template_list(
     fields: Annotated[
         list[str] | None,
         Field(
-            description="Response fields to include (default: [template_id, name, template_type, category, default_name_format]). "
+            description="Response fields to include (default: [template_id, name, template_type, category, default_name_format]). "  # noqa: E501
             "Available: template_id, name, version, category, default_name_format, symbol, "
             "template_type, compute_id, usage, tags, builtin, created_at, updated_at"
         ),
@@ -921,7 +921,7 @@ async def compute_list() -> list[dict[str, Any]]:
     """List all remotely registered compute nodes (returns only database entries, does NOT include the built-in local compute).
 
     For the local compute info, use server_statistics instead.
-    """
+    """  # noqa: E501
     return await asyncio.to_thread(_run_handler_sync, list_computes_handler, {})
 
 
@@ -930,7 +930,7 @@ async def compute_get(
     compute_id: Annotated[
         str,
         Field(
-            description="Compute ID: 'local' (default) for the built-in local compute, or a compute UUID from compute_list"
+            description="Compute ID: 'local' (default) for the built-in local compute, or a compute UUID from compute_list"  # noqa: E501
         ),
     ] = "local",
 ) -> list[dict[str, Any]]:
@@ -948,7 +948,7 @@ async def compute_images(
     compute_id: Annotated[
         str,
         Field(
-            description="Compute ID: 'local' (default) for the built-in local compute, or a compute UUID from compute_list"
+            description="Compute ID: 'local' (default) for the built-in local compute, or a compute UUID from compute_list"  # noqa: E501
         ),
     ] = "local",
 ) -> list[dict[str, Any]]:
@@ -1031,7 +1031,7 @@ async def node_file_write(
     file_path: Annotated[str, Field(description="Path to the file within the node directory")],
     content: Annotated[str, Field(description="Content to write to the file")],
 ) -> list[dict[str, Any]]:
-    """Write content to a file in a node directory. Creates the file if it doesn't exist. Overwrites existing content."""
+    """Write content to a file in a node directory. Creates the file if it doesn't exist. Overwrites existing content."""  # noqa: E501
     return await asyncio.to_thread(
         _run_handler_sync,
         write_node_file_handler,
@@ -1299,13 +1299,13 @@ async def link_marker(
     direction: Annotated[
         str | None,
         Field(
-            description="Direction filter: 'tx' (capture node sending only), 'rx' (receiving only), or 'both' (no filter — on update this clears a previously set direction). Omit to leave unchanged on update."
+            description="Direction filter: 'tx' (capture node sending only), 'rx' (receiving only), or 'both' (no filter — on update this clears a previously set direction). Omit to leave unchanged on update."  # noqa: E501
         ),
     ] = None,
     capture_node_id: Annotated[
         str | None,
         Field(
-            description="UUID of the endpoint whose uBridge hosts the marker (the observer; tx/rx are from its perspective). Must be a link endpoint and marker-capable. Omit to auto-pick."
+            description="UUID of the endpoint whose uBridge hosts the marker (the observer; tx/rx are from its perspective). Must be a link endpoint and marker-capable. Omit to auto-pick."  # noqa: E501
         ),
     ] = None,
     color: Annotated[str | None, Field(description="Hex color for UI highlight, e.g. '#ff5722'")] = None,
@@ -1313,7 +1313,7 @@ async def link_marker(
     data_link_type: Annotated[
         str | None,
         Field(
-            description="pcap link-layer type for serial links (create-only): DLT_C_HDLC / DLT_PPP_SERIAL / DLT_FRELAY / DLT_ATM_RFC1483, matching the encapsulation on the serial link. Omit = DLT_EN10MB (Ethernet). Ignored on update — changing it would invalidate the capture file."
+            description="pcap link-layer type for serial links (create-only): DLT_C_HDLC / DLT_PPP_SERIAL / DLT_FRELAY / DLT_ATM_RFC1483, matching the encapsulation on the serial link. Omit = DLT_EN10MB (Ethernet). Ignored on update — changing it would invalidate the capture file."  # noqa: E501
         ),
     ] = None,
 ) -> list[dict[str, Any]]:
@@ -1330,7 +1330,7 @@ async def link_marker(
 
     NOTE: Markers named 'global-*' are inherited from project-level marker definitions
     and cannot be modified or deleted via this tool.
-    """
+    """  # noqa: E501
     params = {"project_id": project_id, "link_id": link_id, "action": action}
     for opt in (
         "bpf",
@@ -1367,7 +1367,7 @@ async def marker_definition(
     data_link_type: Annotated[
         str | None,
         Field(
-            description="pcap link-layer type for serial links (DLT_C_HDLC / DLT_PPP_SERIAL / DLT_FRELAY / DLT_ATM_RFC1483). Omit = Ethernet-only (serial links skipped); setting it also covers serial links with that encapsulation"
+            description="pcap link-layer type for serial links (DLT_C_HDLC / DLT_PPP_SERIAL / DLT_FRELAY / DLT_ATM_RFC1483). Omit = Ethernet-only (serial links skipped); setting it also covers serial links with that encapsulation"  # noqa: E501
         ),
     ] = None,
 ) -> list[dict[str, Any]]:
@@ -1389,7 +1389,7 @@ async def marker_definition(
     the per-link `link_marker` tool.
 
     Common BPF examples: 'arp', 'icmp', 'ospf', 'tcp port 22', 'udp port 53'
-    """
+    """  # noqa: E501
     params = {"project_id": project_id, "action": action}
     for opt in ("bpf", "def_name", "name", "tag", "color", "highlight_duration", "data_link_type"):
         val = locals().get(opt)
@@ -1694,7 +1694,7 @@ async def server_statistics() -> list[dict[str, Any]]:
 #
 # @mcp.tool()
 # async def symbol_delete(
-#     symbol_id: Annotated[str, Field(description="Symbol ID to delete (e.g. ':/symbols/my_custom_symbol.svg'). Use symbol_list to get existing IDs.")],
+#     symbol_id: Annotated[str, Field(description="Symbol ID to delete (e.g. ':/symbols/my_custom_symbol.svg'). Use symbol_list to get existing IDs.")],  # noqa: E501
 # ) -> list[dict[str, Any]]:
 #     """Delete a custom symbol from the server.
 #
@@ -1715,7 +1715,7 @@ async def appliance_list(
     fields: Annotated[
         list[str] | None,
         Field(
-            description='Optional: return only these fields. e.g. ["name","category"]. Available: name, category, description, vendor_name, product_name, status, availability, images, versions, tags, symbol, usage, builtin'
+            description='Optional: return only these fields. e.g. ["name","category"]. Available: name, category, description, vendor_name, product_name, status, availability, images, versions, tags, symbol, usage, builtin'  # noqa: E501
         ),
     ] = None,
 ) -> list[dict[str, Any]]:
@@ -1743,7 +1743,7 @@ async def appliance_install(
     version: Annotated[
         str | None,
         Field(
-            description="Version to install (e.g. '2.7.0.356'). Required if the appliance has multiple versions. Use appliance_get to see available versions."
+            description="Version to install (e.g. '2.7.0.356'). Required if the appliance has multiple versions. Use appliance_get to see available versions."  # noqa: E501
         ),
     ] = None,
 ) -> list[dict[str, Any]]:
@@ -1842,13 +1842,13 @@ async def device_config_send(
     device_configs: Annotated[
         list,
         Field(
-            description='List of device configs. Each entry: {"device_name": "R1", "config_commands": ["int lo0", "ip add 1.1.1.1 255.255.255.255"]}'
+            description='List of device configs. Each entry: {"device_name": "R1", "config_commands": ["int lo0", "ip add 1.1.1.1 255.255.255.255"]}'  # noqa: E501
         ),
     ],
     template: Annotated[
         str | None,
         Field(
-            description='Optional Jinja2 template. Use with vars in each device to reduce token usage for batch config. Example: "interface lo{{ n }}\\nip address {{ ip }} 255.255.255.255"'
+            description='Optional Jinja2 template. Use with vars in each device to reduce token usage for batch config. Example: "interface lo{{ n }}\\nip address {{ ip }} 255.255.255.255"'  # noqa: E501
         ),
     ] = None,
 ) -> list[dict[str, Any]]:
@@ -1879,7 +1879,7 @@ async def device_show_run(
     device_configs: Annotated[
         list,
         Field(
-            description='List of device commands. Each entry: {"device_name": "R1", "commands": ["show ip int brief", "show running-config"]}'
+            description='List of device commands. Each entry: {"device_name": "R1", "commands": ["show ip int brief", "show running-config"]}'  # noqa: E501
         ),
     ],
     template: Annotated[
@@ -1921,7 +1921,7 @@ async def vpcs_config_set(
     device_configs: Annotated[
         list,
         Field(
-            description='List of VPCS configs. Each entry: {"device_name": "PC1", "commands": ["ip 10.0.0.1/24 10.0.0.254", "save"]}'
+            description='List of VPCS configs. Each entry: {"device_name": "PC1", "commands": ["ip 10.0.0.1/24 10.0.0.254", "save"]}'  # noqa: E501
         ),
     ],
 ) -> list[dict[str, Any]]:
@@ -1968,7 +1968,7 @@ def _make_auth_wrapper(inner_app):
             client_info = extract_client_info(scope, auth_service)
             log.warning(
                 f"Rejecting MCP connection - GNS3 server initialization not complete. "
-                f"Client: {client_info['host']}:{client_info['port']} ({client_info['user_info']}, Path: {client_info['path']})"
+                f"Client: {client_info['host']}:{client_info['port']} ({client_info['user_info']}, Path: {client_info['path']})"  # noqa: E501
             )
             response = Response("GNS3 server initialization not complete - please retry later", status_code=503)
             await response(scope, receive, send)

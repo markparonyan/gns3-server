@@ -208,7 +208,7 @@ async def test_json(project, compute):
                 "port_number": 4,
                 "label": {
                     "text": "0/4",
-                    "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
+                    "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",  # noqa: E501
                 },
             },
             {
@@ -217,7 +217,7 @@ async def test_json(project, compute):
                 "port_number": 3,
                 "label": {
                     "text": "1/3",
-                    "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
+                    "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",  # noqa: E501
                 },
             },
         ],
@@ -242,7 +242,7 @@ async def test_json(project, compute):
                 "port_number": 4,
                 "label": {
                     "text": "0/4",
-                    "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
+                    "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",  # noqa: E501
                 },
             },
             {
@@ -251,7 +251,7 @@ async def test_json(project, compute):
                 "port_number": 3,
                 "label": {
                     "text": "1/3",
-                    "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
+                    "style": "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;",  # noqa: E501
                 },
             },
         ],

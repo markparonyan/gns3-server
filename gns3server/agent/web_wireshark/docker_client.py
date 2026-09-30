@@ -158,7 +158,7 @@ class DockerHTTPClient:
                 "400" in error_msg or "not found" in error_msg.lower()
             ) and self._api_version == DOCKER_PREFERRED_API_VERSION:
                 logger.warning(
-                    f"Docker daemon doesn't support API version {self._api_version}, falling back to {DOCKER_MINIMUM_API_VERSION}"
+                    f"Docker daemon doesn't support API version {self._api_version}, falling back to {DOCKER_MINIMUM_API_VERSION}"  # noqa: E501
                 )
                 self._api_version = DOCKER_MINIMUM_API_VERSION
                 return await self._request(method, endpoint, check_connection=False, **kwargs)

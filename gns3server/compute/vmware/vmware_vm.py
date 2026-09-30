@@ -156,12 +156,12 @@ class VMwareVM(BaseNode):
                     if node.project != self.project:
                         if trial >= 30:
                             raise VMwareError(
-                                f"Sorry a node without the linked clone setting enabled can only be used once on your server.\n{self.vmx_path} is already used by {node.name} in project {self.project.name}"
+                                f"Sorry a node without the linked clone setting enabled can only be used once on your server.\n{self.vmx_path} is already used by {node.name} in project {self.project.name}"  # noqa: E501
                             )
                     else:
                         if trial >= 5:
                             raise VMwareError(
-                                f"Sorry a node without the linked clone setting enabled can only be used once on your server.\n{self.vmx_path} is already used by {node.name} in this project"
+                                f"Sorry a node without the linked clone setting enabled can only be used once on your server.\n{self.vmx_path} is already used by {node.name} in this project"  # noqa: E501
                             )
             if not found:
                 return
@@ -758,12 +758,12 @@ class VMwareVM(BaseNode):
             ):
                 if await self.is_running():
                     raise VMwareError(
-                        f"Attachment '{self._vmx_pairs[connection_type]}' is configured on network adapter {adapter_number}. "
-                        f"Please stop VMware VM '{self.name}' to link to this adapter and allow GNS3 to change the attachment type."
+                        f"Attachment '{self._vmx_pairs[connection_type]}' is configured on network adapter {adapter_number}. "  # noqa: E501
+                        f"Please stop VMware VM '{self.name}' to link to this adapter and allow GNS3 to change the attachment type."  # noqa: E501
                     )
                 else:
                     raise VMwareError(
-                        f"Attachment '{self._vmx_pairs[connection_type]}' is already configured on network adapter {adapter_number}. "
+                        f"Attachment '{self._vmx_pairs[connection_type]}' is already configured on network adapter {adapter_number}. "  # noqa: E501
                         f"Please remove it or allow VMware VM '{self.name}' to use any adapter."
                     )
 
@@ -885,7 +885,7 @@ class VMwareVM(BaseNode):
                 self.project.emit(
                     "log.warning",
                     {
-                        "message": f"Could not start {transport} server on socket {self._manager.port_manager.console_host}:{self.console}: {e}"
+                        "message": f"Could not start {transport} server on socket {self._manager.port_manager.console_host}:{self.console}: {e}"  # noqa: E501
                     },
                 )
 

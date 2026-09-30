@@ -466,7 +466,7 @@ class IOUVM(BaseNode):
 
         if not is_ios_hostname_valid(new_name):
             raise IOUError(
-                f"'{new_name}' is an invalid name to rename IOU node '{self._name}'. Allowed characters: letters (a-z, A-Z), digits (0-9), and hyphens (-). The name must start with a letter, end with a letter or digit, and be 63 characters or fewer."
+                f"'{new_name}' is an invalid name to rename IOU node '{self._name}'. Allowed characters: letters (a-z, A-Z), digits (0-9), and hyphens (-). The name must start with a letter, end with a letter or digit, and be 63 characters or fewer."  # noqa: E501
             )
         if self.startup_config_file:
             content = self.startup_config_content
@@ -610,7 +610,7 @@ class IOUVM(BaseNode):
             ioukey = hashlib.md5(pad1 + pad2 + struct.pack("!I", ioukey) + pad1, usedforsecurity=False).hexdigest()[:16]
             if ioukey != user_ioukey:
                 raise IOUError(
-                    f"Invalid IOU license key {user_ioukey} detected in iourc file {self.iourc_path} for host {hostname}"
+                    f"Invalid IOU license key {user_ioukey} detected in iourc file {self.iourc_path} for host {hostname}"  # noqa: E501
                 )
 
     def _nvram_file(self):
@@ -734,7 +734,7 @@ class IOUVM(BaseNode):
             except FileNotFoundError as e:
                 self._stop_l1_keepalive_responder()
                 raise IOUError(
-                    f"Could not start IOU: {e}: 32-bit binary support is probably not installed, it is recommended to use a 64-bit image instead"
+                    f"Could not start IOU: {e}: 32-bit binary support is probably not installed, it is recommended to use a 64-bit image instead"  # noqa: E501
                 ) from e
             except (OSError, subprocess.SubprocessError) as e:
                 self._stop_l1_keepalive_responder()
@@ -766,7 +766,7 @@ class IOUVM(BaseNode):
             except OSError as e:
                 await self.stop()
                 raise IOUError(
-                    f"Could not start {error_prefix} server on socket {self._manager.port_manager.console_host}:{self.console}: {e}"
+                    f"Could not start {error_prefix} server on socket {self._manager.port_manager.console_host}:{self.console}: {e}"  # noqa: E501
                 ) from e
 
     async def reset_console(self):
@@ -802,7 +802,7 @@ class IOUVM(BaseNode):
                 nio = adapter.get_nio(unit)
                 if nio and isinstance(nio, NIOUDP):
                     await self._ubridge_send(
-                        f"iol_bridge add_nio_udp {bridge_name} {self.application_id} {bay_id} {unit_id} {nio.lport} {nio.rhost} {nio.rport}"
+                        f"iol_bridge add_nio_udp {bridge_name} {self.application_id} {bay_id} {unit_id} {nio.lport} {nio.rhost} {nio.rport}"  # noqa: E501
                     )
                     if nio.capturing:
                         await self._ubridge_send(
@@ -831,7 +831,7 @@ class IOUVM(BaseNode):
         self._stop_l1_keepalive_responder()
         if returncode != 0:
             if returncode == -11:
-                message = f'IOU VM "{self.name}" process has stopped with return code: {returncode} (segfault). This could be an issue with the IOU image, using a different image may fix this.\n{self.read_iou_stdout()}'
+                message = f'IOU VM "{self.name}" process has stopped with return code: {returncode} (segfault). This could be an issue with the IOU image, using a different image may fix this.\n{self.read_iou_stdout()}'  # noqa: E501
             else:
                 message = (
                     f'IOU VM "{self.name}" process has stopped with return code: {returncode}\n{self.read_iou_stdout()}'
@@ -1181,7 +1181,7 @@ class IOUVM(BaseNode):
         if self.ubridge:
             bridge_name = f"IOL-BRIDGE-{self.application_id + 512}"
             await self._ubridge_send(
-                f"iol_bridge add_nio_udp {bridge_name} {self.application_id} {adapter_number} {port_number} {nio.lport} {nio.rhost} {nio.rport}"
+                f"iol_bridge add_nio_udp {bridge_name} {self.application_id} {adapter_number} {port_number} {nio.lport} {nio.rhost} {nio.rport}"  # noqa: E501
             )
             await self._ubridge_apply_filters(adapter_number, port_number, nio.filters)
             await self._ubridge_apply_markers(adapter_number, port_number, nio)
@@ -1427,7 +1427,7 @@ class IOUVM(BaseNode):
                 raise IOUError(f"layer 1 keepalive messages are not supported by {os.path.basename(self._path)}")
         except (OSError, subprocess.SubprocessError) as e:
             log.warning(
-                f"could not determine if layer 1 keepalive messages are supported by {os.path.basename(self._path)}: {e}"
+                f"could not determine if layer 1 keepalive messages are supported by {os.path.basename(self._path)}: {e}"  # noqa: E501
             )
 
     @property
@@ -1670,7 +1670,7 @@ class IOUVM(BaseNode):
 
         nio.start_packet_capture(output_file, data_link_type)
         log.debug(
-            f'IOU "{self._name}" [{self._id}]: starting packet capture on {adapter_number}/{port_number} to {output_file}'
+            f'IOU "{self._name}" [{self._id}]: starting packet capture on {adapter_number}/{port_number} to {output_file}'  # noqa: E501
         )
 
         if self.ubridge:

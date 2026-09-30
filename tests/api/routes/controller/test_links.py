@@ -298,7 +298,7 @@ class TestLinkRoutes:
     # async def test_pcap(controller_api, http_client, project):
     #
     #     async def pcap_capture():
-    #         async with http_client.get(controller_api.get_url("/projects/{}/links/{}/pcap".format(project.id, link.id))) as response:
+    #         async with http_client.get(controller_api.get_url("/projects/{}/links/{}/pcap".format(project.id, link.id))) as response:  # noqa: E501
     #             response.body = await response.content.read(5)
     #             print("READ", response.body)
     #             return response

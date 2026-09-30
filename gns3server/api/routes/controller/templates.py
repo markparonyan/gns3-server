@@ -74,7 +74,7 @@ async def create_template(
     response_model=schemas.Template,
     response_model_exclude_unset=True,
     dependencies=[Depends(get_current_active_user)],
-    # dependencies=[Depends(has_privilege("Template.Audit"))]  # FIXME: this is a temporary workaround due to a bug in the web-ui
+    # dependencies=[Depends(has_privilege("Template.Audit"))]  # FIXME: this is a temporary workaround due to a bug in the web-ui  # noqa: E501
 )
 async def get_template(
     template_id: UUID,
@@ -188,7 +188,7 @@ async def delete_template(
     response_model=list[schemas.Template],
     response_model_exclude_unset=True,
     dependencies=[Depends(get_current_active_user)],
-    # dependencies=[Depends(has_privilege("Template.Audit"))]  # FIXME: this is a temporary workaround due to a bug in the web-ui
+    # dependencies=[Depends(has_privilege("Template.Audit"))]  # FIXME: this is a temporary workaround due to a bug in the web-ui  # noqa: E501
 )
 async def get_templates(
     templates_repo: TemplatesRepository = Depends(get_repository(TemplatesRepository)),

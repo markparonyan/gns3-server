@@ -88,4 +88,4 @@ def format_client_log(client_info: dict[str, str], message: str) -> str:
     Returns:
         Formatted log string with client prefix
     """
-    return f"{message} - Client: {client_info['host']}:{client_info['port']} ({client_info['user_info']}, Path: {client_info['path']})"
+    return f"{message} - Client: {client_info['host']}:{client_info['port']} ({client_info['user_info']}, Path: {client_info['path']})"  # noqa: E501

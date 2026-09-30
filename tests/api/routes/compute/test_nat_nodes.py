@@ -186,5 +186,5 @@ class TestNATNodesRoutes:
     #
     #     with asyncio_patch("gns3server.compute.builtin.nodes.nat.Nat.get_nio"):
     #         with asyncio_patch("gns3server.compute.builtin.Builtin.stream_pcap_file"):
-    #             response = await compute_client.get("/projects/{project_id}/nat/nodes/{node_id}/adapters/0/ports/0/pcap".format(project_id=compute_project.id, node_id=vm["node_id"]), raw=True)
+    #             response = await compute_client.get("/projects/{project_id}/nat/nodes/{node_id}/adapters/0/ports/0/pcap".format(project_id=compute_project.id, node_id=vm["node_id"]), raw=True)  # noqa: E501
     #             assert response.status_code == status.HTTP_200_OK

@@ -348,7 +348,7 @@ class Router(BaseNode):
                 self.project.emit(
                     "log.error",
                     {
-                        "message": f"Dynamips hypervisor process has stopped, return code: {returncode}\n{self._hypervisor.read_stdout()}"
+                        "message": f"Dynamips hypervisor process has stopped, return code: {returncode}\n{self._hypervisor.read_stdout()}"  # noqa: E501
                     },
                 )
 
@@ -726,7 +726,7 @@ class Router(BaseNode):
         begin = time.time()
         idlepcs = await self._hypervisor.send(f'vm get_idle_pc_prop "{self._name}" 0')
         log.debug(
-            f'Router "{self._name}" [{self._id}] has finished calculating Idle-PC values after {time.time() - begin:.4f} seconds'
+            f'Router "{self._name}" [{self._id}] has finished calculating Idle-PC values after {time.time() - begin:.4f} seconds'  # noqa: E501
         )
         if was_auto_started:
             await self.stop()
@@ -1245,7 +1245,7 @@ class Router(BaseNode):
         await self._hypervisor.send(f'vm slot_remove_binding "{self._name}" {slot_number} {internal_wic_slot_number}')
 
         log.debug(
-            f'Router "{self._name}" [{self._id}]: {adapter.wics[wic_slot_number]} removed from WIC slot {wic_slot_number}'
+            f'Router "{self._name}" [{self._id}]: {adapter.wics[wic_slot_number]} removed from WIC slot {wic_slot_number}'  # noqa: E501
         )
         adapter.uninstall_wic(wic_slot_number)
 
@@ -1494,7 +1494,7 @@ class Router(BaseNode):
 
         if not is_ios_hostname_valid(new_name):
             raise DynamipsError(
-                f"{new_name} is an invalid name to rename router '{self._name}'. Allowed characters: letters (a-z, A-Z), digits (0-9), and hyphens (-). The name must start with a letter, end with a letter or digit, and be 63 characters or fewer."
+                f"{new_name} is an invalid name to rename router '{self._name}'. Allowed characters: letters (a-z, A-Z), digits (0-9), and hyphens (-). The name must start with a letter, end with a letter or digit, and be 63 characters or fewer."  # noqa: E501
             )
 
         await self._hypervisor.send(f'vm rename "{self._name}" "{new_name}"')

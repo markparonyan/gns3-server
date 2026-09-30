@@ -162,7 +162,7 @@ class MarkerCreate(BaseModel):
     direction: str | None = Field(
         None,
         pattern=r"^(tx|rx|both)$",
-        description="Direction filter: 'tx' = capture node sending only, 'rx' = capture node receiving only, 'both' or null = both directions.",
+        description="Direction filter: 'tx' = capture node sending only, 'rx' = capture node receiving only, 'both' or null = both directions.",  # noqa: E501
     )
     capture_node_id: UUID | None = Field(
         None,
@@ -252,7 +252,7 @@ class MarkerDefinitionCreate(BaseModel):
     direction: str | None = Field(
         None,
         pattern=r"^(tx|rx|both)$",
-        description="Direction filter: 'tx' = capture node sending only, 'rx' = capture node receiving only, 'both' or null = both directions.",
+        description="Direction filter: 'tx' = capture node sending only, 'rx' = capture node receiving only, 'both' or null = both directions.",  # noqa: E501
     )
     data_link_type: str = Field(
         "DLT_EN10MB",

@@ -398,7 +398,7 @@ class WebWiresharkManager:
             combined_pattern = "|".join(f"({pattern})" for pattern in patterns)
 
             # Single pgrep to find all matching processes
-            pgrep_cmd = f'pids=$(pgrep -f "{combined_pattern}" 2>/dev/null || true); if [ -n "$pids" ]; then echo "Found processes: $pids"; kill -9 $pids 2>/dev/null || true; fi'
+            pgrep_cmd = f'pids=$(pgrep -f "{combined_pattern}" 2>/dev/null || true); if [ -n "$pids" ]; then echo "Found processes: $pids"; kill -9 $pids 2>/dev/null || true; fi'  # noqa: E501
 
             returncode, stdout, stderr = await self._exec_in_container(container_id, pgrep_cmd, timeout=5)  # noqa: RUF059
 
@@ -797,7 +797,7 @@ class WebWiresharkManager:
 
         if has_process_residuals or has_socket_residuals:
             logger.info(
-                f"Found residual processes={has_process_residuals} sockets={has_socket_residuals} on display :{display}, cleaning up..."
+                f"Found residual processes={has_process_residuals} sockets={has_socket_residuals} on display :{display}, cleaning up..."  # noqa: E501
             )
             if has_process_residuals:
                 patterns = [

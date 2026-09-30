@@ -410,7 +410,7 @@ class TestTemplateRoutes:
     #         "default_name_format": "{name}-{0}",
     #         "compute_id": "example.com"
     #     })}
-    #     with asyncio_patch("gns3server.controller.project.Project.add_node_from_template", return_value={"name": "test", "node_type": "qemu", "compute_id": "example.com"}) as mock:
+    #     with asyncio_patch("gns3server.controller.project.Project.add_node_from_template", return_value={"name": "test", "node_type": "qemu", "compute_id": "example.com"}) as mock:  # noqa: E501
     #         response = await client.post("/projects/{}/templates/{}".format(project.id, id), {
     #             "x": 42,
     #             "y": 12

@@ -46,7 +46,7 @@ def demo_topology():
                 {
                     "drawing_id": "48bdaa23-326a-4de0-bf7d-cc22709689ec",
                     "rotation": 0,
-                    "svg": '<svg height="100" width="200"><rect fill="#ffffff" fill-opacity="1.0" height="100" stroke="#000000" stroke-width="2" width="200" /></svg>',
+                    "svg": '<svg height="100" width="200"><rect fill="#ffffff" fill-opacity="1.0" height="100" stroke="#000000" stroke-width="2" width="200" /></svg>',  # noqa: E501
                     "x": -226,
                     "y": 57,
                     "z": 0,
@@ -60,7 +60,7 @@ def demo_topology():
                             "adapter_number": 0,
                             "label": {
                                 "rotation": 0,
-                                "style": "font-family: TypeWriter;font-size: 10;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
+                                "style": "font-family: TypeWriter;font-size: 10;font-weight: bold;fill: #000000;fill-opacity: 1.0;",  # noqa: E501
                                 "text": "Ethernet0",
                                 "x": 72,
                                 "y": 32,
@@ -72,7 +72,7 @@ def demo_topology():
                             "adapter_number": 0,
                             "label": {
                                 "rotation": 0,
-                                "style": "font-family: TypeWriter;font-size: 10;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
+                                "style": "font-family: TypeWriter;font-size: 10;font-weight: bold;fill: #000000;fill-opacity: 1.0;",  # noqa: E501
                                 "text": "Ethernet0",
                                 "x": -7,
                                 "y": 26,
@@ -91,7 +91,7 @@ def demo_topology():
                     "height": 59,
                     "label": {
                         "rotation": 0,
-                        "style": "font-family: TypeWriter;font-size: 10;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
+                        "style": "font-family: TypeWriter;font-size: 10;font-weight: bold;fill: #000000;fill-opacity: 1.0;",  # noqa: E501
                         "text": "PC1",
                         "x": 18,
                         "y": -25,
@@ -113,7 +113,7 @@ def demo_topology():
                     "height": 59,
                     "label": {
                         "rotation": 0,
-                        "style": "font-family: TypeWriter;font-size: 10;font-weight: bold;fill: #000000;fill-opacity: 1.0;",
+                        "style": "font-family: TypeWriter;font-size: 10;font-weight: bold;fill: #000000;fill-opacity: 1.0;",  # noqa: E501
                         "text": "PC2",
                         "x": 18,
                         "y": -25,
@@ -141,7 +141,7 @@ def demo_topology():
 #     with open(str(tmpdir / "demo.gns3"), "w+") as f:
 #         json.dump(demo_topology, f)
 #
-#     controller._computes["local"] = Compute("local", controller=controller, host=http_client.host, port=http_client.port)
+#     controller._computes["local"] = Compute("local", controller=controller, host=http_client.host, port=http_client.port)  # noqa: E501
 #     controller._computes["vm"] = controller._computes["local"]
 #
 #     with asyncio_patch("gns3server.compute.vpcs.vpcs_vm.VPCSVM.add_ubridge_udp_connection"):
@@ -208,7 +208,7 @@ async def test_open(controller, projects_dir):
 #     with open(str(tmpdir / "demo.gns3"), "w+") as f:
 #         json.dump(demo_topology, f)
 #
-#     controller._computes["local"] = Compute("local", controller=controller, host=http_client.host, port=http_client.port)
+#     controller._computes["local"] = Compute("local", controller=controller, host=http_client.host, port=http_client.port)  # noqa: E501
 #
 #     with pytest.raises(aiohttp.web_exceptions.HTTPNotFound):
 #         await controller.load_project(str(tmpdir / "demo.gns3"))

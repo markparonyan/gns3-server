@@ -37,7 +37,7 @@ class TestDynamipsNodesRoutes:
     #         "ram": 128
     #     }
     #     with asyncio_patch("gns3server.compute.dynamips.nodes.router.Router.create", return_value=True) as mock:
-    #         response = await compute_api.post("/projects/{project_id}/dynamips/nodes".format(project_id=compute_project.id), params)
+    #         response = await compute_api.post("/projects/{project_id}/dynamips/nodes".format(project_id=compute_project.id), params)  # noqa: E501
     #     assert mock.called
     #     assert response.status == 201
     #
@@ -56,14 +56,14 @@ class TestDynamipsNodesRoutes:
     #     print(fake_image)
     #
     #     with asyncio_patch("gns3server.compute.dynamips.nodes.router.Router.create", return_value=True):
-    #         response = await compute_api.post("/projects/{project_id}/dynamips/nodes".format(project_id=compute_project.id), params)
+    #         response = await compute_api.post("/projects/{project_id}/dynamips/nodes".format(project_id=compute_project.id), params)  # noqa: E501
     #         assert response.status == 201
     #         assert response.json["name"] == "My router"
     #         assert response.json["project_id"] == compute_project.id
     #         assert response.json["dynamips_id"]
 
     # def test_dynamips_vm_get(compute_api, project, vm):
-    #     response = compute_api.get("/projects/{project_id}/dynamips/nodes/{node_id}".format(project_id=vm["project_id"], node_id=vm["node_id"]), example=True)
+    #     response = compute_api.get("/projects/{project_id}/dynamips/nodes/{node_id}".format(project_id=vm["project_id"], node_id=vm["node_id"]), example=True)  # noqa: E501
     #     assert response.status == 200
     #     assert response.route == "/projects/{project_id}/dynamips/nodes/{node_id}"
     #     assert response.json["name"] == "My router"
@@ -72,39 +72,39 @@ class TestDynamipsNodesRoutes:
     #
     # def test_dynamips_vm_start(compute_api, vm):
     #     with asyncio_patch("gns3server.compute.dynamips.nodes.router.Router.start", return_value=True) as mock:
-    #         response = compute_api.post("/projects/{project_id}/dynamips/nodes/{node_id}/start".format(project_id=vm["project_id"], node_id=vm["node_id"]))
+    #         response = compute_api.post("/projects/{project_id}/dynamips/nodes/{node_id}/start".format(project_id=vm["project_id"], node_id=vm["node_id"]))  # noqa: E501
     #         assert mock.called
     #         assert response.status == 204
     #
     #
     # def test_dynamips_vm_stop(compute_api, vm):
     #     with asyncio_patch("gns3server.compute.dynamips.nodes.router.Router.stop", return_value=True) as mock:
-    #         response = compute_api.post("/projects/{project_id}/dynamips/nodes/{node_id}/stop".format(project_id=vm["project_id"], node_id=vm["node_id"]))
+    #         response = compute_api.post("/projects/{project_id}/dynamips/nodes/{node_id}/stop".format(project_id=vm["project_id"], node_id=vm["node_id"]))  # noqa: E501
     #         assert mock.called
     #         assert response.status == 204
     #
     #
     # def test_dynamips_vm_suspend(compute_api, vm):
     #     with asyncio_patch("gns3server.compute.dynamips.nodes.router.Router.suspend", return_value=True) as mock:
-    #         response = compute_api.post("/projects/{project_id}/dynamips/nodes/{node_id}/suspend".format(project_id=vm["project_id"], node_id=vm["node_id"]))
+    #         response = compute_api.post("/projects/{project_id}/dynamips/nodes/{node_id}/suspend".format(project_id=vm["project_id"], node_id=vm["node_id"]))  # noqa: E501
     #         assert mock.called
     #         assert response.status == 204
     #
     #
     # def test_dynamips_vm_resume(compute_api, vm):
     #     with asyncio_patch("gns3server.compute.dynamips.nodes.router.Router.resume", return_value=True) as mock:
-    #         response = compute_api.post("/projects/{project_id}/dynamips/nodes/{node_id}/resume".format(project_id=vm["project_id"], node_id=vm["node_id"]))
+    #         response = compute_api.post("/projects/{project_id}/dynamips/nodes/{node_id}/resume".format(project_id=vm["project_id"], node_id=vm["node_id"]))  # noqa: E501
     #         assert mock.called
     #         assert response.status == 204
 
     # def test_vbox_nio_create_udp(compute_api, vm):
     #
-    #     with asyncio_patch('gns3server.compute.virtualbox.virtualbox_vm.VirtualBoxVM.adapter_add_nio_binding') as mock:
-    #         response = compute_api.post("/projects/{project_id}/virtualbox/nodes/{node_id}/adapters/0/nio".format(project_id=vm["project_id"],
-    #                                                                                                      node_id=vm["node_id"]), {"type": "nio_udp",
-    #                                                                                                                           "lport": 4242,
-    #                                                                                                                           "rport": 4343,
-    #                                                                                                                           "rhost": "127.0.0.1"},
+    #     with asyncio_patch('gns3server.compute.virtualbox.virtualbox_vm.VirtualBoxVM.adapter_add_nio_binding') as mock:  # noqa: E501
+    #         response = compute_api.post("/projects/{project_id}/virtualbox/nodes/{node_id}/adapters/0/nio".format(project_id=vm["project_id"],  # noqa: E501
+    #                                                                                                      node_id=vm["node_id"]), {"type": "nio_udp",  # noqa: E501
+    #                                                                                                                           "lport": 4242,  # noqa: E501
+    #                                                                                                                           "rport": 4343,  # noqa: E501
+    #                                                                                                                           "rhost": "127.0.0.1"},  # noqa: E501
     #                                example=True)
     #
     #         assert mock.called
@@ -118,8 +118,8 @@ class TestDynamipsNodesRoutes:
     #
     # def test_vbox_delete_nio(compute_api, vm):
     #
-    #     with asyncio_patch('gns3server.compute.virtualbox.virtualbox_vm.VirtualBoxVM.adapter_remove_nio_binding') as mock:
-    #         response = compute_api.delete("/projects/{project_id}/virtualbox/nodes/{node_id}/adapters/0/nio".format(project_id=vm["project_id"], node_id=vm["node_id"]), example=True)
+    #     with asyncio_patch('gns3server.compute.virtualbox.virtualbox_vm.VirtualBoxVM.adapter_remove_nio_binding') as mock:  # noqa: E501
+    #         response = compute_api.delete("/projects/{project_id}/virtualbox/nodes/{node_id}/adapters/0/nio".format(project_id=vm["project_id"], node_id=vm["node_id"]), example=True)  # noqa: E501
     #
     #         assert mock.called
     #         args, kwgars = mock.call_args
@@ -130,8 +130,8 @@ class TestDynamipsNodesRoutes:
     #
     #
     # def test_vbox_update(compute_api, vm, free_console_port):
-    #     response = compute_api.put("/projects/{project_id}/virtualbox/nodes/{node_id}".format(project_id=vm["project_id"], node_id=vm["node_id"]), {"name": "test",
-    #                                                                                                                                    "console": free_console_port})
+    #     response = compute_api.put("/projects/{project_id}/virtualbox/nodes/{node_id}".format(project_id=vm["project_id"], node_id=vm["node_id"]), {"name": "test",  # noqa: E501
+    #                                                                                                                                    "console": free_console_port})  # noqa: E501
     #     assert response.status == 200
     #     assert response.json["name"] == "test"
     #     assert response.json["console"] == free_console_port

@@ -188,7 +188,7 @@ class UBridgeHypervisor:
             await self._writer.drain()
         except OSError as e:
             raise UbridgeError(
-                f"Lost communication with {self.endpoint} when sending command '{command}': {e}, uBridge process running: {self.is_running()}"
+                f"Lost communication with {self.endpoint} when sending command '{command}': {e}, uBridge process running: {self.is_running()}"  # noqa: E501
             ) from e
 
         # Now retrieve the result
@@ -213,7 +213,7 @@ class UBridgeHypervisor:
                 if not chunk:
                     if retries > max_retries:
                         raise UbridgeError(
-                            f"No data returned from {self.endpoint} after sending command '{command}', uBridge process running: {self.is_running()}"
+                            f"No data returned from {self.endpoint} after sending command '{command}', uBridge process running: {self.is_running()}"  # noqa: E501
                         )
                     else:
                         retries += 1
@@ -223,7 +223,7 @@ class UBridgeHypervisor:
                 buf += chunk.decode("utf-8")
             except OSError as e:
                 raise UbridgeError(
-                    f"Lost communication with {self.endpoint} after sending command '{command}': {e}, uBridge process running: {self.is_running()}"
+                    f"Lost communication with {self.endpoint} after sending command '{command}': {e}, uBridge process running: {self.is_running()}"  # noqa: E501
                 ) from e
 
             # If the buffer doesn't end in '\n' then we can't be done
@@ -232,7 +232,7 @@ class UBridgeHypervisor:
                     continue
             except IndexError:
                 raise UbridgeError(
-                    f"Could not communicate with {self.endpoint} after sending command '{command}', uBridge process running: {self.is_running()}"
+                    f"Could not communicate with {self.endpoint} after sending command '{command}', uBridge process running: {self.is_running()}"  # noqa: E501
                 ) from None
 
             data += buf.split("\r\n")

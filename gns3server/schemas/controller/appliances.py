@@ -556,7 +556,7 @@ class QemuPropertiesV8(BaseModel):
     port_name_format: str | None = Field(None, title="Optional formating of the networking port example: eth{0}")
     port_segment_size: int | None = Field(
         None,
-        title="Optional port segment size. A port segment is a block of port. For example Ethernet0/0 Ethernet0/1 is the module 0 with a port segment size of 2",
+        title="Optional port segment size. A port segment is a block of port. For example Ethernet0/0 Ethernet0/1 is the module 0 with a port segment size of 2",  # noqa: E501
     )
     linked_clone: bool | None = Field(None, title="False if you don't want to use a single image for all nodes")
     ram: int | None = Field(None, title="Ram allocated to the appliance (MB)")
@@ -667,7 +667,7 @@ class ApplianceV1_6(BaseModel):
     status: Status = Field(..., title="Document if the appliance is working or not")
     availability: Availability | None = Field(
         None,
-        title="About image availability: can be downloaded directly; download requires a free registration; paid but a trial version (time or feature limited) is available; not available publicly",
+        title="About image availability: can be downloaded directly; download requires a free registration; paid but a trial version (time or feature limited) is available; not available publicly",  # noqa: E501
     )
     maintainer: str = Field(..., title="Maintainer name")
     maintainer_email: EmailStr | Annotated[str, Field(max_length=0)] | None = Field(None, title="Maintainer email")
@@ -680,7 +680,7 @@ class ApplianceV1_6(BaseModel):
     port_name_format: str | None = Field(None, title="Optional formating of the networking port example: eth{0}")
     port_segment_size: int | None = Field(
         None,
-        title="Optional port segment size. A port segment is a block of port. For example Ethernet0/0 Ethernet0/1 is the module 0 with a port segment size of 2",
+        title="Optional port segment size. A port segment is a block of port. For example Ethernet0/0 Ethernet0/1 is the module 0 with a port segment size of 2",  # noqa: E501
     )
     custom_adapters: list[CustomAdapterItem] | None = Field(
         None, title="Optional per-adapter overrides (port name, adapter type, MAC address)"
@@ -722,7 +722,7 @@ class ApplianceV8(BaseModel):
     status: Status = Field(..., title="Document if the appliance is working or not")
     availability: Availability | None = Field(
         None,
-        title="About image availability: can be downloaded directly; download requires a free registration; paid but a trial version (time or feature limited) is available; not available publicly",
+        title="About image availability: can be downloaded directly; download requires a free registration; paid but a trial version (time or feature limited) is available; not available publicly",  # noqa: E501
     )
     maintainer: str = Field(..., title="Maintainer name")
     maintainer_email: EmailStr = Field(..., title="Maintainer email")

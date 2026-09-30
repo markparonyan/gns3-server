@@ -57,7 +57,7 @@ async def export_project(  # noqa: C901
     :param keep_compute_ids: If false replace all compute IDs by local (standard behavior for .gns3project to make it portable)
     :param allow_all_nodes: Allow all nodes type to be included in the zip even if not portable
     :param reset_mac_addresses: Reset MAC addresses for each node.
-    """
+    """  # noqa: E501
 
     # To avoid issue with data not saved we disallow the export of a running project
     if project.is_running():
@@ -126,7 +126,7 @@ async def export_project(  # noqa: C901
                     response = await compute.download_file(project, compute_file["path"])
                     if response.status != 200:
                         log.warning(
-                            f"Cannot export file from compute '{compute.id}'. Compute returned status code {response.status}."
+                            f"Cannot export file from compute '{compute.id}'. Compute returned status code {response.status}."  # noqa: E501
                         )
                         continue
                     (fd, temp_path) = tempfile.mkstemp(dir=temporary_dir)

@@ -362,7 +362,7 @@ class BaseManager:
             #    raise aiohttp.web.HTTPConflict(text="TAP interface {} does not exist or is down".format(tap_device))
             # FIXME: check for permissions on tap device
             # if not self.has_privileged_access(executable):
-            #    raise aiohttp.web.HTTPForbidden(text="{} has no privileged access to {}.".format(executable, tap_device))
+            #    raise aiohttp.web.HTTPForbidden(text="{} has no privileged access to {}.".format(executable, tap_device))  # noqa: E501
             nio = NIOTAP(tap_device)
         elif nio_settings["type"] in ("nio_generic_ethernet", "nio_ethernet"):
             ethernet_device = nio_settings["ethernet_device"]
@@ -425,7 +425,7 @@ class BaseManager:
         # Windows path should not be send to a unix server
         if re.match(r"^[A-Z]:", path) is not None:
             raise NodeError(
-                f"'{path}' is not allowed on this remote server (Windows path). Please only use a file from '{img_directory}'"
+                f"'{path}' is not allowed on this remote server (Windows path). Please only use a file from '{img_directory}'"  # noqa: E501
             )
 
         if not os.path.isabs(orig_path):
@@ -494,7 +494,7 @@ class BaseManager:
         for directory in valid_directory_prefices:
             if os.path.commonprefix([directory, path]) == directory:
                 relpath = os.path.relpath(path, directory)
-                # We don't allow to recurse search from the top image directory just for image type directory (compatibility with old releases)
+                # We don't allow to recurse search from the top image directory just for image type directory (compatibility with old releases)  # noqa: E501
                 if os.sep not in relpath or directory == img_directory:
                     return relpath
         return path

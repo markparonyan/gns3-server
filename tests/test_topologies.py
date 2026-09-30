@@ -146,4 +146,4 @@ def compare_dict(path, source, reference):
                 else:
                     assert element == val[idx]
         else:
-            assert False, f"Value type for {key} is not supported"
+            raise AssertionError(f"Value type for {key} is not supported")

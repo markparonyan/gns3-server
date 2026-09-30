@@ -913,7 +913,7 @@ async def test_duplicate(project, controller):
 
     await new_project.open()
 
-    assert list(new_project.nodes.values())[0].compute.id == "remote"
+    assert next(iter(new_project.nodes.values())).compute.id == "remote"
     assert list(new_project.nodes.values())[1].compute.id == "remote"
 
 
@@ -927,7 +927,7 @@ def test_snapshots(project):
     project.reset()
 
     assert len(project.snapshots) == 1
-    assert list(project.snapshots.values())[0].name == "test1"
+    assert next(iter(project.snapshots.values())).name == "test1"
 
 
 def test_get_snapshot(project):
@@ -936,7 +936,7 @@ def test_get_snapshot(project):
     open(os.path.join(project.path, "snapshots", "test1_260716_103713.gns3project"), "w+").close()
     project.reset()
 
-    snapshot = list(project.snapshots.values())[0]
+    snapshot = next(iter(project.snapshots.values()))
     assert project.get_snapshot(snapshot.id) == snapshot
 
     with pytest.raises(ControllerNotFoundError):
@@ -950,7 +950,7 @@ async def test_delete_snapshot(project):
     open(os.path.join(project.path, "snapshots", "test1_260716_103713.gns3project"), "w+").close()  # noqa: ASYNC230
     project.reset()
 
-    snapshot = list(project.snapshots.values())[0]
+    snapshot = next(iter(project.snapshots.values()))
     assert project.get_snapshot(snapshot.id) == snapshot
 
     await project.delete_snapshot(snapshot.id)
@@ -972,7 +972,7 @@ async def test_snapshot(project):
     assert snapshot.name == "test1"
 
     assert len(project.snapshots) == 1
-    assert list(project.snapshots.values())[0].name == "test1"
+    assert next(iter(project.snapshots.values())).name == "test1"
 
     # Raise a conflict if name is already use
     with pytest.raises(ControllerError):

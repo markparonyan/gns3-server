@@ -220,7 +220,7 @@ async def test_create_auto_adds_config_and_tmp_run_volumes(compute_project, mana
                 assert len(tmp_mounts) == 1
                 assert tmp_mounts[0]["Source"] == _wiring_dir(vm)
                 assert not any(t.startswith("/gns3volumes/") for t in targets)
-                vol_env = [v for v in sent["Env"] if v.startswith("GNS3_VOLUMES=")][0]
+                vol_env = next(v for v in sent["Env"] if v.startswith("GNS3_VOLUMES="))
                 assert "/config" in vol_env and "/tmp/run" in vol_env  # noqa: S108
 
 

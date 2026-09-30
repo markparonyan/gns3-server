@@ -306,7 +306,7 @@ class Config:
         for section, options in changes.items():
             for option, value in options.items():
                 winner = None
-                for file, parser in zip(reversed(existing_files), reversed(per_file_parsers)):
+                for file, parser in zip(reversed(existing_files), reversed(per_file_parsers), strict=False):
                     if parser.has_option(section, option):
                         winner = file
                         break

@@ -148,7 +148,7 @@ class HyperVGNS3VM(BaseGNS3VM):
         """
 
         vm_settings = vm.associators(wmi_result_class="Msvm_VirtualSystemSettingData")
-        return [s for s in vm_settings if s.VirtualSystemType == "Microsoft:Hyper-V:System:Realized"][0]
+        return next(s for s in vm_settings if s.VirtualSystemType == "Microsoft:Hyper-V:System:Realized")
 
     def _get_vm_resources(self, vm, resource_class):
         """
@@ -294,7 +294,7 @@ class HyperVGNS3VM(BaseGNS3VM):
         while True:
             for port in ports:
                 try:
-                    vnic = [v for v in vnics if port.Parent == v.path_()][0]
+                    vnic = next(v for v in vnics if port.Parent == v.path_())
                 except IndexError:
                     continue
                 config = vnic.associators(wmi_result_class="Msvm_GuestNetworkAdapterConfiguration")

@@ -1234,6 +1234,8 @@ class Node:
     def __repr__(self):
         return f"<gns3server.controller.Node {self._node_type} {self._name}>"
 
+    __hash__ = None
+
     def __eq__(self, other):
         if not isinstance(other, Node):
             return False

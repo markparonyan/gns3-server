@@ -571,7 +571,7 @@ class TestLink:
         # each link gets its own ticket bound to its own download path
         tickets = [entry["download_url"].split("token=")[1] for entry in result["downloads"]]
         assert tickets[0] != tickets[1]
-        for lid, ticket in zip(["l1", "l2"], tickets):
+        for lid, ticket in zip(["l1", "l2"], tickets, strict=False):
             redeemed = access_ticket_service.redeem_for_path(ticket, f"/v3/projects/p1/links/{lid}/capture/file")
             assert redeemed is not None
 

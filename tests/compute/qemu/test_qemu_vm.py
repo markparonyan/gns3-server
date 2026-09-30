@@ -788,7 +788,7 @@ async def test_build_command_large_number_of_adapters(vm):
         cmd = await vm._build_command()
 
     # Count if we have 100 e1000 adapters in the command
-    assert len([l for l in cmd if "e1000" in l]) == 100
+    assert len([line for line in cmd if "e1000" in line]) == 100
     assert len(vm._ethernet_adapters) == 100
 
     assert f"e1000,mac={mac_0},bus=pci-bridge1,addr=0x00,netdev=gns3-0" in cmd

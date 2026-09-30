@@ -102,7 +102,7 @@ class RuijieTelnetEnhanced(RuijieOSBase):
             # Check if this command matches any interactive pattern
             for pattern in self.INTERACTIVE_PATTERNS:
                 if pattern.match(cmd.strip()):
-                    logging.info(
+                    logger.info(
                         "Ruijie device: Detected interactive command '%s', inserting 'yes'",
                         cmd.strip(),
                     )
@@ -156,7 +156,7 @@ class RuijieTelnetEnhanced(RuijieOSBase):
         try:
             output += self._send_config_batch(processed_commands, read_timeout, delay_factor)
         except Exception as batch_error:  # noqa: BLE001
-            logging.warning(
+            logger.warning(
                 "Ruijie device: Batch send failed, falling back to one-by-one: %s",
                 batch_error,
             )
@@ -215,7 +215,7 @@ class RuijieTelnetEnhanced(RuijieOSBase):
             # Check if interactive prompt appeared after this command
             for pattern in interactive_patterns:
                 if re.search(pattern, new_output, re.IGNORECASE):
-                    logging.info(
+                    logger.info(
                         "Ruijie device: Detected interactive prompt after '%s', sending 'yes'",
                         cmd,
                     )

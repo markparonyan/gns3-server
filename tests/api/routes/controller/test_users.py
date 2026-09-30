@@ -330,7 +330,7 @@ class TestUserMe:
             ("password", "password123", status.HTTP_200_OK),
         ),
     )
-    async def test_authenticated_user_can_update_own_data(
+    async def test_authenticated_user_can_update_own_data_by_attr(
         self,
         app: FastAPI,
         authorized_client: AsyncClient,

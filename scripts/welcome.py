@@ -59,7 +59,7 @@ class Welcome_dialog:
                 if "UP" in i["flags"]:
                     ip_addr = i["addr_info"][0]["local"]
                     break
-            except:  # noqa: S112
+            except Exception:  # noqa: S112, BLE001
                 continue
             ip_addr = None
 
@@ -322,7 +322,7 @@ Images and projects are located in /opt/gns3
         try:
             self.display.msgbox(content)
         # If it's an scp command or any bugs
-        except:
+        except Exception:  # noqa: BLE001
             os.execvp("bash", ["/bin/bash"])  # noqa: S606, S607
 
     def check_internet_connectivity(self):

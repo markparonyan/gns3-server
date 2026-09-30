@@ -277,7 +277,7 @@ async def test_create_drops_etc_network_for_skip_init(compute_project, manager):
                 assert "/etc/opt/srlinux" in targets
                 assert not any(t.startswith("/gns3volumes/") for t in targets)
                 # GNS3_VOLUMES env must also exclude /etc/network
-                vol_env = [v for v in sent["Env"] if v.startswith("GNS3_VOLUMES=")][0]
+                vol_env = next(v for v in sent["Env"] if v.startswith("GNS3_VOLUMES="))
                 assert "/etc/network" not in vol_env
                 # host skeleton dir removed
                 assert not os.path.exists(os.path.join(vm.working_dir, "etc", "network"))  # noqa: ASYNC240

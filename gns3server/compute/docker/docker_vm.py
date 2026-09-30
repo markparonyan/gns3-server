@@ -415,9 +415,13 @@ class DockerVM(BaseNode):
         volumes.extend(self._extra_volumes)
 
         deduped = []
-        # define lambdas for validation checks
-        nf = lambda x: re.sub(r"//+", "/", (x if x.endswith("/") else x + "/"))
-        generalises = lambda v1, v2: nf(v2).startswith(nf(v1))
+
+        def nf(x):
+            return re.sub(r"//+", "/", (x if x.endswith("/") else x + "/"))
+
+        def generalises(v1, v2):
+            return nf(v2).startswith(nf(v1))
+
         for volume in volumes:
             # remove any mount that is equal or more specific, then append this one
             deduped = list(filter(lambda v: not generalises(volume, v), deduped))

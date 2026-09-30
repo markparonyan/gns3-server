@@ -29,6 +29,8 @@ Installation:
 import logging
 import threading
 
+logger = logging.getLogger(__name__)
+
 # Feature flag: AI Copilot is available
 AI_COPILOT_AVAILABLE = False
 
@@ -48,7 +50,7 @@ try:
 
 except ImportError as e:
     # AI dependencies not installed, disable AI Copilot feature
-    logging.warning(
+    logger.warning(
         f"AI Copilot dependencies not installed: {e}. "
         "AI features will be disabled. "
         "Install with: pip install gns3-server[ai-features]"
@@ -91,7 +93,7 @@ try:
     MCP_AVAILABLE = True
 except ImportError:
     # MCP dependencies not installed, disable MCP feature
-    logging.warning(
+    logger.warning(
         "MCP dependencies not installed. "
         "MCP features will be disabled. "
         "Install with: pip install gns3-server[ai-features]"

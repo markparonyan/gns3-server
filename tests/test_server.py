@@ -30,7 +30,7 @@ def test_locale_check():
 
     try:
         locale.setlocale(locale.LC_ALL, ("fr_FR", "UTF-8"))
-    except:  # Locale is not available on the server
+    except Exception:  # noqa: BLE001 - locale is not available on the server
         return
     Server._locale_check()
     assert locale.getlocale() == ("fr_FR", "UTF-8")

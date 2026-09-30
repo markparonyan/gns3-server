@@ -78,7 +78,7 @@ class TestLinkRoutes:
         assert len(response.json()["nodes"]) == 2
         assert response.json()["nodes"][0]["label"]["x"] == 42
         assert len(project.links) == 1
-        assert list(project.links.values())[0].filters == filters
+        assert next(iter(project.links.values())).filters == filters
 
     async def test_create_link_failure(
         self, app: FastAPI, client: AsyncClient, compute: Compute, project: Project
@@ -233,7 +233,7 @@ class TestLinkRoutes:
 
         assert response.status_code == status.HTTP_200_OK
         assert response.json()["nodes"][0]["label"]["x"] == 64
-        assert list(project.links.values())[0].filters == filters
+        assert next(iter(project.links.values())).filters == filters
 
     async def test_list_link(
         self, app: FastAPI, client: AsyncClient, project: Project, nodes: tuple[Node, Node]

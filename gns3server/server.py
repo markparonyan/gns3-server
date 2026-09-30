@@ -255,10 +255,6 @@ class Server:
         else:
             log.info(f"Compute authentication is enabled with username '{config.Server.compute_username}'")
 
-        # we only support Python 3 version >= 3.9
-        if sys.version_info < (3, 9, 0):
-            raise SystemExit("Python 3.9 or higher is required")
-
         log.info(
             f"Running with Python {sys.version_info[0]}.{sys.version_info[1]}.{sys.version_info[2]} and has PID {os.getpid()}"
         )

@@ -117,7 +117,7 @@ async def test_restore(project, controller, config):
     await snapshot.restore()
 
     # make sure the original node IDs are restored
-    assert list(project.nodes.keys())[0] == node1_id
+    assert next(iter(project.nodes.keys())) == node1_id
 
     assert "snapshot.restored" in [c[0][0] for c in controller.notification.project_emit.call_args_list]
     # project.closed notification should not be sent when restoring snapshots

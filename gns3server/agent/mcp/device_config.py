@@ -71,7 +71,7 @@ def _render_template(template: str, device_configs: list[dict], commands_field: 
         if vars_data:
             try:
                 output = jinja.render(**vars_data)
-                lines = [l for l in output.splitlines() if l.strip()]
+                lines = [line for line in output.splitlines() if line.strip()]
                 entry[commands_field].extend(lines)
             except JinjaError as e:
                 error_msg = f"Template rendering failed for '{name}': {e}"

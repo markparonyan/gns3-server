@@ -90,9 +90,6 @@ class ColouredStreamHandler(logging.StreamHandler):
 class WinStreamHandler(logging.StreamHandler):
     def emit(self, record):
 
-        if sys.stdin.encoding != "utf-8":
-            record = record
-
         stream = self.stream
         try:
             msg = self.formatter.format(record, stream.isatty())

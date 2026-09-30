@@ -736,7 +736,7 @@ def test_symbol(node, symbols_dir):
     assert node.label["x"] is None
     assert node.label["y"] == -40
     assert (
-        node.label["style"] == None
+        node.label["style"] is None
     )  # "font-family: TypeWriter;font-size: 10.0;font-weight: bold;fill: #000000;fill-opacity: 1.0;"
 
     shutil.copy(os.path.join("gns3server", "symbols", "classic", "cloud.svg"), os.path.join(symbols_dir, "cloud2.svg"))
@@ -764,7 +764,7 @@ def test_label_with_default_label_font(node):
     node._label = None
     node.symbol = ":/symbols/dslam.svg"
     assert (
-        node.label["style"] == None
+        node.label["style"] is None
     )  # "font-family: TypeWriter;font-size: 10;font-weight: bold;fill: #ff0000;fill-opacity: 1.0;"
 
 
@@ -1014,7 +1014,7 @@ async def test_post(node, compute):
 
 
 @pytest.mark.asyncio
-async def test_delete(node, compute):
+async def test_delete_with_path(node, compute):
 
     await node.delete("/test")
     compute.delete.assert_called_with(f"/projects/{node.project.id}/vpcs/nodes/{node.id}/test")

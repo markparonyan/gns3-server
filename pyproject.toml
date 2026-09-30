@@ -83,9 +83,7 @@ select = [
   "UP",    # pyupgrade
   "W",     # pycodestyle warnings
 ]
-ignore = [
-  "E501",      #  655  line-too-long
-]
+ignore = []
 
 [tool.ruff.lint.mccabe]
 max-complexity = 15

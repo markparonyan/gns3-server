@@ -16,7 +16,6 @@
 
 
 from enum import Enum
-from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -161,8 +160,8 @@ class DynamipsBase(BaseModel):
     wic2: DynamipsWics | None = Field(None, description="Network module WIC slot 2")
     npe: DynamipsNPE | None = Field(None, description="NPE model")
     midplane: DynamipsMidplane | None = Field(None, description="Midplane model")
-    sensors: List | None = Field(None, description="Temperature sensors")
-    power_supplies: List | None = Field(None, description="Power supplies status")
+    sensors: list | None = Field(None, description="Temperature sensors")
+    power_supplies: list | None = Field(None, description="Power supplies status")
     # I/O memory property for all platforms but C7200
     iomem: int | None = Field(None, ge=0, le=100, description="I/O memory percentage")
 

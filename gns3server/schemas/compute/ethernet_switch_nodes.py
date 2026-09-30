@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel, Field, model_validator
@@ -70,7 +69,7 @@ class EthernetSwitchBase(BaseModel):
     name: str | None = None
     node_id: UUID | None = None
     usage: str | None = None
-    ports_mapping: List[EthernetSwitchPort] | None = None
+    ports_mapping: list[EthernetSwitchPort] | None = None
     console: int | None = Field(None, gt=0, le=65535, description="Console TCP port")
     console_type: TelnetConsoleType | None = Field(None, description="Console type")
 
@@ -95,5 +94,5 @@ class EthernetSwitch(EthernetSwitchBase):
     name: str
     node_id: UUID
     project_id: UUID
-    ports_mapping: List[EthernetSwitchPort]
+    ports_mapping: list[EthernetSwitchPort]
     status: NodeStatus

@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -106,5 +105,5 @@ class RoleUpdate(RoleBase):
 class Role(DateTimeModelMixin, RoleBase):
     role_id: UUID
     is_builtin: bool
-    privileges: List[Privilege]
+    privileges: list[Privilege]
     model_config = ConfigDict(from_attributes=True)

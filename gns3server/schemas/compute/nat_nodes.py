@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import List, Union
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -93,7 +92,7 @@ class NATBase(BaseModel):
     name: str | None = None
     node_id: UUID | None = None
     usage: str | None = None
-    ports_mapping: List[Union[EthernetPort, TAPPort, UDPPort]] | None = Field(None, description="List of port mappings")
+    ports_mapping: list[EthernetPort | TAPPort | UDPPort] | None = Field(None, description="List of port mappings")
 
 
 class NATCreate(NATBase):
@@ -116,5 +115,5 @@ class NAT(NATBase):
     name: str
     project_id: UUID
     node_id: UUID
-    ports_mapping: List[Union[EthernetPort, TAPPort, UDPPort]]
+    ports_mapping: list[EthernetPort | TAPPort | UDPPort]
     status: NodeStatus = Field(..., description="NAT node status (read only)")

@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel, Field, field_validator
@@ -60,8 +59,8 @@ class DockerBase(BaseModel):
     )
     environment: str | None = Field(None, description="Docker environment variables")
     extra_hosts: str | None = Field(None, description="Docker extra hosts (added to /etc/hosts)")
-    extra_volumes: List[str] | None = Field(None, description="Additional directories to make persistent")
-    extra_configs: List[ExtraConfig] | None = Field(
+    extra_volumes: list[str] | None = Field(None, description="Additional directories to make persistent")
+    extra_configs: list[ExtraConfig] | None = Field(
         None, description="Configuration files injected into the container (bind-mounted read-only)"
     )
     startup_config_content: str | None = Field(
@@ -69,7 +68,7 @@ class DockerBase(BaseModel):
     )
     memory: int | None = Field(None, ge=0, description="Maximum amount of memory the container can use in MB")
     cpus: float | None = Field(None, ge=0, description="Maximum amount of CPU resources the container can use")
-    custom_adapters: List[CustomAdapter] | None = Field(None, description="Custom adapters")
+    custom_adapters: list[CustomAdapter] | None = Field(None, description="Custom adapters")
 
 
 class DockerCreate(DockerBase):

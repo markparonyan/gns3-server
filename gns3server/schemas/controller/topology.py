@@ -20,7 +20,6 @@
 #
 
 from enum import Enum
-from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -37,10 +36,10 @@ class TopologyType(str, Enum):
 
 
 class TopologyContent(BaseModel):
-    computes: List[Compute] = Field(..., description="List of computes")
-    drawings: List[Drawing] = Field(..., description="List of drawings")
-    links: List[Link] = Field(..., description="List of links")
-    nodes: List[Node] = Field(..., description="List of nodes")
+    computes: list[Compute] = Field(..., description="List of computes")
+    drawings: list[Drawing] = Field(..., description="List of drawings")
+    links: list[Link] = Field(..., description="List of links")
+    nodes: list[Node] = Field(..., description="List of nodes")
 
 
 class Topology(BaseModel):
@@ -62,7 +61,7 @@ class Topology(BaseModel):
     drawing_grid_size: int | None = Field(None, description="Grid size for the drawing area for drawings")
     show_interface_labels: bool | None = Field(None, description="Show interface labels on the drawing area")
     supplier: Supplier | None = Field(None, description="Supplier of the project")
-    variables: List[Variable] | None = Field(None, description="Variables required to run the project")
+    variables: list[Variable] | None = Field(None, description="Variables required to run the project")
     created_by: str | None = Field(None, description="Username of the user who created the project")
 
 

@@ -15,8 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from typing import List
-
 from pydantic import BaseModel, Field
 
 
@@ -36,4 +34,4 @@ class NetmikoDeviceTypeList(BaseModel):
     """
 
     netmiko_version: str = Field(..., description="Version of the installed Netmiko library")
-    device_types: List[NetmikoDeviceType] = Field(..., description="Supported device types, sorted by name")
+    device_types: list[NetmikoDeviceType] = Field(..., description="Supported device types, sorted by name")

@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -212,7 +211,7 @@ class QemuBase(BaseModel):
     cpu_throttling: int | None = Field(None, ge=0, le=800, description="Percentage of CPU allowed for QEMU")
     process_priority: QemuProcessPriority | None = Field(None, description="Process priority for QEMU")
     options: str | None = Field(None, description="Additional QEMU options")
-    custom_adapters: List[CustomAdapter] | None = Field(None, description="Custom adapters")
+    custom_adapters: list[CustomAdapter] | None = Field(None, description="Custom adapters")
 
 
 class QemuCreate(QemuBase):
@@ -221,7 +220,7 @@ class QemuCreate(QemuBase):
     """
 
     name: str
-    disk_images_to_reset: List[str] | None = Field(
+    disk_images_to_reset: list[str] | None = Field(
         None,
         description="Disk image properties whose stale linked-clone overlays must be recreated",
     )

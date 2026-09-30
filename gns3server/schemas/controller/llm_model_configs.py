@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Literal, Union
+from typing import Literal
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -102,7 +102,7 @@ class LLMModelConfigUpdate(BaseModel):
     model: str | None = None
     temperature: float | None = Field(None, ge=0.0, le=2.0)
     api_key: str | None = None
-    max_tokens: Union[int, str] | None = Field(None, description="Max tokens for generation (can be null)")
+    max_tokens: int | str | None = Field(None, description="Max tokens for generation (can be null)")
     context_limit: int | None = Field(
         None, gt=0, description="Model context window limit in K tokens (e.g., 128 = 128K tokens)"
     )

@@ -26,7 +26,6 @@ a secret leak at worst.
 """
 
 from pathlib import Path
-from typing import List
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -120,7 +119,7 @@ class ServerSettingsUpdate(BaseModel):
     auto_discover_images: bool | None = None
     image_sync_interval: int | None = Field(None, ge=10)
     report_errors: bool | None = None
-    additional_images_paths: List[str] | None = None
+    additional_images_paths: list[str] | None = None
     console_start_port_range: int | None = Field(None, gt=0, le=65535)
     console_end_port_range: int | None = Field(None, gt=0, le=65535)
     vnc_console_start_port_range: int | None = Field(None, ge=5900, le=65535)
@@ -134,7 +133,7 @@ class ServerSettingsUpdate(BaseModel):
     compute_username: str | None = None
     # plain str so the route can compare against SECRET_MASK / empty string
     compute_password: str | None = None
-    allowed_interfaces: List[str] | None = None
+    allowed_interfaces: list[str] | None = None
     default_nat_interface: str | None = None
     allow_remote_console: bool | None = None
     enable_builtin_templates: bool | None = None
@@ -143,8 +142,8 @@ class ServerSettingsUpdate(BaseModel):
     skills_repo_branch: str | None = None
     skills_auto_update: bool | None = None
     mcp_enable_dns_rebinding_protection: bool | None = None
-    mcp_allowed_hosts: List[str] | None = None
-    mcp_allowed_origins: List[str] | None = None
+    mcp_allowed_hosts: list[str] | None = None
+    mcp_allowed_origins: list[str] | None = None
 
 
 class ControllerSettingsUpdate(BaseModel):
@@ -219,7 +218,7 @@ class SettingsUpdate(BaseModel):
 
 
 class SettingsUpdateResponse(SettingsResponse):
-    restart_required: List[str] = Field(
+    restart_required: list[str] = Field(
         default_factory=list,
         description="Changed 'Section.option' settings that require a server restart to take effect",
     )

@@ -16,7 +16,6 @@
 
 
 from enum import Enum
-from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel, Field, HttpUrl
@@ -62,7 +61,7 @@ class ProjectBase(BaseModel):
     drawing_grid_size: int | None = Field(None, description="Grid size for the drawing area for drawings")
     show_interface_labels: bool | None = Field(None, description="Show interface labels on the drawing area")
     supplier: Supplier | None = Field(None, description="Supplier of the project")
-    variables: List[Variable] | None = Field(None, description="Variables required to run the project")
+    variables: list[Variable] | None = Field(None, description="Variables required to run the project")
 
 
 class ProjectCreate(ProjectBase):

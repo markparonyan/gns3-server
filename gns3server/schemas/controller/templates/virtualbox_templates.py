@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List
 
 from pydantic import Field
 
@@ -58,7 +57,7 @@ class VirtualBoxTemplateBase(TemplateBase):
     console_auto_start: bool | None = Field(
         False, description="Automatically start the console when the node has started"
     )
-    custom_adapters: List[CustomAdapter] | None = Field(default_factory=list, description="Custom adapters")
+    custom_adapters: list[CustomAdapter] | None = Field(default_factory=list, description="Custom adapters")
 
 
 class VirtualBoxTemplate(VirtualBoxTemplateBase):

@@ -16,7 +16,6 @@
 
 
 from enum import Enum
-from typing import List
 
 from pydantic import Field
 
@@ -49,7 +48,7 @@ class EthernetSwitchTemplate(TemplateBase):
     category: Category | None = Category.switch
     default_name_format: str | None = "Switch{0}"
     symbol: str | None = "ethernet_switch"
-    ports_mapping: List[EthernetSwitchPort] | None = Field(DEFAULT_PORTS, description="Ports")
+    ports_mapping: list[EthernetSwitchPort] | None = Field(DEFAULT_PORTS, description="Ports")
     console_type: ConsoleType | None = Field(ConsoleType.none, description="Console type")
 
 

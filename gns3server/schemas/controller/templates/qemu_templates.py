@@ -15,8 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from typing import List
-
 from pydantic import Field
 
 from gns3server.schemas.compute.qemu_nodes import (
@@ -99,7 +97,7 @@ class QemuTemplate(TemplateBase):
         QemuProcessPriority.normal, description="Process priority for QEMU"
     )
     options: str | None = Field("", description="Additional QEMU options")
-    custom_adapters: List[CustomAdapter] | None = Field(default_factory=list, description="Custom adapters")
+    custom_adapters: list[CustomAdapter] | None = Field(default_factory=list, description="Custom adapters")
 
 
 class QemuTemplateUpdate(QemuTemplate):

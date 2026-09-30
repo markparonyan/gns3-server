@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -80,7 +79,7 @@ class TemplateBase(BaseModel):
         description="Device type for Netmiko-based automation tools (e.g. 'cisco_xr' or 'nokia_srl')",
         pattern=r"^[a-z0-9_]+$|^$",
     )
-    tags: List[str] | None = Field(
+    tags: list[str] | None = Field(
         default_factory=list, description="User-defined metadata tags (e.g. 'vendor:cisco' or 'model:7200')"
     )
     appliance_metadata: ApplianceMetadata | None = Field(

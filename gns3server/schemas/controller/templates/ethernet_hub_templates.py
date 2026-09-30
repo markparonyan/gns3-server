@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List
 
 from pydantic import Field
 
@@ -38,7 +37,7 @@ class EthernetHubTemplate(TemplateBase):
     category: Category | None = Category.switch
     default_name_format: str | None = "Hub{0}"
     symbol: str | None = "hub"
-    ports_mapping: List[EthernetHubPort] | None = Field(DEFAULT_PORTS, description="Ports")
+    ports_mapping: list[EthernetHubPort] | None = Field(DEFAULT_PORTS, description="Ports")
 
 
 class EthernetHubTemplateUpdate(EthernetHubTemplate):

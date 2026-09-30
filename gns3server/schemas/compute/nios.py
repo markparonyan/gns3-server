@@ -16,7 +16,6 @@
 
 
 from enum import Enum
-from typing import List
 
 from pydantic import BaseModel, Field
 
@@ -109,4 +108,4 @@ class BatchNIOCreate(BaseModel):
     NIO between controller and compute.
     """
 
-    nios: List[BatchNIOEntry] = Field(..., description="NIO bindings to create")
+    nios: list[BatchNIOEntry] = Field(..., description="NIO bindings to create")

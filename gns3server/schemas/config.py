@@ -16,7 +16,6 @@
 
 import socket
 from enum import Enum
-from typing import List
 
 from pydantic import BaseModel, ConfigDict, DirectoryPath, Field, FilePath, SecretStr, field_validator, model_validator
 
@@ -186,7 +185,7 @@ class ServerSettings(BaseModel):
     auto_discover_images: bool = Field(True, description="Automatically discover images in the images directory")
     image_sync_interval: int = Field(900, ge=10, description="Seconds between automatic image inventory scans")
     report_errors: bool = Field(True, description="Automatically send crash reports to the GNS3 team")
-    additional_images_paths: List[str] = Field(
+    additional_images_paths: list[str] = Field(
         default_factory=list,
         description="Additional paths to look for images (semicolon-separated in the configuration file)",
     )
@@ -233,7 +232,7 @@ class ServerSettings(BaseModel):
         SecretStr(""),
         description="Password for compute HTTP authentication, a randomly generated password is used if not set",
     )
-    allowed_interfaces: List[str] = Field(
+    allowed_interfaces: list[str] = Field(
         default_factory=list,
         description="Only allow these interfaces to be used by GNS3, for the Cloud node for example "
         "(comma-separated; do not forget virbr0 for the NAT node to work)",

@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import List, Union
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -56,13 +55,13 @@ class HostInterface(BaseModel):
     name: str = Field(..., description="Interface name")
     type: HostInterfaceType = Field(..., description="Interface type")
     special: bool = Field(..., description="Whether the interface is non standard")
-    ip_addresses: List[HostInterfaceIPAddress] = Field(
+    ip_addresses: list[HostInterfaceIPAddress] = Field(
         default_factory=list, description="All IPv4 and IPv6 addresses on this interface"
     )
     status: InterfaceStatus = Field(InterfaceStatus.down, description="Interface status (up or down)")
     speed: int = Field(0, description="Interface speed in Mbit/s (0 if unknown)")
     mtu: int = Field(0, description="Interface MTU")
-    flags: List[str] = Field(default_factory=list, description="Interface flags")
+    flags: list[str] = Field(default_factory=list, description="Interface flags")
 
 
 class EthernetType(str, Enum):
@@ -134,8 +133,8 @@ class CloudBase(BaseModel):
     remote_console_port: int | None = Field(None, gt=0, le=65535, description="Console TCP port")
     remote_console_type: CloudConsoleType | None = Field(None, description="Console type")
     remote_console_http_path: str | None = Field(None, description="Path of the remote web interface")
-    ports_mapping: List[Union[EthernetPort, TAPPort, UDPPort]] | None = Field(None, description="List of port mappings")
-    interfaces: List[HostInterface] | None = Field(None, description="List of interfaces")
+    ports_mapping: list[EthernetPort | TAPPort | UDPPort] | None = Field(None, description="List of port mappings")
+    interfaces: list[HostInterface] | None = Field(None, description="List of interfaces")
 
 
 class CloudCreate(CloudBase):
@@ -158,5 +157,5 @@ class Cloud(CloudBase):
     name: str
     project_id: UUID
     node_id: UUID
-    ports_mapping: List[Union[EthernetPort, TAPPort, UDPPort]]
+    ports_mapping: list[EthernetPort | TAPPort | UDPPort]
     status: NodeStatus = Field(..., description="Cloud node status (read only)")

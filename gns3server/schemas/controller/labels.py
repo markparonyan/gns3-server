@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Union
 
 from pydantic import BaseModel, Field
 
@@ -25,7 +24,7 @@ class Label(BaseModel):
     """
 
     text: str
-    style: Union[str, None] | None = Field(None, description="SVG style attribute. Apply default style if null")
-    x: Union[int, None] | None = Field(None, description="Relative X position of the label. Center it if null")
+    style: str | None | None = Field(None, description="SVG style attribute. Apply default style if null")
+    x: int | None | None = Field(None, description="Relative X position of the label. Center it if null")
     y: int | None = Field(None, description="Relative Y position of the label")
     rotation: int | None = Field(None, ge=-359, le=360, description="Rotation of the label")

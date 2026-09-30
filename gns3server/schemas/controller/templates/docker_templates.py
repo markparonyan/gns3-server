@@ -15,8 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from typing import List
-
 from pydantic import Field
 
 from ...common import AuxType, ConsoleType, CustomAdapter, ExtraConfig
@@ -50,13 +48,13 @@ class DockerTemplateBase(TemplateBase):
         "1024x768", pattern="^[0-9]+x[0-9]+$", description="Console resolution for VNC"
     )
     extra_hosts: str | None = Field("", description="Docker extra hosts (added to /etc/hosts)")
-    extra_volumes: List | None = Field([], description="Additional directories to make persistent")
-    extra_configs: List[ExtraConfig] | None = Field(
+    extra_volumes: list | None = Field([], description="Additional directories to make persistent")
+    extra_configs: list[ExtraConfig] | None = Field(
         default_factory=list, description="Configuration files injected into the container (bind-mounted read-only)"
     )
     memory: int | None = Field(0, ge=0, description="Maximum amount of memory the container can use in MB")
     cpus: float | None = Field(0, ge=0, description="Maximum amount of CPU resources the container can use")
-    custom_adapters: List[CustomAdapter] | None = Field(default_factory=list, description="Custom adapters")
+    custom_adapters: list[CustomAdapter] | None = Field(default_factory=list, description="Custom adapters")
 
 
 class DockerTemplate(DockerTemplateBase):

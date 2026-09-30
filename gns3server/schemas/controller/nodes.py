@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import List, Union
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel, Field
@@ -97,7 +96,7 @@ class NodePort(BaseModel):
     port_number: int = Field(..., description="Port slot")
     link_type: LinkType = Field(..., description="Type of link")
     data_link_types: dict = Field(..., description="Available PCAP types for capture")
-    mac_address: Union[str, None] = Field(None, pattern="^([0-9a-fA-F]{2}[:]){5}([0-9a-fA-F]{2})$")
+    mac_address: str | None = Field(None, pattern="^([0-9a-fA-F]{2}[:]){5}([0-9a-fA-F]{2})$")
 
 
 class MissingImage(BaseModel):
@@ -115,7 +114,7 @@ class NodeBase(BaseModel):
     Node data.
     """
 
-    compute_id: Union[UUID, str] | None = None
+    compute_id: UUID | str | None = None
     name: str | None = None
     node_type: NodeType | None = None
 
@@ -156,14 +155,14 @@ class NodeBase(BaseModel):
     )
     port_segment_size: int | None = Field(None, description="Size of the port segment")
     first_port_name: str | None = Field(None, description="Name of the first port")
-    custom_adapters: List[CustomAdapter] | None = None
-    tags: List[str] | None = Field(
+    custom_adapters: list[CustomAdapter] | None = None
+    tags: list[str] | None = Field(
         default_factory=list, description="User-defined metadata tags (e.g. 'vendor:cisco' or 'model:7200')"
     )
 
 
 class NodeCreate(NodeBase):
-    compute_id: Union[UUID, str]
+    compute_id: UUID | str
     name: str
     node_type: NodeType
     node_id: UUID = Field(default_factory=uuid4)
@@ -178,7 +177,7 @@ class NodeUpdate(NodeBase):
 
 
 class Node(NodeBase):
-    compute_id: Union[UUID, str]
+    compute_id: UUID | str
     name: str
     node_type: NodeType
     template_id: UUID | None = Field(None, description="Template UUID from which the node has been created. Read only")
@@ -188,7 +187,7 @@ class Node(NodeBase):
     command_line: str | None = Field(None, description="Command line use to start the node. Read only")
     width: int | None = Field(None, description="Width of the node. Read only")
     height: int | None = Field(None, description="Height of the node. Read only")
-    ports: List[NodePort] | None = Field(None, description="List of node ports. Read only")
+    ports: list[NodePort] | None = Field(None, description="List of node ports. Read only")
     console_host: str | None = Field(
         None,
         description="Console host. Warning if the host is 0.0.0.0 or :: (listen on all interfaces) you need to use the same address you use to connect to the controller",
@@ -197,7 +196,7 @@ class Node(NodeBase):
         False,
         description="True when the node could not be created on its compute because a required image is missing. Read only",
     )
-    missing_images: List[MissingImage] = Field(
+    missing_images: list[MissingImage] = Field(
         default_factory=list, description="List of missing images referenced by the node. Read only"
     )
 

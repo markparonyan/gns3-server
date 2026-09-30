@@ -15,8 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from typing import List
-
 from pydantic import Field
 
 from gns3server.schemas.compute.vmware_nodes import (
@@ -56,7 +54,7 @@ class VMwareTemplateBase(TemplateBase):
     console_auto_start: bool | None = Field(
         False, description="Automatically start the console when the node has started"
     )
-    custom_adapters: List[CustomAdapter] | None = Field(default_factory=list, description="Custom adapters")
+    custom_adapters: list[CustomAdapter] | None = Field(default_factory=list, description="Custom adapters")
 
 
 class VMwareTemplate(VMwareTemplateBase):

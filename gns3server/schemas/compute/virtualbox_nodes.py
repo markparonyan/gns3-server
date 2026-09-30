@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -71,7 +70,7 @@ class VirtualBoxBase(BaseModel):
     ram: int | None = Field(None, ge=0, le=65535, description="Amount of RAM in MB")
     headless: bool | None = Field(None, description="Headless mode")
     on_close: VirtualBoxOnCloseAction | None = Field(None, description="Action to execute on the VM is closed")
-    custom_adapters: List[CustomAdapter] | None = Field(None, description="Custom adapters")
+    custom_adapters: list[CustomAdapter] | None = Field(None, description="Custom adapters")
 
 
 class VirtualBoxCreate(VirtualBoxBase):

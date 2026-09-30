@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel
@@ -35,7 +34,7 @@ class EthernetHubBase(BaseModel):
     name: str | None = None
     node_id: UUID | None = None
     usage: str | None = None
-    ports_mapping: List[EthernetHubPort] | None = None
+    ports_mapping: list[EthernetHubPort] | None = None
 
 
 class EthernetHubCreate(EthernetHubBase):
@@ -58,5 +57,5 @@ class EthernetHub(EthernetHubBase):
     name: str
     node_id: UUID
     project_id: UUID
-    ports_mapping: List[EthernetHubPort]
+    ports_mapping: list[EthernetHubPort]
     status: NodeStatus

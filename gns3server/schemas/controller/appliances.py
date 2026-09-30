@@ -17,7 +17,7 @@
 # Unified Pydantic model supporting both appliance registry versions using discriminated unions
 
 from enum import Enum
-from typing import Annotated, List, Literal, Union
+from typing import Annotated, Literal
 from uuid import UUID
 
 from pydantic import AnyUrl, BaseModel, Discriminator, EmailStr, Field, Tag, model_validator
@@ -341,11 +341,11 @@ class Docker(BaseModel):
     console_http_port: int | None = Field(None, description="Internal port in the container of the HTTP server")
     console_http_path: str | None = Field(None, description="Path of the web interface")
     extra_hosts: str | None = Field(None, description="Hosts which will be written to /etc/hosts into container")
-    extra_volumes: List[str] | None = Field(
+    extra_volumes: list[str] | None = Field(
         None,
         description="Additional directories to make persistent that are not included in the images VOLUME directive",
     )
-    extra_configs: List[ExtraConfig] | None = Field(
+    extra_configs: list[ExtraConfig] | None = Field(
         None, description="Configuration files injected into the container (bind-mounted read-only)"
     )
 
@@ -435,10 +435,10 @@ class ApplianceImage(BaseModel):
     version: str = Field(..., title="Version of the file")
     md5sum: str | None = Field(None, title="md5sum of the file", pattern="^[a-f0-9]{32}$")
     filesize: int = Field(..., title="File size in bytes")
-    download_url: Union[AnyUrl, Annotated[str, Field(max_length=0)]] | None = Field(
+    download_url: AnyUrl | Annotated[str, Field(max_length=0)] | None = Field(
         None, title="Download url where you can download the appliance from a browser"
     )
-    direct_download_url: Union[AnyUrl, Annotated[str, Field(max_length=0)]] | None = Field(
+    direct_download_url: AnyUrl | Annotated[str, Field(max_length=0)] | None = Field(
         None,
         title="Optional. Non authenticated url to the image file where you can download the image.",
     )
@@ -491,9 +491,9 @@ class DockerPropertiesV8(BaseModel):
         pattern=r"^[0-9]+x[0-9]+$",
     )
     extra_hosts: str | None = Field(None, title="Docker extra hosts (added to /etc/hosts)")
-    extra_volumes: List[str] | None = Field(None, title="Additional directories to make persistent")
-    custom_adapters: List[CustomAdapterItem] | None = Field(None, title="Custom adapters")
-    extra_configs: List[ExtraConfig] | None = Field(
+    extra_volumes: list[str] | None = Field(None, title="Additional directories to make persistent")
+    custom_adapters: list[CustomAdapterItem] | None = Field(None, title="Custom adapters")
+    extra_configs: list[ExtraConfig] | None = Field(
         None, title="Configuration files injected into the container (bind-mounted read-only)"
     )
 
@@ -551,7 +551,7 @@ class QemuPropertiesV8(BaseModel):
     symbol: str | None = Field(None, title="Symbol of the template")
     adapter_type: QemuAdapterType | None = Field(None, title="Type of network adapter")
     adapters: int | None = Field(None, title="Number of adapters")
-    custom_adapters: List[CustomAdapterItem] | None = Field(None, title="Custom adapters")
+    custom_adapters: list[CustomAdapterItem] | None = Field(None, title="Custom adapters")
     first_port_name: str | None = Field(None, title="Optional name of the first networking port example: eth0")
     port_name_format: str | None = Field(None, title="Optional formating of the networking port example: eth{0}")
     port_segment_size: int | None = Field(
@@ -598,7 +598,7 @@ class TemplateSetting(BaseModel):
     default: bool | None = Field(None, title="Whether these are the default settings")
     inherit_default_properties: bool | None = Field(True, title="Whether the default properties should be used")
     template_type: TemplateType = Field(..., title="Type of emulator properties")
-    template_properties: Union[QemuPropertiesV8, DynamipsPropertiesV8, IouPropertiesV8, DockerPropertiesV8] = Field(
+    template_properties: QemuPropertiesV8 | DynamipsPropertiesV8 | IouPropertiesV8 | DockerPropertiesV8 = Field(
         ..., title="Properties for the template"
     )
 
@@ -656,12 +656,12 @@ class ApplianceV1_6(BaseModel):
     category: Category = Field(..., title="Category of the appliance")
     description: str = Field(..., title="Description of the appliance. Could be a marketing description")
     vendor_name: str = Field(..., title="Name of the vendor")
-    vendor_url: Union[AnyUrl, Annotated[str, Field(max_length=0)]] | None = Field(None, title="Website of the vendor")
-    documentation_url: Union[AnyUrl, Annotated[str, Field(max_length=0)]] | None = Field(
+    vendor_url: AnyUrl | Annotated[str, Field(max_length=0)] | None = Field(None, title="Website of the vendor")
+    documentation_url: AnyUrl | Annotated[str, Field(max_length=0)] | None = Field(
         None, title="An optional documentation for using the appliance on vendor website"
     )
     product_name: str = Field(..., title="Product name")
-    product_url: Union[AnyUrl, Annotated[str, Field(max_length=0)]] | None = Field(
+    product_url: AnyUrl | Annotated[str, Field(max_length=0)] | None = Field(
         None, title="An optional product url on vendor website"
     )
     status: Status = Field(..., title="Document if the appliance is working or not")
@@ -670,9 +670,7 @@ class ApplianceV1_6(BaseModel):
         title="About image availability: can be downloaded directly; download requires a free registration; paid but a trial version (time or feature limited) is available; not available publicly",
     )
     maintainer: str = Field(..., title="Maintainer name")
-    maintainer_email: Union[EmailStr, Annotated[str, Field(max_length=0)]] | None = Field(
-        None, title="Maintainer email"
-    )
+    maintainer_email: EmailStr | Annotated[str, Field(max_length=0)] | None = Field(None, title="Maintainer email")
     usage: str | None = Field(None, title="How to use the appliance")
     symbol: str | None = Field(None, title="An optional symbol for the appliance")
     netmiko_device_type: str | None = Field(
@@ -684,7 +682,7 @@ class ApplianceV1_6(BaseModel):
         None,
         title="Optional port segment size. A port segment is a block of port. For example Ethernet0/0 Ethernet0/1 is the module 0 with a port segment size of 2",
     )
-    custom_adapters: List[CustomAdapterItem] | None = Field(
+    custom_adapters: list[CustomAdapterItem] | None = Field(
         None, title="Optional per-adapter overrides (port name, adapter type, MAC address)"
     )
     linked_clone: bool | None = Field(None, title="False if you don't want to use a single image for all nodes")
@@ -692,9 +690,9 @@ class ApplianceV1_6(BaseModel):
     iou: Iou | None = Field(None, title="IOU specific options")
     dynamips: Dynamips | None = Field(None, title="Dynamips specific options")
     qemu: Qemu | None = Field(None, title="Qemu specific options")
-    tags: List[str] | None = Field(None, title="User-defined metadata tags for the appliance")
-    images: List[ApplianceImage] | None = Field(None, title="Images for this appliance")
-    versions: List[ApplianceVersion] | None = Field(None, title="Versions of the appliance")
+    tags: list[str] | None = Field(None, title="User-defined metadata tags for the appliance")
+    images: list[ApplianceImage] | None = Field(None, title="Images for this appliance")
+    versions: list[ApplianceVersion] | None = Field(None, title="Versions of the appliance")
 
 
 class ApplianceV8(BaseModel):
@@ -736,10 +734,10 @@ class ApplianceV8(BaseModel):
     netmiko_device_type: str | None = Field(
         None, title="Device type for Netmiko-based automation tools", pattern=r"^[a-z0-9_]+$|^$"
     )
-    tags: List[str] | None = Field(None, title="User-defined metadata tags for the appliance")
-    settings: List[TemplateSetting] = Field(..., title="Settings for running the appliance")
-    images: List[ApplianceImage] | None = Field(None, title="Images for this appliance")
-    versions: List[ApplianceVersionV8] | None = Field(None, title="Versions of the appliance")
+    tags: list[str] | None = Field(None, title="User-defined metadata tags for the appliance")
+    settings: list[TemplateSetting] = Field(..., title="Settings for running the appliance")
+    images: list[ApplianceImage] | None = Field(None, title="Images for this appliance")
+    versions: list[ApplianceVersionV8] | None = Field(None, title="Versions of the appliance")
 
 
 # ============================================================================
@@ -748,10 +746,7 @@ class ApplianceV8(BaseModel):
 
 # Define the discriminated union type
 ApplianceUnion = Annotated[
-    Union[
-        Annotated[ApplianceV1_6, Tag("v1_6")],
-        Annotated[ApplianceV8, Tag("v8")],
-    ],
+    Annotated[ApplianceV1_6, Tag("v1_6")] | Annotated[ApplianceV8, Tag("v8")],
     Discriminator("registry_version"),
 ]
 """
@@ -765,7 +760,7 @@ Appliance = ApplianceUnion
 # Create a validator wrapper for convenience
 from pydantic import TypeAdapter
 
-_appliance_validator: TypeAdapter[Union[ApplianceV1_6, ApplianceV8]] = TypeAdapter(ApplianceUnion)
+_appliance_validator: TypeAdapter[ApplianceV1_6 | ApplianceV8] = TypeAdapter(ApplianceUnion)
 
 
 class ApplianceModel:
@@ -775,7 +770,7 @@ class ApplianceModel:
     """
 
     @staticmethod
-    def model_validate(data: dict) -> Union[ApplianceV1_6, ApplianceV8]:
+    def model_validate(data: dict) -> ApplianceV1_6 | ApplianceV8:
         """
         Validate appliance data and return appropriate model instance.
         Automatically routes to ApplianceV1_6 or ApplianceV8 based on registry_version.

@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -76,7 +75,7 @@ class VMwareBase(BaseModel):
     adapters: int | None = Field(None, ge=0, le=10, description="Number of adapters")
     adapter_type: VMwareAdapterType | None = Field(None, description="VMware adapter type")
     use_any_adapter: bool | None = Field(None, description="Allow GNS3 to use any VMware adapter")
-    custom_adapters: List[CustomAdapter] | None = Field(None, description="Custom adpaters")
+    custom_adapters: list[CustomAdapter] | None = Field(None, description="Custom adpaters")
 
 
 class VMwareCreate(VMwareBase):

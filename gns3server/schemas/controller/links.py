@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import List, Tuple
 from uuid import UUID, uuid4
 
 from pydantic import BaseModel, Field, field_validator
@@ -50,7 +49,7 @@ class LinkStyle(BaseModel):
     link_type: str | None = None
     bezier_curviness: int | None = None
     flowchart_roundness: int | None = None
-    control_offset: Tuple[float, float] | None = None
+    control_offset: tuple[float, float] | None = None
 
 
 class LinkBase(BaseModel):
@@ -58,7 +57,7 @@ class LinkBase(BaseModel):
     Link data.
     """
 
-    nodes: List[LinkNode] | None = Field(None, min_length=0, max_length=2)
+    nodes: list[LinkNode] | None = Field(None, min_length=0, max_length=2)
     suspend: bool | None = None
     link_style: LinkStyle | None = None
     filters: dict | None = None
@@ -68,7 +67,7 @@ class LinkBase(BaseModel):
 
 class LinkCreate(LinkBase):
     link_id: UUID = Field(default_factory=uuid4)
-    nodes: List[LinkNode] = Field(..., min_length=2, max_length=2)
+    nodes: list[LinkNode] = Field(..., min_length=2, max_length=2)
 
 
 class LinkUpdate(LinkBase):

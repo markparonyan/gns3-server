@@ -18,7 +18,7 @@
 Chat API schemas for GNS3 Copilot integration.
 """
 
-from typing import Any, Dict, List, Literal
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
@@ -28,7 +28,7 @@ class OpenAIToolCall(BaseModel):
 
     id: str = Field(..., description="Tool call ID")
     type: Literal["function"] = Field(default="function", description="Tool call type")
-    function: Dict[str, Any] = Field(..., description="Function name and arguments")
+    function: dict[str, Any] = Field(..., description="Function name and arguments")
 
 
 class ChatRequest(BaseModel):
@@ -76,8 +76,8 @@ class OpenAIMessage(BaseModel):
     content: str = Field(..., description="Message content")
     name: str | None = Field(None, description="Tool message name")
     tool_call_id: str | None = Field(None, description="Associated tool call ID (for tool messages)")
-    tool_calls: List[OpenAIToolCall] | None = Field(None, description="Tool calls (for assistant messages)")
-    metadata: Dict[str, Any] = Field(default_factory=dict, description="Message metadata (includes created_at)")
+    tool_calls: list[OpenAIToolCall] | None = Field(None, description="Tool calls (for assistant messages)")
+    metadata: dict[str, Any] = Field(default_factory=dict, description="Message metadata (includes created_at)")
 
 
 class ConversationHistory(BaseModel):
@@ -85,7 +85,7 @@ class ConversationHistory(BaseModel):
 
     thread_id: str = Field(..., description="Thread/session ID")
     title: str = Field(..., description="Conversation title")
-    messages: List[OpenAIMessage] = Field(default_factory=list, description="Conversation messages")
+    messages: list[OpenAIMessage] = Field(default_factory=list, description="Conversation messages")
     created_at: str | None = Field(None, description="Creation timestamp (ISO 8601)")
     updated_at: str | None = Field(None, description="Last update timestamp (ISO 8601)")
     llm_calls: int = Field(default=0, description="Total LLM calls in this conversation")
@@ -107,8 +107,8 @@ class ChatSession(BaseModel):
     last_message_at: str | None = Field(None, description="Last message timestamp (ISO 8601)")
     created_at: str | None = Field(None, description="Creation timestamp (ISO 8601)")
     updated_at: str | None = Field(None, description="Last update timestamp (ISO 8601)")
-    metadata: Dict[str, Any] = Field(default_factory=dict, description="Session metadata")
-    stats: Dict[str, Any] = Field(default_factory=dict, description="Session statistics")
+    metadata: dict[str, Any] = Field(default_factory=dict, description="Session metadata")
+    stats: dict[str, Any] = Field(default_factory=dict, description="Session statistics")
     pinned: bool = Field(default=False, description="Whether the session is pinned to the top")
 
 

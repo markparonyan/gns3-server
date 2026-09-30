@@ -15,8 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from typing import List
-
 from pydantic import BaseModel, Field
 
 from .nodes import NodeType
@@ -28,7 +26,7 @@ class Capabilities(BaseModel):
     """
 
     version: str = Field(..., description="Compute version number")
-    node_types: List[NodeType] = Field(..., description="Node types supported by the compute")
+    node_types: list[NodeType] = Field(..., description="Node types supported by the compute")
     platform: str = Field(..., description="Platform where the compute is running")
     cpus: int = Field(..., description="Number of CPUs on this compute")
     memory: int = Field(..., description="Amount of memory on this compute")

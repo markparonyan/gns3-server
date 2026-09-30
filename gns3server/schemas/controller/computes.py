@@ -16,7 +16,7 @@
 
 import uuid
 from enum import Enum
-from typing import Any, List, Union
+from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field, SecretStr, model_validator
 
@@ -55,7 +55,7 @@ class ComputeCreate(ComputeBase):
     protocol: Protocol
     host: str
     port: int = Field(..., gt=0, le=65535)
-    compute_id: Union[str, uuid.UUID] | None = None
+    compute_id: str | uuid.UUID | None = None
     model_config = ConfigDict(
         json_schema_extra={
             "example": {"name": "My compute", "host": "127.0.0.1", "port": 3080, "user": "user", "password": "password"}
@@ -98,7 +98,7 @@ class Capabilities(BaseModel):
     """
 
     version: str = Field(..., description="Compute version number")
-    node_types: List[NodeType] = Field(..., description="Node types supported by the compute")
+    node_types: list[NodeType] = Field(..., description="Node types supported by the compute")
     platform: str = Field(..., description="Platform where the compute is running (Linux, Windows or macOS)")
     cpus: int = Field(..., description="Number of CPUs on this compute")
     memory: int = Field(..., description="Amount of memory on this compute")
@@ -113,7 +113,7 @@ class Compute(DateTimeModelMixin, ComputeBase):
     protocol: Protocol
     host: str
     port: int = Field(..., gt=0, le=65535)
-    compute_id: Union[str, uuid.UUID]
+    compute_id: str | uuid.UUID
     name: str
     connected: bool | None = Field(None, description="Whether the controller is connected to the compute or not")
     cpu_usage_percent: float | None = Field(None, description="CPU usage of the compute", ge=0, le=100)

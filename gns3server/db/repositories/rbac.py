@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import Union, cast
+from typing import cast
 from urllib.parse import urlparse
 from uuid import UUID
 
@@ -103,7 +103,7 @@ class RbacRepository(BaseRepository):
         await self._db_session.commit()
         return cast(CursorResult, result).rowcount > 0
 
-    async def add_privilege_to_role(self, role_id: UUID, privilege: models.Privilege) -> Union[None, models.Role]:
+    async def add_privilege_to_role(self, role_id: UUID, privilege: models.Privilege) -> None | models.Role:
         """
         Add a privilege to a role.
         """
@@ -126,7 +126,7 @@ class RbacRepository(BaseRepository):
         await self._db_session.refresh(role_db)
         return role_db
 
-    async def remove_privilege_from_role(self, role_id: UUID, privilege: models.Privilege) -> Union[None, models.Role]:
+    async def remove_privilege_from_role(self, role_id: UUID, privilege: models.Privilege) -> None | models.Role:
         """
         Remove a privilege from a role.
         """

@@ -20,7 +20,7 @@ API routes for links.
 
 import logging
 import os
-from typing import Any, Union
+from typing import Any
 from uuid import UUID, uuid4
 
 import aiohttp
@@ -484,7 +484,7 @@ async def update_marker(marker_name: str, marker_data: schemas.MarkerUpdate, lin
 
 @router.get(
     "/{link_id}/iface",
-    response_model=Union[schemas.UDPPortInfo, schemas.EthernetPortInfo],
+    response_model=schemas.UDPPortInfo | schemas.EthernetPortInfo,
     dependencies=[Depends(has_privilege("Link.Audit"))],
 )
 async def get_iface(link: Link = Depends(dep_link)) -> dict:

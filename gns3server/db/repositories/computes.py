@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Union, cast
+from typing import cast
 from uuid import UUID
 
 from sqlalchemy import delete, select, update
@@ -33,7 +33,7 @@ class ComputesRepository(BaseRepository):
 
         super().__init__(db_session)
 
-    async def get_compute(self, compute_id: Union[str, UUID]) -> models.Compute | None:
+    async def get_compute(self, compute_id: str | UUID) -> models.Compute | None:
 
         query = select(models.Compute).where(models.Compute.compute_id == compute_id)
         result = await self._db_session.execute(query)
@@ -68,7 +68,7 @@ class ComputesRepository(BaseRepository):
         return db_compute
 
     async def update_compute(
-        self, compute_id: Union[str, UUID], compute_update: schemas.ComputeUpdate
+        self, compute_id: str | UUID, compute_update: schemas.ComputeUpdate
     ) -> models.Compute | None:
 
         update_values = compute_update.model_dump(exclude_unset=True)
@@ -84,7 +84,7 @@ class ComputesRepository(BaseRepository):
             await self._db_session.refresh(compute_db)  # force refresh of updated_at value
         return compute_db
 
-    async def delete_compute(self, compute_id: Union[str, UUID]) -> bool:
+    async def delete_compute(self, compute_id: str | UUID) -> bool:
 
         query = delete(models.Compute).where(models.Compute.compute_id == compute_id)
         result = await self._db_session.execute(query)

@@ -19,7 +19,7 @@ API routes for NAT nodes.
 """
 
 import os
-from typing import Any, Union
+from typing import Any
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Path, status
@@ -134,7 +134,7 @@ async def suspend_nat_node(node: Nat = Depends(dep_node)) -> None:
 @router.post(
     "/{node_id}/adapters/{adapter_number}/ports/{port_number}/nio",
     status_code=status.HTTP_201_CREATED,
-    response_model=Union[schemas.EthernetNIO, schemas.TAPNIO, schemas.UDPNIO],
+    response_model=schemas.EthernetNIO | schemas.TAPNIO | schemas.UDPNIO,
 )
 async def create_nat_node_nio(
     *,
@@ -156,7 +156,7 @@ async def create_nat_node_nio(
 @router.put(
     "/{node_id}/adapters/{adapter_number}/ports/{port_number}/nio",
     status_code=status.HTTP_201_CREATED,
-    response_model=Union[schemas.EthernetNIO, schemas.TAPNIO, schemas.UDPNIO],
+    response_model=schemas.EthernetNIO | schemas.TAPNIO | schemas.UDPNIO,
 )
 async def update_nat_node_nio(
     *,

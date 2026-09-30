@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import Union, cast
+from typing import cast
 from uuid import UUID
 
 from sqlalchemy import delete, select, update
@@ -171,7 +171,7 @@ class ResourcePoolsRepository(BaseRepository):
 
     async def add_resource_to_pool(
         self, resource_pool_id: UUID, resource: models.Resource
-    ) -> Union[None, models.ResourcePool]:
+    ) -> None | models.ResourcePool:
         """
         Add a resource to a resource pool.
         """
@@ -193,7 +193,7 @@ class ResourcePoolsRepository(BaseRepository):
 
     async def remove_resource_from_pool(
         self, resource_pool_id: UUID, resource: models.Resource
-    ) -> Union[None, models.ResourcePool]:
+    ) -> None | models.ResourcePool:
         """
         Remove a resource from a resource pool.
         """

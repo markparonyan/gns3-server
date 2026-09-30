@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from typing import Union
 from uuid import UUID
 
 import gns3server.db.models as models
@@ -52,7 +51,7 @@ class ComputesService:
         self._controller.notification.controller_emit("compute.created", compute.asdict())
         return db_compute
 
-    async def get_compute(self, compute_id: Union[str, UUID]) -> Union[models.Compute, dict]:
+    async def get_compute(self, compute_id: str | UUID) -> models.Compute | dict:
 
         if str(compute_id) == "local":
             # the built-in local compute only lives in the controller, not in the database;
@@ -63,9 +62,7 @@ class ComputesService:
             raise ControllerNotFoundError(f"Compute '{compute_id}' not found")
         return db_compute
 
-    async def update_compute(
-        self, compute_id: Union[str, UUID], compute_update: schemas.ComputeUpdate
-    ) -> models.Compute:
+    async def update_compute(self, compute_id: str | UUID, compute_update: schemas.ComputeUpdate) -> models.Compute:
 
         compute = self._controller.get_compute(str(compute_id))
         await compute.update(**compute_update.model_dump(exclude_unset=True))
@@ -75,7 +72,7 @@ class ComputesService:
         self._controller.notification.controller_emit("compute.updated", compute.asdict())
         return db_compute
 
-    async def delete_compute(self, compute_id: Union[str, UUID]) -> None:
+    async def delete_compute(self, compute_id: str | UUID) -> None:
 
         if await self._computes_repo.delete_compute(compute_id):
             await self._controller.delete_compute(str(compute_id))

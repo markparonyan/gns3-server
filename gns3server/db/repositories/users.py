@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import Union, cast
+from typing import cast
 from uuid import UUID
 
 from sqlalchemy import delete, func, select, update
@@ -90,7 +90,7 @@ class UsersRepository(BaseRepository):
         return db_user
 
     async def update_user(
-        self, user_id: UUID, user_update: Union[schemas.UserUpdate, schemas.LoggedInUserUpdate]
+        self, user_id: UUID, user_update: schemas.UserUpdate | schemas.LoggedInUserUpdate
     ) -> models.User | None:
         """
         Update a user.
@@ -238,7 +238,7 @@ class UsersRepository(BaseRepository):
         await self._db_session.commit()
         return cast(CursorResult, result).rowcount > 0
 
-    async def add_member_to_user_group(self, user_group_id: UUID, user: models.User) -> Union[None, models.UserGroup]:
+    async def add_member_to_user_group(self, user_group_id: UUID, user: models.User) -> None | models.UserGroup:
         """
         Add a member to a user group.
         """
@@ -258,9 +258,7 @@ class UsersRepository(BaseRepository):
         await self._db_session.refresh(user_group_db)
         return user_group_db
 
-    async def remove_member_from_user_group(
-        self, user_group_id: UUID, user: models.User
-    ) -> Union[None, models.UserGroup]:
+    async def remove_member_from_user_group(self, user_group_id: UUID, user: models.User) -> None | models.UserGroup:
         """
         Remove a member from a user group.
         """

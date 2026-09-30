@@ -105,7 +105,6 @@ ignore = [
   "S101",      #   19  assert
   "S104",      #   22  hardcoded-bind-all-interfaces
   "S110",      #   23  try-except-pass
-  "UP035",     #  106  deprecated-import
 ]
 
 [tool.ruff.lint.mccabe]

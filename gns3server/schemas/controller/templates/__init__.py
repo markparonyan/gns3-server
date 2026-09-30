@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import List, Optional
+from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -44,21 +44,21 @@ class ApplianceMetadata(BaseModel):
 
     model_config = ConfigDict(extra="allow")
 
-    appliance_id: Optional[str] = Field(None, description="ID of the appliance the template was installed from")
-    description: Optional[str] = None
-    vendor_name: Optional[str] = None
-    vendor_url: Optional[str] = None
-    vendor_logo_url: Optional[str] = None
-    documentation_url: Optional[str] = None
-    product_name: Optional[str] = None
-    product_url: Optional[str] = None
-    status: Optional[str] = None
-    availability: Optional[str] = None
-    maintainer: Optional[str] = None
-    maintainer_email: Optional[str] = None
-    installation_instructions: Optional[str] = None
-    default_username: Optional[str] = None
-    default_password: Optional[str] = None
+    appliance_id: str | None = Field(None, description="ID of the appliance the template was installed from")
+    description: str | None = None
+    vendor_name: str | None = None
+    vendor_url: str | None = None
+    vendor_logo_url: str | None = None
+    documentation_url: str | None = None
+    product_name: str | None = None
+    product_url: str | None = None
+    status: str | None = None
+    availability: str | None = None
+    maintainer: str | None = None
+    maintainer_email: str | None = None
+    installation_instructions: str | None = None
+    default_username: str | None = None
+    default_password: str | None = None
 
 
 class TemplateBase(BaseModel):
@@ -66,24 +66,24 @@ class TemplateBase(BaseModel):
     Common template properties.
     """
 
-    template_id: Optional[UUID] = None
-    name: Optional[str] = None
-    version: Optional[str] = None
-    category: Optional[Category] = None
-    default_name_format: Optional[str] = None
-    symbol: Optional[str] = None
-    template_type: Optional[NodeType] = None
-    compute_id: Optional[str] = None
-    usage: Optional[str] = ""
-    netmiko_device_type: Optional[str] = Field(
+    template_id: UUID | None = None
+    name: str | None = None
+    version: str | None = None
+    category: Category | None = None
+    default_name_format: str | None = None
+    symbol: str | None = None
+    template_type: NodeType | None = None
+    compute_id: str | None = None
+    usage: str | None = ""
+    netmiko_device_type: str | None = Field(
         None,
         description="Device type for Netmiko-based automation tools (e.g. 'cisco_xr' or 'nokia_srl')",
         pattern=r"^[a-z0-9_]+$|^$",
     )
-    tags: Optional[List[str]] = Field(
+    tags: List[str] | None = Field(
         default_factory=list, description="User-defined metadata tags (e.g. 'vendor:cisco' or 'model:7200')"
     )
-    appliance_metadata: Optional[ApplianceMetadata] = Field(
+    appliance_metadata: ApplianceMetadata | None = Field(
         None, description="Metadata inherited from the appliance the template was installed from"
     )
 
@@ -115,5 +115,5 @@ class Template(DateTimeModelMixin, TemplateBase):
 class TemplateUsage(BaseModel):
     x: int
     y: int
-    name: Optional[str] = Field(None, description="Use this name to create a new node")
-    compute_id: Optional[str] = Field(None, description="Used if the template doesn't have a default compute")
+    name: str | None = Field(None, description="Use this name to create a new node")
+    compute_id: str | None = Field(None, description="Used if the template doesn't have a default compute")

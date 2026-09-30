@@ -15,8 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from typing import Optional
-
 from pydantic import Field
 
 from gns3server.schemas.compute.iou_nodes import ConsoleType
@@ -25,23 +23,23 @@ from . import Category, TemplateBase
 
 
 class IOUTemplateBase(TemplateBase):
-    category: Optional[Category] = Category.router
-    default_name_format: Optional[str] = "IOU{0}"
-    symbol: Optional[str] = "multilayer_switch"
-    path: Optional[str] = Field(None, description="Path of IOU executable")
-    ethernet_adapters: Optional[int] = Field(2, ge=0, description="Number of ethernet adapters")
-    serial_adapters: Optional[int] = Field(2, ge=0, description="Number of serial adapters")
-    ram: Optional[int] = Field(1024, gt=0, description="Amount of RAM in MB")
-    nvram: Optional[int] = Field(256, gt=0, description="Amount of NVRAM in KB")
-    use_default_iou_values: Optional[bool] = Field(False, description="Use default IOU values")
-    startup_config: Optional[str] = Field("iou_l3_base_startup-config.txt", description="Startup-config of IOU")
-    private_config: Optional[str] = Field("", description="Private-config of IOU")
-    l1_keepalives: Optional[bool] = Field(
+    category: Category | None = Category.router
+    default_name_format: str | None = "IOU{0}"
+    symbol: str | None = "multilayer_switch"
+    path: str | None = Field(None, description="Path of IOU executable")
+    ethernet_adapters: int | None = Field(2, ge=0, description="Number of ethernet adapters")
+    serial_adapters: int | None = Field(2, ge=0, description="Number of serial adapters")
+    ram: int | None = Field(1024, gt=0, description="Amount of RAM in MB")
+    nvram: int | None = Field(256, gt=0, description="Amount of NVRAM in KB")
+    use_default_iou_values: bool | None = Field(False, description="Use default IOU values")
+    startup_config: str | None = Field("iou_l3_base_startup-config.txt", description="Startup-config of IOU")
+    private_config: str | None = Field("", description="Private-config of IOU")
+    l1_keepalives: bool | None = Field(
         False,
         description="Enable Layer 1 keepalives so IOU interfaces report accurate link state",
     )
-    console_type: Optional[ConsoleType] = Field(ConsoleType.telnet, description="Console type")
-    console_auto_start: Optional[bool] = Field(
+    console_type: ConsoleType | None = Field(ConsoleType.telnet, description="Console type")
+    console_auto_start: bool | None = Field(
         False, description="Automatically start the console when the node has started"
     )
 

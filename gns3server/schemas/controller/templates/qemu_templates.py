@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from typing import List, Optional
+from typing import List
 
 from pydantic import Field
 
@@ -34,72 +34,72 @@ from . import Category, TemplateBase
 
 
 class QemuTemplate(TemplateBase):
-    category: Optional[Category] = Category.guest
-    default_name_format: Optional[str] = "{name}-{0}"
-    symbol: Optional[str] = "qemu_guest"
-    qemu_path: Optional[str] = Field("", description="Qemu executable path")
-    platform: Optional[QemuPlatform] = Field(QemuPlatform.x86_64, description="Platform to emulate")
-    linked_clone: Optional[bool] = Field(True, description="Whether the VM is a linked clone or not")
-    ram: Optional[int] = Field(256, gt=0, description="Amount of RAM in MB")
-    cpus: Optional[int] = Field(1, ge=1, le=255, description="Number of vCPUs")
-    maxcpus: Optional[int] = Field(1, ge=1, le=255, description="Maximum number of hotpluggable vCPUs")
-    adapters: Optional[int] = Field(1, ge=0, le=275, description="Number of adapters")
-    adapter_type: Optional[QemuAdapterType] = Field(QemuAdapterType.e1000, description="QEMU adapter type")
-    mac_address: Optional[str] = Field(
+    category: Category | None = Category.guest
+    default_name_format: str | None = "{name}-{0}"
+    symbol: str | None = "qemu_guest"
+    qemu_path: str | None = Field("", description="Qemu executable path")
+    platform: QemuPlatform | None = Field(QemuPlatform.x86_64, description="Platform to emulate")
+    linked_clone: bool | None = Field(True, description="Whether the VM is a linked clone or not")
+    ram: int | None = Field(256, gt=0, description="Amount of RAM in MB")
+    cpus: int | None = Field(1, ge=1, le=255, description="Number of vCPUs")
+    maxcpus: int | None = Field(1, ge=1, le=255, description="Maximum number of hotpluggable vCPUs")
+    adapters: int | None = Field(1, ge=0, le=275, description="Number of adapters")
+    adapter_type: QemuAdapterType | None = Field(QemuAdapterType.e1000, description="QEMU adapter type")
+    mac_address: str | None = Field(
         "", description="QEMU MAC address", pattern="^([0-9a-fA-F]{2}[:]){5}([0-9a-fA-F]{2})$|^$"
     )
-    first_port_name: Optional[str] = Field("", description="Optional name of the first networking port example: eth0")
-    port_name_format: Optional[str] = Field(
+    first_port_name: str | None = Field("", description="Optional name of the first networking port example: eth0")
+    port_name_format: str | None = Field(
         "Ethernet{0}", description="Optional formatting of the networking port example: eth{0}"
     )
-    port_segment_size: Optional[int] = Field(
+    port_segment_size: int | None = Field(
         0,
         description="Optional port segment size. A port segment is a block of port. For example Ethernet0/0 Ethernet0/1 is the module 0 with a port segment size of 2",
     )
-    console_type: Optional[QemuConsoleType] = Field(QemuConsoleType.telnet, description="Console type")
-    console_auto_start: Optional[bool] = Field(
+    console_type: QemuConsoleType | None = Field(QemuConsoleType.telnet, description="Console type")
+    console_auto_start: bool | None = Field(
         False, description="Automatically start the console when the node has started"
     )
-    aux_type: Optional[QemuConsoleType] = Field(QemuConsoleType.none, description="Auxiliary console type")
-    boot_priority: Optional[QemuBootPriority] = Field(QemuBootPriority.c, description="QEMU boot priority")
-    hda_disk_image: Optional[str] = Field("", description="QEMU hda disk image path")
-    hda_disk_interface: Optional[QemuDiskInterfaceType] = Field(
+    aux_type: QemuConsoleType | None = Field(QemuConsoleType.none, description="Auxiliary console type")
+    boot_priority: QemuBootPriority | None = Field(QemuBootPriority.c, description="QEMU boot priority")
+    hda_disk_image: str | None = Field("", description="QEMU hda disk image path")
+    hda_disk_interface: QemuDiskInterfaceType | None = Field(
         QemuDiskInterfaceType.none, description="QEMU hda interface"
     )
-    hdb_disk_image: Optional[str] = Field("", description="QEMU hdb disk image path")
-    hdb_disk_interface: Optional[QemuDiskInterfaceType] = Field(
+    hdb_disk_image: str | None = Field("", description="QEMU hdb disk image path")
+    hdb_disk_interface: QemuDiskInterfaceType | None = Field(
         QemuDiskInterfaceType.none, description="QEMU hdb interface"
     )
-    hdc_disk_image: Optional[str] = Field("", description="QEMU hdc disk image path")
-    hdc_disk_interface: Optional[QemuDiskInterfaceType] = Field(
+    hdc_disk_image: str | None = Field("", description="QEMU hdc disk image path")
+    hdc_disk_interface: QemuDiskInterfaceType | None = Field(
         QemuDiskInterfaceType.none, description="QEMU hdc interface"
     )
-    hdd_disk_image: Optional[str] = Field("", description="QEMU hdd disk image path")
-    hdd_disk_interface: Optional[QemuDiskInterfaceType] = Field(
+    hdd_disk_image: str | None = Field("", description="QEMU hdd disk image path")
+    hdd_disk_interface: QemuDiskInterfaceType | None = Field(
         QemuDiskInterfaceType.none, description="QEMU hdd interface"
     )
-    cdrom_image: Optional[str] = Field("", description="QEMU cdrom image path")
-    initrd: Optional[str] = Field("", description="QEMU initrd path")
-    kernel_image: Optional[str] = Field("", description="QEMU kernel image path")
-    bios_image: Optional[str] = Field("", description="QEMU bios image path")
-    kernel_command_line: Optional[str] = Field("", description="QEMU kernel command line")
-    replicate_network_connection_state: Optional[bool] = Field(
+    cdrom_image: str | None = Field("", description="QEMU cdrom image path")
+    initrd: str | None = Field("", description="QEMU initrd path")
+    kernel_image: str | None = Field("", description="QEMU kernel image path")
+    bios_image: str | None = Field("", description="QEMU bios image path")
+    kernel_command_line: str | None = Field("", description="QEMU kernel command line")
+    replicate_network_connection_state: bool | None = Field(
         True, description="Replicate the network connection state for links in Qemu"
     )
-    create_config_disk: Optional[bool] = Field(
+    create_config_disk: bool | None = Field(
         False, description="Automatically create a config disk on HDD disk interface (secondary slave)"
     )
-    tpm: Optional[bool] = Field(False, description="Enable Trusted Platform Module (TPM)")
-    uefi: Optional[bool] = Field(False, description="Enable UEFI boot mode")
-    on_close: Optional[QemuOnCloseAction] = Field(
+    tpm: bool | None = Field(False, description="Enable Trusted Platform Module (TPM)")
+    uefi: bool | None = Field(False, description="Enable UEFI boot mode")
+    on_close: QemuOnCloseAction | None = Field(
         QemuOnCloseAction.power_off, description="Action to execute on the VM is closed"
     )
-    cpu_throttling: Optional[int] = Field(0, ge=0, le=800, description="Percentage of CPU allowed for QEMU")
-    process_priority: Optional[QemuProcessPriority] = Field(
+    cpu_throttling: int | None = Field(0, ge=0, le=800, description="Percentage of CPU allowed for QEMU")
+    process_priority: QemuProcessPriority | None = Field(
         QemuProcessPriority.normal, description="Process priority for QEMU"
     )
-    options: Optional[str] = Field("", description="Additional QEMU options")
-    custom_adapters: Optional[List[CustomAdapter]] = Field(default_factory=list, description="Custom adapters")
+    options: str | None = Field("", description="Additional QEMU options")
+    custom_adapters: List[CustomAdapter] | None = Field(default_factory=list, description="Custom adapters")
 
 
 class QemuTemplateUpdate(QemuTemplate):

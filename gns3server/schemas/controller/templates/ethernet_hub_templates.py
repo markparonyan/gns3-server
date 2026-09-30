@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Optional
+from typing import List
 
 from pydantic import Field
 
@@ -35,10 +35,10 @@ DEFAULT_PORTS = [
 
 
 class EthernetHubTemplate(TemplateBase):
-    category: Optional[Category] = Category.switch
-    default_name_format: Optional[str] = "Hub{0}"
-    symbol: Optional[str] = "hub"
-    ports_mapping: Optional[List[EthernetHubPort]] = Field(DEFAULT_PORTS, description="Ports")
+    category: Category | None = Category.switch
+    default_name_format: str | None = "Hub{0}"
+    symbol: str | None = "hub"
+    ports_mapping: List[EthernetHubPort] | None = Field(DEFAULT_PORTS, description="Ports")
 
 
 class EthernetHubTemplateUpdate(EthernetHubTemplate):

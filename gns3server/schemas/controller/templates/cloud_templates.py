@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from typing import List, Optional, Union
+from typing import List, Union
 
 from pydantic import Field
 
@@ -25,14 +25,14 @@ from . import Category, TemplateBase
 
 
 class CloudTemplate(TemplateBase):
-    category: Optional[Category] = Category.guest
-    default_name_format: Optional[str] = "Cloud{0}"
-    symbol: Optional[str] = "cloud"
+    category: Category | None = Category.guest
+    default_name_format: str | None = "Cloud{0}"
+    symbol: str | None = "cloud"
     ports_mapping: List[Union[EthernetPort, TAPPort, UDPPort]] = Field(default_factory=list)
-    remote_console_host: Optional[str] = Field("127.0.0.1", description="Remote console host or IP")
-    remote_console_port: Optional[int] = Field(23, gt=0, le=65535, description="Remote console TCP port")
-    remote_console_type: Optional[CloudConsoleType] = Field(CloudConsoleType.none, description="Remote console type")
-    remote_console_http_path: Optional[str] = Field("/", description="Path of the remote web interface")
+    remote_console_host: str | None = Field("127.0.0.1", description="Remote console host or IP")
+    remote_console_port: int | None = Field(23, gt=0, le=65535, description="Remote console TCP port")
+    remote_console_type: CloudConsoleType | None = Field(CloudConsoleType.none, description="Remote console type")
+    remote_console_http_path: str | None = Field("/", description="Path of the remote web interface")
 
 
 class CloudTemplateUpdate(CloudTemplate):

@@ -15,8 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from typing import Optional
-
 from pydantic import Field
 
 from gns3server.schemas.compute.vpcs_nodes import ConsoleType
@@ -25,12 +23,12 @@ from . import Category, TemplateBase
 
 
 class VPCSTemplate(TemplateBase):
-    category: Optional[Category] = Category.guest
-    default_name_format: Optional[str] = "PC{0}"
-    symbol: Optional[str] = "vpcs_guest"
-    base_script_file: Optional[str] = Field("vpcs_base_config.txt", description="Script file")
-    console_type: Optional[ConsoleType] = Field(ConsoleType.telnet, description="Console type")
-    console_auto_start: Optional[bool] = Field(
+    category: Category | None = Category.guest
+    default_name_format: str | None = "PC{0}"
+    symbol: str | None = "vpcs_guest"
+    base_script_file: str | None = Field("vpcs_base_config.txt", description="Script file")
+    console_type: ConsoleType | None = Field(ConsoleType.telnet, description="Console type")
+    console_auto_start: bool | None = Field(
         False, description="Automatically start the console when the node has started"
     )
 

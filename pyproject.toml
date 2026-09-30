@@ -91,7 +91,6 @@ ignore = [
   "ASYNC230",  #  240  blocking-open-call-in-async-function
   "ASYNC240",  #  235  blocking-path-method-in-async-function
   "B007",      #   32  unused-loop-control-variable
-  "B008",      #  119  function-call-in-default-argument
   "BLE001",    #  214  blind-except
   "E402",      #  129  module-import-not-at-top-of-file
   "E501",      #  655  line-too-long
@@ -121,6 +120,9 @@ extend-immutable-calls = [
   "fastapi.Path",
   "fastapi.Query",
   "fastapi.Security",
+  "gns3server.api.routes.controller.dependencies.database.get_repository",
+  "gns3server.api.routes.controller.dependencies.rbac.has_privilege",
+  "gns3server.api.routes.controller.dependencies.rbac.has_privilege_on_websocket",
 ]
 
 [tool.ruff.lint.per-file-ignores]

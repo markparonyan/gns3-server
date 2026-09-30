@@ -60,7 +60,7 @@ def validate_bpf_syntax(bpf_expression: str) -> dict[str, Any]:
         log.warning("tcpdump not found, skipping BPF syntax validation. Install tcpdump to enable BPF validation.")
         return {"valid": True, "error": None}
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         log.error("Unexpected error during BPF validation: %s", e)
         return {"valid": False, "error": f"BPF validation error: {e!s}"}
 

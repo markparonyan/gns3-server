@@ -117,7 +117,7 @@ async def cmd_start(args) -> int:
 
         print(json.dumps(result, indent=2))
         return 0
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         logger.error(f"Error: {e}")
         print(json.dumps({"error": str(e)}), file=sys.stderr)
         return 1
@@ -139,7 +139,7 @@ async def cmd_stop(args) -> int:
         await manager.stop_wireshark_session(project_id=args.project_id, link_id=args.link_id)
         print(json.dumps({"status": "stopped"}))
         return 0
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         logger.error(f"Error: {e}")
         print(json.dumps({"error": str(e)}), file=sys.stderr)
         return 1
@@ -166,7 +166,7 @@ async def cmd_restart(args) -> int:
         )
         print(json.dumps(result, indent=2))
         return 0
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         logger.error(f"Error: {e}")
         print(json.dumps({"error": str(e)}), file=sys.stderr)
         return 1
@@ -188,7 +188,7 @@ async def cmd_stop_all(args) -> int:
         await manager.stop_all_sessions(project_id=args.project_id)
         print(json.dumps({"status": "all sessions stopped"}))
         return 0
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         logger.error(f"Error: {e}")
         print(json.dumps({"error": str(e)}), file=sys.stderr)
         return 1
@@ -210,7 +210,7 @@ async def cmd_stop_container(args) -> int:
         await manager.stop_container(project_id=args.project_id)
         print(json.dumps({"status": "stopped"}))
         return 0
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         logger.error(f"Error: {e}")
         print(json.dumps({"error": str(e)}), file=sys.stderr)
         return 1
@@ -232,7 +232,7 @@ async def cmd_delete_container(args) -> int:
         await manager.delete_container(project_id=args.project_id)
         print(json.dumps({"status": "deleted"}))
         return 0
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         logger.error(f"Error: {e}")
         print(json.dumps({"error": str(e)}), file=sys.stderr)
         return 1
@@ -254,7 +254,7 @@ async def cmd_delete(args) -> int:
         await manager.delete_container(project_id=args.project_id)
         print(json.dumps({"status": "deleted"}))
         return 0
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         logger.error(f"Error: {e}")
         print(json.dumps({"error": str(e)}), file=sys.stderr)
         return 1

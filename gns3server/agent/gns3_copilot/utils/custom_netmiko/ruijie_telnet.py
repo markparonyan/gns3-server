@@ -155,7 +155,7 @@ class RuijieTelnetEnhanced(RuijieOSBase):
         # Try batch send first (fast path)
         try:
             output += self._send_config_batch(processed_commands, read_timeout, delay_factor)
-        except Exception as batch_error:
+        except Exception as batch_error:  # noqa: BLE001
             logging.warning(
                 "Ruijie device: Batch send failed, falling back to one-by-one: %s",
                 batch_error,

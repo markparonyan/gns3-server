@@ -48,7 +48,7 @@ if __version_info__[3] != 0:
     log.info("Enable catching segfault")
     try:
         faulthandler.enable()
-    except Exception:
+    except Exception:  # noqa: BLE001
         pass  # Could fail when loaded into tests
 
 
@@ -76,7 +76,7 @@ class CrashReport:
                 sentry_sdk.init(
                     dsn=CrashReport.DSN, release=__version__, default_integrations=False, integrations=[sentry_logging]
                 )
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 log.error(f"Crash report could not be sent: {e}")
                 return
 
@@ -153,7 +153,7 @@ class CrashReport:
                 else:
                     sentry_sdk.capture_exception()
                 log.info(f"Crash report sent with event ID: {sentry_sdk.last_event_id()}")
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 log.warning(f"Can't send crash report to Sentry: {e}")
 
     @classmethod

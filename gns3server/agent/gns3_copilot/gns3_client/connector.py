@@ -270,7 +270,7 @@ class Gns3Connector:
                     response=response,
                 )
                 return new_err
-        except Exception:
+        except Exception:  # noqa: BLE001
             # If JSON parsing fails, return error with original text
             return HTTPError(
                 f"Original Error: {e!s}. GNS3 response text: {response.text}",

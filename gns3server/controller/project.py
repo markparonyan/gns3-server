@@ -1626,7 +1626,7 @@ class Project:
             finally:
                 await manager.close()
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             # Don't raise exception to avoid affecting project close flow
             log.warning("Failed to cleanup xpra sessions for project '%s': %s", self.name, e)
 
@@ -1648,7 +1648,7 @@ class Project:
             finally:
                 await manager.close()
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             # Don't fail project close if container stop fails
             log.warning("Failed to stop container for project '%s': %s", self.name, e)
 
@@ -1669,7 +1669,7 @@ class Project:
             finally:
                 await manager.close()
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             # Don't fail project delete if container cleanup fails
             log.warning("Failed to delete container for project '%s': %s", self.name, e)
 
@@ -1686,7 +1686,7 @@ class Project:
             if agent_manager.has_agent(self._id):
                 log.info("Cleaning up AgentService for project '%s' (%s)", self.name, self._id)
                 await agent_manager.remove_agent(self._id)
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             # Don't fail project close if agent cleanup fails
             log.warning("Failed to cleanup AgentService for project '%s': %s", self.name, e)
 
@@ -1958,7 +1958,7 @@ class Project:
                 async with sem:
                     try:
                         return await self._prepare_link_from_topology(data)
-                    except Exception as e:
+                    except Exception as e:  # noqa: BLE001
                         log.warning("Could not load link %s: %s", data.get("link_id"), e)
                         return None
 

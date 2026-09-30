@@ -205,7 +205,7 @@ class GNS3UpdateNodeNameTool(BaseTool):
                         results.append(error_info)
                         logger.error("Failed to update node name for %s", node_id)
 
-                except Exception as e:
+                except Exception as e:  # noqa: BLE001
                     error_info = {
                         "node_id": node_data.get("node_id"),
                         "new_name": node_data.get("new_name"),
@@ -239,7 +239,7 @@ class GNS3UpdateNodeNameTool(BaseTool):
         except json.JSONDecodeError as e:
             logger.error("Invalid JSON input: %s", e)
             return {"error": f"Invalid JSON input: {e}"}
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error("Failed to update node names: %s", e)
             return {"error": f"Failed to update node names: {e!s}"}
 

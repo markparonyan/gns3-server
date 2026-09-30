@@ -125,7 +125,7 @@ class VPCSTelnet(BaseConnection):
             initial_data = self.read_channel()
             if initial_data:
                 return_msg += initial_data
-        except Exception:
+        except Exception:  # noqa: BLE001
             # Ignore errors during initial read
             pass
 
@@ -142,7 +142,7 @@ class VPCSTelnet(BaseConnection):
                 if new_output:
                     return_msg += new_output
 
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 logger.debug("Error during VPCS connection initialization: %s", e)
 
         # Step 3: Wait for VPCS prompt pattern
@@ -155,7 +155,7 @@ class VPCSTelnet(BaseConnection):
                 logger.info("VPCS prompt detected")
                 return return_msg
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.debug("Error waiting for VPCS prompt: %s", e)
 
         # Step 4: Return what we have (connection might still work)
@@ -228,7 +228,7 @@ class VPCSTelnet(BaseConnection):
         try:
             output = self.read_until_pattern(pattern=expect_string, read_timeout=10)
             logger.debug("VPCS: read_until_pattern returned %d chars", len(output))
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             # If pattern not found, try to read whatever is available
             logger.debug("VPCS: Pattern not found, reading available output: %s", e)
             output = self.read_channel()

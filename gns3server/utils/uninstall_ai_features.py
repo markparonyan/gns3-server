@@ -77,7 +77,7 @@ def uninstall(packages, yes=False):
                 print(f"  Removed: {package}")
             else:
                 print(f"  Failed to remove {package} (may not be installed)")
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             print(f"  Error removing {package}: {e}")
 
     print("\nAI Features dependencies have been uninstalled.")

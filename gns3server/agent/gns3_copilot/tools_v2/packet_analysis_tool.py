@@ -147,7 +147,7 @@ class PacketAnalysisTool(BaseTool):
                 tshark.stdout.close()
             stdout, _ = grep.communicate(timeout=30)
             tshark.wait(timeout=5)
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             return json.dumps({"error": f"tshark query failed: {e}"})
 
         results = []
@@ -206,7 +206,7 @@ class PacketAnalysisTool(BaseTool):
                     fields.add(parts[2])
             _tshark_valid_fields = fields
             logger.debug(f"Loaded {len(fields)} valid tshark field names")
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.warning(f"Could not load tshark field names: {e}")
             _tshark_valid_fields = set()
 
@@ -333,7 +333,7 @@ class PacketAnalysisTool(BaseTool):
                 try:
                     os.remove(temp_file)
                     logger.debug(f"Temporary file removed: {temp_file}")
-                except Exception as e:
+                except Exception as e:  # noqa: BLE001
                     logger.warning(f"Failed to remove temp file: {e}")
 
     def _download_capture(self, project_id: str, link_id: str) -> str | None:
@@ -412,7 +412,7 @@ class PacketAnalysisTool(BaseTool):
             url = f"{local_compute.protocol}://{local_compute.host}:{local_compute.port}"
             logger.debug(f"Detected GNS3 URL from Controller: {url}")
             return url
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.debug(f"Cannot get URL from Controller: {e}")
 
         try:
@@ -422,7 +422,7 @@ class PacketAnalysisTool(BaseTool):
             url = f"{server_config.protocol.value}://{server_config.host}:{server_config.port}"
             logger.debug(f"Detected GNS3 URL from Config: {url}")
             return url
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.debug(f"Cannot get URL from Config: {e}")
 
         # Fallback default

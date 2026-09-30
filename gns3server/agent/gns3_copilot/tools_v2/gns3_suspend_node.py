@@ -207,7 +207,7 @@ class GNS3SuspendNodeTool(BaseTool):
         except json.JSONDecodeError as e:
             logger.error("Invalid JSON input: %s", e)
             return {"error": f"Invalid JSON input: {e}"}
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error("Failed to suspend nodes: %s", e)
             return {"error": f"Failed to suspend nodes: {e!s}"}
 

@@ -131,7 +131,7 @@ def is_encrypted(value: str) -> bool:
         decoded = base64.urlsafe_b64decode(value)
         # Fernet tokens have a specific format (minimum 32 bytes)
         return len(decoded) >= 32
-    except Exception:
+    except Exception:  # noqa: BLE001
         return False
 
 

@@ -102,6 +102,6 @@ class GNS3WaitTool(BaseTool):
         except json.JSONDecodeError as e:
             logger.error("Invalid JSON input: %s", e)
             return {"error": f"Invalid JSON input: {e}"}
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error("Wait tool failed: %s", e)
             return {"error": f"Wait tool failed: {e!s}"}

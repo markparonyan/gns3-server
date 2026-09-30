@@ -141,7 +141,7 @@ class GNS3ProjectInfoTool(BaseTool):
 
             return result
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error("Error retrieving GNS3 project info: %s", str(e))
             return {"error": f"Failed to retrieve project info: {e!s}"}
 

@@ -83,7 +83,7 @@ async def collect_webwireshark_stats(projects: list) -> dict:
 
                 stats["containers"].append(container_info)
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         logger.warning(f"Could not retrieve Web Wireshark statistics: {e}")
 
     finally:
@@ -116,7 +116,7 @@ async def _get_container_resource_stats(container_id: str) -> dict | None:
                 return {"memory": parts[0], "cpu": parts[1], "pids": int(parts[2])}
     except subprocess.TimeoutExpired:
         logger.debug(f"Docker stats timeout for container {container_id[:12]}")
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         logger.debug(f"Failed to get stats for container {container_id[:12]}: {e}")
 
     return None

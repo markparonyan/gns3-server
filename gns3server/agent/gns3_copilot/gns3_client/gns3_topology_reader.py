@@ -143,7 +143,7 @@ class GNS3TopologyTool(BaseTool):
 
             return topology
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error("Error retrieving GNS3 topology: %s", str(e))
             return {"error": f"Failed to retrieve topology: {e!s}"}
 

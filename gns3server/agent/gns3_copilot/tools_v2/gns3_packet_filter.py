@@ -237,7 +237,7 @@ class GNS3PacketFilterTool(BaseTool):
         except json.JSONDecodeError as e:
             logger.error("Invalid JSON input: %s", e)
             return {"error": f"Invalid JSON input: {e}"}
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error("Failed to process packet filter request: %s", e)
             return {"error": f"Failed to process packet filter request: {e!s}"}
 
@@ -255,7 +255,7 @@ class GNS3PacketFilterTool(BaseTool):
                 "count": len(filters),
                 "status": "success",
             }
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error("Failed to get available filters: %s", e)
             return {
                 "action": "get_available",
@@ -316,7 +316,7 @@ class GNS3PacketFilterTool(BaseTool):
             logger.warning("tshark not found, skipping BPF syntax validation. Install tshark to enable BPF validation.")
             return {"valid": True, "error": None}
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error("Unexpected error during BPF validation: %s", e)
             return {"valid": False, "error": f"BPF validation error: {e!s}"}
 
@@ -379,7 +379,7 @@ class GNS3PacketFilterTool(BaseTool):
                 "status": "success",
                 "message": "Filters applied successfully",
             }
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error("Failed to set filters: %s", e)
             return {
                 "action": "set",
@@ -402,7 +402,7 @@ class GNS3PacketFilterTool(BaseTool):
                 "filters": link.get("filters"),
                 "status": "success",
             }
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error("Failed to get filters: %s", e)
             return {
                 "action": "get",
@@ -444,7 +444,7 @@ class GNS3PacketFilterTool(BaseTool):
                 "status": "success",
                 "message": "Filters cleared successfully",
             }
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error("Failed to clear filters: %s", e)
             return {
                 "action": "clear",

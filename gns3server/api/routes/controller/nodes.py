@@ -264,7 +264,7 @@ async def get_node(node: Node = Depends(dep_node)) -> schemas.Node:
         try:
             response = await node.get()
             await node.parse_node_response(response.json)
-        except Exception:
+        except Exception:  # noqa: BLE001
             # If compute is unreachable, still return cached data
             log.warning(f"Could not refresh node {node.id} from compute, returning cached data")
     return node.asdict()

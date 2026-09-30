@@ -269,7 +269,7 @@ def _batch_lifecycle(project_id, node_ids, action, conn, action_label):
         try:
             conn.http_call("post", f"{conn.base_url}/projects/{project_id}/nodes/{nid}/{action}")
             return {"node_id": nid, "status": "success", "message": f"Node {nid} {action_label}"}
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             return {"node_id": nid, "status": "error", "error": str(e)}
 
     with ThreadPoolExecutor(max_workers=min(len(node_ids), BATCH_MAX_WORKERS)) as pool:
@@ -365,7 +365,7 @@ def create_node_handler(params: dict[str, Any], gns3_ctx: dict[str, Any]) -> dic
                     body["name"] = node_name
                 resp = conn.http_call("post", url, json_data=body).json()
                 return {"template_id": tid, "status": "success", "node": _filter_node_response(resp, fields)}
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 return {"template_id": tid, "status": "error", "error": str(e)}
 
         if any(not node.get("name") for node in nodes):
@@ -413,7 +413,7 @@ def delete_node_handler(params: dict[str, Any], gns3_ctx: dict[str, Any]) -> dic
             try:
                 conn.http_call("delete", f"{conn.base_url}/projects/{project_id}/nodes/{nid}")
                 return {"node_id": nid, "status": "success", "message": f"Node {nid} deleted"}
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 return {"node_id": nid, "status": "error", "error": str(e)}
 
         with ThreadPoolExecutor(max_workers=min(len(node_ids), BATCH_MAX_WORKERS)) as pool:
@@ -735,7 +735,7 @@ def create_link_handler(params: dict[str, Any], gns3_ctx: dict[str, Any]) -> dic
                 url = f"{conn.base_url}/projects/{project_id}/links"
                 resp = conn.http_call("post", url, json_data=body).json()
                 return {"status": "success", "link": _filter_link_response(resp, fields)}
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 return {"status": "error", "error": str(e)}
 
         with ThreadPoolExecutor(max_workers=min(len(links), BATCH_MAX_WORKERS)) as pool:
@@ -774,7 +774,7 @@ def delete_link_handler(params: dict[str, Any], gns3_ctx: dict[str, Any]) -> dic
             try:
                 conn.http_call("delete", f"{conn.base_url}/projects/{project_id}/links/{lid}")
                 return {"link_id": lid, "status": "success", "message": f"Link {lid} deleted"}
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 return {"link_id": lid, "status": "error", "error": str(e)}
 
         with ThreadPoolExecutor(max_workers=min(len(link_ids), BATCH_MAX_WORKERS)) as pool:
@@ -822,7 +822,7 @@ def reset_link_handler(params: dict[str, Any], gns3_ctx: dict[str, Any]) -> dict
                 url = f"{conn.base_url}/projects/{project_id}/links/{lid}/reset"
                 r = conn.http_call("post", url).json()
                 return {"link_id": lid, "status": "reset", "link": r}
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 return {"link_id": lid, "status": "error", "error": str(e)}
 
         with ThreadPoolExecutor(max_workers=min(len(link_ids), BATCH_MAX_WORKERS)) as pool:
@@ -845,7 +845,7 @@ def _batch_capture(project_id, link_ids, action, data_builder, conn):
             kwargs = data_builder(lid) if data_builder else {}
             conn.http_call("post", url, **kwargs)
             return {"link_id": lid, "status": "success"}
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             return {"link_id": lid, "status": "error", "error": str(e)}
 
     with ThreadPoolExecutor(max_workers=min(len(link_ids), BATCH_MAX_WORKERS)) as pool:

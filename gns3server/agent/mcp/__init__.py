@@ -250,7 +250,7 @@ async def _resolve_token(token: str) -> str | None:
             _jwt_username_var.set(token_data.username)
             _jwt_token_version_var.set(token_data.token_version)
             return token
-        except Exception:
+        except Exception:  # noqa: BLE001
             pass
 
     # Try API key — format: gns3_<api_key_id>_<random_secret> → O(1) lookup
@@ -277,7 +277,7 @@ async def _resolve_token(token: str) -> str | None:
                                         user.username, token_version=user.token_version
                                     )
                                     return fresh_token
-            except Exception:
+            except Exception:  # noqa: BLE001
                 pass
 
     return None

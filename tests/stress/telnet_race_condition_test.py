@@ -42,7 +42,7 @@ class TelnetClient:
             self.connected = True
             log.debug(f"Client {self.client_id}: Connected successfully")
             return True
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             log.warning(f"Client {self.client_id}: Connection failed: {e}")
             return False
 
@@ -56,7 +56,7 @@ class TelnetClient:
             await asyncio.wait_for(self.writer.drain(), timeout=2.0)
             log.debug(f"Client {self.client_id}: Sent command: {command.strip()}")
             return True
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             log.warning(f"Client {self.client_id}: Send failed: {e}")
             return False
 
@@ -73,7 +73,7 @@ class TelnetClient:
                 return response
         except asyncio.TimeoutError:
             log.debug(f"Client {self.client_id}: No response (timeout)")
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             log.debug(f"Client {self.client_id}: Receive error: {e}")
         return None
 
@@ -99,7 +99,7 @@ class TelnetClient:
                 self.writer.close()
                 await asyncio.wait_for(self.writer.wait_closed(), timeout=1.0)
                 log.debug(f"Client {self.client_id}: Gracefully disconnected")
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             log.debug(f"Client {self.client_id}: Disconnect error: {e}")
         finally:
             self.connected = False

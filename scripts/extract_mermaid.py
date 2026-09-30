@@ -134,7 +134,7 @@ def convert_mermaid_to_svg(
             file=sys.stderr,
         )
         return False
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"  ERROR: {e}", file=sys.stderr)
         return False
     finally:
@@ -307,7 +307,7 @@ def main():
                 version = result.stdout.strip() if result.returncode == 0 else "?"
                 print(f"  Chrome: {version}")
                 print(f"    Path: {chrome}")
-            except Exception:
+            except Exception:  # noqa: BLE001
                 print(f"  Chrome: {chrome}")
         else:
             print("  Chrome: NOT FOUND")
@@ -324,7 +324,7 @@ def main():
             else:
                 print("  mermaid-cli: download failed")
                 ok = False
-        except Exception:
+        except Exception:  # noqa: BLE001
             print("  mermaid-cli: FAILED")
             ok = False
 

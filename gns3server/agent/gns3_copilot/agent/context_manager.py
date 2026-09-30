@@ -155,7 +155,7 @@ def estimate_tool_tokens(tools: list[Any]) -> int:
                     # Fallback to Pydantic v1 method (schema)
                     try:
                         tool_schema["function"]["parameters"] = tool.args_schema.schema()
-                    except Exception:
+                    except Exception:  # noqa: BLE001
                         # Both methods failed, use empty schema
                         tool_name = getattr(tool, "name", "unknown")
                         logger.debug(
@@ -163,7 +163,7 @@ def estimate_tool_tokens(tools: list[Any]) -> int:
                             tool_name,
                         )
                         tool_schema["function"]["parameters"] = {}
-                except Exception as e:
+                except Exception as e:  # noqa: BLE001
                     # model_json_schema() raised an exception
                     tool_name = getattr(tool, "name", "unknown")
                     logger.debug(
@@ -173,7 +173,7 @@ def estimate_tool_tokens(tools: list[Any]) -> int:
                     )
                     try:
                         tool_schema["function"]["parameters"] = tool.args_schema.schema()
-                    except Exception:
+                    except Exception:  # noqa: BLE001
                         tool_schema["function"]["parameters"] = {}
 
             # Serialize to JSON and count tokens
@@ -181,7 +181,7 @@ def estimate_tool_tokens(tools: list[Any]) -> int:
             tokens = count_tokens(schema_str)
             total_tokens += tokens
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             tool_name = getattr(tool, "name", "unknown")
             logger.debug(
                 "Failed to estimate tokens for tool %s: %s",
@@ -359,7 +359,7 @@ def create_pre_model_hook(
                     tool_tokens,
                     len(tools),
                 )
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 logger.warning("Failed to estimate tool tokens: %s", e)
 
         # Step 2: Inject topology into system prompt
@@ -465,7 +465,7 @@ def create_pre_model_hook(
 
             return {"messages": trimmed}
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error("Failed to trim messages: %s", e)
             logger.warning("Returning original messages due to trimming error")
             return {"messages": messages_with_system}
@@ -499,7 +499,7 @@ def _inject_topology_into_system(
     if get_topology_func:
         try:
             topology_data = get_topology_func(state)
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.warning("Failed to get topology: %s", e)
 
     if topology_data:

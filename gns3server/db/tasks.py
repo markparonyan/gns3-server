@@ -270,7 +270,7 @@ async def get_user_llm_config_full(user_id: str, app: FastAPI) -> dict | None:
                     if is_encrypted(config_data["api_key"]):
                         config_data["api_key"] = decrypt(config_data["api_key"])
                         log.debug(f"Successfully decrypted API key for user {user_id}")
-                except Exception as e:
+                except Exception as e:  # noqa: BLE001
                     log.error(f"Failed to decrypt API key: {e}")
                     config_data["api_key"] = None
 

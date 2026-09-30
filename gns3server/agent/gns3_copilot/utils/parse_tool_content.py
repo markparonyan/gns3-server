@@ -260,7 +260,7 @@ def format_tool_response(content: str | dict | list | int | float | bool | None,
             result = json.dumps({"raw": str(content)}, ensure_ascii=False, indent=indent)
             logger.info("format_tool_response returning fallback: %s", result)
             return result
-        except Exception:
+        except Exception:  # noqa: BLE001
             # Last resort: return a simple error message
             result = json.dumps(
                 {"error": "Unable to format response"},
@@ -269,7 +269,7 @@ def format_tool_response(content: str | dict | list | int | float | bool | None,
             )
             logger.info("format_tool_response returning error: %s", result)
             return result
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         logger.error("Error formatting tool response: %s", e)
         result = json.dumps({"error": str(e)}, ensure_ascii=False, indent=indent)
         logger.info("format_tool_response returning error: %s", result)
@@ -516,7 +516,7 @@ def _test_parse_tool_content() -> None:
         try:
             json.loads(result)
             valid = "✓"
-        except Exception:
+        except Exception:  # noqa: BLE001
             valid = "✗"
         print(f"Format Test {i + 1}: {valid} Input: {input_data!r} -> {result}")
 

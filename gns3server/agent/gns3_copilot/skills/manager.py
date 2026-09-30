@@ -118,13 +118,13 @@ class SkillsManager:
             # Repo exists, open it
             try:
                 self._repo = git.Repo(self.local_path)
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 logger.error(f"Failed to open existing repository: {e}")
                 return False
 
             self._update_if_needed()
             return True
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error(f"Failed to initialize skills repository: {e}")
             return False
 
@@ -153,7 +153,7 @@ class SkillsManager:
         try:
             origin = self._repo.remotes.origin
             origin.fetch(env=_GIT_TIMEOUT_ENV)
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.warning(f"Failed to fetch remote: {e}. Using local files.")
             return
 
@@ -166,7 +166,7 @@ class SkillsManager:
                 logger.info(f"Updated to commit {self.get_current_version()}")
             else:
                 logger.info("Skills repository is up to date")
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.warning(f"Failed to pull updates: {e}. Using local files.")
 
     def _clone(self) -> bool:
@@ -248,7 +248,7 @@ class SkillsManager:
                 f"Loaded {len(new_injection_skills)} injection skills, {len(new_device_skills)} device skills, and {len(new_feature_skills)} feature skills"
             )
             return True
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error(f"Failed to reload skills: {e}")
             return False
 
@@ -276,7 +276,7 @@ class SkillsManager:
 
             logger.info(f"Successfully reloaded {len(new_protocols)} packet analysis protocols")
             return True
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error(f"Failed to reload packet analysis protocols: {e}")
             return False
 
@@ -310,7 +310,7 @@ class SkillsManager:
             self._prompt_count = loaded_count
             logger.info(f"Loaded {loaded_count} prompts")
             return True
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error(f"Failed to reload prompts: {e}")
             return False
 
@@ -326,7 +326,7 @@ class SkillsManager:
         """
         try:
             return self.loader.load_prompt(prompt_name)
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error(f"Failed to load prompt '{prompt_name}': {e}")
             return ""
 
@@ -339,7 +339,7 @@ class SkillsManager:
         """
         try:
             return self.loader.load_forbidden_commands()
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error(f"Failed to load forbidden commands: {e}")
             return []
 
@@ -353,12 +353,12 @@ class SkillsManager:
         if not GIT_AVAILABLE or self._repo is None:
             try:
                 self._repo = git.Repo(self.local_path)
-            except Exception:
+            except Exception:  # noqa: BLE001
                 return ""
 
         try:
             return self._repo.head.commit.hexsha
-        except Exception:
+        except Exception:  # noqa: BLE001
             return ""
 
     def get_skill_count(self) -> int:
@@ -372,7 +372,7 @@ class SkillsManager:
             from .registry import INJECTION_SKILLS_REGISTRY
 
             return len(INJECTION_SKILLS_REGISTRY)
-        except Exception:
+        except Exception:  # noqa: BLE001
             return 0
 
     def get_prompt_count(self) -> int:
@@ -457,6 +457,6 @@ class SkillsManager:
                     }
                 )
             return commits
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error(f"Failed to get commit history: {e}")
             return []

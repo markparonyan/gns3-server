@@ -167,7 +167,7 @@ async def stream_chat(
                     # Validate and serialize chunk
                     validated = schemas.ChatResponse(**chunk)
                     yield f"data: {json.dumps(validated.model_dump(exclude_none=True), ensure_ascii=False)}\n\n"
-                except Exception as e:
+                except Exception as e:  # noqa: BLE001
                     log.warning("Error serializing chunk: %s", e)
                     # Skip invalid chunks but continue streaming
                     continue
@@ -537,7 +537,7 @@ async def inject_issue(
                     # Validate and serialize chunk
                     validated = schemas.ChatResponse(**chunk)
                     yield f"data: {json.dumps(validated.model_dump(exclude_none=True), ensure_ascii=False)}\n\n"
-                except Exception as e:
+                except Exception as e:  # noqa: BLE001
                     log.warning("Error serializing chunk: %s", e)
                     # Skip invalid chunks but continue streaming
                     continue

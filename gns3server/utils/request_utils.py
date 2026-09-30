@@ -60,7 +60,7 @@ def extract_client_info(scope: dict[str, Any], auth_service_instance: Any | None
             # Validate and extract username
             if token:
                 username = auth_service_instance.get_username_from_token(token)
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             log.debug(f"Failed to extract username from token: {e}")
             username = None
 

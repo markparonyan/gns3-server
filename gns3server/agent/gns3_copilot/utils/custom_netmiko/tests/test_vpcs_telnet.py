@@ -230,7 +230,7 @@ class TestVPCSTelnetSendCommand(unittest.TestCase):
         # check the write call)
         try:
             instance.send_command(command_string)
-        except Exception:
+        except Exception:  # noqa: BLE001
             pass
 
         # Verify write was called with correct bytes

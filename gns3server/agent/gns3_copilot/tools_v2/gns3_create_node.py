@@ -242,7 +242,7 @@ class GNS3CreateNodeTool(BaseTool):
 
                     results.append(node_info)
 
-                except Exception as e:
+                except Exception as e:  # noqa: BLE001
                     error_info = {
                         "error": f"Node {i + 1} creation failed: {e!s}",
                         "status": "failed",
@@ -278,7 +278,7 @@ class GNS3CreateNodeTool(BaseTool):
         except json.JSONDecodeError as e:
             logger.error("Invalid JSON input: %s", e)
             return {"error": f"Invalid JSON input: {e}"}
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error("Failed to process node creation request: %s", e)
             return {"error": f"Failed to process node creation request: {e!s}"}
 

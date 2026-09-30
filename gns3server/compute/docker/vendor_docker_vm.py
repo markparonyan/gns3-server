@@ -508,7 +508,7 @@ class VendorDockerVM(DockerVM):
         if self._console_exec_writer:
             try:
                 self._console_exec_writer.close()
-            except Exception:
+            except Exception:  # noqa: BLE001
                 pass
             self._console_exec_writer = None
 
@@ -840,7 +840,7 @@ class _LazyExecTelnetServer(AsyncioTelnetServer):
                         await self._resize_exec(*self._client_size)
                     else:
                         await self._resize_exec(511, 10000)
-                except Exception:
+                except Exception:  # noqa: BLE001
                     pass
             else:
                 log.info(f"{self._log_name}: client connected, reusing live exec")
@@ -849,6 +849,6 @@ class _LazyExecTelnetServer(AsyncioTelnetServer):
             try:
                 self._writer.write(b"\x0c")  # Ctrl-L -> TUI redraws
                 await self._writer.drain()
-            except Exception as exc:
+            except Exception as exc:  # noqa: BLE001
                 log.warning(f"{self._log_name}: Ctrl-L write failed: {exc}")
         log.info(f"{self._log_name}: client_connected_hook done")

@@ -80,7 +80,7 @@ class WebWiresharkManager:
         except FileNotFoundError:
             logger.warning(f"Container {container_id[:12]} docker command not found")
             return False
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.warning(f"Container {container_id[:12]} health check failed: {e}")
             return False
 
@@ -120,7 +120,7 @@ class WebWiresharkManager:
                 except asyncio.TimeoutError:
                     proc.kill()
                 return (-1, "", f"timeout after {timeout}s")
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error(f"Command execution failed: {e}")
             return (-1, "", str(e))
 
@@ -152,7 +152,7 @@ class WebWiresharkManager:
             returncode, stdout, stderr = await self._exec_in_container(container_id, kill_cmd)
             logger.debug(f"Kill result: returncode={returncode}")
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error(f"Error killing processes matching '{pattern}': {e}")
 
     async def _check_residuals_exist(self, container_id: str, display: int) -> tuple[bool, bool]:
@@ -275,7 +275,7 @@ class WebWiresharkManager:
 
             return (has_process_residuals, has_socket_residuals)
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.warning(f"Error checking residuals (assuming cleanup needed): {e}")
             return (True, True)
 
@@ -379,7 +379,7 @@ class WebWiresharkManager:
             else:
                 logger.debug(f"No processes found matching patterns: {patterns}")
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.warning(f"Error using host perspective for killing (fallback to docker exec): {e}")
             # Fallback to docker exec method
             await self._kill_process_tree_batch_via_exec(container_id, patterns)
@@ -405,7 +405,7 @@ class WebWiresharkManager:
             if "Found processes:" in stdout:
                 logger.info(stdout.strip())
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error(f"Error in batch kill via docker exec: {e}")
 
     async def _cleanup_x_lock(self, container_id: str, display: int) -> None:
@@ -476,7 +476,7 @@ class WebWiresharkManager:
             url = f"{server_config.protocol.value}://{server_config.host}:{server_config.port}"
             logger.info(f"Got GNS3 URL from Config: {url}")
             return url
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.debug(f"Cannot get URL from Config: {e}")
         return None
 
@@ -498,7 +498,7 @@ class WebWiresharkManager:
                         gateway_ip = config["Gateway"]
                         logger.info(f"Got gateway IP from Docker network API: {gateway_ip}")
                         return gateway_ip
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.debug(f"Cannot get gateway from Docker network API: {e}")
 
         # Fallback: Read from /proc/net/route inside container (slower)
@@ -514,7 +514,7 @@ class WebWiresharkManager:
                     gateway_ip = socket.inet_ntoa(bytes.fromhex(gateway_hex)[::-1])
                     logger.info(f"Detected container gateway IP from route: {gateway_ip}")
                     return gateway_ip
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 logger.debug(f"Cannot get gateway from /proc/net/route: {e}")
 
         return None
@@ -541,7 +541,7 @@ class WebWiresharkManager:
                         if container_ip:
                             logger.info(f"Got container IP from Docker API: {container_ip}")
                             return container_ip
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.debug(f"Cannot get container IP from Docker API: {e}")
 
         # Fallback: Execute command inside container to get IP (slower)
@@ -556,7 +556,7 @@ class WebWiresharkManager:
                     container_ip = stdout.strip()
                     logger.info(f"Got container IP from container command: {container_ip}")
                     return container_ip
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 logger.debug(f"Cannot get container IP from container command: {e}")
 
         logger.warning(f"Failed to get container IP for {container_name}")
@@ -587,7 +587,7 @@ class WebWiresharkManager:
                     return fixed_url
                 else:
                     logger.warning(f"Cannot detect gateway IP, keeping original URL: {url}")
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.warning(f"Error fixing localhost URL: {e}")
         return url
 
@@ -664,7 +664,7 @@ class WebWiresharkManager:
                         try:
                             await self.docker.remove_container(container["Id"], force=True)
                             logger.info(f"Container {container_name} force removed")
-                        except Exception as e:
+                        except Exception as e:  # noqa: BLE001
                             logger.warning(f"Failed to remove unhealthy container: {e}")
                         container = None  # Trigger recreation
                     else:
@@ -684,7 +684,7 @@ class WebWiresharkManager:
                 logger.error(f"Container {container_name} failed to become healthy, force removing...")
                 try:
                     await self.docker.remove_container(container["Id"], force=True)
-                except Exception:
+                except Exception:  # noqa: BLE001
                     pass
                 container = None
 
@@ -927,7 +927,7 @@ class WebWiresharkManager:
 
             logger.info("Web Wireshark session stopped successfully")
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error(f"Error stopping session: {e}")
 
     async def restart_wireshark_session(
@@ -995,7 +995,7 @@ class WebWiresharkManager:
 
             logger.info(f"All Web Wireshark sessions stopped for project {project_id}")
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             # Don't fail if container is already stopped or doesn't exist
             logger.warning(f"Error stopping all sessions: {e}")
 
@@ -1021,7 +1021,7 @@ class WebWiresharkManager:
             await self.docker.stop_container(container["Id"])
             logger.info(f"Container {container_name} stopped")
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error(f"Error stopping container: {e}")
 
     async def delete_container(self, project_id: str):
@@ -1047,5 +1047,5 @@ class WebWiresharkManager:
             await self.docker.remove_container(container["Id"], force=True)
             logger.info(f"Container {container_name} deleted")
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error(f"Error deleting container: {e}")

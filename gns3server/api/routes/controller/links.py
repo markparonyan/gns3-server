@@ -397,7 +397,7 @@ async def web_wireshark_websocket(
         finally:
             await manager.close()
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         log.error(f"Error in WebSocket proxy for link {link_id}: {e}")
         try:
             await websocket.close(code=status.WS_1011_INTERNAL_ERROR, reason=str(e))

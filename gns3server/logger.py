@@ -83,7 +83,7 @@ class ColouredStreamHandler(logging.StreamHandler):
         # On OSX when frozen flush raise a BrokenPipeError
         except BrokenPipeError:
             pass
-        except Exception:
+        except Exception:  # noqa: BLE001
             self.handleError(record)
 
 
@@ -99,7 +99,7 @@ class WinStreamHandler(logging.StreamHandler):
             stream.write(msg.encode(stream.encoding, errors="replace").decode(stream.encoding))
             stream.write(self.terminator)
             self.flush()
-        except Exception:
+        except Exception:  # noqa: BLE001
             self.handleError(record)
 
 

@@ -166,7 +166,7 @@ class GNS3TemplateTool(BaseTool):
             logger.debug("Result: %s", json.dumps(result, indent=2, ensure_ascii=False))
             return result
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error("Failed to connect to GNS3 server or retrieve templates: %s", e)
             return {"error": f"Failed to retrieve templates: {e!s}"}
 

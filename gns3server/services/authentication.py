@@ -42,7 +42,7 @@ def _extract_alg(token: str) -> str:
         header_segment = token.split(".", 1)[0]
         header = json.loads(base64.urlsafe_b64decode(header_segment + "=" * (-len(header_segment) % 4)))
         return str(header.get("alg", "<missing>"))
-    except Exception:
+    except Exception:  # noqa: BLE001
         return "<undecodable>"
 
 

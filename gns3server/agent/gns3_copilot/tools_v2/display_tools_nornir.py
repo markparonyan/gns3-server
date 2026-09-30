@@ -89,7 +89,7 @@ try:
     # Update platform strings used in error messages
     sd.platforms_str = "\n" + "\n".join(sd.platforms_base)
     sd.telnet_platforms_str = "\n" + "\n".join(sd.telnet_platforms)
-except Exception:
+except Exception:  # noqa: BLE001
     # Fail silently - the import-time registration should have worked
     pass
 
@@ -247,7 +247,7 @@ class ExecuteMultipleDeviceCommands(BaseTool):
                 blocked_commands_map,
             )
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             # Overall execution failed
             logger.error("Error executing display on all devices: %s", e)
             return [{"status": "failed", "error": f"Execution error: {e!s}"}]
@@ -289,7 +289,7 @@ class ExecuteMultipleDeviceCommands(BaseTool):
                 failed=True,
             )
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             # Handle Cisco IOSv L2 where '#' prompt char may be delayed,
             # causing Netmiko failures. Implements retry logic.
             if "netmiko_multiline (failed)" in str(e):

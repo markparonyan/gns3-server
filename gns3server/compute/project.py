@@ -499,7 +499,7 @@ class Project:
                         continue
                     try:
                         file_type = await wait_run_in_executor(lambda e=entry: magic.from_file(e.path, mime=False))
-                    except Exception as e:
+                    except Exception as e:  # noqa: BLE001
                         log.warning(f"Error getting file type for '{rel_path}': {e}")
                         file_type = ""
                     try:
@@ -559,7 +559,7 @@ class Project:
                     stat_info = await wait_run_in_executor(os.stat, file_path)
                     try:
                         file_type = await wait_run_in_executor(lambda fp=file_path: magic.from_file(fp, mime=False))
-                    except Exception as e:
+                    except Exception as e:  # noqa: BLE001
                         log.warning(f"Error getting file type for '{rel_path}': {e}")
                         file_type = ""
                     try:

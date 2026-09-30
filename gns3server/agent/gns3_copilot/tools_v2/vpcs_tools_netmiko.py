@@ -79,7 +79,7 @@ try:
     # Update platform strings used in error messages
     sd.platforms_str = "\n" + "\n".join(sd.platforms_base)
     sd.telnet_platforms_str = "\n" + "\n".join(sd.telnet_platforms)
-except Exception:
+except Exception:  # noqa: BLE001
     # Fail silently - the import-time registration should have worked
     pass
 
@@ -221,7 +221,7 @@ class VPCSCommands(BaseTool):
                 task_result,
             )
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             # Overall execution failed
             logger.error("Error executing commands on all VPCS devices: %s", e)
             return [{"status": "failed", "error": f"Execution error: {e!s}"}]
@@ -263,7 +263,7 @@ class VPCSCommands(BaseTool):
                 failed=True,
             )
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             # Retry once for transient failures
             logger.warning(
                 "First attempt failed for VPCS device %s, retrying: %s",
@@ -277,7 +277,7 @@ class VPCSCommands(BaseTool):
                     read_timeout=30,
                 )
                 return Result(host=task.host, result=_result.result)
-            except Exception as retry_e:
+            except Exception as retry_e:  # noqa: BLE001
                 logger.error(
                     "VPCS command failed for device %s: %s (Exception: %s)",
                     device_name,

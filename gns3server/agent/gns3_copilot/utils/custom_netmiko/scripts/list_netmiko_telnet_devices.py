@@ -40,7 +40,7 @@ def get_netmiko_version() -> str:
         import netmiko
 
         return netmiko.__version__
-    except Exception:
+    except Exception:  # noqa: BLE001
         return "Unknown"
 
 
@@ -80,7 +80,7 @@ def register_custom_drivers() -> set:
     except ImportError:
         # Silently skip if custom drivers are not available
         pass
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         # Log but don't fail
         print(f"Warning: Failed to register Huawei CE driver: {e}", file=sys.stderr)
 
@@ -98,7 +98,7 @@ def register_custom_drivers() -> set:
     except ImportError:
         # Silently skip if custom drivers are not available
         pass
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         # Log but don't fail
         print(f"Warning: Failed to register Ruijie driver: {e}", file=sys.stderr)
 

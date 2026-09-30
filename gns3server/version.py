@@ -33,5 +33,5 @@ if "dev" in __version__:
         if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".git")):
             r = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"]).decode().strip("\n")
             __version__ += "+" + r
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(e)

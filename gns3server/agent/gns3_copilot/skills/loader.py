@@ -89,7 +89,7 @@ class SkillsLoader:
                 skill_key = f"injection_{yaml_file.stem}"
                 skills[skill_key] = skill_data
                 logger.debug(f"Loaded injection skill: {skill_key} from {yaml_file}")
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 logger.error(f"Failed to load skill from {yaml_file}: {e}")
 
         logger.debug(f"Loaded {len(skills)} injection skills from {injection_dir}")
@@ -145,7 +145,7 @@ class SkillsLoader:
                 logger.warning(f"No device_type in {yaml_file}, using filename '{skill_key}' as key")
             skills[skill_key] = skill_data
             logger.debug(f"Loaded device skill: {skill_key} from {yaml_file}")
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error(f"Failed to load skill from {yaml_file}: {e}")
 
     def _load_split_device_skill(self, skills: dict[str, dict[str, Any]], device_path: Path) -> None:
@@ -162,7 +162,7 @@ class SkillsLoader:
 
         try:
             base_data = self._load_yaml(base_file)
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error(f"Failed to load skill from {base_file}: {e}")
             return
         if not base_data:
@@ -210,7 +210,7 @@ class SkillsLoader:
 
                 topics[topic_key] = topic_data
                 logger.debug(f"Loaded device topic: {skill_key}/{topic_key} from {yaml_file}")
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 logger.error(f"Failed to load topic from {yaml_file}: {e}")
 
         if topics:
@@ -253,7 +253,7 @@ class SkillsLoader:
                     logger.warning(f"No device_type in {yaml_file}, using filename '{skill_key}' as key")
                 skills[skill_key] = skill_data
                 logger.debug(f"Loaded feature skill: {skill_key} from {yaml_file}")
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 logger.error(f"Failed to load feature skill from {yaml_file}: {e}")
 
         logger.debug(f"Loaded {len(skills)} feature skills from feature directory")
@@ -281,7 +281,7 @@ class SkillsLoader:
                 content = f.read()
             logger.debug(f"Loaded prompt: {prompt_name} from {prompt_file}")
             return content
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error(f"Failed to load prompt from {prompt_file}: {e}")
             return ""
 
@@ -309,7 +309,7 @@ class SkillsLoader:
                     commands.append(line.lower())
             logger.debug(f"Loaded {len(commands)} forbidden commands from {config_file}")
             return commands
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error(f"Failed to load forbidden commands from {config_file}: {e}")
             return []
 
@@ -347,7 +347,7 @@ class SkillsLoader:
 
                 protocols[protocol_key] = protocol_data
                 logger.debug(f"Loaded packet analysis protocol: {protocol_key} from {yaml_file}")
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 logger.error(f"Failed to load protocol from {yaml_file}: {e}")
 
         logger.debug(f"Loaded {len(protocols)} packet analysis protocols from {packet_analysis_dir}")

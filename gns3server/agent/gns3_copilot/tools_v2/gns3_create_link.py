@@ -237,7 +237,7 @@ class GNS3LinkTool(BaseTool):
                     }
                     created_links.append(link_info)
 
-                except Exception as e:
+                except Exception as e:  # noqa: BLE001
                     error_msg = f"Failed to create link {i}: {e!s}"
                     logger.error(error_msg)
                     created_links.append({"error": error_msg})
@@ -255,7 +255,7 @@ class GNS3LinkTool(BaseTool):
         except json.JSONDecodeError as e:
             logger.error("Invalid JSON input: %s", e)
             return [{"error": f"Invalid JSON input: {e}"}]
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error("Failed to process link creation: %s", e)
             return [{"error": f"Failed to process link creation: {e!s}"}]
 

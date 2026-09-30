@@ -487,7 +487,7 @@ def run_around_tests(monkeypatch, config, port_manager):
     # A helper should not raise Exception
     try:
         shutil.rmtree(tmppath)
-    except BaseException:
+    except BaseException:  # noqa: BLE001
         pass
 
 

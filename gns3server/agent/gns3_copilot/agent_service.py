@@ -127,7 +127,7 @@ class AgentService:
                 try:
                     await self._checkpointer_conn.close()
                     log.debug("Closed previous checkpointer connection")
-                except Exception as e:
+                except Exception as e:  # noqa: BLE001
                     log.warning("Error closing old checkpointer connection: %s", e)
 
             # Create new connection
@@ -691,7 +691,7 @@ class AgentService:
                         "Checkpointer connection close timeout for: %s (forcing cleanup)",
                         self.project_path,
                     )
-                except Exception as e:
+                except Exception as e:  # noqa: BLE001
                     log.warning("Error closing checkpointer connection: %s", e)
                 finally:
                     self._checkpointer_conn = None

@@ -66,7 +66,7 @@ def check_docker():
             print("Error: Docker daemon is not running", file=sys.stderr)
             print("Please start Docker and try again", file=sys.stderr)
             return False
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Error: Cannot connect to Docker: {e}", file=sys.stderr)
         return False
 
@@ -79,7 +79,7 @@ def image_exists():
     try:
         result = subprocess.run(["docker", "image", "inspect", DOCKER_IMAGE], capture_output=True, text=True)
         return result.returncode == 0
-    except Exception:
+    except Exception:  # noqa: BLE001
         return False
 
 

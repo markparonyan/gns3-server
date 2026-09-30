@@ -36,7 +36,7 @@ try:
     from importlib.metadata import version
 
     __version__ = str(version("gns3-copilot"))
-except Exception:
+except Exception:  # noqa: BLE001
     __version__ = "unknown"
 
 __author__ = "Yue Guobin (岳国宾)"

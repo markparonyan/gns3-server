@@ -310,7 +310,7 @@ def llm_call(state: dict, config: RunnableConfig | None = None):
                     project_id,
                     topology.get("error", "Unknown error") if topology else "No result",
                 )
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.warning(
                 "Error retrieving topology for project_id %s: %s",
                 project_id,
@@ -377,7 +377,7 @@ def llm_call(state: dict, config: RunnableConfig | None = None):
         # fallback
         try:
             response.metadata = {"created_at": datetime.utcnow().isoformat()}
-        except Exception:
+        except Exception:  # noqa: BLE001
             logger.warning("Could not add metadata to AI response")
 
     logger.info(
@@ -459,7 +459,7 @@ def generate_title(state: MessagesState, config: RunnableConfig | None = None) -
             logger.debug("Generated new title: %s", new_title)
             return {"conversation_title": new_title, "session_id": state.get("session_id")}
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error(f"Title generation failed: {e}, using fallback")
 
             # Improved fallback: Use user's first message content

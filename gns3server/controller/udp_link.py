@@ -577,7 +577,7 @@ class UDPLink(Link):
                         f"/adapters/{side['adapter_number']}/ports/{side['port_number']}/markers/{name}",
                         params={"link_id": self._id},
                     )
-                except Exception:
+                except Exception:  # noqa: BLE001
                     pass  # best-effort: old compute without the route leaves the file
         self._project.emit_notification("link.updated", self.asdict())
         if dump:
@@ -676,7 +676,7 @@ class UDPLink(Link):
                         )
                     elif enabled is not None:
                         await side["node"].put(f"/markers/{name}", data={"enabled": enabled})
-                except Exception:
+                except Exception:  # noqa: BLE001
                     # Old compute without the route / node down: state is already
                     # correct in _markers; the next NIO reapply converges uBridge.
                     pass

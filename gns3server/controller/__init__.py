@@ -488,7 +488,7 @@ class Controller:
                 if not os.path.exists(project.path):
                     log.info(f"Removing stale project '{project.name}' ('{project.path}' no longer exists)")
                     del self._projects[project.id]
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             log.warning(f"Projects directory rescan failed: {e}")
 
     @staticmethod

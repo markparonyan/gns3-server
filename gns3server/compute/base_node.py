@@ -758,7 +758,7 @@ class BaseNode:
                     f"Client {websocket.client.host}:{websocket.client.port} has disconnected from compute "
                     f"VNC console WebSocket while frames were being forwarded"
                 )
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 log.warning(f"Exception while forwarding VNC data to WebSocket: {e!r}")
 
         # Keep forwarding WebSocket data in both directions

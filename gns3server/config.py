@@ -381,7 +381,7 @@ class Config:
 
         try:
             init_encryption(self._settings.Server.secrets_dir)
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             log.error(f"Could not initialize encryption: {e}")
 
     def _load_secret_files(self):

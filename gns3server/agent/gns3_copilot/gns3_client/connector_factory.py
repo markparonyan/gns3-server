@@ -92,7 +92,7 @@ def _get_url_from_controller() -> str | None:
     except KeyError as e:
         logger.debug("Local compute not found in Controller: %s", str(e))
         return None
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         logger.warning("Unexpected error getting URL from Controller: %s", str(e))
         return None
 
@@ -122,7 +122,7 @@ def _get_url_from_config() -> str | None:
     except AttributeError as e:
         logger.debug("Config settings not available: %s", str(e))
         return None
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         logger.warning("Unexpected error getting URL from Config: %s", str(e))
         return None
 
@@ -354,7 +354,7 @@ def get_gns3_server_host() -> str:
         host = host_part.split(":")[0]
         logger.debug("Extracted GNS3 server host: %s from URL: %s", host, url)
         return host
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         logger.warning("Failed to extract host from URL %s: %s, using fallback", url, e)
         return DEFAULT_GNS3_URL.split("://")[1].split(":")[0]
 
@@ -440,6 +440,6 @@ def get_llm_config(user_id, jwt_token: str, app=None) -> dict | None:
         logger.warning("No app provided for get_llm_config, group config API keys may be masked")
         return None
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         logger.error("Failed to get LLM config for user %s: %s", user_id, e)
         return None

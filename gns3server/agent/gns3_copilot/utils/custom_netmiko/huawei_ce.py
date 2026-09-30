@@ -154,7 +154,7 @@ class GNS3HuaweiTelnetCE(HuaweiBase):
             initial_data = self.read_channel()
             if initial_data:
                 return_msg += initial_data
-        except Exception:
+        except Exception:  # noqa: BLE001
             # Ignore errors during initial read
             pass
 
@@ -181,7 +181,7 @@ class GNS3HuaweiTelnetCE(HuaweiBase):
                 self.remote_conn.close()
                 msg = f"Connection failed (EOF): {self.host}"
                 raise self.connection_error(msg) from None
-            except Exception:
+            except Exception:  # noqa: BLE001
                 # Continue trying on other exceptions
                 pass
 
@@ -203,7 +203,7 @@ class GNS3HuaweiTelnetCE(HuaweiBase):
         # Disable paging using Huawei-specific command
         try:
             self.disable_paging(command="screen-length 0 temporary")
-        except Exception:
+        except Exception:  # noqa: BLE001
             # If disable_paging fails, try the parent implementation
             super().disable_paging()
 
@@ -214,7 +214,7 @@ class GNS3HuaweiTelnetCE(HuaweiBase):
             else:
                 # If base_prompt is not set yet, just read to clear buffer
                 self.read_channel()
-        except Exception:
+        except Exception:  # noqa: BLE001
             pass
 
     def disable_paging(
@@ -300,7 +300,7 @@ class GNS3HuaweiTelnetCE(HuaweiBase):
                 time.sleep(0.5 * self.global_delay_factor)
                 commit_output = self.read_channel()
                 output += commit_output
-            except Exception:
+            except Exception:  # noqa: BLE001
                 # If commit fails, continue with exit
                 # (might not support commit)
                 pass

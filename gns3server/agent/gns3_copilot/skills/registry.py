@@ -235,7 +235,7 @@ def reload_injection_skills() -> dict[str, Any]:
             "skill_count": manager.get_skill_count(),
             "version": manager.get_current_version(),
         }
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         logger.error(f"Error during skills reload: {e}")
         return {
             "success": False,
@@ -273,7 +273,7 @@ def reload_prompts() -> dict[str, Any]:
             "prompt_count": manager.get_prompt_count(),
             "version": manager.get_current_version(),
         }
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         logger.error(f"Error during prompts reload: {e}")
         manager = get_skills_manager()
         return {
@@ -312,7 +312,7 @@ def reload_forbidden_commands() -> dict[str, Any]:
             "command_count": len(commands),
             "version": manager.get_current_version() if manager else "",
         }
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         logger.error(f"Error during forbidden commands reload: {e}")
         return {"success": False, "message": f"Error: {e!s}", "command_count": 0, "version": ""}
 
@@ -334,7 +334,7 @@ def get_prompt(prompt_name: str) -> str:
             prompt = manager.load_prompt(prompt_name)
             if prompt:
                 return prompt
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             logger.error(f"Error loading prompt '{prompt_name}': {e}")
 
     logger.warning(f"Prompt not found: {prompt_name}")

@@ -68,7 +68,7 @@ async def websocket_proxy(
                     await target_ws.send_bytes(data)
         except WebSocketDisconnect:
             log.info(f"Client {client_info} disconnected from WebSocket proxy")
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             log.warning(f"Error forwarding client to target: {e}")
 
     async def forward_target_to_client(target_ws):
@@ -78,7 +78,7 @@ async def websocket_proxy(
                 if msg.type == aiohttp.WSMsgType.BINARY:
                     try:
                         await client_ws.send_bytes(msg.data)
-                    except Exception as e:
+                    except Exception as e:  # noqa: BLE001
                         log.debug(f"Failed to send to client (possibly disconnected): {e}")
                         break
                 elif msg.type == aiohttp.WSMsgType.ERROR:
@@ -88,7 +88,7 @@ async def websocket_proxy(
                     log.info("Target WebSocket closed")
                     # Don't try to forward close to client if already disconnected
                     break
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             log.warning(f"Error forwarding target to client: {e}")
 
     try:
@@ -116,7 +116,7 @@ async def websocket_proxy(
 
                 try:
                     done, pending = await asyncio.wait(aws, return_when=asyncio.FIRST_COMPLETED)
-                except Exception as e:
+                except Exception as e:  # noqa: BLE001
                     log.error(f"asyncio.wait raised exception: {e}")
 
                 # Check for exceptions
@@ -131,7 +131,7 @@ async def websocket_proxy(
     except aiohttp.ClientError as e:
         log.error(f"WebSocket proxy connection error: {e}")
         await client_ws.close(code=status.WS_1011_INTERNAL_ERROR, reason=f"Proxy connection failed: {e}")
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         log.error(f"WebSocket proxy unexpected error: {e}")
         await client_ws.close(code=status.WS_1011_INTERNAL_ERROR, reason=str(e))
 
@@ -185,7 +185,7 @@ async def websocket_proxy_with_manual_accept(
                 if msg.type == aiohttp.WSMsgType.BINARY:
                     try:
                         await client_ws.send_bytes(msg.data)
-                    except Exception as e:
+                    except Exception as e:  # noqa: BLE001
                         log.debug(f"Failed to send to client (possibly disconnected): {e}")
                         break
                 elif msg.type == aiohttp.WSMsgType.ERROR:
@@ -195,7 +195,7 @@ async def websocket_proxy_with_manual_accept(
                     log.info("Target WebSocket closed")
                     break
             log.info("forward_target_to_client: iteration ended")
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             log.warning(f"Error forwarding target to client: {e}")
 
     try:
@@ -235,7 +235,7 @@ async def websocket_proxy_with_manual_accept(
                 try:
                     done, pending = await asyncio.wait(aws, return_when=asyncio.FIRST_COMPLETED)
                     log.info(f"asyncio.wait returned. done={len(done)}, pending={len(pending)}")
-                except Exception as e:
+                except Exception as e:  # noqa: BLE001
                     log.error(f"asyncio.wait raised exception: {e}")
                 log.info("After asyncio.wait check")
 
@@ -255,11 +255,11 @@ async def websocket_proxy_with_manual_accept(
         log.error(f"WebSocket proxy connection error: {e}")
         try:
             await client_ws.close(code=status.WS_1011_INTERNAL_ERROR)
-        except Exception:
+        except Exception:  # noqa: BLE001
             pass
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         log.error(f"WebSocket proxy unexpected error: {e}")
         try:
             await client_ws.close(code=status.WS_1011_INTERNAL_ERROR)
-        except Exception:
+        except Exception:  # noqa: BLE001
             pass

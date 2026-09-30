@@ -81,7 +81,7 @@ async def cleanup_test_projects(base_url, headers, prefix="perf_test_project"):
         elapsed = time.time() - cleanup_start
         print(f"  Deleted {total_deleted} projects in {elapsed:.1f}s ({total_deleted / elapsed:.0f} projects/sec)")
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Error during cleanup: {type(e).__name__}: {e}")
 
 
@@ -109,7 +109,7 @@ async def benchmark_get_projects(base_url, headers, project_count, iterations=10
                 return
             actual_count = len(response.json())
             print(f"  Warm-up successful: {actual_count} projects")
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Error during warm-up: {type(e).__name__}: {e}")
         return
 
@@ -133,7 +133,7 @@ async def benchmark_get_projects(base_url, headers, project_count, iterations=10
                     print(f"  Iteration {i + 1}: {elapsed_ms:.2f}ms ({len(projects)} projects)")
                 else:
                     print(f"  Iteration {i + 1}: ERROR {response.status_code}")
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 print(f"  Iteration {i + 1}: Exception - {type(e).__name__}: {e!s}")
 
     # Cleanup test projects
@@ -240,7 +240,7 @@ async def main():
         headers = {"Authorization": f"Bearer {access_token}"}
         print("Authentication successful")
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         print(f"Error connecting to server: {e}")
         print("Make sure GNS3 server is running and accessible")
         sys.exit(1)
@@ -268,7 +268,7 @@ async def main():
             result = await benchmark_get_projects(base_url, headers, count, args.iterations, args.prefix)
             if result:
                 results.append(result)
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             print(f"Error testing {count} projects: {e}")
 
     # Summary

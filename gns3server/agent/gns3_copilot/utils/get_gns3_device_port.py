@@ -181,6 +181,6 @@ def get_device_ports_from_topology(
 
         return hosts_data
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         logger.error("Error getting device port information: %s", e)
         return {}

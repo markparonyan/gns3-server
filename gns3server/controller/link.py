@@ -500,7 +500,7 @@ class Link:
             log.info(f"Web Wireshark stopped for link {self.id}")
             self._wireshark = False
 
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             log.error(f"Error stopping Web Wireshark: {e}")
         finally:
             await manager.close()

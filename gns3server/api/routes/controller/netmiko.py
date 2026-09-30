@@ -63,7 +63,7 @@ def _load_netmiko_device_types() -> schemas.NetmikoDeviceTypeList:
     # fail the whole endpoint.
     try:
         pass
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         log.warning(f"Could not register GNS3-copilot custom Netmiko drivers: {e}")
 
     # Custom drivers all use the 'gns3_' prefix by convention, which is more

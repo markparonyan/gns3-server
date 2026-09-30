@@ -92,7 +92,6 @@ ignore = [
   "ASYNC240",  #  235  blocking-path-method-in-async-function
   "B007",      #   32  unused-loop-control-variable
   "B008",      #  119  function-call-in-default-argument
-  "B904",      #  365  raise-without-from-inside-except
   "BLE001",    #  214  blind-except
   "E402",      #  129  module-import-not-at-top-of-file
   "E501",      #  655  line-too-long

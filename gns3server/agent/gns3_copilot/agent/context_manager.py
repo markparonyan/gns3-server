@@ -44,27 +44,21 @@ Requirements:
 import json
 import logging
 import os
+import time
 import warnings
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
+
+import tiktoken
+from langchain_core.messages import BaseMessage, SystemMessage, trim_messages
 
 # Configure tiktoken cache directory (must be set before importing tiktoken)
 _cache_dir = Path(__file__).parent.parent / "cache" / "tiktoken"
 _cache_dir.mkdir(parents=True, exist_ok=True)
 os.environ["TIKTOKEN_CACHE_DIR"] = str(_cache_dir)
 
-import tiktoken
-from langchain_core.messages import BaseMessage, SystemMessage, trim_messages
-
 logger = logging.getLogger(__name__)
-
-# ============================================================================
-# Token Counter Setup
-# ============================================================================
-
-# Initialize tiktoken encoding (required dependency)
-import time
 
 logger.debug("Initializing tiktoken encoding (cl100k_base)...")
 logger.debug(f"Cache directory: {_cache_dir}")

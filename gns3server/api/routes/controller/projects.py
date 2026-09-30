@@ -24,21 +24,16 @@ import os
 import tempfile
 import time
 import urllib.parse
-
-import aiofiles
-
-import gns3server.utils.zipfile_zstd as zipfile
-
-log = logging.getLogger()
-
 from typing import Any
 from uuid import UUID
 
+import aiofiles
 from fastapi import APIRouter, Body, Depends, HTTPException, Request, WebSocket, WebSocketDisconnect, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import FileResponse, StreamingResponse
 from websockets.exceptions import ConnectionClosed, WebSocketException
 
+import gns3server.utils.zipfile_zstd as zipfile
 from gns3server import schemas
 from gns3server.controller import Controller, marker_replay
 from gns3server.controller.controller_error import ControllerBadRequestError, ControllerError
@@ -57,6 +52,8 @@ from gns3server.utils.path import is_safe_path
 from .dependencies.authentication import get_current_active_user
 from .dependencies.database import get_repository
 from .dependencies.rbac import has_privilege, has_privilege_on_websocket
+
+log = logging.getLogger()
 
 responses: dict[int | str, dict[str, Any]] = {
     404: {"model": schemas.ErrorMessage, "description": "Could not find project"}

@@ -29,8 +29,6 @@ import re
 import shutil
 import time
 
-log = logging.getLogger(__name__)
-
 from gns3server.utils.asyncio import monitor_process, wait_run_in_executor
 from gns3server.utils.file_watcher import FileWatcher
 from gns3server.utils.hostname import is_ios_hostname_valid
@@ -38,6 +36,8 @@ from gns3server.utils.images import md5sum
 
 from ...base_node import BaseNode
 from ..dynamips_error import DynamipsError
+
+log = logging.getLogger(__name__)
 
 
 class Router(BaseNode):

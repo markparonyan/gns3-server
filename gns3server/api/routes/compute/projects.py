@@ -24,9 +24,6 @@ import logging
 import os
 import shutil
 import urllib.parse
-
-log = logging.getLogger()
-
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
@@ -37,6 +34,8 @@ from gns3server import schemas
 from gns3server.compute.project import Project
 from gns3server.compute.project_manager import ProjectManager
 from gns3server.utils.path import is_safe_path
+
+log = logging.getLogger()
 
 router = APIRouter()
 

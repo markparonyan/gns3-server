@@ -22,9 +22,6 @@ import hashlib
 import json
 import logging
 import os
-
-log = logging.getLogger(__name__)
-
 from typing import Any
 from uuid import UUID
 
@@ -42,6 +39,8 @@ from gns3server.utils.images import get_builtin_disks
 from .dependencies.authentication import get_current_active_user
 from .dependencies.database import get_repository
 from .dependencies.rbac import has_privilege
+
+log = logging.getLogger(__name__)
 
 responses: dict[int | str, dict[str, Any]] = {
     404: {"model": schemas.ErrorMessage, "description": "Could not find template"}

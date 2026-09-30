@@ -20,7 +20,7 @@ from enum import Enum
 from typing import Annotated, Literal
 from uuid import UUID
 
-from pydantic import AnyUrl, BaseModel, Discriminator, EmailStr, Field, Tag, model_validator
+from pydantic import AnyUrl, BaseModel, Discriminator, EmailStr, Field, Tag, TypeAdapter, model_validator
 
 from ..common import ExtraConfig
 
@@ -756,9 +756,6 @@ Uses registry_version field to automatically route to correct model.
 
 # For type hints in function signatures
 Appliance = ApplianceUnion
-
-# Create a validator wrapper for convenience
-from pydantic import TypeAdapter
 
 _appliance_validator: TypeAdapter[ApplianceV1_6 | ApplianceV8] = TypeAdapter(ApplianceUnion)
 

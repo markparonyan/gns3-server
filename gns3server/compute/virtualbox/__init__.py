@@ -26,11 +26,11 @@ import shutil
 import subprocess
 import sys
 
-log = logging.getLogger(__name__)
-
 from ..base_manager import BaseManager
 from .virtualbox_error import VirtualBoxError
 from .virtualbox_vm import VirtualBoxVM
+
+log = logging.getLogger(__name__)
 
 
 class VirtualBox(BaseManager):

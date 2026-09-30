@@ -30,15 +30,14 @@ import subprocess
 import sys
 from collections import OrderedDict
 
+from gns3server.compute.base_manager import BaseManager
+from gns3server.compute.vmware.vmware_error import VMwareError
+from gns3server.compute.vmware.vmware_vm import VMwareVM
 from gns3server.utils import parse_version
 from gns3server.utils.asyncio import subprocess_check_output
 from gns3server.utils.interfaces import interfaces
 
 log = logging.getLogger(__name__)
-
-from gns3server.compute.base_manager import BaseManager
-from gns3server.compute.vmware.vmware_error import VMwareError
-from gns3server.compute.vmware.vmware_vm import VMwareVM
 
 
 class VMware(BaseManager):

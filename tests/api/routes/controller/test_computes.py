@@ -23,10 +23,9 @@ from fastapi import FastAPI, status
 from httpx import AsyncClient
 
 from gns3server.schemas.controller.computes import Compute
+from tests.utils import AsyncioMagicMock, asyncio_patch
 
 pytestmark = pytest.mark.asyncio
-
-from tests.utils import AsyncioMagicMock, asyncio_patch
 
 
 class TestComputeRoutes:

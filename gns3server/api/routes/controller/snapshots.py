@@ -20,9 +20,6 @@ API routes for snapshots.
 """
 
 import logging
-
-log = logging.getLogger()
-
 from typing import Any
 from uuid import UUID
 
@@ -35,6 +32,8 @@ from gns3server.db.repositories.rbac import RbacRepository
 
 from .dependencies.database import get_repository
 from .dependencies.rbac import has_privilege
+
+log = logging.getLogger()
 
 responses: dict[int | str, dict[str, Any]] = {
     404: {"model": schemas.ErrorMessage, "description": "Could not find project or snapshot"}

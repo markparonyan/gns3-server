@@ -29,9 +29,6 @@ import subprocess
 import sys
 import tempfile
 import time
-
-log = logging.getLogger(__name__)
-
 from uuid import uuid4
 
 from gns3server.utils import parse_version
@@ -40,8 +37,6 @@ from gns3server.utils.interfaces import is_interface_up
 
 from ..base_manager import BaseManager
 from ..port_manager import PortManager
-
-# Adapters
 from .adapters.c7200_io_2fe import C7200_IO_2FE
 from .adapters.c7200_io_fe import C7200_IO_FE
 from .adapters.c7200_io_ge_e import C7200_IO_GE_E
@@ -69,12 +64,12 @@ from .nios.nio_generic_ethernet import NIOGenericEthernet
 from .nios.nio_linux_ethernet import NIOLinuxEthernet
 from .nios.nio_null import NIONull
 from .nios.nio_tap import NIOTAP
-
-# NIOs
 from .nios.nio_udp import NIOUDP
 from .nios.nio_unix import NIOUNIX
 from .nios.nio_vde import NIOVDE
 from .nodes.router import Router
+
+log = logging.getLogger(__name__)
 
 ADAPTER_MATRIX = {
     "C7200-IO-2FE": C7200_IO_2FE,

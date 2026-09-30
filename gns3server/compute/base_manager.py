@@ -24,12 +24,9 @@ import socket
 import stat
 import struct
 import sys
+from uuid import UUID, uuid4
 
 import aiofiles
-
-log = logging.getLogger(__name__)
-
-from uuid import UUID, uuid4
 
 from gns3server.compute.compute_error import ComputeError, ComputeForbiddenError, ComputeNotFoundError
 from gns3server.utils.asyncio import cancellable_wait_run_in_executor
@@ -45,6 +42,8 @@ from .nios.nio_tap import NIOTAP
 from .nios.nio_udp import NIOUDP
 from .port_manager import PortManager
 from .project_manager import ProjectManager
+
+log = logging.getLogger(__name__)
 
 CHUNK_SIZE = 1024 * 8  # 8KB
 

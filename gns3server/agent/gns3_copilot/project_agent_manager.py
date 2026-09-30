@@ -136,7 +136,7 @@ class ProjectAgentManager:
 
 
 # Global singleton instance
-_project_agent_manager: Optional[ProjectAgentManager] = None
+_project_agent_manager: ProjectAgentManager | None = None
 _manager_lock = asyncio.Lock()
 
 

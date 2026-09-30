@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import List, Optional, Union, cast
+from typing import List, Union, cast
 from uuid import UUID
 
 from sqlalchemy import delete, func, select, update
@@ -39,7 +39,7 @@ class UsersRepository(BaseRepository):
         super().__init__(db_session)
         self._auth_service = auth_service
 
-    async def get_user(self, user_id: UUID) -> Optional[models.User]:
+    async def get_user(self, user_id: UUID) -> models.User | None:
         """
         Get a user by its ID.
         """
@@ -48,7 +48,7 @@ class UsersRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_user_by_username(self, username: str) -> Optional[models.User]:
+    async def get_user_by_username(self, username: str) -> models.User | None:
         """
         Get a user by its name.
         """
@@ -57,7 +57,7 @@ class UsersRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_user_by_email(self, email: str) -> Optional[models.User]:
+    async def get_user_by_email(self, email: str) -> models.User | None:
         """
         Get a user by its email.
         """
@@ -91,7 +91,7 @@ class UsersRepository(BaseRepository):
 
     async def update_user(
         self, user_id: UUID, user_update: Union[schemas.UserUpdate, schemas.LoggedInUserUpdate]
-    ) -> Optional[models.User]:
+    ) -> models.User | None:
         """
         Update a user.
         """
@@ -134,7 +134,7 @@ class UsersRepository(BaseRepository):
         await self._db_session.commit()
         return cast(CursorResult, result).rowcount > 0
 
-    async def authenticate_user(self, username: str, password: str) -> Optional[models.User]:
+    async def authenticate_user(self, username: str, password: str) -> models.User | None:
         """
         Authenticate user.
         """
@@ -173,7 +173,7 @@ class UsersRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return list(result.scalars().all())
 
-    async def get_user_group(self, user_group_id: UUID) -> Optional[models.UserGroup]:
+    async def get_user_group(self, user_group_id: UUID) -> models.UserGroup | None:
         """
         Get a user group by its ID.
         """
@@ -182,7 +182,7 @@ class UsersRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_user_group_by_name(self, name: str) -> Optional[models.UserGroup]:
+    async def get_user_group_by_name(self, name: str) -> models.UserGroup | None:
         """
         Get a user group by its name.
         """
@@ -213,7 +213,7 @@ class UsersRepository(BaseRepository):
 
     async def update_user_group(
         self, user_group_id: UUID, user_group_update: schemas.UserGroupUpdate
-    ) -> Optional[models.UserGroup]:
+    ) -> models.UserGroup | None:
         """
         Update a user group.
         """

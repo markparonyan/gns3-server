@@ -19,7 +19,7 @@ API routes for Dynamips nodes.
 """
 
 import os
-from typing import Any, List, Optional, Union
+from typing import Any, List, Union
 from uuid import UUID
 
 from fastapi import APIRouter, Body, Depends, HTTPException, WebSocket, status
@@ -66,7 +66,7 @@ async def create_router(project_id: UUID, node_data: schemas.DynamipsCreate) -> 
 
     dynamips_manager = Dynamips.instance()
     platform = node_data.platform
-    chassis: Optional[str]
+    chassis: str | None
     if not node_data.chassis and platform in DEFAULT_CHASSIS:
         chassis = DEFAULT_CHASSIS[platform]
     else:

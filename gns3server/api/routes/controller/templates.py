@@ -25,7 +25,7 @@ import os
 
 log = logging.getLogger(__name__)
 
-from typing import Any, List, Optional, Union
+from typing import Any, List, Union
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, Query, Request, Response, status
@@ -125,7 +125,7 @@ async def update_template(
 )
 async def delete_template(
     template_id: UUID,
-    prune_images: Optional[bool] = False,
+    prune_images: bool | None = False,
     templates_repo: TemplatesRepository = Depends(get_repository(TemplatesRepository)),
     images_repo: ImagesRepository = Depends(get_repository(ImagesRepository)),
     rbac_repo: RbacRepository = Depends(get_repository(RbacRepository)),
@@ -194,7 +194,7 @@ async def delete_template(
 async def get_templates(
     templates_repo: TemplatesRepository = Depends(get_repository(TemplatesRepository)),
     current_user: schemas.User = Depends(get_current_active_user),
-    tags: Optional[List[str]] = Query(None, description="Filter by tags (e.g. tags=vendor:cisco&tags=model:7200)"),
+    tags: List[str] | None = Query(None, description="Filter by tags (e.g. tags=vendor:cisco&tags=model:7200)"),
 ) -> List[dict]:
     """
     Return all templates.

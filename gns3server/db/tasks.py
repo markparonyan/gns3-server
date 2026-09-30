@@ -17,7 +17,7 @@
 
 import logging
 import os
-from typing import List, Optional
+from typing import List
 
 import sqlalchemy as sa
 from alembic import command, config
@@ -212,7 +212,7 @@ async def update_disk_checksums(updated_disks: List[str]) -> None:
                     await repository.save_verified_image(info)
 
 
-async def get_user_llm_config_full(user_id: str, app: FastAPI) -> Optional[dict]:
+async def get_user_llm_config_full(user_id: str, app: FastAPI) -> dict | None:
     """
     Get user's full LLM configuration with decrypted API key for Copilot.
 

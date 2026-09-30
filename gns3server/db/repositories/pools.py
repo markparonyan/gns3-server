@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import List, Optional, Union, cast
+from typing import List, Union, cast
 from uuid import UUID
 
 from sqlalchemy import delete, select, update
@@ -37,7 +37,7 @@ class ResourcePoolsRepository(BaseRepository):
 
         super().__init__(db_session)
 
-    async def get_resource(self, resource_id: UUID) -> Optional[models.Resource]:
+    async def get_resource(self, resource_id: UUID) -> models.Resource | None:
         """
         Get a resource by its ID.
         """
@@ -92,7 +92,7 @@ class ResourcePoolsRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return list(result.scalars().all())
 
-    async def get_resource_pool(self, resource_pool_id: UUID) -> Optional[models.ResourcePool]:
+    async def get_resource_pool(self, resource_pool_id: UUID) -> models.ResourcePool | None:
         """
         Get a resource pool by its ID.
         """
@@ -101,7 +101,7 @@ class ResourcePoolsRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_resource_pool_by_name(self, name: str) -> Optional[models.ResourcePool]:
+    async def get_resource_pool_by_name(self, name: str) -> models.ResourcePool | None:
         """
         Get a resource pool by its name.
         """
@@ -132,7 +132,7 @@ class ResourcePoolsRepository(BaseRepository):
 
     async def update_resource_pool(
         self, resource_pool_id: UUID, resource_pool_update: schemas.ResourcePoolUpdate
-    ) -> Optional[models.ResourcePool]:
+    ) -> models.ResourcePool | None:
         """
         Update a resource pool.
         """

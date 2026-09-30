@@ -17,7 +17,6 @@
 import asyncio
 import hashlib
 import logging
-from typing import Optional
 from uuid import UUID
 
 import bcrypt
@@ -55,7 +54,7 @@ async def get_user_from_token(
     bearer_token: str = Depends(oauth2_scheme),
     user_repo: UsersRepository = Depends(get_repository(UsersRepository)),
     api_keys_repo: ApiKeysRepository = Depends(get_repository(ApiKeysRepository)),
-    token: Optional[str] = Query(None, include_in_schema=False),
+    token: str | None = Query(None, include_in_schema=False),
 ) -> models.User:
 
     if bearer_token:
@@ -170,7 +169,7 @@ async def get_current_active_user_from_websocket(
     websocket: WebSocket,
     token: str = Query(...),
     user_repo: UsersRepository = Depends(get_repository(UsersRepository)),
-) -> Optional[models.User]:
+) -> models.User | None:
 
     # Extract requested subprotocols from headers for proper WebSocket negotiation
     # This is critical for protocols like xpra that require specific subprotocols

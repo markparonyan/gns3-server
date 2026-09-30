@@ -25,7 +25,6 @@ import asyncio
 import logging
 import re
 import socket
-from typing import Optional
 from urllib.parse import urlparse
 
 from gns3server.config import Config
@@ -85,7 +84,7 @@ class WebWiresharkManager:
             logger.warning(f"Container {container_id[:12]} health check failed: {e}")
             return False
 
-    async def _exec_in_container(self, container_id: str, command: str, timeout: Optional[int] = None) -> tuple:
+    async def _exec_in_container(self, container_id: str, command: str, timeout: int | None = None) -> tuple:
         """Execute command in container with timeout.
 
         Args:
@@ -470,7 +469,7 @@ class WebWiresharkManager:
         unit = unit[0]  # Take first character
         return int(value * multipliers.get(unit, 1))
 
-    def _get_gns3_url_from_config(self) -> Optional[str]:
+    def _get_gns3_url_from_config(self) -> str | None:
         """Get GNS3 server URL from config file."""
         try:
             server_config = Config.instance().settings.Server
@@ -481,7 +480,7 @@ class WebWiresharkManager:
             logger.debug(f"Cannot get URL from Config: {e}")
         return None
 
-    async def _get_container_gateway_ip(self, container_id: Optional[str] = None) -> Optional[str]:
+    async def _get_container_gateway_ip(self, container_id: str | None = None) -> str | None:
         """Get the Docker bridge gateway IP for container to access host.
 
         Args:
@@ -520,7 +519,7 @@ class WebWiresharkManager:
 
         return None
 
-    async def get_container_ip(self, container_name: str, container_id: Optional[str] = None) -> Optional[str]:
+    async def get_container_ip(self, container_name: str, container_id: str | None = None) -> str | None:
         """Get the container IP address in the wireshark network.
 
         Args:
@@ -627,7 +626,7 @@ class WebWiresharkManager:
         project_id: str,
         image: str = "gns3/web-wireshark:latest",
         memory: str = "2g",
-        memory_swap: Optional[str] = None,
+        memory_swap: str | None = None,
         cpus: float = 1.0,
         pids_limit: int = 1000,
     ) -> str:
@@ -747,10 +746,10 @@ class WebWiresharkManager:
         project_id: str,
         link_id: str,
         jwt_token: str,
-        capture_stream_url: Optional[str] = None,
+        capture_stream_url: str | None = None,
         image: str = "gns3/web-wireshark:latest",
         memory: str = "2g",
-        memory_swap: Optional[str] = None,
+        memory_swap: str | None = None,
         cpus: float = 1.0,
         pids_limit: int = 1000,
     ) -> dict:
@@ -936,10 +935,10 @@ class WebWiresharkManager:
         project_id: str,
         link_id: str,
         jwt_token: str,
-        capture_stream_url: Optional[str] = None,
+        capture_stream_url: str | None = None,
         image: str = "gns3/web-wireshark:latest",
         memory: str = "2g",
-        memory_swap: Optional[str] = None,
+        memory_swap: str | None = None,
         cpus: float = 1.0,
         pids_limit: int = 1000,
     ):

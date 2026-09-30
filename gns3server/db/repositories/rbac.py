@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import List, Optional, Union, cast
+from typing import List, Union, cast
 from urllib.parse import urlparse
 from uuid import UUID
 
@@ -38,7 +38,7 @@ class RbacRepository(BaseRepository):
 
         super().__init__(db_session)
 
-    async def get_role(self, role_id: UUID) -> Optional[models.Role]:
+    async def get_role(self, role_id: UUID) -> models.Role | None:
         """
         Get a role by its ID.
         """
@@ -47,7 +47,7 @@ class RbacRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_role_by_name(self, name: str) -> Optional[models.Role]:
+    async def get_role_by_name(self, name: str) -> models.Role | None:
         """
         Get a role by its name.
         """
@@ -65,7 +65,7 @@ class RbacRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return list(result.scalars().all())
 
-    async def create_role(self, role_create: schemas.RoleCreate) -> Optional[models.Role]:
+    async def create_role(self, role_create: schemas.RoleCreate) -> models.Role | None:
         """
         Create a new role.
         """
@@ -78,7 +78,7 @@ class RbacRepository(BaseRepository):
         await self._db_session.commit()
         return await self.get_role(db_role.role_id)
 
-    async def update_role(self, role_id: UUID, role_update: schemas.RoleUpdate) -> Optional[models.Role]:
+    async def update_role(self, role_id: UUID, role_update: schemas.RoleUpdate) -> models.Role | None:
         """
         Update a role.
         """
@@ -152,7 +152,7 @@ class RbacRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return list(result.scalars().all())
 
-    async def get_privilege(self, privilege_id: UUID) -> Optional[models.Privilege]:
+    async def get_privilege(self, privilege_id: UUID) -> models.Privilege | None:
         """
         Get a privilege by its ID.
         """
@@ -161,7 +161,7 @@ class RbacRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_privilege_by_name(self, name: str) -> Optional[models.Privilege]:
+    async def get_privilege_by_name(self, name: str) -> models.Privilege | None:
         """
         Get a privilege by its name.
         """
@@ -179,7 +179,7 @@ class RbacRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return list(result.scalars().all())
 
-    async def get_ace(self, ace_id: UUID) -> Optional[models.ACE]:
+    async def get_ace(self, ace_id: UUID) -> models.ACE | None:
         """
         Get an ACE by its ID.
         """
@@ -188,7 +188,7 @@ class RbacRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_ace_by_path(self, path: str) -> Optional[models.ACE]:
+    async def get_ace_by_path(self, path: str) -> models.ACE | None:
         """
         Get an ACE by its path.
         """
@@ -242,7 +242,7 @@ class RbacRepository(BaseRepository):
         await self._db_session.refresh(db_ace)
         return db_ace
 
-    async def update_ace(self, ace_id: UUID, ace_update: schemas.ACEUpdate) -> Optional[models.ACE]:
+    async def update_ace(self, ace_id: UUID, ace_update: schemas.ACEUpdate) -> models.ACE | None:
         """
         Update an ACE
         """
@@ -298,7 +298,7 @@ class RbacRepository(BaseRepository):
                         return True  # only allow if the path is the original path or the ACE is set to propagate
         return False
 
-    async def _get_resources_in_pools(self, aces, path: Optional[str] = None) -> List[models.Resource]:
+    async def _get_resources_in_pools(self, aces, path: str | None = None) -> List[models.Resource]:
         """
         Get all resources in pools.
         """

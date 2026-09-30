@@ -56,14 +56,13 @@ Usage:
 
 import logging
 from contextvars import ContextVar
-from typing import Optional
 
 logger = logging.getLogger(__name__)
 
 # Context variables for request-scoped data
 # Automatically cleaned up when request context ends
-_jwt_token_context: ContextVar[Optional[str]] = ContextVar("_jwt_token_context", default=None)
-_llm_config_context: ContextVar[Optional[dict]] = ContextVar("_llm_config_context", default=None)
+_jwt_token_context: ContextVar[str | None] = ContextVar("_jwt_token_context", default=None)
+_llm_config_context: ContextVar[dict | None] = ContextVar("_llm_config_context", default=None)
 
 
 def set_current_jwt_token(token: str) -> None:
@@ -76,7 +75,7 @@ def set_current_jwt_token(token: str) -> None:
     logger.debug("JWT token set in context")
 
 
-def get_current_jwt_token() -> Optional[str]:
+def get_current_jwt_token() -> str | None:
     """Get the JWT token for the current request context.
 
     Returns:
@@ -105,7 +104,7 @@ def set_current_llm_config(config: dict) -> None:
     )
 
 
-def get_current_llm_config() -> Optional[dict]:
+def get_current_llm_config() -> dict | None:
     """Get the LLM config for the current request context.
 
     Returns:

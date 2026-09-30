@@ -16,7 +16,7 @@
 
 import os
 import uuid
-from typing import List, Optional
+from typing import List
 from uuid import UUID
 
 import pydantic
@@ -168,7 +168,7 @@ class TemplatesService:
         for builtin_template in BUILTIN_TEMPLATES:
             builtin_template["symbol"] = self._controller.symbols.resolve_symbol(builtin_template["symbol"])
 
-    def get_builtin_template(self, template_id: UUID) -> Optional[dict]:
+    def get_builtin_template(self, template_id: UUID) -> dict | None:
 
         for builtin_template in BUILTIN_TEMPLATES:
             if builtin_template["template_id"] == template_id:

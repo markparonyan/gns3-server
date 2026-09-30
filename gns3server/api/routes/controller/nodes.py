@@ -22,7 +22,7 @@ import asyncio
 import contextlib
 import ipaddress
 import logging
-from typing import Any, Callable, List, Optional
+from typing import Any, Callable, List
 from uuid import UUID
 
 import aiohttp
@@ -150,7 +150,7 @@ async def create_node(node_create: schemas.NodeCreate, project: Project = Depend
 )
 def get_nodes(
     project: Project = Depends(dep_project),
-    tags: Optional[List[str]] = Query(None, description="Filter by tags (e.g. tags=vendor:cisco&tags=model:7200)"),
+    tags: List[str] | None = Query(None, description="Filter by tags (e.g. tags=vendor:cisco&tags=model:7200)"),
 ) -> List[schemas.Node]:
     """
     Return all nodes belonging to a given project.
@@ -334,7 +334,7 @@ async def duplicate_node(duplicate_data: schemas.NodeDuplicate, node: Node = Dep
 @router.post(
     "/{node_id}/start", status_code=status.HTTP_204_NO_CONTENT, dependencies=[Depends(has_privilege("Node.PowerMgmt"))]
 )
-async def start_node(start_data: Optional[dict] = None, node: Node = Depends(dep_node)) -> None:
+async def start_node(start_data: dict | None = None, node: Node = Depends(dep_node)) -> None:
     """
     Start a node.
 

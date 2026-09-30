@@ -20,7 +20,7 @@ API routes for roles.
 """
 
 import logging
-from typing import List, Optional
+from typing import List
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, status
@@ -62,7 +62,7 @@ async def get_roles(rbac_repo: RbacRepository = Depends(get_repository(RbacRepos
 )
 async def create_role(
     role_create: schemas.RoleCreate, rbac_repo: RbacRepository = Depends(get_repository(RbacRepository))
-) -> Optional[models.Role]:
+) -> models.Role | None:
     """
     Create a new role.
 
@@ -95,7 +95,7 @@ async def get_role(
 @router.put("/{role_id}", response_model=schemas.Role, dependencies=[Depends(has_privilege("Role.Modify"))])
 async def update_role(
     role_id: UUID, role_update: schemas.RoleUpdate, rbac_repo: RbacRepository = Depends(get_repository(RbacRepository))
-) -> Optional[models.Role]:
+) -> models.Role | None:
     """
     Update a role.
 

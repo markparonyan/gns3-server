@@ -6,13 +6,13 @@ from ASGI scope dictionaries for logging and debugging purposes.
 """
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 from urllib.parse import parse_qs
 
 log = logging.getLogger(__name__)
 
 
-def extract_client_info(scope: Dict[str, Any], auth_service_instance: Optional[Any] = None) -> Dict[str, str]:
+def extract_client_info(scope: Dict[str, Any], auth_service_instance: Any | None = None) -> Dict[str, str]:
     """
     Extract client information from ASGI scope for logging purposes.
 

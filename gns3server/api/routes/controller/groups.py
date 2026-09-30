@@ -20,7 +20,7 @@ API routes for user groups.
 """
 
 import logging
-from typing import List, Optional
+from typing import List
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, status
@@ -100,7 +100,7 @@ async def update_user_group(
     user_group_id: UUID,
     user_group_update: schemas.UserGroupUpdate,
     users_repo: UsersRepository = Depends(get_repository(UsersRepository)),
-) -> Optional[models.UserGroup]:
+) -> models.UserGroup | None:
     """
     Update a user group.
 

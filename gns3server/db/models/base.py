@@ -17,7 +17,6 @@
 
 import uuid
 from datetime import datetime
-from typing import Optional
 
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy import Column, DateTime, func, inspect
@@ -107,7 +106,7 @@ class BaseTable(Base):
     __abstract__ = True
 
     created_at = Column(DateTime, server_default=func.current_timestamp())
-    updated_at: Mapped[Optional[datetime]] = mapped_column(
+    updated_at: Mapped[datetime | None] = mapped_column(
         DateTime, server_default=func.current_timestamp(), onupdate=func.current_timestamp()
     )
 

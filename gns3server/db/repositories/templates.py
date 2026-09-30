@@ -18,7 +18,7 @@
 import logging
 import os
 import uuid
-from typing import List, Optional, Union, cast
+from typing import List, Union, cast
 from uuid import UUID
 
 from sqlalchemy import delete, select
@@ -67,7 +67,7 @@ class TemplatesRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_template_by_name_and_version(self, name: str, version: Optional[str]) -> Union[None, models.Template]:
+    async def get_template_by_name_and_version(self, name: str, version: str | None) -> Union[None, models.Template]:
 
         query = (
             select(models.Template)
@@ -119,7 +119,7 @@ class TemplatesRepository(BaseRepository):
         await self._db_session.commit()
         return cast(CursorResult, result).rowcount > 0
 
-    async def duplicate_template(self, template_id: UUID) -> Optional[models.Template]:
+    async def duplicate_template(self, template_id: UUID) -> models.Template | None:
 
         query = (
             select(models.Template)
@@ -137,7 +137,7 @@ class TemplatesRepository(BaseRepository):
             await self._db_session.refresh(db_template)
         return db_template
 
-    async def get_image(self, image_path: str, *, include_unavailable: bool = False) -> Optional[models.Image]:
+    async def get_image(self, image_path: str, *, include_unavailable: bool = False) -> models.Image | None:
         """
         Get an image by its path.
         """

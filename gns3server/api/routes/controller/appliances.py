@@ -19,7 +19,7 @@ API routes for appliances.
 """
 
 import logging
-from typing import List, Optional, Union
+from typing import List, Union
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, status
@@ -46,7 +46,7 @@ router = APIRouter()
     response_model_exclude_unset=True,
     dependencies=[Depends(has_privilege("Appliance.Audit"))],
 )
-async def get_appliances(update: Optional[bool] = False, symbol_theme: Optional[str] = None) -> List[schemas.Appliance]:
+async def get_appliances(update: bool | None = False, symbol_theme: str | None = None) -> List[schemas.Appliance]:
     """
     Return all appliances known by the controller.
 
@@ -121,7 +121,7 @@ def add_appliance_version(
 )
 async def install_appliance(
     appliance_id: UUID,
-    version: Optional[str] = None,
+    version: str | None = None,
     images_repo: ImagesRepository = Depends(get_repository(ImagesRepository)),
     templates_repo: TemplatesRepository = Depends(get_repository(TemplatesRepository)),
     current_user: schemas.User = Depends(get_current_active_user),

@@ -19,7 +19,7 @@ import asyncio
 import logging
 import os
 from datetime import datetime, timezone
-from typing import Callable, List, Optional, cast
+from typing import Callable, List, cast
 
 from sqlalchemy import delete, select, update
 from sqlalchemy.engine import CursorResult
@@ -39,7 +39,7 @@ class ImagesRepository(BaseRepository):
 
         super().__init__(db_session)
 
-    async def get_image(self, image_path: str, *, refresh: bool = False) -> Optional[models.Image]:
+    async def get_image(self, image_path: str, *, refresh: bool = False) -> models.Image | None:
         """
         Get an image by its path.
         """
@@ -56,7 +56,7 @@ class ImagesRepository(BaseRepository):
         result = await self._db_session.execute(query.execution_options(populate_existing=refresh))
         return result.scalars().one_or_none()
 
-    async def get_image_by_checksum(self, checksum: str, image_dir: Optional[str] = None) -> Optional[models.Image]:
+    async def get_image_by_checksum(self, checksum: str, image_dir: str | None = None) -> models.Image | None:
         """
         Get an image by its checksum.
         """
@@ -135,7 +135,7 @@ class ImagesRepository(BaseRepository):
         await self._db_session.refresh(db_image)
         return db_image
 
-    async def update_image(self, image_path: str, checksum: str, checksum_algorithm: str) -> Optional[models.Image]:
+    async def update_image(self, image_path: str, checksum: str, checksum_algorithm: str) -> models.Image | None:
         """
         Update an image.
         """
@@ -153,7 +153,7 @@ class ImagesRepository(BaseRepository):
             await self._db_session.refresh(image_db)  # force refresh of updated_at value
         return image_db
 
-    async def save_verified_image(self, info: dict) -> Optional[models.Image]:
+    async def save_verified_image(self, info: dict) -> models.Image | None:
         """Upsert an exact path, preserving template associations and the image ID.
 
         Callers coordinate publication/inspection with image_lock(). Each commit
@@ -246,7 +246,7 @@ class ImagesRepository(BaseRepository):
         await self._db_session.commit()
         return cast(CursorResult, result).rowcount > 0
 
-    async def prune_images(self, skip_images: Optional[list[str]] = None, is_in_use: Optional[Callable] = None) -> int:
+    async def prune_images(self, skip_images: list[str] | None = None, is_in_use: Callable | None = None) -> int:
         """
         Prune images not attached to any template.
         """

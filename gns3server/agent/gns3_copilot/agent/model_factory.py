@@ -32,7 +32,7 @@ Configuration is passed directly from the database.
 """
 
 import logging
-from typing import Any, Optional
+from typing import Any
 
 from langchain.chat_models import init_chat_model
 
@@ -40,7 +40,7 @@ logger = logging.getLogger(__name__)
 
 
 def _load_llm_config(
-    llm_config: Optional[dict[str, Any]] = None,
+    llm_config: dict[str, Any] | None = None,
 ) -> dict[str, str]:
     """
     Convert llm_config dict to model factory format.
@@ -73,7 +73,7 @@ def _load_llm_config(
 
 
 def create_base_model(
-    llm_config: Optional[dict[str, Any]] = None,
+    llm_config: dict[str, Any] | None = None,
 ) -> Any:
     """
     Create a fresh base LLM model instance.
@@ -138,7 +138,7 @@ def create_base_model(
 
 
 def create_title_model(
-    llm_config: Optional[dict[str, Any]] = None,
+    llm_config: dict[str, Any] | None = None,
 ) -> Any:
     """
     Create a fresh title generation model instance.
@@ -232,7 +232,7 @@ def create_model_with_tools(
 
 def create_base_model_with_tools(
     tools: list[Any],
-    llm_config: Optional[dict[str, Any]] = None,
+    llm_config: dict[str, Any] | None = None,
 ) -> Any:
     """
     Create a fresh base model instance with tools bound.

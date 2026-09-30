@@ -23,7 +23,6 @@ import os
 import shutil
 import uuid
 import zipfile
-from typing import Optional
 
 import pydantic
 
@@ -52,7 +51,7 @@ GNS3_FILE_FORMAT_REVISION = 10
 
 
 class DynamipsNodeValidation(DynamipsCreate):
-    name: Optional[str] = None  # type: ignore[assignment]
+    name: str | None = None  # type: ignore[assignment]
 
 
 def _check_topology_schema(topo, path):

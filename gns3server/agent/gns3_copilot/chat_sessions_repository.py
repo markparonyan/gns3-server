@@ -33,7 +33,7 @@ checkpoint database.
 import json
 import logging
 from datetime import datetime
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 import aiosqlite
 
@@ -45,7 +45,7 @@ class ChatSession:
 
     def __init__(
         self,
-        id: Optional[int] = None,
+        id: int | None = None,
         thread_id: str = "",
         user_id: str = "",
         project_id: str = "",
@@ -55,9 +55,9 @@ class ChatSession:
         input_tokens: int = 0,
         output_tokens: int = 0,
         total_tokens: int = 0,
-        last_message_at: Optional[str] = None,
-        created_at: Optional[str] = None,
-        updated_at: Optional[str] = None,
+        last_message_at: str | None = None,
+        created_at: str | None = None,
+        updated_at: str | None = None,
         metadata: str = "{}",
         stats: str = "{}",
         pinned: bool = False,
@@ -121,8 +121,8 @@ class ChatSessionsRepository:
         user_id: str,
         project_id: str,
         title: str = "New Conversation",
-        copilot_mode: Optional[str] = None,
-    ) -> Optional[ChatSession]:
+        copilot_mode: str | None = None,
+    ) -> ChatSession | None:
         """
         Create a new chat session.
 
@@ -159,7 +159,7 @@ class ChatSessionsRepository:
             return None
         return await self.get_session_by_id(session_id)
 
-    async def get_session_by_id(self, session_id: int) -> Optional[ChatSession]:
+    async def get_session_by_id(self, session_id: int) -> ChatSession | None:
         """
         Get a session by its database ID.
 
@@ -176,7 +176,7 @@ class ChatSessionsRepository:
             return self._row_to_session(row)
         return None
 
-    async def get_session_by_thread(self, thread_id: str) -> Optional[ChatSession]:
+    async def get_session_by_thread(self, thread_id: str) -> ChatSession | None:
         """
         Get a session by thread_id.
 
@@ -195,9 +195,9 @@ class ChatSessionsRepository:
 
     async def list_sessions(
         self,
-        user_id: Optional[str] = None,
-        project_id: Optional[str] = None,
-        copilot_mode: Optional[str] = None,
+        user_id: str | None = None,
+        project_id: str | None = None,
+        copilot_mode: str | None = None,
         limit: int = 100,
     ) -> List[ChatSession]:
         """
@@ -242,14 +242,14 @@ class ChatSessionsRepository:
     async def update_session(
         self,
         thread_id: str,
-        title: Optional[str] = None,
-        message_count: Optional[int] = None,
-        llm_calls_count: Optional[int] = None,
-        input_tokens: Optional[int] = None,
-        output_tokens: Optional[int] = None,
-        total_tokens: Optional[int] = None,
-        last_message_at: Optional[str] = None,
-    ) -> Optional[ChatSession]:
+        title: str | None = None,
+        message_count: int | None = None,
+        llm_calls_count: int | None = None,
+        input_tokens: int | None = None,
+        output_tokens: int | None = None,
+        total_tokens: int | None = None,
+        last_message_at: str | None = None,
+    ) -> ChatSession | None:
         """
         Update a session.
 
@@ -372,7 +372,7 @@ class ChatSessionsRepository:
 
         return deleted_count
 
-    async def pin_session(self, thread_id: str, pinned: bool = True) -> Optional[ChatSession]:
+    async def pin_session(self, thread_id: str, pinned: bool = True) -> ChatSession | None:
         """
         Pin or unpin a session.
 

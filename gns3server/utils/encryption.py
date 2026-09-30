@@ -21,14 +21,13 @@ Uses Fernet symmetric encryption.
 
 import logging
 import os
-from typing import Optional
 
 from cryptography.fernet import Fernet
 
 log = logging.getLogger(__name__)
 
 # Global encryption key - will be loaded from config
-_fernet: Optional[Fernet] = None
+_fernet: Fernet | None = None
 
 
 def init_encryption(secrets_dir: str) -> None:

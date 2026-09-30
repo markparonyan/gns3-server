@@ -20,7 +20,7 @@ API routes for users.
 """
 
 import logging
-from typing import List, Optional
+from typing import List
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -168,7 +168,7 @@ async def update_logged_in_user(
     user_update: schemas.LoggedInUserUpdate,
     current_user: schemas.User = Depends(get_current_active_user),
     users_repo: UsersRepository = Depends(get_repository(UsersRepository)),
-) -> Optional[models.User]:
+) -> models.User | None:
     """
     Update the current active user.
     """
@@ -236,7 +236,7 @@ async def update_user(
     user_id: UUID,
     user_update: schemas.UserUpdate,
     users_repo: UsersRepository = Depends(get_repository(UsersRepository)),
-) -> Optional[models.User]:
+) -> models.User | None:
     """
     Update a user.
 

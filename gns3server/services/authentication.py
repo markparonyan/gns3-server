@@ -19,7 +19,6 @@ import json
 import logging
 import time
 from datetime import datetime, timedelta, timezone
-from typing import Optional
 
 import bcrypt
 from fastapi import HTTPException, status
@@ -74,7 +73,7 @@ class AuthService:
         return encoded_jwt
 
     def create_access_token(
-        self, username, token_version: int = 0, secret_key: Optional[str] = None, expires_in: int = 0
+        self, username, token_version: int = 0, secret_key: str | None = None, expires_in: int = 0
     ) -> str:
 
         if not expires_in:
@@ -82,14 +81,14 @@ class AuthService:
         return self._create_token(username, token_version, "access", expires_in, secret_key)
 
     def create_refresh_token(
-        self, username, token_version: int = 0, secret_key: Optional[str] = None, expires_in: int = 0
+        self, username, token_version: int = 0, secret_key: str | None = None, expires_in: int = 0
     ) -> str:
 
         if not expires_in:
             expires_in = Config.instance().settings.Controller.jwt_refresh_token_expire_minutes
         return self._create_token(username, token_version, "refresh", expires_in, secret_key)
 
-    def get_token_data(self, token: str, secret_key: Optional[str] = None) -> TokenData:
+    def get_token_data(self, token: str, secret_key: str | None = None) -> TokenData:
 
         def auth_error(detail: str) -> HTTPException:
             return HTTPException(
@@ -107,7 +106,7 @@ class AuthService:
         key = OctKey.import_key(secret_key)
         try:
             payload = jwt.decode(token, key, algorithms=[algorithm])
-            username: Optional[str] = payload.claims.get("sub")
+            username: str | None = payload.claims.get("sub")
             if username is None:
                 raise auth_error("Invalid token: missing subject claim")
             # Validate the exp claim — joserfc does not validate time-based claims by default
@@ -125,5 +124,5 @@ class AuthService:
             raise auth_error(f"Invalid token ({type(e).__name__})")
         return token_data
 
-    def get_username_from_token(self, token: str, secret_key: Optional[str] = None) -> Optional[str]:
+    def get_username_from_token(self, token: str, secret_key: str | None = None) -> str | None:
         return self.get_token_data(token, secret_key).username

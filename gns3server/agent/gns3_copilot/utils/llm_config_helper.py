@@ -43,7 +43,7 @@ Usage:
 """
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 from uuid import UUID
 
 from fastapi import FastAPI
@@ -51,7 +51,7 @@ from fastapi import FastAPI
 logger = logging.getLogger(__name__)
 
 
-async def get_user_llm_config_with_app(user_id: UUID, app: FastAPI) -> Optional[Dict[str, Any]]:
+async def get_user_llm_config_with_app(user_id: UUID, app: FastAPI) -> Dict[str, Any] | None:
     """
     Get user's default LLM model configuration with decrypted API key.
 

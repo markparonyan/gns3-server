@@ -14,12 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional
 
 from pydantic import BaseModel, Field
 
 
 class Version(BaseModel):
-    controller_host: Optional[str] = Field(None, description="Controller hostname or IP address")
+    controller_host: str | None = Field(None, description="Controller hostname or IP address")
     version: str = Field(..., description="Version number")
-    local: Optional[bool] = Field(None, description="Whether this is a local server or not")
+    local: bool | None = Field(None, description="Whether this is a local server or not")

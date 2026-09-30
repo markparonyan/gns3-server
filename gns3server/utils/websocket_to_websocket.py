@@ -25,7 +25,6 @@ Similar pattern to VNC console implementation in base_node.py:
 
 import asyncio
 import logging
-from typing import Optional
 
 import aiohttp
 from fastapi import WebSocket, status
@@ -38,9 +37,9 @@ log = logging.getLogger(__name__)
 async def websocket_proxy(
     client_ws: WebSocket,
     target_url: str,
-    requested_protocols: Optional[list] = None,
+    requested_protocols: list | None = None,
     buffer_size: int = 65536,
-    timeout: Optional[float] = None,
+    timeout: float | None = None,
 ) -> None:
     """
     Proxy binary WebSocket data between client and target WebSocket server.
@@ -140,9 +139,9 @@ async def websocket_proxy(
 async def websocket_proxy_with_manual_accept(
     client_ws: StarletteWebSocket,
     target_url: str,
-    requested_protocols: Optional[list] = None,
+    requested_protocols: list | None = None,
     buffer_size: int = 65536,
-    timeout: Optional[float] = None,
+    timeout: float | None = None,
 ) -> None:
     """
     Proxy binary WebSocket data between client and target WebSocket server.

@@ -19,7 +19,7 @@ import asyncio
 import contextlib
 import logging
 from types import SimpleNamespace
-from typing import List, Optional
+from typing import List
 from unittest.mock import MagicMock, patch
 
 import aiohttp
@@ -564,7 +564,7 @@ class FakeClientWebSocket:
     uvicorn raising ClientDisconnected when the client is gone mid-stream.
     """
 
-    def __init__(self, fail_after: Optional[int] = None):
+    def __init__(self, fail_after: int | None = None):
 
         self.url = SimpleNamespace(scheme="http")
         self.client = SimpleNamespace(host="127.0.0.1", port=5000)
@@ -583,7 +583,7 @@ class FakeClientWebSocket:
 
         raise WebSocketDisconnect(code=1006)
 
-    async def close(self, code: int = 1000, reason: Optional[str] = None) -> None:
+    async def close(self, code: int = 1000, reason: str | None = None) -> None:
 
         # notification that the console session ended; nothing to record
         pass

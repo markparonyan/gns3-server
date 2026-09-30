@@ -20,7 +20,6 @@ API routes for Netmiko metadata.
 """
 
 import logging
-from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status
 
@@ -35,7 +34,7 @@ router = APIRouter()
 
 # Computed once per process: the list only changes if the installed
 # Netmiko library changes, which requires a server restart anyway.
-_device_types_cache: Optional[schemas.NetmikoDeviceTypeList] = None
+_device_types_cache: schemas.NetmikoDeviceTypeList | None = None
 
 
 def _load_netmiko_device_types() -> schemas.NetmikoDeviceTypeList:

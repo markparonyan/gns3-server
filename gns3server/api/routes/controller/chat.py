@@ -23,7 +23,7 @@ Nested under projects: /v3/projects/{project_id}/chat/...
 import json
 import logging
 import uuid
-from typing import Any, List, Optional
+from typing import Any, List
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
@@ -199,7 +199,7 @@ async def stream_chat(
 )
 async def list_sessions(
     project: Project = Depends(dep_project),
-    copilot_mode: Optional[str] = None,
+    copilot_mode: str | None = None,
     current_user: schemas.User = Depends(get_current_active_user),
 ) -> list[schemas.ChatSession]:
     """

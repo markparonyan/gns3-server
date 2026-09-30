@@ -33,7 +33,7 @@ including Git operations and hot reload of skills.
 import logging
 import os
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 try:
     import git
@@ -69,7 +69,7 @@ class SkillsManager:
     - Version tracking
     """
 
-    def __init__(self, repo_url: Optional[str] = None, branch: str = "main", auto_update: bool = False):
+    def __init__(self, repo_url: str | None = None, branch: str = "main", auto_update: bool = False):
         """
         Initialize the skills manager.
 
@@ -90,7 +90,7 @@ class SkillsManager:
         self.branch = branch
         self.auto_update = auto_update
         self.loader = SkillsLoader(str(local_path))
-        self._repo: Optional[git.Repo] = None
+        self._repo: git.Repo | None = None
         self._prompt_count = 0
 
         if not GIT_AVAILABLE:

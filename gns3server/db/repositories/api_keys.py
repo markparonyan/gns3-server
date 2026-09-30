@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import List, Optional, cast
+from typing import List, cast
 from uuid import UUID
 
 from sqlalchemy import delete, func, select, update
@@ -48,7 +48,7 @@ class ApiKeysRepository(BaseRepository):
         await self._db_session.refresh(db_api_key)
         return db_api_key
 
-    async def get_api_key(self, api_key_id: UUID) -> Optional[models.ApiKey]:
+    async def get_api_key(self, api_key_id: UUID) -> models.ApiKey | None:
         query = select(models.ApiKey).where(models.ApiKey.api_key_id == api_key_id)
         result = await self._db_session.execute(query)
         return result.scalars().first()
@@ -58,7 +58,7 @@ class ApiKeysRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return list(result.scalars().all())
 
-    async def get_api_key_by_hash(self, key_hash: str) -> Optional[models.ApiKey]:
+    async def get_api_key_by_hash(self, key_hash: str) -> models.ApiKey | None:
         query = select(models.ApiKey).where(models.ApiKey.key_hash == key_hash)
         result = await self._db_session.execute(query)
         return result.scalars().first()

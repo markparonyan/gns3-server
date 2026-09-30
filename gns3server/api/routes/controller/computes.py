@@ -18,7 +18,7 @@
 API routes for computes.
 """
 
-from typing import Any, List, Optional, Union
+from typing import Any, List, Union
 from uuid import UUID
 
 from fastapi import APIRouter, Body, Depends, status
@@ -52,7 +52,7 @@ router = APIRouter(responses=responses)
 async def create_compute(
     compute_create: schemas.ComputeCreate,
     computes_repo: ComputesRepository = Depends(get_repository(ComputesRepository)),
-    connect: Optional[bool] = False,
+    connect: bool | None = False,
 ) -> models.Compute:
     """
     Create a new compute on the controller.

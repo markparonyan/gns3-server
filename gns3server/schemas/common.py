@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import Optional
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -44,9 +43,9 @@ class CustomAdapter(BaseModel):
     """
 
     adapter_number: int
-    port_name: Optional[str] = None
-    adapter_type: Optional[str] = None
-    mac_address: Optional[str] = Field(None, pattern="^([0-9a-fA-F]{2}[:]){5}([0-9a-fA-F]{2})$")
+    port_name: str | None = None
+    adapter_type: str | None = None
+    mac_address: str | None = Field(None, pattern="^([0-9a-fA-F]{2}[:]){5}([0-9a-fA-F]{2})$")
 
 
 class ExtraConfig(BaseModel):

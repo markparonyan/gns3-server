@@ -31,7 +31,7 @@ import gns3server.utils.zipfile_zstd as zipfile
 
 log = logging.getLogger()
 
-from typing import Any, List, Optional
+from typing import Any, List
 from uuid import UUID
 
 from fastapi import APIRouter, Body, Depends, HTTPException, Request, WebSocket, WebSocketDisconnect, status
@@ -237,8 +237,8 @@ async def _replay_response(awaitable):
 )
 async def replay_tag_range(
     tag: int,
-    filter: Optional[str] = None,
-    link: Optional[str] = None,
+    filter: str | None = None,
+    link: str | None = None,
     project: Project = Depends(dep_project),
 ) -> dict:
     """
@@ -280,8 +280,8 @@ async def replay_tag_frames(
     ts: str,
     window_ms: int = 100,
     limit: int = 1000,
-    filter: Optional[str] = None,
-    link: Optional[str] = None,
+    filter: str | None = None,
+    link: str | None = None,
     project: Project = Depends(dep_project),
 ) -> dict:
     """
@@ -321,7 +321,7 @@ async def replay_tag_frame_detail(
     node_id: str,
     link_id: str,
     marker: str,
-    frame_number: Optional[int] = None,
+    frame_number: int | None = None,
     project: Project = Depends(dep_project),
 ) -> dict:
     """
@@ -640,7 +640,7 @@ async def export_project(
     reset_mac_addresses: bool = False,
     keep_compute_ids: bool = False,
     compression: schemas.ProjectCompression = schemas.ProjectCompression.zstd,
-    compression_level: Optional[int] = None,
+    compression_level: int | None = None,
 ) -> StreamingResponse:
     """
     Export a project as a portable archive.
@@ -720,7 +720,7 @@ async def export_project(
     response_model=schemas.Project,
     dependencies=[Depends(has_privilege("Project.Allocate"))],
 )
-async def import_project(project_id: UUID, request: Request, name: Optional[str] = None) -> schemas.Project:
+async def import_project(project_id: UUID, request: Request, name: str | None = None) -> schemas.Project:
     """
     Import a project from a portable archive.
 

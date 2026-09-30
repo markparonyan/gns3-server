@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import Optional
 
 from pydantic import BaseModel, Field
 
@@ -79,16 +78,16 @@ class QemuDiskImageAdapterType(str, Enum):
 
 
 class QemuDiskImageBase(BaseModel):
-    format: Optional[QemuDiskImageFormat] = Field(None, description="Image format type")
-    size: Optional[int] = Field(None, description="Image size in Megabytes")
-    preallocation: Optional[QemuDiskImagePreallocation] = None
-    cluster_size: Optional[int] = None
-    refcount_bits: Optional[int] = None
-    lazy_refcounts: Optional[QemuDiskImageOnOff] = None
-    subformat: Optional[QemuDiskImageSubformat] = None
-    static: Optional[QemuDiskImageOnOff] = None
-    zeroed_grain: Optional[QemuDiskImageOnOff] = None
-    adapter_type: Optional[QemuDiskImageAdapterType] = None
+    format: QemuDiskImageFormat | None = Field(None, description="Image format type")
+    size: int | None = Field(None, description="Image size in Megabytes")
+    preallocation: QemuDiskImagePreallocation | None = None
+    cluster_size: int | None = None
+    refcount_bits: int | None = None
+    lazy_refcounts: QemuDiskImageOnOff | None = None
+    subformat: QemuDiskImageSubformat | None = None
+    static: QemuDiskImageOnOff | None = None
+    zeroed_grain: QemuDiskImageOnOff | None = None
+    adapter_type: QemuDiskImageAdapterType | None = None
 
 
 class QemuDiskImageCreate(QemuDiskImageBase):
@@ -97,4 +96,4 @@ class QemuDiskImageCreate(QemuDiskImageBase):
 
 
 class QemuDiskImageUpdate(QemuDiskImageBase):
-    extend: Optional[int] = Field(None, description="Number of Megabytes to extend the image")
+    extend: int | None = Field(None, description="Number of Megabytes to extend the image")

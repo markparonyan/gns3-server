@@ -19,7 +19,7 @@ import asyncio
 import json
 import logging
 import os
-from typing import List, Optional, Tuple
+from typing import List, Tuple
 from uuid import UUID
 
 import platformdirs
@@ -211,7 +211,7 @@ class ApplianceManager:
         log.info(f"Template '{template.get('name')}' has been created")
         return template
 
-    async def _appliance_to_template(self, appliance: Appliance, version: Optional[dict] = None) -> dict:
+    async def _appliance_to_template(self, appliance: Appliance, version: dict | None = None) -> dict:
         """
         Get template data from appliance
         """
@@ -363,7 +363,7 @@ class ApplianceManager:
             template_data = await self._appliance_to_template(appliance)
             return await self._create_template(template_data, templates_repo, rbac_repo, current_user)
 
-    def load_appliances(self, symbol_theme: Optional[str] = None) -> None:
+    def load_appliances(self, symbol_theme: str | None = None) -> None:
         """
         Loads appliance files from disk.
         """
@@ -404,7 +404,7 @@ class ApplianceManager:
                         print(f"Cannot load appliance file '{path}': {e}")
                         continue
 
-    def _get_default_symbol(self, appliance: dict, symbol_theme: Optional[str]) -> str:
+    def _get_default_symbol(self, appliance: dict, symbol_theme: str | None) -> str:
         """
         Returns the default symbol for a given appliance.
         """

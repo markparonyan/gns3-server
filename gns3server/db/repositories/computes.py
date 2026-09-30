@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Optional, Union, cast
+from typing import List, Union, cast
 from uuid import UUID
 
 from sqlalchemy import delete, select, update
@@ -33,13 +33,13 @@ class ComputesRepository(BaseRepository):
 
         super().__init__(db_session)
 
-    async def get_compute(self, compute_id: Union[str, UUID]) -> Optional[models.Compute]:
+    async def get_compute(self, compute_id: Union[str, UUID]) -> models.Compute | None:
 
         query = select(models.Compute).where(models.Compute.compute_id == compute_id)
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_compute_by_name(self, name: str) -> Optional[models.Compute]:
+    async def get_compute_by_name(self, name: str) -> models.Compute | None:
 
         query = select(models.Compute).where(models.Compute.name == name)
         result = await self._db_session.execute(query)
@@ -69,7 +69,7 @@ class ComputesRepository(BaseRepository):
 
     async def update_compute(
         self, compute_id: Union[str, UUID], compute_update: schemas.ComputeUpdate
-    ) -> Optional[models.Compute]:
+    ) -> models.Compute | None:
 
         update_values = compute_update.model_dump(exclude_unset=True)
         if compute_update.password is not None:

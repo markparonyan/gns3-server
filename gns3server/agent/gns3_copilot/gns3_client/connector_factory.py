@@ -46,7 +46,6 @@ Features:
 import asyncio
 import concurrent.futures
 import logging
-from typing import Optional
 from uuid import UUID
 
 # Local imports
@@ -63,7 +62,7 @@ logger = logging.getLogger(__name__)
 DEFAULT_GNS3_URL = "http://127.0.0.1:3080"
 
 
-def _get_url_from_controller() -> Optional[str]:
+def _get_url_from_controller() -> str | None:
     """Try to get GNS3 server URL from running Controller instance.
 
     Returns:
@@ -98,7 +97,7 @@ def _get_url_from_controller() -> Optional[str]:
         return None
 
 
-def _get_url_from_config() -> Optional[str]:
+def _get_url_from_config() -> str | None:
     """Try to get GNS3 server URL from Config settings.
 
     Returns:
@@ -128,7 +127,7 @@ def _get_url_from_config() -> Optional[str]:
         return None
 
 
-def get_gns3_connector(jwt_token: Optional[str] = None, url: Optional[str] = None) -> Optional[Gns3Connector]:
+def get_gns3_connector(jwt_token: str | None = None, url: str | None = None) -> Gns3Connector | None:
     """Create and return a Gns3Connector instance with JWT authentication.
 
     URL Resolution Strategy (in order):
@@ -216,9 +215,7 @@ def get_gns3_connector(jwt_token: Optional[str] = None, url: Optional[str] = Non
         return None
 
 
-async def get_gns3_connector_with_llm_config(
-    user_id, jwt_token: str, url: Optional[str] = None, app=None
-) -> Optional[dict]:
+async def get_gns3_connector_with_llm_config(user_id, jwt_token: str, url: str | None = None, app=None) -> dict | None:
     """
     Create Gns3Connector and retrieve LLM model configuration for the user.
 
@@ -292,7 +289,7 @@ async def get_gns3_connector_with_llm_config(
         return None
 
 
-def _detect_url_for_api() -> Optional[str]:
+def _detect_url_for_api() -> str | None:
     """
     Detect GNS3 server URL for API calls.
 
@@ -362,7 +359,7 @@ def get_gns3_server_host() -> str:
         return DEFAULT_GNS3_URL.split("://")[1].split(":")[0]
 
 
-def get_llm_config(user_id, jwt_token: str, app=None) -> Optional[dict]:
+def get_llm_config(user_id, jwt_token: str, app=None) -> dict | None:
     """
     Get LLM model configuration for a user.
 

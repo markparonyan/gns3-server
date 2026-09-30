@@ -15,7 +15,7 @@ import asyncio
 import logging
 import sys
 import time
-from typing import List, Optional
+from typing import List
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -29,8 +29,8 @@ class TelnetClient:
         self.client_id = client_id
         self.host = host
         self.port = port
-        self.reader: Optional[asyncio.StreamReader] = None
-        self.writer: Optional[asyncio.StreamWriter] = None
+        self.reader: asyncio.StreamReader | None = None
+        self.writer: asyncio.StreamWriter | None = None
         self.connected = False
 
     async def connect(self) -> bool:
@@ -61,7 +61,7 @@ class TelnetClient:
             log.warning(f"Client {self.client_id}: Send failed: {e}")
             return False
 
-    async def receive_response(self, timeout: float = 1.0) -> Optional[str]:
+    async def receive_response(self, timeout: float = 1.0) -> str | None:
         """Receive response from server (optional)."""
         if not self.reader or not self.connected:
             return None

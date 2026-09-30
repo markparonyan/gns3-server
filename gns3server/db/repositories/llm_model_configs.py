@@ -17,7 +17,7 @@
 
 import logging
 from datetime import datetime
-from typing import Any, Dict, List, Optional, cast
+from typing import Any, Dict, List, cast
 from uuid import UUID
 
 from sqlalchemy import and_, delete, select, update
@@ -49,7 +49,7 @@ class LLMModelConfigsRepository(BaseRepository):
 
     # User configuration methods
 
-    async def get_user_config(self, config_id: UUID) -> Optional[models.LLMModelConfig]:
+    async def get_user_config(self, config_id: UUID) -> models.LLMModelConfig | None:
         """Get a user's LLM model configuration by ID."""
         query = select(models.LLMModelConfig).where(
             and_(models.LLMModelConfig.config_id == config_id, models.LLMModelConfig.user_id.isnot(None))
@@ -67,7 +67,7 @@ class LLMModelConfigsRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return list(result.scalars().all())
 
-    async def get_user_default_config(self, user_id: UUID) -> Optional[models.LLMModelConfig]:
+    async def get_user_default_config(self, user_id: UUID) -> models.LLMModelConfig | None:
         """Get a user's default LLM model configuration."""
         query = select(models.LLMModelConfig).where(
             and_(models.LLMModelConfig.user_id == user_id, models.LLMModelConfig.is_default)
@@ -107,8 +107,8 @@ class LLMModelConfigsRepository(BaseRepository):
         return db_config
 
     async def update_user_config(
-        self, config_id: UUID, user_id: UUID, updates: Dict[str, Any], expected_version: Optional[int] = None
-    ) -> Optional[models.LLMModelConfig]:
+        self, config_id: UUID, user_id: UUID, updates: Dict[str, Any], expected_version: int | None = None
+    ) -> models.LLMModelConfig | None:
         """
         Update a user's LLM model configuration.
         Uses optimistic locking to prevent concurrent modifications.
@@ -208,7 +208,7 @@ class LLMModelConfigsRepository(BaseRepository):
 
     # Group configuration methods
 
-    async def get_group_config(self, config_id: UUID) -> Optional[models.LLMModelConfig]:
+    async def get_group_config(self, config_id: UUID) -> models.LLMModelConfig | None:
         """Get a group's LLM model configuration by ID."""
         query = select(models.LLMModelConfig).where(
             and_(models.LLMModelConfig.config_id == config_id, models.LLMModelConfig.group_id.isnot(None))
@@ -226,7 +226,7 @@ class LLMModelConfigsRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return list(result.scalars().all())
 
-    async def get_group_default_config(self, group_id: UUID) -> Optional[models.LLMModelConfig]:
+    async def get_group_default_config(self, group_id: UUID) -> models.LLMModelConfig | None:
         """Get a group's default LLM model configuration."""
         query = select(models.LLMModelConfig).where(
             and_(models.LLMModelConfig.group_id == group_id, models.LLMModelConfig.is_default)
@@ -266,8 +266,8 @@ class LLMModelConfigsRepository(BaseRepository):
         return db_config
 
     async def update_group_config(
-        self, config_id: UUID, group_id: UUID, updates: Dict[str, Any], expected_version: Optional[int] = None
-    ) -> Optional[models.LLMModelConfig]:
+        self, config_id: UUID, group_id: UUID, updates: Dict[str, Any], expected_version: int | None = None
+    ) -> models.LLMModelConfig | None:
         """
         Update a group's LLM model configuration.
         Uses optimistic locking to prevent concurrent modifications.
@@ -368,7 +368,7 @@ class LLMModelConfigsRepository(BaseRepository):
     # Inheritance methods
 
     async def get_user_effective_configs(
-        self, user_id: UUID, current_user_id: Optional[UUID] = None, current_user_is_superadmin: bool = False
+        self, user_id: UUID, current_user_id: UUID | None = None, current_user_is_superadmin: bool = False
     ) -> Dict[str, Any]:
         """
         Get user's effective configurations (own + inherited from groups).

@@ -18,7 +18,7 @@ import base64
 import binascii
 import logging
 import secrets
-from typing import Optional, Union
+from typing import Union
 
 from fastapi import Depends, HTTPException, WebSocket, status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
@@ -30,7 +30,7 @@ log = logging.getLogger(__name__)
 security = HTTPBasic(auto_error=False)
 
 
-def compute_authentication(credentials: Optional[HTTPBasicCredentials] = Depends(security)) -> None:
+def compute_authentication(credentials: HTTPBasicCredentials | None = Depends(security)) -> None:
     """
     Authenticate compute requests.
 

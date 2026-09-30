@@ -20,7 +20,7 @@ API routes for resource pools.
 """
 
 import logging
-from typing import List, Optional
+from typing import List
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, status
@@ -100,7 +100,7 @@ async def update_resource_pool(
     resource_pool_id: UUID,
     resource_pool_update: schemas.ResourcePoolUpdate,
     pools_repo: ResourcePoolsRepository = Depends(get_repository(ResourcePoolsRepository)),
-) -> Optional[models.ResourcePool]:
+) -> models.ResourcePool | None:
     """
     Update a resource pool.
 

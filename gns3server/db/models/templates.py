@@ -17,7 +17,6 @@
 
 
 import uuid
-from typing import Optional
 
 from sqlalchemy import JSON, Boolean, Column, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -35,7 +34,7 @@ class Template(BaseTable):
 
     template_id: Mapped[uuid.UUID] = mapped_column(GUID, primary_key=True, default=generate_uuid)
     name = Column(String, index=True)
-    version: Mapped[Optional[str]] = mapped_column(String)
+    version: Mapped[str | None] = mapped_column(String)
     category = Column(String)
     default_name_format = Column(String)
     symbol = Column(String)

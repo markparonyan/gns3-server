@@ -29,7 +29,7 @@ Maintains state for streaming tool call chunks
 Based on FlowNet-Lab implementation
 """
 
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 
 class ToolCallStreamAccumulator:
@@ -45,7 +45,7 @@ class ToolCallStreamAccumulator:
     def __init__(self) -> None:
         # Current active tool call being accumulated
         # Format: {"id": str, "name": str, "args_string": str}
-        self._current_tool_call: Optional[Dict[str, str]] = None
+        self._current_tool_call: Dict[str, str] | None = None
 
     def process_event(self, event: Dict[str, Any]) -> List[Dict[str, Any]]:
         """

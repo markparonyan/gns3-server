@@ -18,7 +18,6 @@
 import logging
 import uuid
 from datetime import datetime
-from typing import Optional
 
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String, Table, event
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -46,7 +45,7 @@ class User(BaseTable):
     email = Column(String, unique=True, index=True)
     full_name = Column(String)
     hashed_password = Column(String)
-    last_login: Mapped[Optional[datetime]] = mapped_column(DateTime)
+    last_login: Mapped[datetime | None] = mapped_column(DateTime)
     token_version: Mapped[int] = mapped_column(Integer, default=0, nullable=False, server_default="0")
     is_active = Column(Boolean, default=True)
     is_superadmin = Column(Boolean, default=False)

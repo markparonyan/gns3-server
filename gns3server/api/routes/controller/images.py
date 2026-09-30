@@ -22,7 +22,7 @@ import logging
 import os
 import tempfile
 import urllib.parse
-from typing import List, Literal, Optional
+from typing import List, Literal
 
 from fastapi import APIRouter, Depends, Query, Request, Response, status
 from fastapi.encoders import jsonable_encoder
@@ -110,7 +110,7 @@ async def create_qemu_image(
     image_path: str,
     image_data: schemas.QemuDiskImageCreate,
     images_repo: ImagesRepository = Depends(get_repository(ImagesRepository)),
-) -> Optional[models.Image]:
+) -> models.Image | None:
     """
     Create a new blank Qemu image.
 
@@ -157,8 +157,8 @@ async def create_qemu_image(
 @router.get("", response_model=List[schemas.Image], dependencies=[Depends(has_privilege("Image.Audit"))])
 async def get_images(
     images_repo: ImagesRepository = Depends(get_repository(ImagesRepository)),
-    image_type: Optional[schemas.ImageType] = None,
-    availability: Optional[Literal["unknown", "available", "missing", "unavailable", "invalid"]] = None,
+    image_type: schemas.ImageType | None = None,
+    availability: Literal["unknown", "available", "missing", "unavailable", "invalid"] | None = None,
 ) -> List[models.Image]:
     """
     Return all images.
@@ -182,7 +182,7 @@ async def upload_image(
     templates_repo: TemplatesRepository = Depends(get_repository(TemplatesRepository)),
     current_user: schemas.User = Depends(get_current_active_user),
     rbac_repo: RbacRepository = Depends(get_repository(RbacRepository)),
-    install_appliances: Optional[bool] = False,
+    install_appliances: bool | None = False,
 ) -> models.Image:
     """
     Upload an image.

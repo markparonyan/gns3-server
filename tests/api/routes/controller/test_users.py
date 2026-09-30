@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional
 
 import pytest
 from fastapi import FastAPI, HTTPException, status
@@ -189,7 +188,7 @@ class TestAuthTokens:
         client: AsyncClient,
         test_user: User,
         wrong_secret: str,
-        wrong_token: Optional[str],
+        wrong_token: str | None,
         config,
     ) -> None:
 

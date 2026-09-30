@@ -21,7 +21,7 @@ API routes for ACL.
 
 import logging
 import re
-from typing import Iterator, List, Optional, Sequence
+from typing import Iterator, List, Sequence
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, Request, status
@@ -239,7 +239,7 @@ async def get_ace(
 @router.put("/{ace_id}", response_model=schemas.ACE, dependencies=[Depends(has_privilege("ACE.Modify"))])
 async def update_ace(
     ace_id: UUID, ace_update: schemas.ACEUpdate, rbac_repo: RbacRepository = Depends(get_repository(RbacRepository))
-) -> Optional[models.ACE]:
+) -> models.ACE | None:
     """
     Update an ACL entry.
 

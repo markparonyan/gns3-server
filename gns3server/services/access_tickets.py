@@ -42,7 +42,6 @@ import logging
 import secrets
 import time
 from dataclasses import dataclass
-from typing import Optional
 
 log = logging.getLogger(__name__)
 
@@ -55,9 +54,9 @@ DEFAULT_TICKET_TTL = 600  # seconds
 class AccessTicket:
     username: str
     token_version: int
-    project_id: Optional[str] = None  # node binding: console WebSocket endpoints
-    node_id: Optional[str] = None
-    path: Optional[str] = None  # path binding: one exact REST resource path
+    project_id: str | None = None  # node binding: console WebSocket endpoints
+    node_id: str | None = None
+    path: str | None = None  # path binding: one exact REST resource path
     expires_at: float = 0.0  # time.monotonic() based
 
 
@@ -79,9 +78,9 @@ class AccessTicketService:
         self,
         username: str,
         token_version: int,
-        project_id: Optional[str] = None,
-        node_id: Optional[str] = None,
-        path: Optional[str] = None,
+        project_id: str | None = None,
+        node_id: str | None = None,
+        path: str | None = None,
         ttl: int = DEFAULT_TICKET_TTL,
     ) -> str:
         # 12 random bytes → 16 urlsafe chars (~96 bits); comfortably
@@ -99,7 +98,7 @@ class AccessTicketService:
         )
         return ticket
 
-    def redeem(self, ticket: str, path_params: dict) -> Optional[AccessTicket]:
+    def redeem(self, ticket: str, path_params: dict) -> AccessTicket | None:
         """
         Validate a node-bound ticket against a WebSocket route.
 
@@ -119,7 +118,7 @@ class AccessTicketService:
             return None
         return record
 
-    def redeem_for_path(self, ticket: str, path: str) -> Optional[AccessTicket]:
+    def redeem_for_path(self, ticket: str, path: str) -> AccessTicket | None:
         """
         Validate a path-bound ticket against a REST resource path.
 
@@ -134,7 +133,7 @@ class AccessTicketService:
             return None
         return record
 
-    def _get_valid(self, ticket: str) -> Optional[AccessTicket]:
+    def _get_valid(self, ticket: str) -> AccessTicket | None:
         record = self._tickets.get(ticket)
         if record is None:
             return None

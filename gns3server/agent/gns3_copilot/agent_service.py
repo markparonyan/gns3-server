@@ -36,7 +36,7 @@ import json
 import logging
 import os
 from datetime import datetime
-from typing import Any, AsyncGenerator, Dict, List, Optional
+from typing import Any, AsyncGenerator, Dict, List
 from uuid import uuid4
 
 import aiosqlite
@@ -78,9 +78,9 @@ class AgentService:
             project_path: Path to the GNS3 project directory
         """
         self.project_path = project_path
-        self._checkpointer: Optional[AsyncSqliteSaver] = None
-        self._checkpointer_conn: Optional[aiosqlite.Connection] = None
-        self._checkpointer_path: Optional[str] = None
+        self._checkpointer: AsyncSqliteSaver | None = None
+        self._checkpointer_conn: aiosqlite.Connection | None = None
+        self._checkpointer_path: str | None = None
         self._graph = None
         self._init_lock = asyncio.Lock()
         self._initialized = False
@@ -219,11 +219,11 @@ class AgentService:
         self,
         message: str,
         session_id: str,
-        project_id: Optional[str] = None,
-        user_id: Optional[str] = None,
-        jwt_token: Optional[str] = None,
+        project_id: str | None = None,
+        user_id: str | None = None,
+        jwt_token: str | None = None,
         mode: str = "text",
-        llm_config: Optional[Dict[str, Any]] = None,
+        llm_config: Dict[str, Any] | None = None,
     ) -> AsyncGenerator[Dict[str, Any], None]:
         """
         Stream chat responses from the agent.
@@ -512,7 +512,7 @@ class AgentService:
                 "session_id": session_id,
             }
 
-    def _convert_event_to_chunk(self, event: Dict[str, Any], session_id: str) -> Optional[Dict[str, Any]]:
+    def _convert_event_to_chunk(self, event: Dict[str, Any], session_id: str) -> Dict[str, Any] | None:
         """
         Convert LangGraph event to API response chunk.
 
@@ -604,7 +604,7 @@ class AgentService:
         return convert_langchain_to_openai(msg)
 
     async def list_sessions(
-        self, user_id: Optional[str] = None, copilot_mode: Optional[str] = None, limit: int = 100
+        self, user_id: str | None = None, copilot_mode: str | None = None, limit: int = 100
     ) -> List[Dict[str, Any]]:
         """
         List chat sessions for this project.
@@ -638,7 +638,7 @@ class AgentService:
         repo = ChatSessionsRepository(checkpointer.conn)
         return await repo.delete_session(session_id)
 
-    async def rename_session(self, session_id: str, new_title: str) -> Optional[Dict[str, Any]]:
+    async def rename_session(self, session_id: str, new_title: str) -> Dict[str, Any] | None:
         """
         Rename a chat session.
 
@@ -655,7 +655,7 @@ class AgentService:
         session = await repo.update_session(thread_id=session_id, title=new_title)
         return session.to_dict() if session else None
 
-    async def pin_session(self, session_id: str, pinned: bool = True) -> Optional[Dict[str, Any]]:
+    async def pin_session(self, session_id: str, pinned: bool = True) -> Dict[str, Any] | None:
         """
         Pin or unpin a chat session.
 

@@ -63,7 +63,7 @@ class DockerHTTPClient:
             try:
                 self._connector = aiohttp.connector.UnixConnector(DOCKER_SOCKET, limit=None)
             except (aiohttp.ClientError, FileNotFoundError):
-                raise RuntimeError(f"Can't connect to Docker daemon at {DOCKER_SOCKET}")
+                raise RuntimeError(f"Can't connect to Docker daemon at {DOCKER_SOCKET}") from None
         return self._connector
 
     async def _get_session(self):
@@ -148,7 +148,7 @@ class DockerHTTPClient:
                         return None
                     return await response.json()
         except asyncio.TimeoutError:
-            raise RuntimeError(f"Docker API timeout after {self.REQUEST_TIMEOUT}s for {endpoint}")
+            raise RuntimeError(f"Docker API timeout after {self.REQUEST_TIMEOUT}s for {endpoint}") from None
         except aiohttp.ClientError as e:
             raise RuntimeError(f"Docker connection error: {e}") from e
         except RuntimeError as e:
@@ -262,7 +262,9 @@ class DockerHTTPClient:
                         raise RuntimeError(f"Docker API error {response.status}: {error_text}")
                     result = await response.json()
         except asyncio.TimeoutError:
-            raise RuntimeError(f"Docker API timeout after {self.REQUEST_TIMEOUT}s for containers/{container_name}/top")
+            raise RuntimeError(
+                f"Docker API timeout after {self.REQUEST_TIMEOUT}s for containers/{container_name}/top"
+            ) from None
         except aiohttp.ClientError as e:
             raise RuntimeError(f"Docker connection error: {e}") from e
 

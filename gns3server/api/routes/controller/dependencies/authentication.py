@@ -109,7 +109,7 @@ async def get_user_from_token(
         try:
             key_id = UUID(parts[1])
         except ValueError:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid API key format")
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid API key format") from None
         secret = parts[2]
         db_key = await api_keys_repo.get_api_key(key_id)
         if not db_key or db_key.revoked:

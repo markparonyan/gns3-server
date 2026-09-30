@@ -139,7 +139,7 @@ def validate_filter_parameters(filter_type: str, values: list[Any]) -> None:
             except (ValueError, TypeError):
                 raise FilterValidationError(
                     f"{filter_type} parameter {rules['names'][i]} must be an integer, got: {value}"
-                )
+                ) from None
 
             # Range validation
             min_val, max_val = rules["ranges"][i]

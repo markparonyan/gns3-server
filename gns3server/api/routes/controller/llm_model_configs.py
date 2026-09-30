@@ -82,7 +82,7 @@ async def get_user_llm_model_configs(
         log.error(f"Failed to retrieve user LLM model configs: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve LLM model configurations"
-        )
+        ) from e
 
 
 @router.get(
@@ -120,7 +120,7 @@ async def get_user_own_llm_model_configs(
         log.error(f"Failed to retrieve user's own LLM model configs: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve LLM model configurations"
-        )
+        ) from e
 
 
 @router.get(
@@ -163,7 +163,7 @@ async def get_user_default_llm_model_config(
         log.error(f"Failed to retrieve user's default LLM model config: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve LLM model configuration"
-        )
+        ) from e
 
 
 @router.post(
@@ -224,12 +224,12 @@ async def create_user_llm_model_config(
             updated_at=new_config.updated_at,
         )
     except ValueError as e:
-        raise ControllerBadRequestError(str(e))
+        raise ControllerBadRequestError(str(e)) from e
     except Exception as e:
         log.error(f"Failed to create LLM model config: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to create LLM model configuration: {e}"
-        )
+        ) from e
 
 
 @router.put(
@@ -283,13 +283,13 @@ async def update_user_llm_model_config(
     except ValueError as e:
         # Handle optimistic lock errors
         if "Concurrent modification" in str(e):
-            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
-        raise ControllerBadRequestError(str(e))
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e)) from e
+        raise ControllerBadRequestError(str(e)) from e
     except Exception as e:
         log.error(f"Failed to update LLM model config: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to update LLM model configuration"
-        )
+        ) from e
 
 
 @router.delete(
@@ -320,7 +320,7 @@ async def delete_user_llm_model_config(
         log.error(f"Failed to delete LLM model config: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to delete LLM model configuration"
-        )
+        ) from e
 
 
 @router.put(
@@ -370,7 +370,7 @@ async def set_user_default_llm_model_config(
         log.error(f"Failed to set default LLM model config: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to set default LLM model configuration"
-        )
+        ) from e
 
 
 # ============================================================================
@@ -428,7 +428,7 @@ async def get_group_llm_model_configs(
         log.error(f"Failed to retrieve group LLM model configs: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve LLM model configurations"
-        )
+        ) from e
 
 
 @router.get(
@@ -471,7 +471,7 @@ async def get_group_default_llm_model_config(
         log.error(f"Failed to retrieve group's default LLM model config: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to retrieve LLM model configuration"
-        )
+        ) from e
 
 
 @router.post(
@@ -532,12 +532,12 @@ async def create_group_llm_model_config(
             updated_at=new_config.updated_at,
         )
     except ValueError as e:
-        raise ControllerBadRequestError(str(e))
+        raise ControllerBadRequestError(str(e)) from e
     except Exception as e:
         log.error(f"Failed to create LLM model config: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to create LLM model configuration: {e}"
-        )
+        ) from e
 
 
 @router.put(
@@ -591,13 +591,13 @@ async def update_group_llm_model_config(
     except ValueError as e:
         # Handle optimistic lock errors
         if "Concurrent modification" in str(e):
-            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e))
-        raise ControllerBadRequestError(str(e))
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=str(e)) from e
+        raise ControllerBadRequestError(str(e)) from e
     except Exception as e:
         log.error(f"Failed to update LLM model config: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to update LLM model configuration"
-        )
+        ) from e
 
 
 @router.delete(
@@ -628,7 +628,7 @@ async def delete_group_llm_model_config(
         log.error(f"Failed to delete LLM model config: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to delete LLM model configuration"
-        )
+        ) from e
 
 
 @router.put(
@@ -678,4 +678,4 @@ async def set_group_default_llm_model_config(
         log.error(f"Failed to set default LLM model config: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to set default LLM model configuration"
-        )
+        ) from e

@@ -163,9 +163,9 @@ class PatchedStdinInput(StdinInput):
             self.stdin.fileno()
         except io.UnsupportedOperation:
             if "idlelib.run" in sys.modules:
-                raise io.UnsupportedOperation("Stdin is not a terminal. Running from Idle is not supported.")
+                raise io.UnsupportedOperation("Stdin is not a terminal. Running from Idle is not supported.") from None
             else:
-                raise io.UnsupportedOperation("Stdin is not a terminal.")
+                raise io.UnsupportedOperation("Stdin is not a terminal.") from None
 
 
 class UnstoppableEventLoop(EventLoop):

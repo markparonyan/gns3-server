@@ -74,14 +74,14 @@ class Server:
                 locale.setlocale(locale.LC_ALL, ("C", "UTF-8"))
             except locale.Error as e:
                 log.error(f"Could not switch to the C.UTF-8 locale: {e}")
-                raise SystemExit
+                raise SystemExit from e
         elif encoding != "UTF-8":
             log.warning(f"Your locale {language}.{encoding} encoding is not UTF-8, switching to the UTF-8 version...")
             try:
                 locale.setlocale(locale.LC_ALL, (language, "UTF-8"))
             except locale.Error as e:
                 log.error(f"Could not set an UTF-8 encoding for the {language} locale: {e}")
-                raise SystemExit
+                raise SystemExit from e
         else:
             log.info(f"Current locale is {language}.{encoding}")
 

@@ -72,7 +72,7 @@ async def get_symbol(symbol_id: str, request: Request) -> Response:
             },
         )
     except (KeyError, OSError) as e:
-        raise ControllerNotFoundError(f"Could not get symbol file: {e}")
+        raise ControllerNotFoundError(f"Could not get symbol file: {e}") from e
 
 
 @router.get(
@@ -93,7 +93,7 @@ async def get_symbol_dimensions(symbol_id: str) -> dict:
         symbol_dimensions = {"width": width, "height": height}
         return symbol_dimensions
     except (KeyError, OSError, ValueError) as e:
-        raise ControllerNotFoundError(f"Could not get symbol file: {e}")
+        raise ControllerNotFoundError(f"Could not get symbol file: {e}") from e
 
 
 @router.get("/default_symbols", dependencies=[Depends(has_privilege("Symbol.Audit"))])
@@ -127,7 +127,7 @@ async def upload_symbol(symbol_id: str, request: Request) -> None:
         with open(path, "wb") as f:
             f.write(await request.body())
     except (UnicodeEncodeError, OSError) as e:
-        raise ControllerError(f"Could not write symbol file '{path}': {e}")
+        raise ControllerError(f"Could not write symbol file '{path}': {e}") from e
 
     # Reset the symbol list
     controller.symbols.list()
@@ -154,7 +154,7 @@ async def delete_symbol(symbol_id: str) -> None:
     try:
         symbol_path = controller.symbols.get_path(symbol_id)
     except (KeyError, ControllerNotFoundError) as e:
-        raise ControllerNotFoundError(f"Symbol '{symbol_id}' not found: {e}")
+        raise ControllerNotFoundError(f"Symbol '{symbol_id}' not found: {e}") from e
 
     # Check if it's a built-in symbol (in resource directory)
     symbols_resource_dir = get_resource("symbols")
@@ -166,7 +166,7 @@ async def delete_symbol(symbol_id: str) -> None:
         os.remove(symbol_path)
         log.info(f"Deleted symbol file '{symbol_path}'")
     except OSError as e:
-        raise ControllerError(f"Could not delete symbol file '{symbol_path}': {e}")
+        raise ControllerError(f"Could not delete symbol file '{symbol_path}': {e}") from e
 
     # Clear the symbol size cache
     controller.symbols._symbol_size_cache.pop(symbol_id, None)

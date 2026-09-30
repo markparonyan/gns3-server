@@ -53,9 +53,9 @@ def parse_networking_file():
                     if key.endswith("HOSTONLY_SUBNET"):
                         allocated_subnets.append(value)
                 except ValueError:
-                    raise SystemExit(f"Error while parsing {VMWARE_NETWORKING_FILE}")
+                    raise SystemExit(f"Error while parsing {VMWARE_NETWORKING_FILE}") from None
     except OSError as e:
-        raise SystemExit(f"Cannot open {VMWARE_NETWORKING_FILE}: {e}")
+        raise SystemExit(f"Cannot open {VMWARE_NETWORKING_FILE}: {e}") from e
     return version, pairs, allocated_subnets
 
 
@@ -71,7 +71,7 @@ def write_networking_file(version, pairs):
             for key, value in vmnets.items():
                 f.write(f"answer {key} {value}\n")
     except OSError as e:
-        raise SystemExit(f"Cannot open {VMWARE_NETWORKING_FILE}: {e}")
+        raise SystemExit(f"Cannot open {VMWARE_NETWORKING_FILE}: {e}") from e
 
     # restart VMware networking service
     if sys.platform.startswith("darwin"):
@@ -259,7 +259,7 @@ def main():
     try:
         args = parser.parse_args()
     except argparse.ArgumentTypeError as e:
-        raise SystemExit(e)
+        raise SystemExit(e) from e
 
     vmnet_range = args.range if args.range is not None else DEFAULT_RANGE
     if sys.platform.startswith("win"):

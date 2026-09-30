@@ -85,7 +85,7 @@ async def ws_compute_authentication(websocket: WebSocket) -> None | WebSocket:
         try:
             data = base64.b64decode(param).decode("ascii")
         except (ValueError, UnicodeDecodeError, binascii.Error):
-            raise invalid_user_credentials_exc
+            raise invalid_user_credentials_exc from None
 
         username, separator, password = data.partition(":")
         if not separator:

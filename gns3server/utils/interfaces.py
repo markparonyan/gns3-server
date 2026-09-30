@@ -175,7 +175,7 @@ def is_interface_up(interface):
                     return True
             return False
         except OSError as e:
-            raise ComputeError(f"Exception when checking if {interface} is up: {e}")
+            raise ComputeError(f"Exception when checking if {interface} is up: {e}") from e
     else:
         # TODO: Windows & OSX support
         return True

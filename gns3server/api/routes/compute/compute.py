@@ -70,7 +70,9 @@ def batch_allocate_udp_ports(project_id: UUID, body: dict) -> dict:
     try:
         count = max(1, min(int(count), 10000))
     except (ValueError, TypeError):
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="count must be a positive integer")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="count must be a positive integer"
+        ) from None
     pm = ProjectManager.instance()
     project = pm.get_project(str(project_id))
     m = PortManager.instance()
@@ -131,7 +133,7 @@ def compute_statistics() -> dict:
         disk_usage = psutil.disk_usage(get_default_project_directory())
         disk_usage_percent = int(disk_usage.percent)
     except psutil.Error as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR) from e
         # raise HTTPConflict(text="Psutil error detected: {}".format(e))
 
     return {

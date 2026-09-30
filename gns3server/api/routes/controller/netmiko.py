@@ -95,5 +95,5 @@ def get_netmiko_device_types() -> schemas.NetmikoDeviceTypeList:
             raise HTTPException(
                 status_code=status.HTTP_501_NOT_IMPLEMENTED,
                 detail="Netmiko is not available. Install AI dependencies with: pip install gns3-server[ai-features]",
-            )
+            ) from None
     return _device_types_cache

@@ -249,7 +249,7 @@ class TemplatesService:
                 dynamips_template_schema = DYNAMIPS_PLATFORM_TO_SCHEMA[template_settings["platform"]]
                 template_settings = dynamips_template_schema.model_validate(create_settings).model_dump()
         except pydantic.ValidationError as e:
-            raise ControllerBadRequestError(f"JSON schema error received while creating new template: {e}")
+            raise ControllerBadRequestError(f"JSON schema error received while creating new template: {e}") from e
 
         # resolve the template symbol
         template_settings["symbol"] = self._controller.symbols.resolve_symbol(template_settings["symbol"])
@@ -309,7 +309,7 @@ class TemplatesService:
                 template_schema = TEMPLATE_TYPE_TO_UPDATE_SCHEMA[db_template.template_type]
             template_settings = template_schema.model_validate(update_settings).model_dump(exclude_unset=True)
         except pydantic.ValidationError as e:
-            raise ControllerBadRequestError(f"JSON schema error received while updating template: {e}")
+            raise ControllerBadRequestError(f"JSON schema error received while updating template: {e}") from e
 
         images_to_add_to_template = await self._find_images(db_template.template_type, template_settings)
         if isinstance(db_template, models.DynamipsTemplate) and "image" in template_settings:
@@ -379,7 +379,7 @@ class TemplatesService:
             with open(path, encoding="utf-8", errors="ignore") as f:
                 return f.read()
         except OSError as e:
-            raise ControllerError(str(e))
+            raise ControllerError(str(e)) from e
 
     def update_file(self, template_id: str, filename: str, content: str):
         safe_filename = os.path.basename(filename)
@@ -393,4 +393,4 @@ class TemplatesService:
             with open(path, "w", encoding="utf-8") as f:
                 f.write(content)
         except OSError as e:
-            raise ControllerError(str(e))
+            raise ControllerError(str(e)) from e

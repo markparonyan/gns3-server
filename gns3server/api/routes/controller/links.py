@@ -314,7 +314,7 @@ async def stream_pcap(request: Request, link: Link = Depends(dep_link)) -> Strea
                         break
                     yield data
         except aiohttp.ClientError as e:
-            raise ControllerError(f"Client error received when receiving pcap stream from compute: {e}")
+            raise ControllerError(f"Client error received when receiving pcap stream from compute: {e}") from e
 
     return StreamingResponse(compute_pcap_stream(), media_type="application/vnd.tcpdump.pcap")
 

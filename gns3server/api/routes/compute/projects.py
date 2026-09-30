@@ -385,12 +385,14 @@ async def write_compute_project_file(file_path: str, request: Request, project: 
                 f.write(chunk)
 
     except FileNotFoundError:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND) from None
     except PermissionError:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Permission denied writing to '{path}'")
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail=f"Permission denied writing to '{path}'"
+        ) from None
     except OSError as e:
         log.error(f"Error writing file '{path}': {e}")
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)) from e
 
 
 @router.delete("/projects/{project_id}/files/{file_path:path}", status_code=status.HTTP_204_NO_CONTENT)
@@ -412,8 +414,10 @@ async def delete_compute_project_file(file_path: str, project: Project = Depends
         else:
             os.remove(path)
     except FileNotFoundError:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND) from None
     except PermissionError:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Permission denied deleting '{path}'")
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail=f"Permission denied deleting '{path}'"
+        ) from None
     except OSError as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)) from e

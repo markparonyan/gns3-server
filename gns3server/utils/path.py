@@ -35,7 +35,9 @@ def get_default_project_directory():
     try:
         os.makedirs(path, exist_ok=True)
     except OSError as e:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail=f"Could not create project directory: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT, detail=f"Could not create project directory: {e}"
+        ) from e
     return path
 
 

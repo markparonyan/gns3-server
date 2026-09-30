@@ -146,11 +146,11 @@ async def update_server_settings(settings_update: schemas.SettingsUpdate) -> sch
     try:
         changed = Config.instance().update_config(changes)
     except ValidationError as e:
-        raise ControllerBadRequestError(f"Invalid server settings: {e}")
+        raise ControllerBadRequestError(f"Invalid server settings: {e}") from e
     except ConfigConflictError as e:
-        raise HTTPException(status_code=409, detail=str(e))
+        raise HTTPException(status_code=409, detail=str(e)) from e
     except OSError as e:
-        raise ControllerError(f"Could not write the configuration file: {e}")
+        raise ControllerError(f"Could not write the configuration file: {e}") from e
 
     restart_required = sorted(set(changed) & RESTART_REQUIRED)
 

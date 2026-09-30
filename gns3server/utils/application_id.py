@@ -80,4 +80,4 @@ def get_next_application_id(projects, computes, iol_docker=False):
         raise ControllerError(
             f"Cannot create a new {'IOL Docker' if iol_docker else 'IOU'} node "
             f"(limit of {limit} across all opened projects using the same computes)"
-        )
+        ) from None

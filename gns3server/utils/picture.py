@@ -53,14 +53,14 @@ def get_size(data, default_width=0, default_height=0):
             width, height = struct.unpack("<hh", data[6:10])
             filetype = "gif"
         except struct.error:
-            raise ValueError("Invalid GIF file")
+            raise ValueError("Invalid GIF file") from None
     # see png edition spec bytes are below chunk length then and finally the
     elif size >= 24 and data.startswith(b"\211PNG\r\n\032\n") and data[12:16] == b"IHDR":
         try:
             width, height = struct.unpack(">LL", data[16:24])
             filetype = "png"
         except struct.error:
-            raise ValueError("Invalid PNG file")
+            raise ValueError("Invalid PNG file") from None
     # Maybe this is for an older PNG version.
     elif size >= 16 and data.startswith(b"\211PNG\r\n\032\n"):
         # Check to see if we have the right content type
@@ -68,7 +68,7 @@ def get_size(data, default_width=0, default_height=0):
             width, height = struct.unpack(">LL", data[8:16])
             filetype = "png"
         except struct.error:
-            raise ValueError("Invalid PNG file")
+            raise ValueError("Invalid PNG file") from None
     # handle JPEGs
     elif size >= 2 and data.startswith(b"\377\330"):
         try:
@@ -88,7 +88,7 @@ def get_size(data, default_width=0, default_height=0):
             height, width = struct.unpack(">HH", fhandle.read(4))
             filetype = "jpg"
         except struct.error:
-            raise ValueError("Invalid JPEG file")
+            raise ValueError("Invalid JPEG file") from None
     # End of https://github.com/shibukawa/imagesize_py
 
     # handle SVG
@@ -99,7 +99,7 @@ def get_size(data, default_width=0, default_height=0):
         try:
             tree.parse(fhandle)
         except ParseError:
-            raise ValueError("Invalid SVG file")
+            raise ValueError("Invalid SVG file") from None
 
         root = tree.getroot()
 
@@ -121,7 +121,7 @@ def get_size(data, default_width=0, default_height=0):
             else:
                 height = _svg_convert_size(height_attr)
         except (AttributeError, IndexError) as e:
-            raise ValueError(f"Invalid SVG file: {e}")
+            raise ValueError(f"Invalid SVG file: {e}") from e
 
     return width, height, filetype
 

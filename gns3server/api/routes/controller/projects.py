@@ -226,9 +226,9 @@ async def _replay_response(awaitable):
     try:
         return await awaitable
     except SharkdMissingError as e:
-        raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail=str(e))
+        raise HTTPException(status_code=status.HTTP_501_NOT_IMPLEMENTED, detail=str(e)) from e
     except SharkdError as e:
-        raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail=str(e))
+        raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail=str(e)) from e
 
 
 @router.get(
@@ -702,7 +702,7 @@ async def export_project(
     # Will be raised if you have no space left or permission issue on your temporary directory
     # RuntimeError: something was wrong during the zip process
     except (ValueError, OSError, RuntimeError) as e:
-        raise ConnectionError(f"Cannot export project: {e}")
+        raise ConnectionError(f"Cannot export project: {e}") from e
 
     fallback = project.name.encode("ascii", "ignore").decode() or "project"
     encoded = urllib.parse.quote(project.name, safe="")
@@ -743,7 +743,7 @@ async def import_project(project_id: UUID, request: Request, name: str | None = 
 
         log.info(f"Project '{project.name}' imported in {time.time() - begin:.4f} seconds")
     except OSError as e:
-        raise ControllerError(f"Could not import the project: {e}")
+        raise ControllerError(f"Could not import the project: {e}") from e
     return project.asdict()
 
 
@@ -905,11 +905,11 @@ async def write_file(file_path: str, request: Request, project: Project = Depend
             async for chunk in request.stream():
                 await f.write(chunk)
     except FileNotFoundError:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND) from None
     except PermissionError:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED) from None
     except OSError as e:
-        raise ControllerError(str(e))
+        raise ControllerError(str(e)) from e
 
 
 @router.post(

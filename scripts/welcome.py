@@ -71,8 +71,8 @@ class Welcome_dialog:
         """
         ip_addr = self.get_ip()
         subprocess.run(  # noqa: S603
-            ["sed", "-i", f"s/host = 0.0.0.0/host = {ip_addr}/", "/etc/gns3/gns3_server.conf"],
-            capture_output=False,  # noqa: S607
+            ["sed", "-i", f"s/host = 0.0.0.0/host = {ip_addr}/", "/etc/gns3/gns3_server.conf"],  # noqa: S607
+            capture_output=False,
         )
         subprocess.run(["service", "gns3", "stop"], capture_output=False)  # noqa: S607
         subprocess.run(["service", "gns3", "start"], capture_output=False)  # noqa: S607

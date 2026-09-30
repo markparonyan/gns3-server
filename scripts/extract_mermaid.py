@@ -317,10 +317,10 @@ def main():
         # 4. @mermaid-js/mermaid-cli
         try:
             result = subprocess.run(  # noqa: S603
-                ["npx", "--yes", MMDC_PACKAGE, "--version"],
+                ["npx", "--yes", MMDC_PACKAGE, "--version"],  # noqa: S607
                 capture_output=True,
                 text=True,
-                timeout=30,  # noqa: S607
+                timeout=30,
             )
             if result.returncode == 0:
                 print("  mermaid-cli: available")

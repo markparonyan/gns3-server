@@ -127,9 +127,9 @@ def build_image(dockerfile_path):
     print("-" * 60)
 
     result = subprocess.run(  # noqa: S603
-        ["docker", "build", "-t", DOCKER_IMAGE, "-f", dockerfile_path, "."],
+        ["docker", "build", "-t", DOCKER_IMAGE, "-f", dockerfile_path, "."],  # noqa: S607
         cwd=dockerfile_dir,
-        pass_fds=(1, 2),  # noqa: S607
+        pass_fds=(1, 2),
     )
 
     return result.returncode == 0

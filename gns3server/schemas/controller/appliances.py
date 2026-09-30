@@ -17,7 +17,7 @@
 # Unified Pydantic model supporting both appliance registry versions using discriminated unions
 
 from enum import Enum
-from typing import Annotated, List, Literal, Optional, Union
+from typing import Annotated, List, Literal, Union
 from uuid import UUID
 
 from pydantic import AnyUrl, BaseModel, Discriminator, EmailStr, Field, Tag, model_validator
@@ -331,21 +331,21 @@ class Docker(BaseModel):
 
     adapters: int = Field(..., title="Number of Ethernet adapters")
     image: str = Field(..., title="Docker image in the Docker Hub")
-    start_command: Optional[str] = Field(
+    start_command: str | None = Field(
         None, title="Command executed when the container start. Empty will use the default"
     )
-    environment: Optional[str] = Field(None, title="One KEY=VAR environment by line")
-    console_type: Optional[DockerConsoleType] = Field(
+    environment: str | None = Field(None, title="One KEY=VAR environment by line")
+    console_type: DockerConsoleType | None = Field(
         None, title="Type of console connection for the administration of the appliance"
     )
-    console_http_port: Optional[int] = Field(None, description="Internal port in the container of the HTTP server")
-    console_http_path: Optional[str] = Field(None, description="Path of the web interface")
-    extra_hosts: Optional[str] = Field(None, description="Hosts which will be written to /etc/hosts into container")
-    extra_volumes: Optional[List[str]] = Field(
+    console_http_port: int | None = Field(None, description="Internal port in the container of the HTTP server")
+    console_http_path: str | None = Field(None, description="Path of the web interface")
+    extra_hosts: str | None = Field(None, description="Hosts which will be written to /etc/hosts into container")
+    extra_volumes: List[str] | None = Field(
         None,
         description="Additional directories to make persistent that are not included in the images VOLUME directive",
     )
-    extra_configs: Optional[List[ExtraConfig]] = Field(
+    extra_configs: List[ExtraConfig] | None = Field(
         None, description="Configuration files injected into the container (bind-mounted read-only)"
     )
 
@@ -363,23 +363,23 @@ class Iou(BaseModel):
 class Dynamips(BaseModel):
     """Dynamips configuration for v1-6"""
 
-    chassis: Optional[DynamipsChassis] = Field(None, title="Chassis type")
+    chassis: DynamipsChassis | None = Field(None, title="Chassis type")
     platform: DynamipsPlatform = Field(..., title="Platform type")
     ram: Annotated[int, Field(ge=1)] = Field(..., title="Amount of ram")
     nvram: Annotated[int, Field(ge=1)] = Field(..., title="Amount of nvram")
-    startup_config: Optional[str] = Field(None, title="Config loaded at startup")
-    wic0: Optional[DynamipsWic] = None
-    wic1: Optional[DynamipsWic] = None
-    wic2: Optional[DynamipsWic] = None
-    slot0: Optional[DynamipsSlot] = None
-    slot1: Optional[DynamipsSlot] = None
-    slot2: Optional[DynamipsSlot] = None
-    slot3: Optional[DynamipsSlot] = None
-    slot4: Optional[DynamipsSlot] = None
-    slot5: Optional[DynamipsSlot] = None
-    slot6: Optional[DynamipsSlot] = None
-    midplane: Optional[DynamipsMidplane] = None
-    npe: Optional[DynamipsNpe] = None
+    startup_config: str | None = Field(None, title="Config loaded at startup")
+    wic0: DynamipsWic | None = None
+    wic1: DynamipsWic | None = None
+    wic2: DynamipsWic | None = None
+    slot0: DynamipsSlot | None = None
+    slot1: DynamipsSlot | None = None
+    slot2: DynamipsSlot | None = None
+    slot3: DynamipsSlot | None = None
+    slot4: DynamipsSlot | None = None
+    slot5: DynamipsSlot | None = None
+    slot6: DynamipsSlot | None = None
+    midplane: DynamipsMidplane | None = None
+    npe: DynamipsNpe | None = None
 
 
 class Qemu(BaseModel):
@@ -388,52 +388,44 @@ class Qemu(BaseModel):
     adapter_type: QemuAdapterType = Field(..., title="Type of network adapter")
     adapters: int = Field(..., title="Number of adapters")
     ram: int = Field(..., title="RAM allocated to the appliance (MB)")
-    cpus: Optional[int] = Field(None, title="Number of Virtual CPU")
-    hda_disk_interface: Optional[QemuDiskInterface] = Field(
-        None, title="Disk interface for the installed hda_disk_image"
-    )
-    hdb_disk_interface: Optional[QemuDiskInterface] = Field(
-        None, title="Disk interface for the installed hdb_disk_image"
-    )
-    hdc_disk_interface: Optional[QemuDiskInterface] = Field(
-        None, title="Disk interface for the installed hdc_disk_image"
-    )
-    hdd_disk_interface: Optional[QemuDiskInterface] = Field(
-        None, title="Disk interface for the installed hdd_disk_image"
-    )
+    cpus: int | None = Field(None, title="Number of Virtual CPU")
+    hda_disk_interface: QemuDiskInterface | None = Field(None, title="Disk interface for the installed hda_disk_image")
+    hdb_disk_interface: QemuDiskInterface | None = Field(None, title="Disk interface for the installed hdb_disk_image")
+    hdc_disk_interface: QemuDiskInterface | None = Field(None, title="Disk interface for the installed hdc_disk_image")
+    hdd_disk_interface: QemuDiskInterface | None = Field(None, title="Disk interface for the installed hdd_disk_image")
     arch: QemuPlatform = Field(..., title="Architecture emulated")
     console_type: QemuConsoleType = Field(
         ..., title="Type of console connection for the administration of the appliance"
     )
-    boot_priority: Optional[QemuBootPriority] = Field(None, title="Disk boot priority")
-    kernel_command_line: Optional[str] = Field(None, title="Command line parameters sent to the kernel")
+    boot_priority: QemuBootPriority | None = Field(None, title="Disk boot priority")
+    kernel_command_line: str | None = Field(None, title="Command line parameters sent to the kernel")
     kvm: Kvm = Field(..., title="KVM requirements")
-    options: Optional[str] = Field(None, title="Optional additional qemu command line options")
-    cpu_throttling: Optional[Annotated[float, Field(ge=0.0, le=100.0)]] = Field(None, title="Throttle the CPU")
-    on_close: Optional[QemuOnClose] = Field(None, title="Action to execute on the VM is closed")
-    process_priority: Optional[QemuProcessPriority] = Field(None, title="Process priority for QEMU")
+    options: str | None = Field(None, title="Optional additional qemu command line options")
+    cpu_throttling: Annotated[float, Field(ge=0.0, le=100.0)] | None = Field(None, title="Throttle the CPU")
+    on_close: QemuOnClose | None = Field(None, title="Action to execute on the VM is closed")
+    process_priority: QemuProcessPriority | None = Field(None, title="Process priority for QEMU")
 
 
 class ApplianceVersionImages(BaseModel):
     """Appliance version images configuration for v1-6"""
 
-    kernel_image: Optional[str] = Field(None, title="Kernel image")
-    initrd: Optional[str] = Field(None, title="Initrd disk image")
-    image: Optional[str] = Field(None, title="OS image")
-    bios_image: Optional[str] = Field(None, title="Bios image")
-    hda_disk_image: Optional[str] = Field(None, title="Hda disk image")
-    hdb_disk_image: Optional[str] = Field(None, title="Hdc disk image")
-    hdc_disk_image: Optional[str] = Field(None, title="Hdd disk image")
-    hdd_disk_image: Optional[str] = Field(None, title="Hdd diskimage")
-    cdrom_image: Optional[str] = Field(None, title="cdrom image")
+    kernel_image: str | None = Field(None, title="Kernel image")
+    initrd: str | None = Field(None, title="Initrd disk image")
+    image: str | None = Field(None, title="OS image")
+    bios_image: str | None = Field(None, title="Bios image")
+    hda_disk_image: str | None = Field(None, title="Hda disk image")
+    hdb_disk_image: str | None = Field(None, title="Hdc disk image")
+    hdc_disk_image: str | None = Field(None, title="Hdd disk image")
+    hdd_disk_image: str | None = Field(None, title="Hdd diskimage")
+    cdrom_image: str | None = Field(None, title="cdrom image")
 
 
 class ApplianceVersion(BaseModel):
     """Appliance version definition for v1-6"""
 
     name: str = Field(..., title="Name of the version")
-    idlepc: Optional[str] = Field(None, pattern="^0x[0-9a-f]{8}")
-    images: Optional[ApplianceVersionImages] = Field(None, title="Images used for this version")
+    idlepc: str | None = Field(None, pattern="^0x[0-9a-f]{8}")
+    images: ApplianceVersionImages | None = Field(None, title="Images used for this version")
 
 
 class ApplianceImage(BaseModel):
@@ -441,19 +433,19 @@ class ApplianceImage(BaseModel):
 
     filename: str = Field(..., title="Filename")
     version: str = Field(..., title="Version of the file")
-    md5sum: Optional[str] = Field(None, title="md5sum of the file", pattern="^[a-f0-9]{32}$")
+    md5sum: str | None = Field(None, title="md5sum of the file", pattern="^[a-f0-9]{32}$")
     filesize: int = Field(..., title="File size in bytes")
-    download_url: Optional[Union[AnyUrl, Annotated[str, Field(max_length=0)]]] = Field(
+    download_url: Union[AnyUrl, Annotated[str, Field(max_length=0)]] | None = Field(
         None, title="Download url where you can download the appliance from a browser"
     )
-    direct_download_url: Optional[Union[AnyUrl, Annotated[str, Field(max_length=0)]]] = Field(
+    direct_download_url: Union[AnyUrl, Annotated[str, Field(max_length=0)]] | None = Field(
         None,
         title="Optional. Non authenticated url to the image file where you can download the image.",
     )
-    compression: Optional[Compression] = Field(None, title="Optional, compression type of direct download url image.")
-    checksum: Optional[str] = Field(None, title="checksum of the image file")
-    checksum_type: Optional[ChecksumType] = Field(None, title="checksum type of the image file")
-    compression_target: Optional[str] = Field(
+    compression: Compression | None = Field(None, title="Optional, compression type of direct download url image.")
+    checksum: str | None = Field(None, title="checksum of the image file")
+    checksum_type: ChecksumType | None = Field(None, title="checksum type of the image file")
+    compression_target: str | None = Field(
         None, title="Optional, file name of the image file inside the compressed file."
     )
 
@@ -467,9 +459,9 @@ class CustomAdapterItem(BaseModel):
     """Custom adapter configuration (v8)"""
 
     adapter_number: int = Field(..., title="Adapter number")
-    port_name: Optional[str] = Field(None, title="Custom port name")
-    adapter_type: Optional[QemuAdapterType] = Field(None, title="Custom adapter type")
-    mac_address: Optional[str] = Field(
+    port_name: str | None = Field(None, title="Custom port name")
+    adapter_type: QemuAdapterType | None = Field(None, title="Custom adapter type")
+    mac_address: str | None = Field(
         None,
         title="Custom MAC address",
         pattern=r"^([0-9a-fA-F]{2}[:]){5}([0-9a-fA-F]{2})$",
@@ -479,29 +471,29 @@ class CustomAdapterItem(BaseModel):
 class DockerPropertiesV8(BaseModel):
     """Docker template properties (v8)"""
 
-    name: Optional[str] = Field(None, title="Name of the template")
-    category: Optional[Category] = Field(None, title="Category of the template")
-    default_name_format: Optional[str] = Field(None, title="Default name format")
-    usage: Optional[str] = Field(None, title="How to use the template")
-    symbol: Optional[str] = Field(None, title="Symbol of the template")
+    name: str | None = Field(None, title="Name of the template")
+    category: Category | None = Field(None, title="Category of the template")
+    default_name_format: str | None = Field(None, title="Default name format")
+    usage: str | None = Field(None, title="How to use the template")
+    symbol: str | None = Field(None, title="Symbol of the template")
     image: str = Field(..., title="Docker image")
-    adapters: Optional[int] = Field(None, title="Number of ethernet adapters")
-    start_command: Optional[str] = Field(
+    adapters: int | None = Field(None, title="Number of ethernet adapters")
+    start_command: str | None = Field(
         None, title="Command executed when the container start. Empty will use the default"
     )
-    environment: Optional[str] = Field(None, title="One KEY=VAR environment by line")
-    console_type: Optional[DockerConsoleType] = Field(None, title="Type of console")
-    console_http_port: Optional[int] = Field(None, title="Internal port in the container of the HTTP server")
-    console_http_path: Optional[str] = Field(None, title="Path of the web interface")
-    console_resolution: Optional[str] = Field(
+    environment: str | None = Field(None, title="One KEY=VAR environment by line")
+    console_type: DockerConsoleType | None = Field(None, title="Type of console")
+    console_http_port: int | None = Field(None, title="Internal port in the container of the HTTP server")
+    console_http_path: str | None = Field(None, title="Path of the web interface")
+    console_resolution: str | None = Field(
         None,
         title="Console resolution for VNC, for example 1024x768",
         pattern=r"^[0-9]+x[0-9]+$",
     )
-    extra_hosts: Optional[str] = Field(None, title="Docker extra hosts (added to /etc/hosts)")
-    extra_volumes: Optional[List[str]] = Field(None, title="Additional directories to make persistent")
-    custom_adapters: Optional[List[CustomAdapterItem]] = Field(None, title="Custom adapters")
-    extra_configs: Optional[List[ExtraConfig]] = Field(
+    extra_hosts: str | None = Field(None, title="Docker extra hosts (added to /etc/hosts)")
+    extra_volumes: List[str] | None = Field(None, title="Additional directories to make persistent")
+    custom_adapters: List[CustomAdapterItem] | None = Field(None, title="Custom adapters")
+    extra_configs: List[ExtraConfig] | None = Field(
         None, title="Configuration files injected into the container (bind-mounted read-only)"
     )
 
@@ -509,94 +501,86 @@ class DockerPropertiesV8(BaseModel):
 class IouPropertiesV8(BaseModel):
     """IOU template properties (v8)"""
 
-    name: Optional[str] = Field(None, title="Name of the template")
-    category: Optional[Category] = Field(None, title="Category of the template")
-    default_name_format: Optional[str] = Field(None, title="Default name format")
-    usage: Optional[str] = Field(None, title="How to use the template")
-    symbol: Optional[str] = Field(None, title="Symbol of the template")
-    ethernet_adapters: Optional[int] = Field(None, title="Number of ethernet adapters")
-    serial_adapters: Optional[int] = Field(None, title="Number of serial adapters")
-    ram: Optional[int] = Field(None, title="Host RAM")
-    nvram: Optional[int] = Field(None, title="Host NVRAM")
-    startup_config: Optional[str] = Field(None, title="Config loaded at startup")
+    name: str | None = Field(None, title="Name of the template")
+    category: Category | None = Field(None, title="Category of the template")
+    default_name_format: str | None = Field(None, title="Default name format")
+    usage: str | None = Field(None, title="How to use the template")
+    symbol: str | None = Field(None, title="Symbol of the template")
+    ethernet_adapters: int | None = Field(None, title="Number of ethernet adapters")
+    serial_adapters: int | None = Field(None, title="Number of serial adapters")
+    ram: int | None = Field(None, title="Host RAM")
+    nvram: int | None = Field(None, title="Host NVRAM")
+    startup_config: str | None = Field(None, title="Config loaded at startup")
 
 
 class DynamipsPropertiesV8(BaseModel):
     """Dynamips template properties (v8)"""
 
-    name: Optional[str] = Field(None, title="Name of the template")
-    category: Optional[Category] = Field(None, title="Category of the template")
-    default_name_format: Optional[str] = Field(None, title="Default name format")
-    usage: Optional[str] = Field(None, title="How to use the template")
-    symbol: Optional[str] = Field(None, title="Symbol of the template")
-    chassis: Optional[DynamipsChassis] = Field(None, title="Chassis type")
-    platform: Optional[DynamipsPlatform] = Field(None, title="Platform type")
-    ram: Optional[Annotated[int, Field(ge=1)]] = Field(None, title="Amount of ram")
-    nvram: Optional[Annotated[int, Field(ge=1)]] = Field(None, title="Amount of nvram")
-    idlepc: Optional[str] = Field(None, pattern=r"^0x[0-9a-f]{8}")
-    startup_config: Optional[str] = Field(None, title="Config loaded at startup")
-    wic0: Optional[str] = Field(None)
-    wic1: Optional[str] = Field(None)
-    wic2: Optional[str] = Field(None)
-    slot0: Optional[str] = Field(None)
-    slot1: Optional[str] = Field(None)
-    slot2: Optional[str] = Field(None)
-    slot3: Optional[str] = Field(None)
-    slot4: Optional[str] = Field(None)
-    slot5: Optional[str] = Field(None)
-    slot6: Optional[str] = Field(None)
-    midplane: Optional[DynamipsMidplane] = Field(None)
-    npe: Optional[DynamipsNpe] = Field(None)
+    name: str | None = Field(None, title="Name of the template")
+    category: Category | None = Field(None, title="Category of the template")
+    default_name_format: str | None = Field(None, title="Default name format")
+    usage: str | None = Field(None, title="How to use the template")
+    symbol: str | None = Field(None, title="Symbol of the template")
+    chassis: DynamipsChassis | None = Field(None, title="Chassis type")
+    platform: DynamipsPlatform | None = Field(None, title="Platform type")
+    ram: Annotated[int, Field(ge=1)] | None = Field(None, title="Amount of ram")
+    nvram: Annotated[int, Field(ge=1)] | None = Field(None, title="Amount of nvram")
+    idlepc: str | None = Field(None, pattern=r"^0x[0-9a-f]{8}")
+    startup_config: str | None = Field(None, title="Config loaded at startup")
+    wic0: str | None = Field(None)
+    wic1: str | None = Field(None)
+    wic2: str | None = Field(None)
+    slot0: str | None = Field(None)
+    slot1: str | None = Field(None)
+    slot2: str | None = Field(None)
+    slot3: str | None = Field(None)
+    slot4: str | None = Field(None)
+    slot5: str | None = Field(None)
+    slot6: str | None = Field(None)
+    midplane: DynamipsMidplane | None = Field(None)
+    npe: DynamipsNpe | None = Field(None)
 
 
 class QemuPropertiesV8(BaseModel):
     """Qemu template properties (v8)"""
 
-    name: Optional[str] = Field(None, title="Name of the template")
-    category: Optional[Category] = Field(None, title="Category of the template")
-    default_name_format: Optional[str] = Field(None, title="Default name format")
-    usage: Optional[str] = Field(None, title="How to use the template")
-    symbol: Optional[str] = Field(None, title="Symbol of the template")
-    adapter_type: Optional[QemuAdapterType] = Field(None, title="Type of network adapter")
-    adapters: Optional[int] = Field(None, title="Number of adapters")
-    custom_adapters: Optional[List[CustomAdapterItem]] = Field(None, title="Custom adapters")
-    first_port_name: Optional[str] = Field(None, title="Optional name of the first networking port example: eth0")
-    port_name_format: Optional[str] = Field(None, title="Optional formating of the networking port example: eth{0}")
-    port_segment_size: Optional[int] = Field(
+    name: str | None = Field(None, title="Name of the template")
+    category: Category | None = Field(None, title="Category of the template")
+    default_name_format: str | None = Field(None, title="Default name format")
+    usage: str | None = Field(None, title="How to use the template")
+    symbol: str | None = Field(None, title="Symbol of the template")
+    adapter_type: QemuAdapterType | None = Field(None, title="Type of network adapter")
+    adapters: int | None = Field(None, title="Number of adapters")
+    custom_adapters: List[CustomAdapterItem] | None = Field(None, title="Custom adapters")
+    first_port_name: str | None = Field(None, title="Optional name of the first networking port example: eth0")
+    port_name_format: str | None = Field(None, title="Optional formating of the networking port example: eth{0}")
+    port_segment_size: int | None = Field(
         None,
         title="Optional port segment size. A port segment is a block of port. For example Ethernet0/0 Ethernet0/1 is the module 0 with a port segment size of 2",
     )
-    linked_clone: Optional[bool] = Field(None, title="False if you don't want to use a single image for all nodes")
-    ram: Optional[int] = Field(None, title="Ram allocated to the appliance (MB)")
-    cpus: Optional[int] = Field(None, title="Number of Virtual CPU")
-    hda_disk_interface: Optional[QemuDiskInterface] = Field(
-        None, title="Disk interface for the installed hda_disk_image"
-    )
-    hdb_disk_interface: Optional[QemuDiskInterface] = Field(
-        None, title="Disk interface for the installed hdb_disk_image"
-    )
-    hdc_disk_interface: Optional[QemuDiskInterface] = Field(
-        None, title="Disk interface for the installed hdc_disk_image"
-    )
-    hdd_disk_interface: Optional[QemuDiskInterface] = Field(
-        None, title="Disk interface for the installed hdd_disk_image"
-    )
-    platform: Optional[QemuPlatform] = Field(None, title="Platform to emulate")
-    console_type: Optional[QemuConsoleType] = Field(
+    linked_clone: bool | None = Field(None, title="False if you don't want to use a single image for all nodes")
+    ram: int | None = Field(None, title="Ram allocated to the appliance (MB)")
+    cpus: int | None = Field(None, title="Number of Virtual CPU")
+    hda_disk_interface: QemuDiskInterface | None = Field(None, title="Disk interface for the installed hda_disk_image")
+    hdb_disk_interface: QemuDiskInterface | None = Field(None, title="Disk interface for the installed hdb_disk_image")
+    hdc_disk_interface: QemuDiskInterface | None = Field(None, title="Disk interface for the installed hdc_disk_image")
+    hdd_disk_interface: QemuDiskInterface | None = Field(None, title="Disk interface for the installed hdd_disk_image")
+    platform: QemuPlatform | None = Field(None, title="Platform to emulate")
+    console_type: QemuConsoleType | None = Field(
         None, title="Type of console connection for the administration of the appliance"
     )
-    boot_priority: Optional[QemuBootPriority] = Field(
+    boot_priority: QemuBootPriority | None = Field(
         None,
         title="Optional define the disk boot priory. Refer to -boot option in qemu manual for more details.",
     )
-    kernel_command_line: Optional[str] = Field(None, title="Command line parameters send to the kernel")
-    kvm: Optional[Kvm] = Field(None, title="KVM requirements")
-    options: Optional[str] = Field(None, title="Optional additional qemu command line options")
-    cpu_throttling: Optional[Annotated[int, Field(ge=0, le=800)]] = Field(None, title="Throttle the CPU")
-    tpm: Optional[bool] = Field(None, title="Enable the Trusted Platform Module (TPM)")
-    uefi: Optional[bool] = Field(None, title="Enable the UEFI boot mode")
-    on_close: Optional[QemuOnClose] = Field(None, title="Action to execute on the VM is closed")
-    process_priority: Optional[QemuProcessPriority] = Field(None, title="Process priority for QEMU")
+    kernel_command_line: str | None = Field(None, title="Command line parameters send to the kernel")
+    kvm: Kvm | None = Field(None, title="KVM requirements")
+    options: str | None = Field(None, title="Optional additional qemu command line options")
+    cpu_throttling: Annotated[int, Field(ge=0, le=800)] | None = Field(None, title="Throttle the CPU")
+    tpm: bool | None = Field(None, title="Enable the Trusted Platform Module (TPM)")
+    uefi: bool | None = Field(None, title="Enable the UEFI boot mode")
+    on_close: QemuOnClose | None = Field(None, title="Action to execute on the VM is closed")
+    process_priority: QemuProcessPriority | None = Field(None, title="Process priority for QEMU")
 
 
 _V8_PROPERTIES_MODELS = {
@@ -610,9 +594,9 @@ _V8_PROPERTIES_MODELS = {
 class TemplateSetting(BaseModel):
     """Emulator settings configuration (v8)"""
 
-    name: Optional[str] = Field(None, title="Name of the settings set")
-    default: Optional[bool] = Field(None, title="Whether these are the default settings")
-    inherit_default_properties: Optional[bool] = Field(True, title="Whether the default properties should be used")
+    name: str | None = Field(None, title="Name of the settings set")
+    default: bool | None = Field(None, title="Whether these are the default settings")
+    inherit_default_properties: bool | None = Field(True, title="Whether the default properties should be used")
     template_type: TemplateType = Field(..., title="Type of emulator properties")
     template_properties: Union[QemuPropertiesV8, DynamipsPropertiesV8, IouPropertiesV8, DockerPropertiesV8] = Field(
         ..., title="Properties for the template"
@@ -644,15 +628,15 @@ class ApplianceVersionV8(BaseModel):
     """Appliance version definition (v8)"""
 
     name: str = Field(..., title="Name of the version")
-    settings: Optional[str] = Field(None, title="Template settings to use to run the version")
-    idlepc: Optional[str] = Field(None, pattern=r"^0x[0-9a-f]{8}")
-    category: Optional[Category] = Field(None, title="Category of the version")
-    installation_instructions: Optional[str] = Field(None, title="Optional installation instructions for the version")
-    usage: Optional[str] = Field(None, title="Optional instructions about using the version")
-    default_username: Optional[str] = Field(None, title="Default username for the version")
-    default_password: Optional[str] = Field(None, title="Default password for the version")
-    symbol: Optional[str] = Field(None, title="An optional symbol for the version")
-    images: Optional[ApplianceVersionImages] = Field(None, title="Images used for this version")
+    settings: str | None = Field(None, title="Template settings to use to run the version")
+    idlepc: str | None = Field(None, pattern=r"^0x[0-9a-f]{8}")
+    category: Category | None = Field(None, title="Category of the version")
+    installation_instructions: str | None = Field(None, title="Optional installation instructions for the version")
+    usage: str | None = Field(None, title="Optional instructions about using the version")
+    default_username: str | None = Field(None, title="Default username for the version")
+    default_password: str | None = Field(None, title="Default password for the version")
+    symbol: str | None = Field(None, title="An optional symbol for the version")
+    images: ApplianceVersionImages | None = Field(None, title="Images used for this version")
 
 
 # ============================================================================
@@ -668,51 +652,49 @@ class ApplianceV1_6(BaseModel):
     )
     appliance_id: UUID = Field(..., title="Appliance ID")
     name: str = Field(..., title="Appliance name")
-    builtin: Optional[bool] = Field(None, title="Whether the appliance is builtin or not")
+    builtin: bool | None = Field(None, title="Whether the appliance is builtin or not")
     category: Category = Field(..., title="Category of the appliance")
     description: str = Field(..., title="Description of the appliance. Could be a marketing description")
     vendor_name: str = Field(..., title="Name of the vendor")
-    vendor_url: Optional[Union[AnyUrl, Annotated[str, Field(max_length=0)]]] = Field(
-        None, title="Website of the vendor"
-    )
-    documentation_url: Optional[Union[AnyUrl, Annotated[str, Field(max_length=0)]]] = Field(
+    vendor_url: Union[AnyUrl, Annotated[str, Field(max_length=0)]] | None = Field(None, title="Website of the vendor")
+    documentation_url: Union[AnyUrl, Annotated[str, Field(max_length=0)]] | None = Field(
         None, title="An optional documentation for using the appliance on vendor website"
     )
     product_name: str = Field(..., title="Product name")
-    product_url: Optional[Union[AnyUrl, Annotated[str, Field(max_length=0)]]] = Field(
+    product_url: Union[AnyUrl, Annotated[str, Field(max_length=0)]] | None = Field(
         None, title="An optional product url on vendor website"
     )
     status: Status = Field(..., title="Document if the appliance is working or not")
-    availability: Optional[Availability] = Field(
+    availability: Availability | None = Field(
         None,
         title="About image availability: can be downloaded directly; download requires a free registration; paid but a trial version (time or feature limited) is available; not available publicly",
     )
     maintainer: str = Field(..., title="Maintainer name")
-    maintainer_email: Optional[Union[EmailStr, Annotated[str, Field(max_length=0)]]] = Field(
+    maintainer_email: Union[EmailStr, Annotated[str, Field(max_length=0)]] | None = Field(
         None, title="Maintainer email"
     )
-    usage: Optional[str] = Field(None, title="How to use the appliance")
-    symbol: Optional[str] = Field(None, title="An optional symbol for the appliance")
-    netmiko_device_type: Optional[str] = Field(
+    usage: str | None = Field(None, title="How to use the appliance")
+    symbol: str | None = Field(None, title="An optional symbol for the appliance")
+    netmiko_device_type: str | None = Field(
         None, title="Device type for Netmiko-based automation tools", pattern=r"^[a-z0-9_]+$|^$"
     )
-    first_port_name: Optional[str] = Field(None, title="Optional name of the first networking port example: eth0")
-    port_name_format: Optional[str] = Field(None, title="Optional formating of the networking port example: eth{0}")
-    port_segment_size: Optional[int] = Field(
+    first_port_name: str | None = Field(None, title="Optional name of the first networking port example: eth0")
+    port_name_format: str | None = Field(None, title="Optional formating of the networking port example: eth{0}")
+    port_segment_size: int | None = Field(
         None,
         title="Optional port segment size. A port segment is a block of port. For example Ethernet0/0 Ethernet0/1 is the module 0 with a port segment size of 2",
     )
-    custom_adapters: Optional[List[CustomAdapterItem]] = Field(
+    custom_adapters: List[CustomAdapterItem] | None = Field(
         None, title="Optional per-adapter overrides (port name, adapter type, MAC address)"
     )
-    linked_clone: Optional[bool] = Field(None, title="False if you don't want to use a single image for all nodes")
-    docker: Optional[Docker] = Field(None, title="Docker specific options")
-    iou: Optional[Iou] = Field(None, title="IOU specific options")
-    dynamips: Optional[Dynamips] = Field(None, title="Dynamips specific options")
-    qemu: Optional[Qemu] = Field(None, title="Qemu specific options")
-    tags: Optional[List[str]] = Field(None, title="User-defined metadata tags for the appliance")
-    images: Optional[List[ApplianceImage]] = Field(None, title="Images for this appliance")
-    versions: Optional[List[ApplianceVersion]] = Field(None, title="Versions of the appliance")
+    linked_clone: bool | None = Field(None, title="False if you don't want to use a single image for all nodes")
+    docker: Docker | None = Field(None, title="Docker specific options")
+    iou: Iou | None = Field(None, title="IOU specific options")
+    dynamips: Dynamips | None = Field(None, title="Dynamips specific options")
+    qemu: Qemu | None = Field(None, title="Qemu specific options")
+    tags: List[str] | None = Field(None, title="User-defined metadata tags for the appliance")
+    images: List[ApplianceImage] | None = Field(None, title="Images for this appliance")
+    versions: List[ApplianceVersion] | None = Field(None, title="Versions of the appliance")
 
 
 class ApplianceV8(BaseModel):
@@ -728,36 +710,36 @@ class ApplianceV8(BaseModel):
         pattern=r"^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
     )
     name: str = Field(..., title="Appliance name")
-    builtin: Optional[bool] = Field(None, title="Whether the appliance is builtin or not")
+    builtin: bool | None = Field(None, title="Whether the appliance is builtin or not")
     category: Category = Field(..., title="Category of the appliance")
     description: str = Field(..., title="Description of the appliance. Could be a marketing description")
     vendor_name: str = Field(..., title="Name of the vendor")
     vendor_url: AnyUrl = Field(..., title="Website of the vendor")
-    vendor_logo_url: Optional[AnyUrl] = Field(None, title="Link to the vendor logo (used by the GNS3 marketplace)")
-    documentation_url: Optional[AnyUrl] = Field(
+    vendor_logo_url: AnyUrl | None = Field(None, title="Link to the vendor logo (used by the GNS3 marketplace)")
+    documentation_url: AnyUrl | None = Field(
         None, title="An optional documentation for using the appliance on vendor website"
     )
     product_name: str = Field(..., title="Product name")
-    product_url: Optional[AnyUrl] = Field(None, title="An optional product url on vendor website")
+    product_url: AnyUrl | None = Field(None, title="An optional product url on vendor website")
     status: Status = Field(..., title="Document if the appliance is working or not")
-    availability: Optional[Availability] = Field(
+    availability: Availability | None = Field(
         None,
         title="About image availability: can be downloaded directly; download requires a free registration; paid but a trial version (time or feature limited) is available; not available publicly",
     )
     maintainer: str = Field(..., title="Maintainer name")
     maintainer_email: EmailStr = Field(..., title="Maintainer email")
-    installation_instructions: Optional[str] = Field(None, title="Optional installation instructions")
-    usage: Optional[str] = Field(None, title="How to use the appliance")
-    default_username: Optional[str] = Field(None, title="Default username for the appliance")
-    default_password: Optional[str] = Field(None, title="Default password for the appliance")
-    symbol: Optional[str] = Field(None, title="An optional symbol for the appliance")
-    netmiko_device_type: Optional[str] = Field(
+    installation_instructions: str | None = Field(None, title="Optional installation instructions")
+    usage: str | None = Field(None, title="How to use the appliance")
+    default_username: str | None = Field(None, title="Default username for the appliance")
+    default_password: str | None = Field(None, title="Default password for the appliance")
+    symbol: str | None = Field(None, title="An optional symbol for the appliance")
+    netmiko_device_type: str | None = Field(
         None, title="Device type for Netmiko-based automation tools", pattern=r"^[a-z0-9_]+$|^$"
     )
-    tags: Optional[List[str]] = Field(None, title="User-defined metadata tags for the appliance")
+    tags: List[str] | None = Field(None, title="User-defined metadata tags for the appliance")
     settings: List[TemplateSetting] = Field(..., title="Settings for running the appliance")
-    images: Optional[List[ApplianceImage]] = Field(None, title="Images for this appliance")
-    versions: Optional[List[ApplianceVersionV8]] = Field(None, title="Versions of the appliance")
+    images: List[ApplianceImage] | None = Field(None, title="Images for this appliance")
+    versions: List[ApplianceVersionV8] | None = Field(None, title="Versions of the appliance")
 
 
 # ============================================================================

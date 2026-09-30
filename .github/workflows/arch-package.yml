@@ -1,0 +1,53 @@
+name: Build Arch Linux package
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - v2.*
+      - v3.*
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: archlinux:base-devel
+
+    steps:
+    - name: Install tooling
+      run: pacman -Syu --noconfirm git python python-build python-installer python-setuptools python-wheel
+
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set version from tag
+      if: startsWith(github.ref, 'refs/tags/v')
+      run: |
+        VER="${GITHUB_REF_NAME#v}"
+        # pacman versions cannot contain '-'
+        sed -i "s/^pkgver=.*/pkgver=${VER//-/_}/" packaging/arch/PKGBUILD
+
+    - name: Build package
+      run: |
+        useradd -m builder
+        chown -R builder packaging/arch
+        cd packaging/arch
+        su builder -c 'makepkg --syncdeps --noconfirm --skipchecksums'
+        sha256sum *.pkg.tar.zst > SHA256SUMS
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: arch-package
+        path: |
+          packaging/arch/*.pkg.tar.zst
+          packaging/arch/SHA256SUMS
+
+    - name: Attach to GitHub release
+      if: startsWith(github.ref, 'refs/tags/v')
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          packaging/arch/*.pkg.tar.zst
+          packaging/arch/SHA256SUMS

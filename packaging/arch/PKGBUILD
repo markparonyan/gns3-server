@@ -1,0 +1,71 @@
+# Maintainer: markparonyan <lopkopzero@gmail.com>
+pkgname=gns3-server
+pkgver=2.2.61
+pkgrel=1
+pkgdesc='GNS3 network simulator server'
+arch=('any')
+url='https://github.com/GNS3/gns3-server'
+license=('GPL-3.0-or-later')
+depends=(
+  'python'
+  'python-aiohttp'
+  'python-aiohttp-cors'
+  'python-aiofiles'
+  'python-jinja'
+  'python-jsonschema'
+  'python-psutil'
+  'python-distro'
+  'python-py-cpuinfo'
+  'python-platformdirs'
+  'python-truststore'
+  'python-setuptools'
+)
+makedepends=('python-build' 'python-installer' 'python-setuptools' 'python-wheel')
+optdepends=(
+  'python-sentry-sdk: crash reporting'
+  'ubridge: connect nodes to the host network'
+  'dynamips: Cisco IOS emulation'
+  'vpcs: virtual PC simulator'
+  'qemu-full: QEMU nodes'
+  'docker: Docker nodes'
+  'iouyap: IOU nodes'
+)
+backup=('etc/gns3/gns3_server.conf')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz"
+        'gns3-server.service'
+        'gns3-server.sysusers'
+        'gns3-server.tmpfiles')
+sha256sums=('SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  # setup.py imports setuptools.command.test, removed in setuptools >= 72;
+  # only used for `setup.py test`, which is not needed for packaging.
+  python - <<'PY'
+import re, pathlib
+p = pathlib.Path("setup.py")
+s = p.read_text()
+s = s.replace("from setuptools.command.test import test as TestCommand\n", "")
+s = re.sub(r"class PyTest\(TestCommand\):.*?sys\.exit\(errcode\)\n\n\n", "", s, flags=re.S)
+s = s.replace('    cmdclass={"test": PyTest},\n', "")
+p.write_text(s)
+PY
+}
+
+build() {
+  cd "$pkgname-$pkgver"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd "$pkgname-$pkgver"
+  python -m installer --destdir="$pkgdir" dist/*.whl
+  install -Dm644 conf/gns3_server.conf "$pkgdir/etc/gns3/gns3_server.conf"
+  install -Dm644 "$srcdir/gns3-server.service" "$pkgdir/usr/lib/systemd/system/gns3-server.service"
+  install -Dm644 "$srcdir/gns3-server.sysusers" "$pkgdir/usr/lib/sysusers.d/gns3-server.conf"
+  install -Dm644 "$srcdir/gns3-server.tmpfiles" "$pkgdir/usr/lib/tmpfiles.d/gns3-server.conf"
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

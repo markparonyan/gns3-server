@@ -88,14 +88,8 @@ select = [
 # violations, in a dedicated small PR. Never add new entries here:
 # fix the code or use a targeted "# noqa: CODE" with a reason.
 ignore = [
-  "B007",      #   32  unused-loop-control-variable
   "E402",      #  129  module-import-not-at-top-of-file
   "E501",      #  655  line-too-long
-  "F841",      #   32  unused-variable
-  "PLW2901",   #   30  redefined-loop-name
-  "RUF012",    #   23  mutable-class-default
-  "RUF036",    #   22  none-not-at-end-of-union
-  "RUF059",    #   29  unused-unpacked-variable
   "S101",      #   19  assert
 ]
 
@@ -124,27 +118,13 @@ extend-immutable-calls = [
 "tests/**" = ["S101"]
 # Baseline: existing violations of rules that are enforced everywhere else.
 # Remove entries one small PR at a time. Never add new ones.
-"gns3server/agent/gns3_copilot/utils/message_converters.py" = ["RUF019"]
-"gns3server/agent/web_wireshark/stats.py" = ["ASYNC221"]
-"gns3server/api/routes/controller/nodes.py" = ["RUF019"]
-"gns3server/compute/base_node.py" = ["RUF019"]
-"gns3server/compute/docker/docker_vm.py" = ["RUF006"]
-"gns3server/compute/dynamips/nodes/router.py" = ["F522", "RUF006"]
-"gns3server/compute/qemu/qemu_vm.py" = ["ASYNC220"]
+"gns3server/compute/dynamips/nodes/router.py" = ["F522"]
 "gns3server/controller/node_types.py" = ["W292"]
-"gns3server/controller/ports/port_factory.py" = ["B020"]
-"gns3server/controller/project.py" = ["ASYNC110", "RUF006", "RUF019"]
-"gns3server/db/repositories/llm_model_configs.py" = ["RUF019"]
-"gns3server/db/tasks.py" = ["RUF006", "RUF019"]
 "gns3server/schemas/controller/templates/docker_templates.py" = ["W292"]
-"gns3server/server.py" = ["RUF006"]
 "gns3server/services/templates.py" = ["W292"]
-"gns3server/utils/asyncio/__init__.py" = ["RUF006"]
-"gns3server/utils/asyncio/telnet_server.py" = ["RUF006"]
 "gns3server/utils/packet_filter_validation.py" = ["W292"]
 "tests/api/routes/controller/test_images.py" = ["W292"]
 "tests/api/routes/controller/test_links.py" = ["W292"]
-"tests/compute/test_project.py" = ["RUF064"]
 "tests/utils/test_packet_filter_validation.py" = ["W292"]
 
 [tool.mypy]

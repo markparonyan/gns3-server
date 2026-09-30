@@ -35,8 +35,9 @@ import asyncio
 import json
 import logging
 import os
+from collections.abc import AsyncGenerator
 from datetime import datetime
-from typing import Any, AsyncGenerator
+from typing import Any
 from uuid import uuid4
 
 import aiosqlite

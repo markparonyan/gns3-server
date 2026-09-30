@@ -9,8 +9,9 @@ import stat
 import sys
 import tempfile
 import uuid
+from collections.abc import AsyncGenerator
 from pathlib import Path
-from typing import Any, AsyncGenerator
+from typing import Any
 from unittest.mock import MagicMock, patch
 
 import pytest

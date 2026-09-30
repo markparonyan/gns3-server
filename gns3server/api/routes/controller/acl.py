@@ -21,7 +21,7 @@ API routes for ACL.
 
 import logging
 import re
-from typing import Iterator, Sequence
+from collections.abc import Iterator, Sequence
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, Request, status

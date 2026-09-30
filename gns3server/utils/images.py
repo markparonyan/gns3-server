@@ -30,8 +30,8 @@ except ImportError:
     from importlib import resources as importlib_resources
 
 import logging
+from collections.abc import AsyncGenerator
 from io import DEFAULT_BUFFER_SIZE
-from typing import AsyncGenerator
 
 import gns3server.db.models as models
 from gns3server.db.repositories.images import ImagesRepository

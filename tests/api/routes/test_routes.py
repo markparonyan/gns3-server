@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Iterator, Sequence
+from collections.abc import Iterator, Sequence
 
 import pytest
 from fastapi import FastAPI, status

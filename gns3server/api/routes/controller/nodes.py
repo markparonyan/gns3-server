@@ -22,7 +22,8 @@ import asyncio
 import contextlib
 import ipaddress
 import logging
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 from uuid import UUID
 
 import aiohttp

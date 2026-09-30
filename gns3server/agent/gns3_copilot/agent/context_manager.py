@@ -45,8 +45,9 @@ import json
 import logging
 import os
 import warnings
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 # Configure tiktoken cache directory (must be set before importing tiktoken)
 _cache_dir = Path(__file__).parent.parent / "cache" / "tiktoken"

@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import List, Optional
+from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -63,20 +63,20 @@ class VMwareBase(BaseModel):
     Common VMware node properties.
     """
 
-    name: Optional[str] = None
-    vmx_path: Optional[str] = None
-    linked_clone: Optional[bool] = None
-    node_id: Optional[UUID] = None
-    usage: Optional[str] = Field(None, description="How to use the node")
-    console: Optional[int] = Field(None, gt=0, le=65535, description="Console TCP port")
-    console_type: Optional[VMwareConsoleType] = Field(None, description="Console type")
-    headless: Optional[bool] = Field(None, description="Headless mode")
-    on_close: Optional[VMwareOnCloseAction] = Field(None, description="Action to execute on the VM is closed")
+    name: str | None = None
+    vmx_path: str | None = None
+    linked_clone: bool | None = None
+    node_id: UUID | None = None
+    usage: str | None = Field(None, description="How to use the node")
+    console: int | None = Field(None, gt=0, le=65535, description="Console TCP port")
+    console_type: VMwareConsoleType | None = Field(None, description="Console type")
+    headless: bool | None = Field(None, description="Headless mode")
+    on_close: VMwareOnCloseAction | None = Field(None, description="Action to execute on the VM is closed")
     # 10 adapters is the maximum supported by VMware VMs.
-    adapters: Optional[int] = Field(None, ge=0, le=10, description="Number of adapters")
-    adapter_type: Optional[VMwareAdapterType] = Field(None, description="VMware adapter type")
-    use_any_adapter: Optional[bool] = Field(None, description="Allow GNS3 to use any VMware adapter")
-    custom_adapters: Optional[List[CustomAdapter]] = Field(None, description="Custom adpaters")
+    adapters: int | None = Field(None, ge=0, le=10, description="Number of adapters")
+    adapter_type: VMwareAdapterType | None = Field(None, description="VMware adapter type")
+    use_any_adapter: bool | None = Field(None, description="Allow GNS3 to use any VMware adapter")
+    custom_adapters: List[CustomAdapter] | None = Field(None, description="Custom adpaters")
 
 
 class VMwareCreate(VMwareBase):
@@ -102,5 +102,5 @@ class VMware(VMwareBase):
     vmx_path: str = Field(..., description="Path to the vmx file")
     linked_clone: bool = Field(..., description="Whether the VM is a linked clone or not")
     project_id: UUID = Field(..., description="Project ID")
-    node_directory: Optional[str] = Field(None, description="Path to the node working directory (read only)")
+    node_directory: str | None = Field(None, description="Path to the node working directory (read only)")
     status: NodeStatus = Field(..., description="Container status (read only)")

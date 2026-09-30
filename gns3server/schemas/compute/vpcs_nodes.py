@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import Optional
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -38,12 +37,12 @@ class VPCSBase(BaseModel):
     Common VPCS node properties.
     """
 
-    name: Optional[str] = None
-    node_id: Optional[UUID] = None
-    usage: Optional[str] = Field(None, description="How to use the node")
-    console: Optional[int] = Field(None, gt=0, le=65535, description="Console TCP port")
-    console_type: Optional[ConsoleType] = Field(None, description="Console type")
-    startup_script: Optional[str] = Field(None, description="Content of the VPCS startup script")
+    name: str | None = None
+    node_id: UUID | None = None
+    usage: str | None = Field(None, description="How to use the node")
+    console: int | None = Field(None, gt=0, le=65535, description="Console TCP port")
+    console_type: ConsoleType | None = Field(None, description="Console type")
+    startup_script: str | None = Field(None, description="Content of the VPCS startup script")
 
 
 class VPCSCreate(VPCSBase):

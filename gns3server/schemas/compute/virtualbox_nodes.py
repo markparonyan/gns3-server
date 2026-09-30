@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import List, Optional
+from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -57,21 +57,21 @@ class VirtualBoxBase(BaseModel):
     Common VirtualBox node properties.
     """
 
-    name: Optional[str] = None
-    vmname: Optional[str] = None
-    node_id: Optional[UUID] = None
-    linked_clone: Optional[bool] = Field(None, description="Whether the VM is a linked clone or not")
-    usage: Optional[str] = Field(None, description="How to use the node")
+    name: str | None = None
+    vmname: str | None = None
+    node_id: UUID | None = None
+    linked_clone: bool | None = Field(None, description="Whether the VM is a linked clone or not")
+    usage: str | None = Field(None, description="How to use the node")
     # 36 adapters is the maximum given by the ICH9 chipset in VirtualBox
-    adapters: Optional[int] = Field(None, ge=0, le=36, description="Number of adapters")
-    adapter_type: Optional[VirtualBoxAdapterType] = Field(None, description="VirtualBox adapter type")
-    use_any_adapter: Optional[bool] = Field(None, description="Allow GNS3 to use any VirtualBox adapter")
-    console: Optional[int] = Field(None, gt=0, le=65535, description="Console TCP port")
-    console_type: Optional[VirtualBoxConsoleType] = Field(None, description="Console type")
-    ram: Optional[int] = Field(None, ge=0, le=65535, description="Amount of RAM in MB")
-    headless: Optional[bool] = Field(None, description="Headless mode")
-    on_close: Optional[VirtualBoxOnCloseAction] = Field(None, description="Action to execute on the VM is closed")
-    custom_adapters: Optional[List[CustomAdapter]] = Field(None, description="Custom adapters")
+    adapters: int | None = Field(None, ge=0, le=36, description="Number of adapters")
+    adapter_type: VirtualBoxAdapterType | None = Field(None, description="VirtualBox adapter type")
+    use_any_adapter: bool | None = Field(None, description="Allow GNS3 to use any VirtualBox adapter")
+    console: int | None = Field(None, gt=0, le=65535, description="Console TCP port")
+    console_type: VirtualBoxConsoleType | None = Field(None, description="Console type")
+    ram: int | None = Field(None, ge=0, le=65535, description="Amount of RAM in MB")
+    headless: bool | None = Field(None, description="Headless mode")
+    on_close: VirtualBoxOnCloseAction | None = Field(None, description="Action to execute on the VM is closed")
+    custom_adapters: List[CustomAdapter] | None = Field(None, description="Custom adapters")
 
 
 class VirtualBoxCreate(VirtualBoxBase):
@@ -95,5 +95,5 @@ class VirtualBox(VirtualBoxBase):
     name: str
     vmname: str = Field(..., description="VirtualBox VM name (in VirtualBox itself)")
     project_id: UUID = Field(..., description="Project ID")
-    node_directory: Optional[str] = Field(None, description="Path to the node working directory (read only)")
+    node_directory: str | None = Field(None, description="Path to the node working directory (read only)")
     status: NodeStatus = Field(..., description="Container status (read only)")

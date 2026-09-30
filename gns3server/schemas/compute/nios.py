@@ -16,7 +16,7 @@
 
 
 from enum import Enum
-from typing import List, Optional
+from typing import List
 
 from pydantic import BaseModel, Field
 
@@ -34,9 +34,9 @@ class UDPNIO(BaseModel):
     lport: int = Field(..., gt=0, le=65535, description="Local port")
     rhost: str = Field(..., description="Remote host")
     rport: int = Field(..., gt=0, le=65535, description="Remote port")
-    suspend: Optional[bool] = Field(None, description="Suspend the NIO")
-    filters: Optional[dict] = Field(None, description="Packet filters")
-    markers: Optional[dict] = Field(None, description="Traffic-insight markers")
+    suspend: bool | None = Field(None, description="Suspend the NIO")
+    filters: dict | None = Field(None, description="Packet filters")
+    markers: dict | None = Field(None, description="Traffic-insight markers")
 
 
 class EthernetNIOType(str, Enum):
@@ -85,8 +85,8 @@ class MarkerRebuild(BaseModel):
     """
 
     bpf: str
-    tag: Optional[int] = None
-    direction: Optional[str] = None
+    tag: int | None = None
+    direction: str | None = None
     enabled: bool = True
     link_id: str = ""
 

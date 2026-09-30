@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import List, Optional
+from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -156,63 +156,63 @@ class QemuBase(BaseModel):
     Common Qemu node properties.
     """
 
-    name: Optional[str] = None
-    node_id: Optional[UUID] = None
-    usage: Optional[str] = Field(None, description="How to use the node")
-    linked_clone: Optional[bool] = Field(None, description="Whether the VM is a linked clone or not")
-    qemu_path: Optional[str] = Field(None, description="Qemu executable path")
-    platform: Optional[QemuPlatform] = Field(None, description="Platform to emulate")
-    console: Optional[int] = Field(None, gt=0, le=65535, description="Console TCP port")
-    console_type: Optional[QemuConsoleType] = Field(None, description="Console type")
-    aux: Optional[int] = Field(None, gt=0, le=65535, description="Auxiliary console TCP port")
-    aux_type: Optional[QemuConsoleType] = Field(None, description="Auxiliary console type")
-    hda_disk_image: Optional[str] = Field(None, description="QEMU hda disk image path")
-    hda_disk_image_backing_file: Optional[str] = Field(None, description="QEMU hda backing file disk image path")
-    hda_disk_image_md5sum: Optional[str] = Field(None, description="QEMU hda disk image checksum")
-    hda_disk_interface: Optional[QemuDiskInterfaceType] = Field(None, description="QEMU hda interface")
-    hdb_disk_image: Optional[str] = Field(None, description="QEMU hdb disk image path")
-    hdb_disk_image_backing_file: Optional[str] = Field(None, description="QEMU hdb backing file disk image path")
-    hdb_disk_image_md5sum: Optional[str] = Field(None, description="QEMU hdb disk image checksum")
-    hdb_disk_interface: Optional[QemuDiskInterfaceType] = Field(None, description="QEMU hdb interface")
-    hdc_disk_image: Optional[str] = Field(None, description="QEMU hdc disk image path")
-    hdc_disk_image_backing_file: Optional[str] = Field(None, description="QEMU hdc backing file disk image path")
-    hdc_disk_image_md5sum: Optional[str] = Field(None, description="QEMU hdc disk image checksum")
-    hdc_disk_interface: Optional[QemuDiskInterfaceType] = Field(None, description="QEMU hdc interface")
-    hdd_disk_image: Optional[str] = Field(None, description="QEMU hdd disk image path")
-    hdd_disk_image_backing_file: Optional[str] = Field(None, description="QEMU hdd backing file disk image path")
-    hdd_disk_image_md5sum: Optional[str] = Field(None, description="QEMU hdd disk image checksum")
-    hdd_disk_interface: Optional[QemuDiskInterfaceType] = Field(None, description="QEMU hdd interface")
-    cdrom_image: Optional[str] = Field(None, description="QEMU cdrom image path")
-    cdrom_image_md5sum: Optional[str] = Field(None, description="QEMU cdrom image checksum")
-    bios_image: Optional[str] = Field(None, description="QEMU bios image path")
-    bios_image_md5sum: Optional[str] = Field(None, description="QEMU bios image checksum")
-    initrd: Optional[str] = Field(None, description="QEMU initrd path")
-    initrd_md5sum: Optional[str] = Field(None, description="QEMU initrd checksum")
-    kernel_image: Optional[str] = Field(None, description="QEMU kernel image path")
-    kernel_image_md5sum: Optional[str] = Field(None, description="QEMU kernel image checksum")
-    kernel_command_line: Optional[str] = Field(None, description="QEMU kernel command line")
-    boot_priority: Optional[QemuBootPriority] = Field(None, description="QEMU boot priority")
-    ram: Optional[int] = Field(None, description="Amount of RAM in MB")
-    cpus: Optional[int] = Field(None, ge=1, le=255, description="Number of vCPUs")
-    maxcpus: Optional[int] = Field(None, ge=1, le=255, description="Maximum number of hotpluggable vCPUs")
-    adapters: Optional[int] = Field(None, ge=0, le=275, description="Number of adapters")
-    adapter_type: Optional[QemuAdapterType] = Field(None, description="QEMU adapter type")
-    mac_address: Optional[str] = Field(
+    name: str | None = None
+    node_id: UUID | None = None
+    usage: str | None = Field(None, description="How to use the node")
+    linked_clone: bool | None = Field(None, description="Whether the VM is a linked clone or not")
+    qemu_path: str | None = Field(None, description="Qemu executable path")
+    platform: QemuPlatform | None = Field(None, description="Platform to emulate")
+    console: int | None = Field(None, gt=0, le=65535, description="Console TCP port")
+    console_type: QemuConsoleType | None = Field(None, description="Console type")
+    aux: int | None = Field(None, gt=0, le=65535, description="Auxiliary console TCP port")
+    aux_type: QemuConsoleType | None = Field(None, description="Auxiliary console type")
+    hda_disk_image: str | None = Field(None, description="QEMU hda disk image path")
+    hda_disk_image_backing_file: str | None = Field(None, description="QEMU hda backing file disk image path")
+    hda_disk_image_md5sum: str | None = Field(None, description="QEMU hda disk image checksum")
+    hda_disk_interface: QemuDiskInterfaceType | None = Field(None, description="QEMU hda interface")
+    hdb_disk_image: str | None = Field(None, description="QEMU hdb disk image path")
+    hdb_disk_image_backing_file: str | None = Field(None, description="QEMU hdb backing file disk image path")
+    hdb_disk_image_md5sum: str | None = Field(None, description="QEMU hdb disk image checksum")
+    hdb_disk_interface: QemuDiskInterfaceType | None = Field(None, description="QEMU hdb interface")
+    hdc_disk_image: str | None = Field(None, description="QEMU hdc disk image path")
+    hdc_disk_image_backing_file: str | None = Field(None, description="QEMU hdc backing file disk image path")
+    hdc_disk_image_md5sum: str | None = Field(None, description="QEMU hdc disk image checksum")
+    hdc_disk_interface: QemuDiskInterfaceType | None = Field(None, description="QEMU hdc interface")
+    hdd_disk_image: str | None = Field(None, description="QEMU hdd disk image path")
+    hdd_disk_image_backing_file: str | None = Field(None, description="QEMU hdd backing file disk image path")
+    hdd_disk_image_md5sum: str | None = Field(None, description="QEMU hdd disk image checksum")
+    hdd_disk_interface: QemuDiskInterfaceType | None = Field(None, description="QEMU hdd interface")
+    cdrom_image: str | None = Field(None, description="QEMU cdrom image path")
+    cdrom_image_md5sum: str | None = Field(None, description="QEMU cdrom image checksum")
+    bios_image: str | None = Field(None, description="QEMU bios image path")
+    bios_image_md5sum: str | None = Field(None, description="QEMU bios image checksum")
+    initrd: str | None = Field(None, description="QEMU initrd path")
+    initrd_md5sum: str | None = Field(None, description="QEMU initrd checksum")
+    kernel_image: str | None = Field(None, description="QEMU kernel image path")
+    kernel_image_md5sum: str | None = Field(None, description="QEMU kernel image checksum")
+    kernel_command_line: str | None = Field(None, description="QEMU kernel command line")
+    boot_priority: QemuBootPriority | None = Field(None, description="QEMU boot priority")
+    ram: int | None = Field(None, description="Amount of RAM in MB")
+    cpus: int | None = Field(None, ge=1, le=255, description="Number of vCPUs")
+    maxcpus: int | None = Field(None, ge=1, le=255, description="Maximum number of hotpluggable vCPUs")
+    adapters: int | None = Field(None, ge=0, le=275, description="Number of adapters")
+    adapter_type: QemuAdapterType | None = Field(None, description="QEMU adapter type")
+    mac_address: str | None = Field(
         None, description="QEMU MAC address", pattern="^([0-9a-fA-F]{2}[:]){5}([0-9a-fA-F]{2})$"
     )
-    replicate_network_connection_state: Optional[bool] = Field(
+    replicate_network_connection_state: bool | None = Field(
         None, description="Replicate the network connection state for links in Qemu"
     )
-    create_config_disk: Optional[bool] = Field(
+    create_config_disk: bool | None = Field(
         None, description="Automatically create a config disk on HDD disk interface (secondary slave)"
     )
-    tpm: Optional[bool] = Field(None, description="Enable Trusted Platform Module (TPM)")
-    uefi: Optional[bool] = Field(None, description="Enable UEFI boot mode")
-    on_close: Optional[QemuOnCloseAction] = Field(None, description="Action to execute on the VM is closed")
-    cpu_throttling: Optional[int] = Field(None, ge=0, le=800, description="Percentage of CPU allowed for QEMU")
-    process_priority: Optional[QemuProcessPriority] = Field(None, description="Process priority for QEMU")
-    options: Optional[str] = Field(None, description="Additional QEMU options")
-    custom_adapters: Optional[List[CustomAdapter]] = Field(None, description="Custom adapters")
+    tpm: bool | None = Field(None, description="Enable Trusted Platform Module (TPM)")
+    uefi: bool | None = Field(None, description="Enable UEFI boot mode")
+    on_close: QemuOnCloseAction | None = Field(None, description="Action to execute on the VM is closed")
+    cpu_throttling: int | None = Field(None, ge=0, le=800, description="Percentage of CPU allowed for QEMU")
+    process_priority: QemuProcessPriority | None = Field(None, description="Process priority for QEMU")
+    options: str | None = Field(None, description="Additional QEMU options")
+    custom_adapters: List[CustomAdapter] | None = Field(None, description="Custom adapters")
 
 
 class QemuCreate(QemuBase):
@@ -221,7 +221,7 @@ class QemuCreate(QemuBase):
     """
 
     name: str
-    disk_images_to_reset: Optional[List[str]] = Field(
+    disk_images_to_reset: List[str] | None = Field(
         None,
         description="Disk image properties whose stale linked-clone overlays must be recreated",
     )

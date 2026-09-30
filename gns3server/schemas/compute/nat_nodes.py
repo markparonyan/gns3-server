@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import List, Optional, Union
+from typing import List, Union
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -90,12 +90,10 @@ class NATBase(BaseModel):
     Common NAT node properties.
     """
 
-    name: Optional[str] = None
-    node_id: Optional[UUID] = None
-    usage: Optional[str] = None
-    ports_mapping: Optional[List[Union[EthernetPort, TAPPort, UDPPort]]] = Field(
-        None, description="List of port mappings"
-    )
+    name: str | None = None
+    node_id: UUID | None = None
+    usage: str | None = None
+    ports_mapping: List[Union[EthernetPort, TAPPort, UDPPort]] | None = Field(None, description="List of port mappings")
 
 
 class NATCreate(NATBase):

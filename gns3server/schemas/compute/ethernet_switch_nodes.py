@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import List, Optional
+from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel, Field, model_validator
@@ -41,7 +41,7 @@ class EthernetSwitchPort(BaseModel):
     port_number: int
     type: EthernetSwitchPortType = Field(..., description="Port type")
     vlan: int = Field(..., ge=1, le=4094, description="VLAN number")
-    ethertype: Optional[EthernetSwitchEtherType] = Field(
+    ethertype: EthernetSwitchEtherType | None = Field(
         EthernetSwitchEtherType.ethertype_8021q, description="QinQ Ethertype"
     )
 
@@ -67,12 +67,12 @@ class EthernetSwitchBase(BaseModel):
     Common Ethernet switch properties.
     """
 
-    name: Optional[str] = None
-    node_id: Optional[UUID] = None
-    usage: Optional[str] = None
-    ports_mapping: Optional[List[EthernetSwitchPort]] = None
-    console: Optional[int] = Field(None, gt=0, le=65535, description="Console TCP port")
-    console_type: Optional[TelnetConsoleType] = Field(None, description="Console type")
+    name: str | None = None
+    node_id: UUID | None = None
+    usage: str | None = None
+    ports_mapping: List[EthernetSwitchPort] | None = None
+    console: int | None = Field(None, gt=0, le=65535, description="Console TCP port")
+    console_type: TelnetConsoleType | None = Field(None, description="Console type")
 
 
 class EthernetSwitchCreate(EthernetSwitchBase):

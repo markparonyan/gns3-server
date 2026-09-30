@@ -16,7 +16,7 @@
 
 
 from enum import Enum
-from typing import List, Optional
+from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -122,51 +122,49 @@ class DynamipsBase(BaseModel):
     Common Dynamips node properties.
     """
 
-    node_id: Optional[UUID] = None
-    name: Optional[str] = None
-    dynamips_id: Optional[int] = Field(None, description="Dynamips internal ID")
-    ram: Optional[int] = Field(None, gt=0, description="Amount of RAM in MB")
-    nvram: Optional[int] = Field(None, gt=0, description="Amount of NVRAM in KB")
-    image: Optional[str] = Field(None, description="Path to the IOS image")
-    image_md5sum: Optional[str] = Field(None, description="Checksum of the IOS image")
-    usage: Optional[str] = Field(None, description="How to use the Dynamips VM")
-    chassis: Optional[str] = Field(None, description="Cisco router chassis model", pattern="^[0-9]{4}(XM)?$")
-    startup_config_content: Optional[str] = Field(None, description="Content of IOS startup configuration file")
-    private_config_content: Optional[str] = Field(None, description="Content of IOS private configuration file")
-    mmap: Optional[bool] = Field(None, description="MMAP feature")
-    sparsemem: Optional[bool] = Field(None, description="Sparse memory feature")
-    clock_divisor: Optional[int] = Field(None, description="Clock divisor")
-    idlepc: Optional[str] = Field(None, description="Idle-PC value", pattern="^(0x[0-9a-fA-F]+)?$")
-    idlemax: Optional[int] = Field(None, description="Idlemax value")
-    idlesleep: Optional[int] = Field(None, description="Idlesleep value")
-    exec_area: Optional[int] = Field(None, description="Exec area value")
-    disk0: Optional[int] = Field(None, ge=0, description="Disk0 size in MB")
-    disk1: Optional[int] = Field(None, ge=0, description="Disk1 size in MB")
-    auto_delete_disks: Optional[bool] = Field(None, description="Automatically delete nvram and disk files")
-    console: Optional[int] = Field(None, gt=0, le=65535, description="Console TCP port")
-    console_type: Optional[DynamipsConsoleType] = Field(None, description="Console type")
-    aux: Optional[int] = Field(None, gt=0, le=65535, description="Auxiliary console TCP port")
-    aux_type: Optional[DynamipsConsoleType] = Field(None, description="Auxiliary console type")
-    mac_addr: Optional[str] = Field(
-        None, description="Base MAC address", pattern="^([0-9a-fA-F]{4}\\.){2}[0-9a-fA-F]{4}$"
-    )
-    system_id: Optional[str] = Field(None, description="System ID")
-    slot0: Optional[DynamipsAdapters] = Field(None, description="Network module slot 0")
-    slot1: Optional[DynamipsAdapters] = Field(None, description="Network module slot 1")
-    slot2: Optional[DynamipsAdapters] = Field(None, description="Network module slot 2")
-    slot3: Optional[DynamipsAdapters] = Field(None, description="Network module slot 3")
-    slot4: Optional[DynamipsAdapters] = Field(None, description="Network module slot 4")
-    slot5: Optional[DynamipsAdapters] = Field(None, description="Network module slot 5")
-    slot6: Optional[DynamipsAdapters] = Field(None, description="Network module slot 6")
-    wic0: Optional[DynamipsWics] = Field(None, description="Network module WIC slot 0")
-    wic1: Optional[DynamipsWics] = Field(None, description="Network module WIC slot 1")
-    wic2: Optional[DynamipsWics] = Field(None, description="Network module WIC slot 2")
-    npe: Optional[DynamipsNPE] = Field(None, description="NPE model")
-    midplane: Optional[DynamipsMidplane] = Field(None, description="Midplane model")
-    sensors: Optional[List] = Field(None, description="Temperature sensors")
-    power_supplies: Optional[List] = Field(None, description="Power supplies status")
+    node_id: UUID | None = None
+    name: str | None = None
+    dynamips_id: int | None = Field(None, description="Dynamips internal ID")
+    ram: int | None = Field(None, gt=0, description="Amount of RAM in MB")
+    nvram: int | None = Field(None, gt=0, description="Amount of NVRAM in KB")
+    image: str | None = Field(None, description="Path to the IOS image")
+    image_md5sum: str | None = Field(None, description="Checksum of the IOS image")
+    usage: str | None = Field(None, description="How to use the Dynamips VM")
+    chassis: str | None = Field(None, description="Cisco router chassis model", pattern="^[0-9]{4}(XM)?$")
+    startup_config_content: str | None = Field(None, description="Content of IOS startup configuration file")
+    private_config_content: str | None = Field(None, description="Content of IOS private configuration file")
+    mmap: bool | None = Field(None, description="MMAP feature")
+    sparsemem: bool | None = Field(None, description="Sparse memory feature")
+    clock_divisor: int | None = Field(None, description="Clock divisor")
+    idlepc: str | None = Field(None, description="Idle-PC value", pattern="^(0x[0-9a-fA-F]+)?$")
+    idlemax: int | None = Field(None, description="Idlemax value")
+    idlesleep: int | None = Field(None, description="Idlesleep value")
+    exec_area: int | None = Field(None, description="Exec area value")
+    disk0: int | None = Field(None, ge=0, description="Disk0 size in MB")
+    disk1: int | None = Field(None, ge=0, description="Disk1 size in MB")
+    auto_delete_disks: bool | None = Field(None, description="Automatically delete nvram and disk files")
+    console: int | None = Field(None, gt=0, le=65535, description="Console TCP port")
+    console_type: DynamipsConsoleType | None = Field(None, description="Console type")
+    aux: int | None = Field(None, gt=0, le=65535, description="Auxiliary console TCP port")
+    aux_type: DynamipsConsoleType | None = Field(None, description="Auxiliary console type")
+    mac_addr: str | None = Field(None, description="Base MAC address", pattern="^([0-9a-fA-F]{4}\\.){2}[0-9a-fA-F]{4}$")
+    system_id: str | None = Field(None, description="System ID")
+    slot0: DynamipsAdapters | None = Field(None, description="Network module slot 0")
+    slot1: DynamipsAdapters | None = Field(None, description="Network module slot 1")
+    slot2: DynamipsAdapters | None = Field(None, description="Network module slot 2")
+    slot3: DynamipsAdapters | None = Field(None, description="Network module slot 3")
+    slot4: DynamipsAdapters | None = Field(None, description="Network module slot 4")
+    slot5: DynamipsAdapters | None = Field(None, description="Network module slot 5")
+    slot6: DynamipsAdapters | None = Field(None, description="Network module slot 6")
+    wic0: DynamipsWics | None = Field(None, description="Network module WIC slot 0")
+    wic1: DynamipsWics | None = Field(None, description="Network module WIC slot 1")
+    wic2: DynamipsWics | None = Field(None, description="Network module WIC slot 2")
+    npe: DynamipsNPE | None = Field(None, description="NPE model")
+    midplane: DynamipsMidplane | None = Field(None, description="Midplane model")
+    sensors: List | None = Field(None, description="Temperature sensors")
+    power_supplies: List | None = Field(None, description="Power supplies status")
     # I/O memory property for all platforms but C7200
-    iomem: Optional[int] = Field(None, ge=0, le=100, description="I/O memory percentage")
+    iomem: int | None = Field(None, ge=0, le=100, description="I/O memory percentage")
 
 
 class DynamipsCreate(DynamipsBase):
@@ -185,14 +183,14 @@ class DynamipsUpdate(DynamipsBase):
     Properties to update a Dynamips node.
     """
 
-    platform: Optional[DynamipsPlatform] = Field(None, description="Cisco router platform")
+    platform: DynamipsPlatform | None = Field(None, description="Cisco router platform")
 
 
 class Dynamips(DynamipsBase):
     name: str
-    platform: Optional[DynamipsPlatform] = Field(None, description="Cisco router platform")
+    platform: DynamipsPlatform | None = Field(None, description="Cisco router platform")
     node_id: UUID
     project_id: UUID
     dynamips_id: int
     status: NodeStatus
-    node_directory: Optional[str] = Field(None, description="Path to the vm working directory")
+    node_directory: str | None = Field(None, description="Path to the vm working directory")

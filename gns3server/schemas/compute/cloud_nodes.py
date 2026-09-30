@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import List, Optional, Union
+from typing import List, Union
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -45,7 +45,7 @@ class HostInterfaceIPAddress(BaseModel):
 
     family: IPAddressFamily = Field(..., description="Address family (ipv4 or ipv6)")
     address: str = Field(..., description="IP address")
-    netmask: Optional[str] = Field(None, description="Network mask, if available")
+    netmask: str | None = Field(None, description="Network mask, if available")
 
 
 class HostInterface(BaseModel):
@@ -127,17 +127,15 @@ class CloudBase(BaseModel):
     Common cloud node properties.
     """
 
-    name: Optional[str] = None
-    node_id: Optional[UUID] = None
-    usage: Optional[str] = None
-    remote_console_host: Optional[str] = Field(None, description="Remote console host or IP")
-    remote_console_port: Optional[int] = Field(None, gt=0, le=65535, description="Console TCP port")
-    remote_console_type: Optional[CloudConsoleType] = Field(None, description="Console type")
-    remote_console_http_path: Optional[str] = Field(None, description="Path of the remote web interface")
-    ports_mapping: Optional[List[Union[EthernetPort, TAPPort, UDPPort]]] = Field(
-        None, description="List of port mappings"
-    )
-    interfaces: Optional[List[HostInterface]] = Field(None, description="List of interfaces")
+    name: str | None = None
+    node_id: UUID | None = None
+    usage: str | None = None
+    remote_console_host: str | None = Field(None, description="Remote console host or IP")
+    remote_console_port: int | None = Field(None, gt=0, le=65535, description="Console TCP port")
+    remote_console_type: CloudConsoleType | None = Field(None, description="Console type")
+    remote_console_http_path: str | None = Field(None, description="Path of the remote web interface")
+    ports_mapping: List[Union[EthernetPort, TAPPort, UDPPort]] | None = Field(None, description="List of port mappings")
+    interfaces: List[HostInterface] | None = Field(None, description="List of interfaces")
 
 
 class CloudCreate(CloudBase):

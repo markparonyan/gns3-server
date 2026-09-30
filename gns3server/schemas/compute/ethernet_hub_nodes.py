@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List, Optional
+from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel
@@ -32,10 +32,10 @@ class EthernetHubBase(BaseModel):
     Common Ethernet hub properties.
     """
 
-    name: Optional[str] = None
-    node_id: Optional[UUID] = None
-    usage: Optional[str] = None
-    ports_mapping: Optional[List[EthernetHubPort]] = None
+    name: str | None = None
+    node_id: UUID | None = None
+    usage: str | None = None
+    ports_mapping: List[EthernetHubPort] | None = None
 
 
 class EthernetHubCreate(EthernetHubBase):

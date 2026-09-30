@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional
 from uuid import UUID
 
 from pydantic import BaseModel
@@ -27,10 +26,10 @@ class FrameRelaySwitchBase(BaseModel):
     Common Frame Relay switch properties.
     """
 
-    name: Optional[str] = None
-    node_id: Optional[UUID] = None
-    usage: Optional[str] = None
-    mappings: Optional[dict] = None
+    name: str | None = None
+    node_id: UUID | None = None
+    usage: str | None = None
+    mappings: dict | None = None
 
 
 class FrameRelaySwitchCreate(FrameRelaySwitchBase):
@@ -38,7 +37,7 @@ class FrameRelaySwitchCreate(FrameRelaySwitchBase):
     Properties to create an Frame Relay node.
     """
 
-    node_id: Optional[UUID] = None
+    node_id: UUID | None = None
 
 
 class FrameRelaySwitchUpdate(FrameRelaySwitchBase):
@@ -46,10 +45,10 @@ class FrameRelaySwitchUpdate(FrameRelaySwitchBase):
     Properties to update an Frame Relay node.
     """
 
-    name: Optional[str] = None
-    node_id: Optional[UUID] = None
+    name: str | None = None
+    node_id: UUID | None = None
 
 
 class FrameRelaySwitch(FrameRelaySwitchBase):
     project_id: UUID
-    status: Optional[NodeStatus] = None
+    status: NodeStatus | None = None

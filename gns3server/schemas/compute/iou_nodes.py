@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -27,25 +26,25 @@ class IOUBase(BaseModel):
     Common IOU node properties.
     """
 
-    name: Optional[str] = None
-    path: Optional[str] = Field(None, description="IOU executable path")
-    application_id: Optional[int] = Field(None, description="Application ID for running IOU executable")
-    node_id: Optional[UUID] = None
-    usage: Optional[str] = Field(None, description="How to use the node")
-    console: Optional[int] = Field(None, gt=0, le=65535, description="Console TCP port")
-    console_type: Optional[ConsoleType] = Field(None, description="Console type")
-    md5sum: Optional[str] = Field(None, description="IOU executable checksum")
-    serial_adapters: Optional[int] = Field(None, description="How many serial adapters are connected to IOU")
-    ethernet_adapters: Optional[int] = Field(None, description="How many Ethernet adapters are connected to IOU")
-    ram: Optional[int] = Field(None, gt=0, description="Amount of RAM in MB")
-    nvram: Optional[int] = Field(None, gt=0, description="Amount of NVRAM in KB")
-    l1_keepalives: Optional[bool] = Field(
+    name: str | None = None
+    path: str | None = Field(None, description="IOU executable path")
+    application_id: int | None = Field(None, description="Application ID for running IOU executable")
+    node_id: UUID | None = None
+    usage: str | None = Field(None, description="How to use the node")
+    console: int | None = Field(None, gt=0, le=65535, description="Console TCP port")
+    console_type: ConsoleType | None = Field(None, description="Console type")
+    md5sum: str | None = Field(None, description="IOU executable checksum")
+    serial_adapters: int | None = Field(None, description="How many serial adapters are connected to IOU")
+    ethernet_adapters: int | None = Field(None, description="How many Ethernet adapters are connected to IOU")
+    ram: int | None = Field(None, gt=0, description="Amount of RAM in MB")
+    nvram: int | None = Field(None, gt=0, description="Amount of NVRAM in KB")
+    l1_keepalives: bool | None = Field(
         None,
         description="Enable Layer 1 keepalives so IOU interfaces report accurate link state",
     )
-    use_default_iou_values: Optional[bool] = Field(None, description="Use default IOU values")
-    startup_config_content: Optional[str] = Field(None, description="Content of IOU startup configuration file")
-    private_config_content: Optional[str] = Field(None, description="Content of IOU private configuration file")
+    use_default_iou_values: bool | None = Field(None, description="Use default IOU values")
+    startup_config_content: str | None = Field(None, description="Content of IOU startup configuration file")
+    private_config_content: str | None = Field(None, description="Content of IOU private configuration file")
 
 
 class IOUCreate(IOUBase):
@@ -77,5 +76,5 @@ class IOU(IOUBase):
 
 
 class IOUStart(BaseModel):
-    iourc_content: Optional[str] = Field(None, description="Content of the iourc file")
-    license_check: Optional[bool] = Field(None, description="Whether the IOU license should be checked")
+    iourc_content: str | None = Field(None, description="Content of the iourc file")
+    license_check: bool | None = Field(None, description="Whether the IOU license should be checked")

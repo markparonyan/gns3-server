@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional
 from uuid import UUID
 
 from pydantic import BaseModel
@@ -27,10 +26,10 @@ class ATMSwitchBase(BaseModel):
     Common ATM switch properties.
     """
 
-    name: Optional[str] = None
-    node_id: Optional[UUID] = None
-    usage: Optional[str] = None
-    mappings: Optional[dict] = None
+    name: str | None = None
+    node_id: UUID | None = None
+    usage: str | None = None
+    mappings: dict | None = None
 
 
 class ATMSwitchCreate(ATMSwitchBase):
@@ -38,7 +37,7 @@ class ATMSwitchCreate(ATMSwitchBase):
     Properties to create an ATM switch node.
     """
 
-    node_id: Optional[UUID] = None
+    node_id: UUID | None = None
 
 
 class ATMSwitchUpdate(ATMSwitchBase):
@@ -46,10 +45,10 @@ class ATMSwitchUpdate(ATMSwitchBase):
     Properties to update an ATM switch node.
     """
 
-    name: Optional[str] = None
-    node_id: Optional[UUID] = None
+    name: str | None = None
+    node_id: UUID | None = None
 
 
 class ATMSwitch(ATMSwitchBase):
     project_id: UUID
-    status: Optional[NodeStatus] = None
+    status: NodeStatus | None = None

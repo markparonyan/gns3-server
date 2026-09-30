@@ -444,7 +444,7 @@ class DockerVM(BaseNode):
         try:
             resources_path = self.manager.resources_path()
         except OSError as e:
-            raise DockerError(f"Cannot access resources: {e}")
+            raise DockerError(f"Cannot access resources: {e}") from e
 
         log.debug(f'Mount resources from "{resources_path}"')
         binds = [{"Type": "bind", "Source": resources_path, "Target": "/gns3", "ReadOnly": True}]
@@ -454,7 +454,7 @@ class DockerVM(BaseNode):
         try:
             self._create_network_config()
         except OSError as e:
-            raise DockerError(f"Could not create network config in the container: {e}")
+            raise DockerError(f"Could not create network config in the container: {e}") from e
         self._volumes = self._persistent_volume_list(image_info)
 
         for volume in self._volumes:
@@ -573,7 +573,7 @@ class DockerVM(BaseNode):
             # the image is not on the local Docker daemon: raise ImageMissingError so the
             # controller can sync it (docker save -> load from the controller host, or pull)
             # and retry the node creation
-            raise ImageMissingError(self._image)
+            raise ImageMissingError(self._image) from None
 
         if image_infos is None:
             raise DockerError(f"Cannot get information for image '{self._image}', please try again.")
@@ -694,7 +694,7 @@ class DockerVM(BaseNode):
             try:
                 params["Cmd"] = shlex.split(self._start_command)
             except ValueError as e:
-                raise DockerError(f"Invalid start command '{self._start_command}': {e}")
+                raise DockerError(f"Invalid start command '{self._start_command}': {e}") from e
         if len(params["Cmd"]) == 0:
             params["Cmd"] = image_infos.get("Config", {"Cmd": []}).get("Cmd")
             if params["Cmd"] is None:
@@ -825,7 +825,7 @@ class DockerVM(BaseNode):
                 if hostname and ip:
                     hosts.append((hostname, ip))
         except ValueError:
-            raise DockerError(f"Can't apply `ExtraHosts`, wrong format: {extra_hosts}")
+            raise DockerError(f"Can't apply `ExtraHosts`, wrong format: {extra_hosts}") from None
         return "\n".join([f"{h[1]}\t{h[0]}" for h in hosts])
 
     def _format_devices(self, devices_value):
@@ -891,7 +891,7 @@ class DockerVM(BaseNode):
         except DockerHttp404Error:
             raise DockerError(
                 f"Docker container '{self.name}' with ID {self._cid} does not exist or is not ready yet. Please try again in a few seconds."
-            )
+            ) from None
         if state == "paused":
             await self.unpause()
         elif state == "running":
@@ -940,7 +940,7 @@ class DockerVM(BaseNode):
                             logdata = await self._get_log()
                             for line in logdata.split("\n"):
                                 log.error(line)
-                            raise DockerError(logdata)
+                            raise DockerError(logdata) from None
 
             await self._start_console_server()
 
@@ -982,7 +982,7 @@ class DockerVM(BaseNode):
                 stdin=asyncio.subprocess.PIPE,
             )
         except OSError as e:
-            raise DockerError(f"Could not start auxiliary console process: {e}")
+            raise DockerError(f"Could not start auxiliary console process: {e}") from e
         if self.aux_type == "telnet":
             server = AsyncioTelnetServer(reader=process.stdout, writer=process.stdin, binary=True, echo=True)
             transport = "Telnet"
@@ -994,7 +994,7 @@ class DockerVM(BaseNode):
         except OSError as e:
             raise DockerError(
                 f"Could not start {transport} server on socket {self._manager.port_manager.console_host}:{self.aux}: {e}"
-            )
+            ) from e
         log.debug(f"Docker container '{self.name}' started listening for auxiliary {self.aux_type} on {self.aux}")
 
     async def _fix_permissions(self):
@@ -1029,7 +1029,7 @@ class DockerVM(BaseNode):
                     stderr=asyncio.subprocess.PIPE,
                 )
             except OSError as e:
-                raise DockerError(f"Could not fix permissions for {volume}: {e}")
+                raise DockerError(f"Could not fix permissions for {volume}: {e}") from e
             await process.wait()
             if process.returncode != 0:
                 stderr = (await process.stderr.read()).decode(errors="replace").strip()
@@ -1204,7 +1204,7 @@ class DockerVM(BaseNode):
         try:
             await wait_for_file_creation(x11_socket)
         except asyncio.TimeoutError:
-            raise DockerError(f'x11 socket file "{x11_socket}" does not exist')
+            raise DockerError(f'x11 socket file "{x11_socket}" does not exist') from None
 
         if not hasattr(sys, "_called_from_test") or not sys._called_from_test:
             # Start vncconfig for tigervnc clipboard support, connection available only after socket creation.
@@ -1319,7 +1319,7 @@ class DockerVM(BaseNode):
         except OSError as e:
             raise DockerError(
                 f"Could not start {transport} server on socket {self._manager.port_manager.console_host}:{self.console}: {e}"
-            )
+            ) from e
 
         self._console_websocket = await self.manager.websocket_query(
             f"containers/{self._cid}/attach/ws?stream=1&stdin=1&stdout=1&stderr=1"
@@ -1738,7 +1738,7 @@ class DockerVM(BaseNode):
         try:
             adapter = self._ethernet_adapters[adapter_number]
         except IndexError:
-            raise DockerError(f"Adapter {adapter_number} doesn't exist on Docker container '{self.name}'")
+            raise DockerError(f"Adapter {adapter_number} doesn't exist on Docker container '{self.name}'") from None
 
         if port_number and adapter.interfaces == 1:
             raise DockerError(
@@ -1774,7 +1774,7 @@ class DockerVM(BaseNode):
         try:
             await self._ubridge_send(f"docker move_to_ns {adapter.host_ifc} {self._namespace} {ifname}")
         except UbridgeError as e:
-            raise UbridgeNamespaceError(e)
+            raise UbridgeNamespaceError(e) from e
         else:
             log.debug(f"Created adapter {adapter_number} with MAC address {mac_address} in namespace {self._namespace}")
 
@@ -1816,7 +1816,7 @@ class DockerVM(BaseNode):
         try:
             adapter = self._ethernet_adapters[adapter_number]
         except IndexError:
-            raise DockerError(f"Adapter {adapter_number} doesn't exist on Docker container '{self.name}'")
+            raise DockerError(f"Adapter {adapter_number} doesn't exist on Docker container '{self.name}'") from None
 
         if not adapter.port_exists(port_number):
             raise DockerError(
@@ -1860,7 +1860,7 @@ class DockerVM(BaseNode):
         try:
             adapter = self._ethernet_adapters[adapter_number]
         except IndexError:
-            raise DockerError(f"Adapter {adapter_number} doesn't exist on Docker VM '{self.name}'")
+            raise DockerError(f"Adapter {adapter_number} doesn't exist on Docker VM '{self.name}'") from None
 
         await self.stop_capture(adapter_number, port_number)
         if self.ubridge:
@@ -1888,7 +1888,7 @@ class DockerVM(BaseNode):
         try:
             adapter = self._ethernet_adapters[adapter_number]
         except KeyError:
-            raise DockerError(f"Adapter {adapter_number} doesn't exist on Docker VM '{self.name}'")
+            raise DockerError(f"Adapter {adapter_number} doesn't exist on Docker VM '{self.name}'") from None
 
         nio = adapter.get_nio(port_number)
 
@@ -2020,4 +2020,4 @@ class DockerVM(BaseNode):
                 f"another user could not be reclaimed ({e}). Reclaim them manually with: "
                 f'docker run --rm --user 0:0 -v "{self.working_dir}":/target --entrypoint /bin/sh '
                 f"{self._image} -c 'chown -R {os.getuid()}:{os.getgid()} /target'"
-            )
+            ) from e

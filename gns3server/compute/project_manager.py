@@ -71,7 +71,7 @@ class ProjectManager:
         try:
             UUID(project_id, version=4)
         except ValueError:
-            raise ComputeError(f"Project ID {project_id} is not a valid UUID")
+            raise ComputeError(f"Project ID {project_id} is not a valid UUID") from None
 
         if project_id not in self._projects:
             raise ComputeNotFoundError(f"Project ID {project_id} doesn't exist")

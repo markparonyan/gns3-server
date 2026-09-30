@@ -286,7 +286,7 @@ class Dynamips(BaseManager):
             else:
                 raise DynamipsError(f"Could not determine the Dynamips version for {dynamips_path}")
         except (OSError, subprocess.SubprocessError) as e:
-            raise DynamipsError(f"Error while looking for the Dynamips version: {e}")
+            raise DynamipsError(f"Error while looking for the Dynamips version: {e}") from e
 
     async def start_new_hypervisor(self, working_dir=None):
         """
@@ -330,7 +330,7 @@ class Dynamips(BaseManager):
                     port = sock.getsockname()[1]
                     break
         except OSError as e:
-            raise DynamipsError(f"Could not find free port for the Dynamips hypervisor: {e}")
+            raise DynamipsError(f"Could not find free port for the Dynamips hypervisor: {e}") from e
 
         port_manager = PortManager.instance()
         hypervisor = Hypervisor(
@@ -377,7 +377,7 @@ class Dynamips(BaseManager):
                     with socket.socket(af, socktype, proto) as sock:
                         sock.connect(sa)
             except OSError as e:
-                raise DynamipsError(f"Could not create an UDP connection to {rhost}:{rport}: {e}")
+                raise DynamipsError(f"Could not create an UDP connection to {rhost}:{rport}: {e}") from e
             nio = NIOUDP(node, lport, rhost, rport)
             nio.filters = nio_settings.get("filters", {})
             nio.markers = nio_settings.get("markers", {})
@@ -570,7 +570,7 @@ class Dynamips(BaseManager):
         try:
             os.makedirs(config_dir, exist_ok=True)
         except OSError as e:
-            raise DynamipsError(f"Could not create Dynamips configs directory: {e}")
+            raise DynamipsError(f"Could not create Dynamips configs directory: {e}") from e
 
         if content is None or len(content) == 0:
             content = "!\n"
@@ -584,7 +584,7 @@ class Dynamips(BaseManager):
                     content = content.replace("%h", vm.name)
                     f.write(content.encode("utf-8"))
         except OSError as e:
-            raise DynamipsError(f"Could not create config file '{path}': {e}")
+            raise DynamipsError(f"Could not create config file '{path}': {e}") from e
 
         return os.path.join("configs", os.path.basename(path))
 

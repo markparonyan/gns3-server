@@ -255,7 +255,7 @@ class VendorDockerVM(DockerVM):
                 stderr=asyncio.subprocess.PIPE,
             )
         except OSError as e:
-            raise DockerError(f"Could not seed persistent volumes for '{self._name}': {e}")
+            raise DockerError(f"Could not seed persistent volumes for '{self._name}': {e}") from e
         stdout, stderr = await process.communicate()
         if process.returncode != 0:
             raise DockerError(
@@ -282,7 +282,7 @@ class VendorDockerVM(DockerVM):
                 stderr=asyncio.subprocess.PIPE,
             )
         except OSError as e:
-            raise DockerError(f"Could not seed persistent volume '{volume}' for '{self._name}': {e}")
+            raise DockerError(f"Could not seed persistent volume '{volume}' for '{self._name}': {e}") from e
         _, stderr = await process.communicate()
         if process.returncode != 0:
             # A path the image does not contain (e.g. XRd's /xr-storage-shadow)
@@ -362,7 +362,9 @@ class VendorDockerVM(DockerVM):
         try:
             os.makedirs(host_dir, mode=0o700, exist_ok=True)
         except OSError as e:
-            raise DockerError(f"Could not create unix-socket directory '{host_dir}' for container '{self._name}': {e}")
+            raise DockerError(
+                f"Could not create unix-socket directory '{host_dir}' for container '{self._name}': {e}"
+            ) from e
         return host_dir
 
     def _remove_unix_socket_host_dir(self):
@@ -418,7 +420,7 @@ class VendorDockerVM(DockerVM):
         try:
             adapter = self._ethernet_adapters[adapter_number]
         except IndexError:
-            raise DockerError(f"Adapter {adapter_number} doesn't exist on Docker container '{self.name}'")
+            raise DockerError(f"Adapter {adapter_number} doesn't exist on Docker container '{self.name}'") from None
 
         interface_number = adapter_number * adapter.interfaces + port_number
         bridge_name = self._bridge_name(adapter_number, port_number)
@@ -445,7 +447,7 @@ class VendorDockerVM(DockerVM):
                     f"container's port count covers adapter {adapter_number} and that "
                     f"its network agent creates the per-adapter socket pair in "
                     f"'{self._unix_socket_dir}'."
-                )
+                ) from None
 
             await self._ubridge_send(f'bridge add_nio_unix {bridge_name} "{local_sock}" "{remote_sock}"')
         except Exception:
@@ -608,7 +610,7 @@ class VendorDockerVM(DockerVM):
                     stderr=asyncio.subprocess.PIPE,
                 )
             except OSError as e:
-                raise DockerError(f"Could not fix permissions for {volume}: {e}")
+                raise DockerError(f"Could not fix permissions for {volume}: {e}") from e
             await process.wait()
             if process.returncode != 0:
                 stderr = (await process.stderr.read()).decode(errors="replace").strip()
@@ -659,7 +661,7 @@ class VendorDockerVM(DockerVM):
         except OSError as e:
             raise DockerError(
                 f"Could not start console server on socket {self._manager.port_manager.console_host}:{self.console}: {e}"
-            )
+            ) from e
         log.debug(f"Docker container '{self.name}' started docker_exec console (lazy) on {self.console}")
 
 
@@ -790,7 +792,7 @@ class _LazyExecTelnetServer(AsyncioTelnetServer):
             headers = await asyncio.wait_for(reader.readuntil(b"\r\n\r\n"), timeout=5)
         except (asyncio.IncompleteReadError, asyncio.TimeoutError) as e:
             writer.close()
-            raise DockerError(f"Docker exec start failed: {e}")
+            raise DockerError(f"Docker exec start failed: {e}") from e
         status_line = headers.split(b"\r\n", 1)[0]
         log.info(f"{self._log_name}: hijacked start -> {status_line.decode(errors='ignore')}")
         if b" 101 " not in status_line and b" 200 " not in status_line:

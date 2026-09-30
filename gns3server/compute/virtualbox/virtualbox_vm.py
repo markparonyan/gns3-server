@@ -239,9 +239,13 @@ class VirtualBoxVM(BaseNode):
         try:
             tree = ET.parse(linked_vbox_file)
         except ET.ParseError:
-            raise VirtualBoxError("Cannot modify VirtualBox linked node file. File {linked_vbox_file} is corrupted.")
+            raise VirtualBoxError(
+                "Cannot modify VirtualBox linked node file. File {linked_vbox_file} is corrupted."
+            ) from None
         except OSError as e:
-            raise VirtualBoxError(f"Cannot modify VirtualBox linked nodes file '{self._linked_vbox_file()}': {e}")
+            raise VirtualBoxError(
+                f"Cannot modify VirtualBox linked nodes file '{self._linked_vbox_file()}': {e}"
+            ) from e
 
         machine = tree.getroot().find("{http://www.virtualbox.org/}Machine")
         if machine is not None and machine.get("uuid") != "{" + self.id + "}":
@@ -818,7 +822,7 @@ class VirtualBoxVM(BaseNode):
         try:
             os.makedirs(os.path.dirname(pipe_name), exist_ok=True)
         except OSError as e:
-            raise VirtualBoxError(f"Could not create the VirtualBox pipe directory: {e}")
+            raise VirtualBoxError(f"Could not create the VirtualBox pipe directory: {e}") from e
         return pipe_name
 
     async def _set_serial_console(self):
@@ -991,7 +995,7 @@ class VirtualBoxVM(BaseNode):
             try:
                 self._remote_pipe = await asyncio_open_serial(pipe_name)
             except OSError as e:
-                raise VirtualBoxError(f"Could not open serial pipe '{pipe_name}': {e}")
+                raise VirtualBoxError(f"Could not open serial pipe '{pipe_name}': {e}") from e
             if self.console_type == "telnet":
                 server = AsyncioTelnetServer(reader=self._remote_pipe, writer=self._remote_pipe, binary=True, echo=True)
                 transport = "Telnet"
@@ -1054,7 +1058,7 @@ class VirtualBoxVM(BaseNode):
         try:
             adapter = self._ethernet_adapters[adapter_number]
         except KeyError:
-            raise VirtualBoxError(f"Adapter {adapter_number} doesn't exist on VirtualBox VM '{self.name}'")
+            raise VirtualBoxError(f"Adapter {adapter_number} doesn't exist on VirtualBox VM '{self.name}'") from None
 
         # check if trying to connect to a nat, bridged, host-only or any other special adapter
         nic_attachments = await self._get_nic_attachements(self._maximum_adapters)
@@ -1081,7 +1085,9 @@ class VirtualBoxVM(BaseNode):
                     f"VBOX-{self._id}-{adapter_number}", self._local_udp_tunnels[adapter_number][1], nio
                 )
             except KeyError:
-                raise VirtualBoxError(f"Adapter {adapter_number} doesn't exist on VirtualBox VM '{self.name}'")
+                raise VirtualBoxError(
+                    f"Adapter {adapter_number} doesn't exist on VirtualBox VM '{self.name}'"
+                ) from None
             await self._control_vm(f"setlinkstate{adapter_number + 1} on")
 
         adapter.add_nio(0, nio)
@@ -1105,7 +1111,9 @@ class VirtualBoxVM(BaseNode):
                 else:
                     await self._control_vm(f"setlinkstate{adapter_number + 1} on")
             except IndexError:
-                raise VirtualBoxError(f'Adapter {adapter_number} does not exist on VirtualBox VM "{self._name}"')
+                raise VirtualBoxError(
+                    f'Adapter {adapter_number} does not exist on VirtualBox VM "{self._name}"'
+                ) from None
 
     async def adapter_remove_nio_binding(self, adapter_number):
         """
@@ -1119,7 +1127,7 @@ class VirtualBoxVM(BaseNode):
         try:
             adapter = self._ethernet_adapters[adapter_number]
         except KeyError:
-            raise VirtualBoxError(f"Adapter {adapter_number} doesn't exist on VirtualBox VM '{self.name}'")
+            raise VirtualBoxError(f"Adapter {adapter_number} doesn't exist on VirtualBox VM '{self.name}'") from None
 
         await self.stop_capture(adapter_number)
         if self.is_running():
@@ -1148,7 +1156,7 @@ class VirtualBoxVM(BaseNode):
         try:
             adapter = self.ethernet_adapters[adapter_number]
         except KeyError:
-            raise VirtualBoxError(f"Adapter {adapter_number} doesn't exist on VirtualBox VM '{self.name}'")
+            raise VirtualBoxError(f"Adapter {adapter_number} doesn't exist on VirtualBox VM '{self.name}'") from None
 
         nio = adapter.get_nio(0)
 

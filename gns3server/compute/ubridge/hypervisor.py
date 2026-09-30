@@ -71,7 +71,7 @@ class Hypervisor(UBridgeHypervisor):
                 os.makedirs(socket_dir, mode=0o700, exist_ok=True)
                 os.chmod(socket_dir, 0o700)
             except OSError as e:
-                raise UbridgeError(f"Could not create uBridge socket directory {socket_dir}: {e}")
+                raise UbridgeError(f"Could not create uBridge socket directory {socket_dir}: {e}") from e
             socket_path = os.path.join(socket_dir, socket_name)
             super().__init__(socket_path=socket_path)
         else:
@@ -90,7 +90,7 @@ class Hypervisor(UBridgeHypervisor):
                         port = sock.getsockname()[1]
                         break
             except OSError as e:
-                raise UbridgeError(f"Could not find free port for the uBridge hypervisor: {e}")
+                raise UbridgeError(f"Could not find free port for the uBridge hypervisor: {e}") from e
             super().__init__(host=host, port=port)
 
         self._command = []
@@ -167,7 +167,7 @@ class Hypervisor(UBridgeHypervisor):
             else:
                 raise UbridgeError(f"Could not determine uBridge version for {self._path}")
         except (OSError, subprocess.SubprocessError) as e:
-            raise UbridgeError(f"Error while looking for uBridge version: {e}")
+            raise UbridgeError(f"Error while looking for uBridge version: {e}") from e
 
     async def start(self):
         """
@@ -204,7 +204,7 @@ class Hypervisor(UBridgeHypervisor):
         except (OSError, subprocess.SubprocessError) as e:
             ubridge_stdout = self.read_stdout()
             log.error(f"Could not start ubridge: {e}\n{ubridge_stdout}")
-            raise UbridgeError(f"Could not start ubridge: {e}\n{ubridge_stdout}")
+            raise UbridgeError(f"Could not start ubridge: {e}\n{ubridge_stdout}") from e
 
     def _termination_callback(self, returncode):
         """

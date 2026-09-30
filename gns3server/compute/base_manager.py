@@ -166,7 +166,7 @@ class BaseManager:
         try:
             UUID(node_id, version=4)
         except ValueError:
-            raise ComputeError(f"Node ID {node_id} is not a valid UUID")
+            raise ComputeError(f"Node ID {node_id} is not a valid UUID") from None
 
         if node_id not in self._nodes:
             raise ComputeNotFoundError(f"Node ID {node_id} doesn't exist")
@@ -227,7 +227,7 @@ class BaseManager:
             shutil.rmtree(destination_dir)
             shutil.copytree(source_node.working_dir, destination_dir, symlinks=True, ignore_dangling_symlinks=True)
         except OSError as e:
-            raise ComputeError(f"Cannot duplicate node data: {e}")
+            raise ComputeError(f"Cannot duplicate node data: {e}") from e
 
         # We force a refresh of the name. This forces the rewrite
         # of some configuration files
@@ -352,7 +352,7 @@ class BaseManager:
                     with socket.socket(af, socktype, proto) as sock:
                         sock.connect(sa)
             except OSError as e:
-                raise ComputeError(f"Could not create an UDP connection to {rhost}:{rport}: {e}")
+                raise ComputeError(f"Could not create an UDP connection to {rhost}:{rport}: {e}") from e
             nio = NIOUDP(lport, rhost, rport)
             nio.filters = nio_settings.get("filters", {})
             nio.markers = nio_settings.get("markers", {})
@@ -400,9 +400,9 @@ class BaseManager:
                         continue
                     yield data
         except FileNotFoundError:
-            raise ComputeNotFoundError(f"File '{path}' not found")
+            raise ComputeNotFoundError(f"File '{path}' not found") from None
         except PermissionError:
-            raise ComputeForbiddenError(f"File '{path}' cannot be accessed")
+            raise ComputeForbiddenError(f"File '{path}' cannot be accessed") from None
 
     def get_abs_image_path(self, path, extra_dir=None):
         """
@@ -510,7 +510,7 @@ class BaseManager:
         try:
             return await list_images(self._NODE_TYPE)
         except OSError as e:
-            raise ComputeError(f"Can not list images {e}")
+            raise ComputeError(f"Can not list images {e}") from e
 
     def get_images_directory(self):
         """
@@ -540,7 +540,7 @@ class BaseManager:
             shutil.move(tmp_path, path)
             await cancellable_wait_run_in_executor(md5sum, path)
         except OSError as e:
-            raise ComputeError(f"Could not write image '{filename}': {e}")
+            raise ComputeError(f"Could not write image '{filename}': {e}") from e
 
     def reset(self):
         """

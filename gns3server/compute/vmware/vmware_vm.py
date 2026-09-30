@@ -119,7 +119,7 @@ class VMwareVM(BaseNode):
         try:
             self._vmx_pairs = self.manager.parse_vmware_file(self._vmx_path)
         except OSError as e:
-            raise VMwareError(f'Could not read VMware VMX file "{self._vmx_path}": {e}')
+            raise VMwareError(f'Could not read VMware VMX file "{self._vmx_path}": {e}') from e
 
     def _write_vmx_file(self):
         """
@@ -129,7 +129,7 @@ class VMwareVM(BaseNode):
         try:
             self.manager.write_vmx_file(self._vmx_path, self._vmx_pairs)
         except OSError as e:
-            raise VMwareError(f'Could not write VMware VMX file "{self._vmx_path}": {e}')
+            raise VMwareError(f'Could not write VMware VMX file "{self._vmx_path}": {e}') from e
 
     async def is_running(self):
 
@@ -187,7 +187,7 @@ class VMwareVM(BaseNode):
             try:
                 vmsd_pairs = self.manager.parse_vmware_file(vmsd_path)
             except OSError as e:
-                raise VMwareError(f'Could not read VMware VMSD file "{vmsd_path}": {e}')
+                raise VMwareError(f'Could not read VMware VMSD file "{vmsd_path}": {e}') from e
             gns3_snapshot_exists = False
             for value in vmsd_pairs.values():
                 if value == base_snapshot_name:
@@ -206,7 +206,7 @@ class VMwareVM(BaseNode):
             try:
                 vmsd_pairs = self.manager.parse_vmware_file(vmsd_path)
             except OSError as e:
-                raise VMwareError(f'Could not read VMware VMSD file "{vmsd_path}": {e}')
+                raise VMwareError(f'Could not read VMware VMSD file "{vmsd_path}": {e}') from e
 
             snapshot_name = None
             for name, value in vmsd_pairs.items():
@@ -222,7 +222,7 @@ class VMwareVM(BaseNode):
                 try:
                     nb_of_clones = int(vmsd_pairs[num_clones_entry])
                 except ValueError:
-                    raise VMwareError(f"Value of {num_clones_entry} in {vmsd_path} is not a number")
+                    raise VMwareError(f"Value of {num_clones_entry} in {vmsd_path} is not a number") from None
                 vmsd_pairs[num_clones_entry] = str(nb_of_clones - 1)
 
                 for clone_nb in range(0, nb_of_clones):
@@ -233,7 +233,7 @@ class VMwareVM(BaseNode):
                 try:
                     self.manager.write_vmware_file(vmsd_path, vmsd_pairs)
                 except OSError as e:
-                    raise VMwareError(f'Could not write VMware VMSD file "{vmsd_path}": {e}')
+                    raise VMwareError(f'Could not write VMware VMSD file "{vmsd_path}": {e}') from e
 
             # update the VMX file path
             self._vmx_path = new_vmx_path
@@ -744,7 +744,7 @@ class VMwareVM(BaseNode):
         try:
             adapter = self._ethernet_adapters[adapter_number]
         except IndexError:
-            raise VMwareError(f"Adapter {adapter_number} doesn't exist on VMware VM '{self.name}'")
+            raise VMwareError(f"Adapter {adapter_number} doesn't exist on VMware VM '{self.name}'") from None
 
         self._read_vmx_file()
         # check if trying to connect to a nat, bridged or host-only adapter
@@ -785,7 +785,7 @@ class VMwareVM(BaseNode):
             try:
                 await self._update_ubridge_connection(adapter_number, nio)
             except IndexError:
-                raise VMwareError(f'Adapter {adapter_number} does not exist on VMware VM "{self._name}"')
+                raise VMwareError(f'Adapter {adapter_number} does not exist on VMware VM "{self._name}"') from None
 
     async def adapter_remove_nio_binding(self, adapter_number):
         """
@@ -799,7 +799,7 @@ class VMwareVM(BaseNode):
         try:
             adapter = self._ethernet_adapters[adapter_number]
         except IndexError:
-            raise VMwareError(f"Adapter {adapter_number} doesn't exist on VMware VM '{self.name}'")
+            raise VMwareError(f"Adapter {adapter_number} doesn't exist on VMware VM '{self.name}'") from None
 
         await self.stop_capture(adapter_number)
         nio = adapter.get_nio(0)
@@ -825,7 +825,7 @@ class VMwareVM(BaseNode):
         try:
             adapter = self.ethernet_adapters[adapter_number]
         except KeyError:
-            raise VMwareError(f"Adapter {adapter_number} doesn't exist on VMware VM '{self.name}'")
+            raise VMwareError(f"Adapter {adapter_number} doesn't exist on VMware VM '{self.name}'") from None
 
         nio = adapter.get_nio(0)
         if not nio:
@@ -844,7 +844,7 @@ class VMwareVM(BaseNode):
         try:
             os.makedirs(os.path.dirname(pipe_name), exist_ok=True)
         except OSError as e:
-            raise VMwareError(f"Could not create the VMware pipe directory: {e}")
+            raise VMwareError(f"Could not create the VMware pipe directory: {e}") from e
         return pipe_name
 
     def _set_serial_console(self):
@@ -872,7 +872,7 @@ class VMwareVM(BaseNode):
             try:
                 self._remote_pipe = await asyncio_open_serial(self._get_pipe_name())
             except OSError as e:
-                raise VMwareError(f"Could not open serial pipe '{pipe_name}': {e}")
+                raise VMwareError(f"Could not open serial pipe '{pipe_name}': {e}") from e
             if self.console_type == "telnet":
                 server = AsyncioTelnetServer(reader=self._remote_pipe, writer=self._remote_pipe, binary=True, echo=True)
                 transport = "Telnet"

@@ -108,12 +108,12 @@ class VirtualBox(BaseManager):
                     *command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE, env=env
                 )
             except (OSError, subprocess.SubprocessError) as e:
-                raise VirtualBoxError(f"Could not execute VBoxManage: {e}")
+                raise VirtualBoxError(f"Could not execute VBoxManage: {e}") from e
 
             try:
                 stdout_data, stderr_data = await asyncio.wait_for(process.communicate(), timeout=timeout)
             except asyncio.TimeoutError:
-                raise VirtualBoxError(f"VBoxManage has timed out after {timeout} seconds!")
+                raise VirtualBoxError(f"VBoxManage has timed out after {timeout} seconds!") from None
 
             if process.returncode:
                 vboxmanage_error = stderr_data.decode("utf-8", errors="ignore")

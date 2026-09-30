@@ -129,7 +129,7 @@ class Hypervisor(DynamipsHypervisor):
             self._started = True
         except (OSError, subprocess.SubprocessError) as e:
             log.error(f"Could not start Dynamips: {e}")
-            raise DynamipsError(f"Could not start Dynamips: {e}")
+            raise DynamipsError(f"Could not start Dynamips: {e}") from e
 
     async def stop(self):
         """

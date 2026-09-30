@@ -189,7 +189,7 @@ class UBridgeHypervisor:
         except OSError as e:
             raise UbridgeError(
                 f"Lost communication with {self.endpoint} when sending command '{command}': {e}, uBridge process running: {self.is_running()}"
-            )
+            ) from e
 
         # Now retrieve the result
         data = []
@@ -224,7 +224,7 @@ class UBridgeHypervisor:
             except OSError as e:
                 raise UbridgeError(
                     f"Lost communication with {self.endpoint} after sending command '{command}': {e}, uBridge process running: {self.is_running()}"
-                )
+                ) from e
 
             # If the buffer doesn't end in '\n' then we can't be done
             try:
@@ -233,7 +233,7 @@ class UBridgeHypervisor:
             except IndexError:
                 raise UbridgeError(
                     f"Could not communicate with {self.endpoint} after sending command '{command}', uBridge process running: {self.is_running()}"
-                )
+                ) from None
 
             data += buf.split("\r\n")
             if data[-1] == "":

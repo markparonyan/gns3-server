@@ -179,7 +179,7 @@ class VPCSVM(BaseNode):
             with open(script_file, "rb") as f:
                 return f.read().decode("utf-8", errors="replace")
         except OSError as e:
-            raise VPCSError(f'Cannot read the startup script file "{script_file}": {e}')
+            raise VPCSError(f'Cannot read the startup script file "{script_file}": {e}') from e
 
     @startup_script.setter
     def startup_script(self, startup_script):
@@ -198,7 +198,7 @@ class VPCSVM(BaseNode):
                     startup_script = startup_script.replace("%h", self._name)
                     f.write(startup_script)
         except OSError as e:
-            raise VPCSError(f'Cannot write the startup script file "{startup_script_path}": {e}')
+            raise VPCSError(f'Cannot write the startup script file "{startup_script_path}": {e}') from e
 
     async def _check_vpcs_version(self):
         """
@@ -215,7 +215,7 @@ class VPCSVM(BaseNode):
             else:
                 raise VPCSError(f"Could not determine the VPCS version for {self._vpcs_path()}")
         except (OSError, subprocess.SubprocessError) as e:
-            raise VPCSError(f"Error while looking for the VPCS version: {e}")
+            raise VPCSError(f"Error while looking for the VPCS version: {e}") from e
 
     async def start(self):
         """
@@ -252,7 +252,7 @@ class VPCSVM(BaseNode):
             except (OSError, subprocess.SubprocessError) as e:
                 vpcs_stdout = self.read_vpcs_stdout()
                 log.error(f"Could not start VPCS {self._vpcs_path()}: {e}\n{vpcs_stdout}")
-                raise VPCSError(f"Could not start VPCS {self._vpcs_path()}: {e}\n{vpcs_stdout}")
+                raise VPCSError(f"Could not start VPCS {self._vpcs_path()}: {e}\n{vpcs_stdout}") from e
 
     async def _termination_callback(self, returncode):
         """
@@ -545,7 +545,7 @@ class VPCSVM(BaseNode):
                     ["-t", socket.gethostbyname(nio.rhost)]
                 )  # destination host, we need to resolve the hostname because VPCS doesn't support it
             except socket.gaierror as e:
-                raise VPCSError(f"Can't resolve hostname {nio.rhost}")
+                raise VPCSError(f"Can't resolve hostname {nio.rhost}") from e
 
         if self.script_file:
             command.extend([os.path.basename(self.script_file)])

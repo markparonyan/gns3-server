@@ -46,7 +46,7 @@ class VPCS(BaseManager):
         try:
             self._used_mac_ids[node.id] = self._free_mac_ids[node.project.id].pop(0)
         except IndexError:
-            raise VPCSError("Cannot create a new VPCS VM (limit of 255 VMs reached on this host)")
+            raise VPCSError("Cannot create a new VPCS VM (limit of 255 VMs reached on this host)") from None
         return node
 
     async def close_node(self, node_id, *args, **kwargs):

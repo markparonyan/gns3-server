@@ -187,7 +187,7 @@ class IOLDockerVM(VendorDockerVM):
             with open(nvram_file, "wb") as f:
                 f.write(nvram)
         except (OSError, ValueError) as e:
-            raise DockerError(f"Could not write IOL startup-config to NVRAM of container '{self._name}': {e}")
+            raise DockerError(f"Could not write IOL startup-config to NVRAM of container '{self._name}': {e}") from e
         log.debug("IOL container '%s': startup-config written to %s", self._name, nvram_file)
 
     @property

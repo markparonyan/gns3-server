@@ -89,7 +89,7 @@ def uncompress_LZC(data):
             buf, symbol = divmod(buf, dict_size)
             buf_bits -= num_bits
         except IndexError:
-            raise ValueError("invalid data")
+            raise ValueError("invalid data") from None
 
         # re-initialize dictionary
         if blockmode and symbol == 256:
@@ -158,14 +158,14 @@ def nvram_export(nvram):
             raise ValueError("invalid length")
         startup = nvram[offset : offset + length]
     except struct.error:
-        raise ValueError("invalid length")
+        raise ValueError("invalid length") from None
 
     # uncompress startup config
     if data_format == 2:
         try:
             startup = uncompress_LZC(startup)
         except ValueError as err:
-            raise ValueError("uncompress startup: " + str(err))
+            raise ValueError("uncompress startup: " + str(err)) from err
 
     private = None
     try:

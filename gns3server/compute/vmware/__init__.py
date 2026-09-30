@@ -218,7 +218,7 @@ class VMware(BaseManager):
                 raise VMwareError(f"Could not find VMware version. Output of VMware: {output}")
         except (OSError, subprocess.SubprocessError) as e:
             log.error(f"Error while looking for the VMware version: {e}")
-            raise VMwareError(f"Error while looking for the VMware version: {e}")
+            raise VMwareError(f"Error while looking for the VMware version: {e}") from e
 
     @staticmethod
     def _get_vmnet_interfaces():
@@ -251,7 +251,7 @@ class VMware(BaseManager):
                             vmnet_interfaces[vmnet]["netmask"] = match.group(2)
 
         except OSError as e:
-            raise VMwareError(f"Cannot open {vmware_networking_file}: {e}")
+            raise VMwareError(f"Cannot open {vmware_networking_file}: {e}") from e
         return vmnet_interfaces
 
     @staticmethod
@@ -378,14 +378,14 @@ class VMware(BaseManager):
                 *command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
             )
         except (OSError, subprocess.SubprocessError) as e:
-            raise VMwareError(f"Could not execute vmrun: {e}")
+            raise VMwareError(f"Could not execute vmrun: {e}") from e
 
         try:
             stdout_data, _ = await asyncio.wait_for(process.communicate(), timeout=timeout)
         except asyncio.TimeoutError:
             raise VMwareError(
                 f"vmrun has timed out after {timeout} seconds!\nTry to run {command_string} in a terminal to see more details.\n\nMake sure GNS3 and VMware run under the same user and whitelist vmrun.exe in your antivirus."
-            )
+            ) from None
 
         if process.returncode:
             # vmrun print errors on stdout
@@ -426,7 +426,7 @@ class VMware(BaseManager):
                 raise VMwareError(f"Could not find VMware vmrun version. Output: {output}")
         except (OSError, subprocess.SubprocessError) as e:
             log.error(f"Error while looking for the VMware vmrun version: {e}")
-            raise VMwareError(f"Error while looking for the VMware vmrun version: {e}")
+            raise VMwareError(f"Error while looking for the VMware vmrun version: {e}") from e
 
     async def remove_from_vmware_inventory(self, vmx_path):
         """
@@ -458,7 +458,7 @@ class VMware(BaseManager):
                 try:
                     self.write_vmware_file(inventory_path, inventory_pairs)
                 except OSError as e:
-                    raise VMwareError(f'Could not write VMware inventory file "{inventory_path}": {e}')
+                    raise VMwareError(f'Could not write VMware inventory file "{inventory_path}": {e}') from e
 
     @staticmethod
     def parse_vmware_file(path):

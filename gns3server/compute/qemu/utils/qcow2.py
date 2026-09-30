@@ -74,7 +74,7 @@ class Qcow2:
                 ) = struct.unpack_from(struct_format, content)
 
             except struct.error:
-                raise Qcow2Error(f"Invalid file header for {self._path}")
+                raise Qcow2Error(f"Invalid file header for {self._path}") from None
 
         if self.magic != 1363560955:  # The first 4 bytes contain the characters 'Q', 'F', 'I' followed by 0xfb.
             raise Qcow2Error(f"Invalid magic for {self._path}")

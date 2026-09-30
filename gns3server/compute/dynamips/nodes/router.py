@@ -96,7 +96,7 @@ class Router(BaseNode):
         try:
             os.makedirs(os.path.join(self._working_directory, "configs"), exist_ok=True)
         except OSError as e:
-            raise DynamipsError(f"Can't create the dynamips config directory: {e!s}")
+            raise DynamipsError(f"Can't create the dynamips config directory: {e!s}") from e
         if dynamips_id:
             self._convert_before_2_0_0_b3(dynamips_id)
 
@@ -300,7 +300,7 @@ class Router(BaseNode):
                     # read the first 7 bytes of the file.
                     elf_header_start = f.read(7)
             except OSError as e:
-                raise DynamipsError(f'Cannot read ELF header for IOS image "{self._image}": {e}')
+                raise DynamipsError(f'Cannot read ELF header for IOS image "{self._image}": {e}') from e
 
             # IOS images must start with the ELF magic number, be 32-bit, big endian and have an ELF version of 1
             if elf_header_start != b"\x7fELF\x01\x02\x01":
@@ -332,7 +332,7 @@ class Router(BaseNode):
             try:
                 await self.start_wrap_console()
             except OSError as e:
-                raise DynamipsError(f"Could not start Dynamips console wrapper: {e}")
+                raise DynamipsError(f"Could not start Dynamips console wrapper: {e}") from e
 
     async def _termination_callback(self, returncode):
         """
@@ -1113,7 +1113,7 @@ class Router(BaseNode):
         try:
             slot = self._slots[slot_number]
         except IndexError:
-            raise DynamipsError(f'Slot {slot_number} does not exist on router "{self._name}"')
+            raise DynamipsError(f'Slot {slot_number} does not exist on router "{self._name}"') from None
 
         if slot is not None:
             current_adapter = slot
@@ -1153,7 +1153,7 @@ class Router(BaseNode):
         try:
             adapter = self._slots[slot_number]
         except IndexError:
-            raise DynamipsError(f'Slot {slot_number} does not exist on router "{self._name}"')
+            raise DynamipsError(f'Slot {slot_number} does not exist on router "{self._name}"') from None
 
         if adapter is None:
             raise DynamipsError(f'No adapter in slot {slot_number} on router "{self._name}"')
@@ -1273,7 +1273,7 @@ class Router(BaseNode):
         try:
             adapter = self._slots[slot_number]
         except IndexError:
-            raise DynamipsError(f'Slot {slot_number} does not exist on router "{self._name}"')
+            raise DynamipsError(f'Slot {slot_number} does not exist on router "{self._name}"') from None
 
         if adapter is None:
             raise DynamipsError(f"Adapter is missing in slot {slot_number}")
@@ -1317,7 +1317,7 @@ class Router(BaseNode):
         try:
             adapter = self._slots[slot_number]
         except IndexError:
-            raise DynamipsError(f'Slot {slot_number} does not exist on router "{self._name}"')
+            raise DynamipsError(f'Slot {slot_number} does not exist on router "{self._name}"') from None
 
         if adapter is None:
             raise DynamipsError(f"Adapter is missing in slot {slot_number}")
@@ -1366,7 +1366,7 @@ class Router(BaseNode):
         try:
             adapter = self._slots[slot_number]
         except IndexError:
-            raise DynamipsError(f'Slot {slot_number} does not exist on router "{self._name}"')
+            raise DynamipsError(f'Slot {slot_number} does not exist on router "{self._name}"') from None
         if not adapter.port_exists(port_number):
             raise DynamipsError(f"Port {port_number} does not exist on adapter {adapter}")
 
@@ -1403,12 +1403,12 @@ class Router(BaseNode):
         try:
             open(output_file, "w+").close()
         except OSError as e:
-            raise DynamipsError(f'Can not write capture to "{output_file}": {e!s}')
+            raise DynamipsError(f'Can not write capture to "{output_file}": {e!s}') from e
 
         try:
             adapter = self._slots[slot_number]
         except IndexError:
-            raise DynamipsError(f'Slot {slot_number} does not exist on router "{self._name}"')
+            raise DynamipsError(f'Slot {slot_number} does not exist on router "{self._name}"') from None
         if not adapter.port_exists(port_number):
             raise DynamipsError(f"Port {port_number} does not exist on adapter {adapter}")
 
@@ -1437,7 +1437,7 @@ class Router(BaseNode):
         try:
             adapter = self._slots[slot_number]
         except IndexError:
-            raise DynamipsError(f'Slot {slot_number} does not exist on router "{self._name}"')
+            raise DynamipsError(f'Slot {slot_number} does not exist on router "{self._name}"') from None
         if not adapter.port_exists(port_number):
             raise DynamipsError(f"Port {port_number} does not exist on adapter {adapter}")
 
@@ -1508,7 +1508,7 @@ class Router(BaseNode):
                     f.seek(0)
                     f.write(new_config)
             except OSError as e:
-                raise DynamipsError(f"Could not amend the configuration {self.startup_config_path}: {e}")
+                raise DynamipsError(f"Could not amend the configuration {self.startup_config_path}: {e}") from e
 
         # change the hostname in the private-config
         if os.path.isfile(self.private_config_path):
@@ -1519,7 +1519,7 @@ class Router(BaseNode):
                     f.seek(0)
                     f.write(new_config)
             except OSError as e:
-                raise DynamipsError(f"Could not amend the configuration {self.private_config_path}: {e}")
+                raise DynamipsError(f"Could not amend the configuration {self.private_config_path}: {e}") from e
 
         log.debug(f'Router "{self._name}" [{self._id}]: renamed to "{new_name}"')
         self._name = new_name
@@ -1551,7 +1551,7 @@ class Router(BaseNode):
             config_path = os.path.join(self._working_directory, "configs")
             os.makedirs(config_path, exist_ok=True)
         except OSError as e:
-            raise DynamipsError(f"Could could not create configuration directory {config_path}: {e}")
+            raise DynamipsError(f"Could could not create configuration directory {config_path}: {e}") from e
 
         startup_config_base64, private_config_base64 = await self.extract_config()
         if startup_config_base64:
@@ -1564,7 +1564,7 @@ class Router(BaseNode):
                     log.debug(f"saving startup-config to {startup_config}")
                     f.write(config.encode("utf-8"))
             except (binascii.Error, OSError) as e:
-                raise DynamipsError(f"Could not save the startup configuration {config_path}: {e}")
+                raise DynamipsError(f"Could not save the startup configuration {config_path}: {e}") from e
 
         if private_config_base64 and base64.b64decode(private_config_base64) != b"\nkerberos password \nend\n":
             private_config = self.private_config_path
@@ -1575,7 +1575,7 @@ class Router(BaseNode):
                     log.debug(f"saving private-config to {private_config}")
                     f.write(config.encode("utf-8"))
             except (binascii.Error, OSError) as e:
-                raise DynamipsError(f"Could not save the private configuration {config_path}: {e}")
+                raise DynamipsError(f"Could not save the private configuration {config_path}: {e}") from e
 
     async def delete(self):
         """

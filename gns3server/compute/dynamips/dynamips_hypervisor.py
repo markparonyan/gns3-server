@@ -254,7 +254,7 @@ class DynamipsHypervisor:
             except OSError as e:
                 raise DynamipsError(
                     f"Could not send Dynamips command '{command.strip()}' to {self._host}:{self._port}: {e}, process running: {self.is_running()}"
-                )
+                ) from e
 
             # Now retrieve the result
             data = []
@@ -290,7 +290,7 @@ class DynamipsHypervisor:
                 except OSError as e:
                     raise DynamipsError(
                         f"Could not read response for '{command.strip()}' from {self._host}:{self._port}: {e}, process running: {self.is_running()}"
-                    )
+                    ) from e
 
                 # If the buffer doesn't end in '\n' then we can't be done
                 try:
@@ -299,7 +299,7 @@ class DynamipsHypervisor:
                 except IndexError:
                     raise DynamipsError(
                         f"Could not communicate with {self._host}:{self._port}, Dynamips process running: {self.is_running()}"
-                    )
+                    ) from None
 
                 data += buf.split("\r\n")
                 if data[-1] == "":

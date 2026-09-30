@@ -1065,9 +1065,9 @@ class QemuVM(BaseNode):
             self._cpulimit_process = subprocess.Popen(command, cwd=self.working_dir)
             log.debug(f"CPU throttled to {self._cpu_throttling}%")
         except FileNotFoundError:
-            raise QemuError("cpulimit could not be found, please install it or deactivate CPU throttling")
+            raise QemuError("cpulimit could not be found, please install it or deactivate CPU throttling") from None
         except (OSError, subprocess.SubprocessError) as e:
-            raise QemuError(f"Could not throttle CPU: {e}")
+            raise QemuError(f"Could not throttle CPU: {e}") from e
 
     async def create(self):
         """
@@ -1109,7 +1109,7 @@ class QemuVM(BaseNode):
                             sock.bind(sa)
                             self._monitor = sock.getsockname()[1]
                 except OSError as e:
-                    raise QemuError(f"Could not find free port for the Qemu monitor: {e}")
+                    raise QemuError(f"Could not find free port for the Qemu monitor: {e}") from e
 
             # check if there is enough RAM to run
             self.check_available_ram(self.ram)
@@ -1137,7 +1137,7 @@ class QemuVM(BaseNode):
             except (OSError, subprocess.SubprocessError, UnicodeEncodeError) as e:
                 stdout = self.read_stdout()
                 log.error(f"Could not start QEMU {self.qemu_path}: {e}\n{stdout}")
-                raise QemuError(f"Could not start QEMU {self.qemu_path}: {e}\n{stdout}")
+                raise QemuError(f"Could not start QEMU {self.qemu_path}: {e}\n{stdout}") from e
 
             await self._set_process_priority()
             if self._cpu_throttling:
@@ -1166,7 +1166,7 @@ class QemuVM(BaseNode):
             if self.is_running():
                 await self.start_wrap_console()
         except OSError as e:
-            raise QemuError(f"Could not start Telnet QEMU console {e}\n")
+            raise QemuError(f"Could not start Telnet QEMU console {e}\n") from e
 
     def _find_partition_for_path(self, path):
         """
@@ -1483,7 +1483,7 @@ class QemuVM(BaseNode):
         try:
             adapter = self._ethernet_adapters[adapter_number]
         except IndexError:
-            raise QemuError(f'Adapter {adapter_number} does not exist on QEMU VM "{self._name}"')
+            raise QemuError(f'Adapter {adapter_number} does not exist on QEMU VM "{self._name}"') from None
 
         if self.is_running():
             try:
@@ -1493,7 +1493,7 @@ class QemuVM(BaseNode):
                 if self._replicate_network_connection_state:
                     await self._control_vm(f"set_link gns3-{adapter_number} on")
             except (IndexError, KeyError):
-                raise QemuError(f'Adapter {adapter_number} does not exist on QEMU VM "{self._name}"')
+                raise QemuError(f'Adapter {adapter_number} does not exist on QEMU VM "{self._name}"') from None
 
         adapter.add_nio(0, nio)
         log.debug(f'QEMU VM "{self._name}" [{self._id}]: {nio} added to adapter {adapter_number}')
@@ -1517,7 +1517,7 @@ class QemuVM(BaseNode):
                     else:
                         await self._control_vm(f"set_link gns3-{adapter_number} on")
             except IndexError:
-                raise QemuError(f'Adapter {adapter_number} does not exist on QEMU VM "{self._name}"')
+                raise QemuError(f'Adapter {adapter_number} does not exist on QEMU VM "{self._name}"') from None
 
     async def adapter_remove_nio_binding(self, adapter_number):
         """
@@ -1531,7 +1531,7 @@ class QemuVM(BaseNode):
         try:
             adapter = self._ethernet_adapters[adapter_number]
         except IndexError:
-            raise QemuError(f'Adapter {adapter_number} does not exist on QEMU VM "{self._name}"')
+            raise QemuError(f'Adapter {adapter_number} does not exist on QEMU VM "{self._name}"') from None
 
         await self.stop_capture(adapter_number)
         if self.is_running():
@@ -1559,7 +1559,7 @@ class QemuVM(BaseNode):
         try:
             adapter = self._ethernet_adapters[adapter_number]
         except IndexError:
-            raise QemuError(f'Adapter {adapter_number} does not exist on QEMU VM "{self._name}"')
+            raise QemuError(f'Adapter {adapter_number} does not exist on QEMU VM "{self._name}"') from None
 
         nio = adapter.get_nio(0)
 
@@ -1628,7 +1628,7 @@ class QemuVM(BaseNode):
                 raise QemuError(
                     f"Could not create disk image '{disk_name}', "
                     "Disk image name contains characters not supported by the filesystem"
-                )
+                ) from None
 
             command = [qemu_img_path, "create", "-f", img_format]
             for option in sorted(options.keys()):
@@ -1645,7 +1645,7 @@ class QemuVM(BaseNode):
                 log.debug(f"QEMU VM '{self.name}' [{self.id}]: Qemu disk image'{disk_name}' created")
         except (OSError, subprocess.SubprocessError) as e:
             stdout = self.read_qemu_img_stdout()
-            raise QemuError(f"Could not create '{disk_name}' disk image: {e}\n{stdout}")
+            raise QemuError(f"Could not create '{disk_name}' disk image: {e}\n{stdout}") from e
 
     async def resize_disk_image(self, disk_name, extend):
         """
@@ -1675,7 +1675,7 @@ class QemuVM(BaseNode):
                 log.debug(f"QEMU VM '{self.name}' [{self.id}]: Qemu disk image '{disk_name}' extended by {extend} MB")
         except (OSError, subprocess.SubprocessError) as e:
             stdout = self.read_qemu_img_stdout()
-            raise QemuError(f"Could not update '{disk_name}' disk image: {e}\n{stdout}")
+            raise QemuError(f"Could not update '{disk_name}' disk image: {e}\n{stdout}") from e
 
     def delete_disk_image(self, disk_name):
         """
@@ -1694,7 +1694,7 @@ class QemuVM(BaseNode):
             if os.path.exists(md5sum_path):
                 os.remove(md5sum_path)
         except OSError as e:
-            raise QemuError(f"Could not delete '{disk_name}' disk image: {e}")
+            raise QemuError(f"Could not delete '{disk_name}' disk image: {e}") from e
 
     @property
     def started(self):
@@ -1810,7 +1810,7 @@ class QemuVM(BaseNode):
                         # FIXME: consider making this more global (not just for Qemu + SPICE)
                         console_host = "::"
                 except OSError as e:
-                    raise QemuError(f"Could not check if IPv6 is enabled: {e}")
+                    raise QemuError(f"Could not check if IPv6 is enabled: {e}") from e
             return ["-spice", f"addr={console_host},port={port},disable-ticketing", "-vga", "qxl"]
         else:
             return []
@@ -1911,12 +1911,12 @@ class QemuVM(BaseNode):
         try:
             output = await subprocess_check_output(qemu_img_path, "info", "--output=json", disk)
         except subprocess.SubprocessError as e:
-            raise QemuError(f"Error received while checking Qemu disk format: {e}")
+            raise QemuError(f"Error received while checking Qemu disk format: {e}") from e
         if output:
             try:
                 json_data = json.loads(output)
             except ValueError as e:
-                raise QemuError(f"Invalid JSON data returned by qemu-img: {e}")
+                raise QemuError(f"Invalid JSON data returned by qemu-img: {e}") from e
             return json_data.get("format")
 
     async def _create_linked_clone(self, disk_name, disk_image, disk):
@@ -1964,7 +1964,7 @@ class QemuVM(BaseNode):
                 )
         except (OSError, subprocess.SubprocessError) as e:
             stdout = self.read_qemu_img_stdout()
-            raise QemuError(f"Could not create '{disk_name}' disk image: {e}\n{stdout}")
+            raise QemuError(f"Could not create '{disk_name}' disk image: {e}\n{stdout}") from e
 
     async def _mcopy(self, image, *args):
         try:
@@ -1991,7 +1991,7 @@ class QemuVM(BaseNode):
             (stdout, _) = await process.communicate()
             retcode = process.returncode
         except (OSError, subprocess.SubprocessError) as e:
-            raise OSError(f"mcopy failure: {e}")
+            raise OSError(f"mcopy failure: {e}") from e
         if retcode != 0:
             stdout = stdout.decode("utf-8").rstrip()
             if stdout:
@@ -2149,7 +2149,7 @@ class QemuVM(BaseNode):
                             )
                 except (OSError, subprocess.SubprocessError) as e:
                     stdout = self.read_qemu_img_stdout()
-                    raise QemuError(f"Could not check '{disk_name}' disk image: {e}\n{stdout}")
+                    raise QemuError(f"Could not check '{disk_name}' disk image: {e}\n{stdout}") from e
 
             if self.linked_clone and os.path.dirname(disk_image) != self.working_dir:
                 # cloned_disk_image = os.path.splitext(os.path.basename(disk_image))
@@ -2169,7 +2169,7 @@ class QemuVM(BaseNode):
                         qcow2 = Qcow2(disk)
                         await qcow2.rebase(qemu_img_path, disk_image, backing_file_format)
                     except (Qcow2Error, OSError) as e:
-                        raise QemuError(f"Could not use qcow2 disk image '{disk_image}' for {disk_name} {e}")
+                        raise QemuError(f"Could not use qcow2 disk image '{disk_image}' for {disk_name} {e}") from e
 
             else:
                 disk = disk_image
@@ -2275,7 +2275,7 @@ class QemuVM(BaseNode):
                     try:
                         shutil.copyfile(ovmf_vars_path, ovmf_vars_node_path)
                     except OSError as e:
-                        raise QemuError(f"Cannot copy OVMF_VARS_4M.fd file to the node working directory: {e}")
+                        raise QemuError(f"Cannot copy OVMF_VARS_4M.fd file to the node working directory: {e}") from e
             options.extend(["-drive", f"if=pflash,format=raw,file={ovmf_vars_node_path}"])
 
             # edk2 firmware requires a Random Number Generator (RNG) device in order to turn network adapters on
@@ -2340,7 +2340,7 @@ class QemuVM(BaseNode):
             self._swtpm_process = subprocess.Popen(command, cwd=self.working_dir)
             log.debug("swtpm (TPM emulator) has started")
         except (OSError, subprocess.SubprocessError) as e:
-            raise QemuError(f"Could not start swtpm (TPM emulator): {e}")
+            raise QemuError(f"Could not start swtpm (TPM emulator): {e}") from e
 
     def _stop_swtpm(self):
         """
@@ -2513,7 +2513,7 @@ class QemuVM(BaseNode):
                     except ValueError as e:
                         raise QemuError(
                             f"Invalid JSON data returned by qemu-img while looking for the Qemu VM saved state snapshot: {e}"
-                        )
+                        ) from e
                     if "snapshots" in json_data:
                         for snapshot in json_data["snapshots"]:
                             if snapshot["name"] == snapshot_name:
@@ -2526,7 +2526,7 @@ class QemuVM(BaseNode):
                                 else:
                                     log.debug(f"Deleted saved VM state from disk {disk}")
             except subprocess.SubprocessError as e:
-                raise QemuError(f"Error while looking for the Qemu VM saved state snapshot: {e}")
+                raise QemuError(f"Error while looking for the Qemu VM saved state snapshot: {e}") from e
 
     async def _saved_state_option(self, snapshot_name="GNS3_SAVED_STATE"):
 
@@ -2550,7 +2550,7 @@ class QemuVM(BaseNode):
                     except ValueError as e:
                         raise QemuError(
                             f"Invalid JSON data returned by qemu-img while looking for the Qemu VM saved state snapshot: {e}"
-                        )
+                        ) from e
                     if "snapshots" in json_data:
                         for snapshot in json_data["snapshots"]:
                             if snapshot["name"] == snapshot_name:
@@ -2560,7 +2560,7 @@ class QemuVM(BaseNode):
                                 return ["-loadvm", snapshot_name.replace(",", ",,")]
 
             except subprocess.SubprocessError as e:
-                raise QemuError(f"Error while looking for the Qemu VM saved state snapshot: {e}")
+                raise QemuError(f"Error while looking for the Qemu VM saved state snapshot: {e}") from e
         return []
 
     async def _build_command(self):
@@ -2627,7 +2627,7 @@ class QemuVM(BaseNode):
             try:
                 additional_opt_list = shlex.split(additional_options)
             except ValueError as e:
-                raise QemuError(f"Invalid additional options: {additional_options} error {e}")
+                raise QemuError(f"Invalid additional options: {additional_options} error {e}") from e
             allow_unsafe_options = self.manager.config.settings.Qemu.allow_unsafe_options
             if allow_unsafe_options is False:
                 for opt in additional_opt_list:

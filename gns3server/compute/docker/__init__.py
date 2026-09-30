@@ -118,7 +118,7 @@ class Docker(BaseManager):
                             f"{stdout.decode('utf-8', errors='ignore').strip()}"
                         )
                 except OSError as e:
-                    raise DockerError(f"Could not install busybox: {e}")
+                    raise DockerError(f"Could not install busybox: {e}") from e
         raise DockerError(
             "No busybox executable could be found, please install busybox (apt install busybox-static on Debian/Ubuntu) and make sure it is in your PATH"
         )
@@ -152,7 +152,7 @@ class Docker(BaseManager):
             await Controller.instance().install_resource_files(dst_path, "compute/docker/resources")
             await self.install_busybox(dst_path)
         except OSError as e:
-            raise DockerError(f"Could not install Docker resources to {dst_path}: {e}")
+            raise DockerError(f"Could not install Docker resources to {dst_path}: {e}") from e
 
     async def _check_connection(self):
 
@@ -162,7 +162,7 @@ class Docker(BaseManager):
                 docker_info = await self.query("GET", "version")
             except (aiohttp.ClientError, FileNotFoundError):
                 self._connected = False
-                raise DockerError("Can't connect to Docker daemon")
+                raise DockerError("Can't connect to Docker daemon") from None
 
             api_version = parse_version(docker_info["ApiVersion"])
             version = docker_info["Version"]
@@ -246,7 +246,7 @@ class Docker(BaseManager):
             try:
                 self._connector = aiohttp.connector.UnixConnector(self._server_url, limit=None)
             except (aiohttp.ClientError, FileNotFoundError):
-                raise DockerError("Can't connect to docker daemon")
+                raise DockerError("Can't connect to docker daemon") from None
         return self._connector
 
     async def unload(self):
@@ -317,9 +317,9 @@ class Docker(BaseManager):
                 timeout=timeout,
             )
         except aiohttp.ClientError as e:
-            raise DockerError(f"Docker has returned an error: {e}")
+            raise DockerError(f"Docker has returned an error: {e}") from e
         except asyncio.TimeoutError:
-            raise DockerError("Docker timeout " + method + " " + path)
+            raise DockerError("Docker timeout " + method + " " + path) from None
         if response.status >= 300:
             body = await response.read()
             try:
@@ -375,7 +375,7 @@ class Docker(BaseManager):
             raise DockerError(
                 f"Could not pull the '{image}' image from Docker repository, "
                 f"please check your Internet connection (original error: {e})"
-            )
+            ) from e
         # The pull api will stream status via an HTTP JSON stream
         content = ""
         try:

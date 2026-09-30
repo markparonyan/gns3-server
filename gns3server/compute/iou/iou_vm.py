@@ -320,7 +320,7 @@ class IOUVM(BaseNode):
                 # read the first 7 bytes of the file.
                 elf_header_start = f.read(7)
         except OSError as e:
-            raise IOUError(f"Cannot read ELF header for IOU image '{self._path}': {e}")
+            raise IOUError(f"Cannot read ELF header for IOU image '{self._path}': {e}") from e
 
         # IOU images must start with the ELF magic number, be 32-bit or 64-bit, little endian
         # and have an ELF version of 1 normal IOS image are big endian!
@@ -495,14 +495,14 @@ class IOUVM(BaseNode):
                 with open(path, "wb") as f:
                     f.write(value.encode("utf-8"))
             except OSError as e:
-                raise IOUError(f"Could not write the iourc file {path}: {e}")
+                raise IOUError(f"Could not write the iourc file {path}: {e}") from e
 
             path = os.path.join(self.temporary_directory, "iourc")
             try:
                 with open(path, "wb") as f:
                     f.write(value.encode("utf-8"))
             except OSError as e:
-                raise IOUError(f"Could not write the iourc file {path}: {e}")
+                raise IOUError(f"Could not write the iourc file {path}: {e}") from e
 
     @property
     def license_check(self):
@@ -551,7 +551,7 @@ class IOUVM(BaseNode):
             # we allow license check to be disabled server wide
             server_wide_license_check = self._manager.config.settings.IOU.license_check
         except ValueError:
-            raise IOUError("Invalid licence check setting")
+            raise IOUError("Invalid licence check setting") from None
 
         if server_wide_license_check is False:
             log.warning("License check is explicitly disabled on this server")
@@ -570,11 +570,11 @@ class IOUVM(BaseNode):
             with open(self.iourc_path, encoding="utf-8") as f:
                 config.read_file(f)
         except OSError as e:
-            raise IOUError(f"Could not open iourc file {self.iourc_path}: {e}")
+            raise IOUError(f"Could not open iourc file {self.iourc_path}: {e}") from e
         except configparser.Error as e:
-            raise IOUError(f"Could not parse iourc file {self.iourc_path}: {e}")
+            raise IOUError(f"Could not parse iourc file {self.iourc_path}: {e}") from e
         except UnicodeDecodeError as e:
-            raise IOUError(f"Non ascii characters in iourc file {self.iourc_path}, please remove them: {e}")
+            raise IOUError(f"Non ascii characters in iourc file {self.iourc_path}, please remove them: {e}") from e
         if "license" not in config:
             raise IOUError(f"License section not found in iourc file {self.iourc_path}")
         hostname = socket.gethostname()
@@ -595,14 +595,14 @@ class IOUVM(BaseNode):
             try:
                 hostid = (await gns3server.utils.asyncio.subprocess_check_output("hostid")).strip()
             except FileNotFoundError as e:
-                raise IOUError(f"Could not find hostid: {e}")
+                raise IOUError(f"Could not find hostid: {e}") from e
             except (OSError, subprocess.SubprocessError) as e:
-                raise IOUError(f"Could not execute hostid: {e}")
+                raise IOUError(f"Could not execute hostid: {e}") from e
 
             try:
                 ioukey = int(hostid, 16)
             except ValueError:
-                raise IOUError(f"Invalid hostid detected: {hostid}")
+                raise IOUError(f"Invalid hostid detected: {hostid}") from None
             for x in hostname:
                 ioukey += ord(x)
             pad1 = b"\x4b\x58\x21\x81\x56\x7b\x0d\xf3\x21\x43\x9b\x7e\xac\x1d\xe6\x8a"
@@ -635,7 +635,7 @@ class IOUVM(BaseNode):
                     with open(nvram_file, "rb") as file:
                         nvram_content = file.read()
             except OSError as e:
-                raise IOUError(f"Cannot read nvram file {nvram_file}: {e}")
+                raise IOUError(f"Cannot read nvram file {nvram_file}: {e}") from e
 
             startup_config_content = startup_config_content.encode("utf-8")
             private_config_content = self.private_config_content
@@ -644,12 +644,12 @@ class IOUVM(BaseNode):
             try:
                 nvram_content = nvram_import(nvram_content, startup_config_content, private_config_content, self.nvram)
             except ValueError as e:
-                raise IOUError(f"Cannot push configs to nvram {nvram_file}: {e}")
+                raise IOUError(f"Cannot push configs to nvram {nvram_file}: {e}") from e
             try:
                 with open(nvram_file, "wb") as file:
                     file.write(nvram_content)
             except OSError as e:
-                raise IOUError(f"Cannot write nvram file {nvram_file}: {e}")
+                raise IOUError(f"Cannot write nvram file {nvram_file}: {e}") from e
 
     async def start(self):
         """
@@ -663,7 +663,7 @@ class IOUVM(BaseNode):
             try:
                 self._rename_nvram_file()
             except OSError as e:
-                raise IOUError(f"Could not rename nvram files: {e}")
+                raise IOUError(f"Could not rename nvram files: {e}") from e
 
             iourc_path = None
             if self._is_iou_license_check_enabled():
@@ -704,7 +704,7 @@ class IOUVM(BaseNode):
                     os.unlink(symlink)
                 os.symlink(self.path, symlink)
             except OSError as e:
-                raise IOUError(f"Could not create symbolic link: {e}")
+                raise IOUError(f"Could not create symbolic link: {e}") from e
 
             command = await self._build_command()
             # Only start the responder when the capability probe actually
@@ -735,12 +735,12 @@ class IOUVM(BaseNode):
                 self._stop_l1_keepalive_responder()
                 raise IOUError(
                     f"Could not start IOU: {e}: 32-bit binary support is probably not installed, it is recommended to use a 64-bit image instead"
-                )
+                ) from e
             except (OSError, subprocess.SubprocessError) as e:
                 self._stop_l1_keepalive_responder()
                 iou_stdout = self.read_iou_stdout()
                 log.error(f"Could not start IOU {self._path}: {e}\n{iou_stdout}")
-                raise IOUError(f"Could not start IOU {self._path}: {e}\n{iou_stdout}")
+                raise IOUError(f"Could not start IOU {self._path}: {e}\n{iou_stdout}") from e
 
             await self.start_console()
 
@@ -767,7 +767,7 @@ class IOUVM(BaseNode):
                 await self.stop()
                 raise IOUError(
                     f"Could not start {error_prefix} server on socket {self._manager.port_manager.console_host}:{self.console}: {e}"
-                )
+                ) from e
 
     async def reset_console(self):
         """
@@ -957,7 +957,7 @@ class IOUVM(BaseNode):
                         f.write(f"{self.application_id + 512!s}:{bay}/{unit}{self.application_id:>5d}:{bay}/{unit}\n")
             log.debug(f"IOU {self._name} [id={self._id}]: NETMAP file created")
         except OSError as e:
-            raise IOUError(f"Could not create {netmap_path}: {e}")
+            raise IOUError(f"Could not create {netmap_path}: {e}") from e
 
     @property
     def l1_bridge_id(self):
@@ -1014,7 +1014,7 @@ class IOUVM(BaseNode):
             )
         except (OSError, RuntimeError) as e:
             self._stop_l1_keepalive_responder()
-            raise IOUError(f"Could not start IOU L1 keepalive responder: {e}")
+            raise IOUError(f"Could not start IOU L1 keepalive responder: {e}") from e
 
     async def _send_l1_keepalives(self, protocol):
         while self._l1_keepalive_transport is not None:
@@ -1170,7 +1170,7 @@ class IOUVM(BaseNode):
         try:
             adapter = self._adapters[adapter_number]
         except IndexError:
-            raise IOUError(f'Adapter {adapter_number} does not exist for IOU "{self._name}"')
+            raise IOUError(f'Adapter {adapter_number} does not exist for IOU "{self._name}"') from None
 
         if not adapter.port_exists(port_number):
             raise IOUError(f"Port {port_number} does not exist on adapter {adapter}")
@@ -1341,7 +1341,7 @@ class IOUVM(BaseNode):
         try:
             adapter = self._adapters[adapter_number]
         except IndexError:
-            raise IOUError(f'Adapter {adapter_number} does not exist on IOU "{self._name}"')
+            raise IOUError(f'Adapter {adapter_number} does not exist on IOU "{self._name}"') from None
 
         if not adapter.port_exists(port_number):
             raise IOUError(f"Port {port_number} does not exist on adapter {adapter}")
@@ -1371,7 +1371,7 @@ class IOUVM(BaseNode):
         try:
             adapter = self._adapters[adapter_number]
         except IndexError:
-            raise IOUError(f'Adapter {adapter_number} does not exist on IOU "{self._name}"')
+            raise IOUError(f'Adapter {adapter_number} does not exist on IOU "{self._name}"') from None
 
         if not adapter.port_exists(port_number):
             raise IOUError(f"Port {port_number} does not exist on adapter {adapter}")
@@ -1444,7 +1444,7 @@ class IOUVM(BaseNode):
             with open(config_file, "rb") as f:
                 return f.read().decode("utf-8", errors="replace")
         except OSError as e:
-            raise IOUError(f"Can't read startup-config file '{config_file}': {e}")
+            raise IOUError(f"Can't read startup-config file '{config_file}': {e}") from e
 
     @startup_config_content.setter
     def startup_config_content(self, startup_config):
@@ -1479,7 +1479,7 @@ class IOUVM(BaseNode):
                     log.error(f"Could not delete VLAN file '{vlan_file}': {e}")
 
         except OSError as e:
-            raise IOUError(f"Can't write startup-config file '{startup_config_path}': {e}")
+            raise IOUError(f"Can't write startup-config file '{startup_config_path}': {e}") from e
 
     @property
     def private_config_content(self):
@@ -1495,7 +1495,7 @@ class IOUVM(BaseNode):
             with open(config_file, "rb") as f:
                 return f.read().decode("utf-8", errors="replace")
         except OSError as e:
-            raise IOUError(f"Can't read private-config file '{config_file}': {e}")
+            raise IOUError(f"Can't read private-config file '{config_file}': {e}") from e
 
     @private_config_content.setter
     def private_config_content(self, private_config):
@@ -1522,7 +1522,7 @@ class IOUVM(BaseNode):
                     private_config = private_config.replace("%h", self._name)
                     f.write(private_config)
         except OSError as e:
-            raise IOUError(f"Can't write private-config file '{private_config_path}': {e}")
+            raise IOUError(f"Can't write private-config file '{private_config_path}': {e}") from e
 
     @property
     def startup_config_file(self):
@@ -1642,7 +1642,7 @@ class IOUVM(BaseNode):
                         log.debug(f"saving startup-config to {config_path}")
                         f.write(config.encode("utf-8"))
                 except (binascii.Error, OSError) as e:
-                    raise IOUError(f"Could not save the startup configuration {config_path}: {e}")
+                    raise IOUError(f"Could not save the startup configuration {config_path}: {e}") from e
 
             if private_config_content and private_config_content != b"\nend\n":
                 config_path = os.path.join(self.working_dir, "private-config.cfg")
@@ -1652,7 +1652,7 @@ class IOUVM(BaseNode):
                         log.debug(f"saving private-config to {config_path}")
                         f.write(config.encode("utf-8"))
                 except (binascii.Error, OSError) as e:
-                    raise IOUError(f"Could not save the private configuration {config_path}: {e}")
+                    raise IOUError(f"Could not save the private configuration {config_path}: {e}") from e
 
     async def start_capture(self, adapter_number, port_number, output_file, data_link_type="DLT_EN10MB"):
         """

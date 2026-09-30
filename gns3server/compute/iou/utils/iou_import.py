@@ -102,7 +102,7 @@ def nvram_import(nvram, startup, private, size):
         else:
             ios = None
     except struct.error:
-        raise ValueError("unknown nvram format")
+        raise ValueError("unknown nvram format") from None
     if config_len > nvram_len:
         raise ValueError("unknown nvram format")
 
@@ -185,7 +185,7 @@ if __name__ == "__main__":
         try:
             value = int(string)
         except ValueError:
-            raise argparse.ArgumentTypeError("invalid int value: " + string)
+            raise argparse.ArgumentTypeError("invalid int value: " + string) from None
         if value < 8 or value > 1024:
             raise argparse.ArgumentTypeError("size must be 8..1024")
         return value

@@ -35,4 +35,4 @@ def get_next_guest_cid(nodes):
     try:
         return (pool - used).pop()
     except KeyError:
-        raise QemuError("Cannot create a new Qemu VM (limit of 65535 guest ID on one host reached)")
+        raise QemuError("Cannot create a new Qemu VM (limit of 65535 guest ID on one host reached)") from None

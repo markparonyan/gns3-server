@@ -316,7 +316,7 @@ class BaseNode:
             try:
                 self._temporary_directory = tempfile.mkdtemp()
             except OSError as e:
-                raise NodeError(f"Can't create temporary directory: {e}")
+                raise NodeError(f"Can't create temporary directory: {e}") from e
         return self._temporary_directory
 
     def create(self):
@@ -359,7 +359,7 @@ class BaseNode:
             try:
                 await wait_run_in_executor(shutil.rmtree, directory, onerror=set_rw)
             except OSError as e:
-                raise ComputeError(f"Could not delete the node working directory: {e}")
+                raise ComputeError(f"Could not delete the node working directory: {e}") from e
             if not os.path.exists(directory):
                 return
             if attempt == 2:
@@ -980,7 +980,7 @@ class BaseNode:
         except UbridgeError as e:
             raise UbridgeError(
                 f"Error while sending command '{command}': {e}: {self._ubridge_hypervisor.read_stdout()}"
-            )
+            ) from e
 
     @locking
     async def _start_ubridge(self, require_privileged_access=False):

@@ -186,7 +186,7 @@ class Qemu(BaseManager):
             raise QemuError(
                 f"Could not create disk image '{disk_image_path}', "
                 "Disk image name contains characters not supported by the filesystem"
-            )
+            ) from None
 
         img_format = options.pop("format")
         img_size = options.pop("size")
@@ -202,7 +202,7 @@ class Qemu(BaseManager):
             output = await subprocess_check_output(*command, stderr=True)
             log.info(f"Qemu disk image'{disk_image_path}' created")
         except (OSError, subprocess.SubprocessError) as e:
-            raise QemuError(f"Could not create '{disk_image_path}' disk image: {e}\n{output}")
+            raise QemuError(f"Could not create '{disk_image_path}' disk image: {e}\n{output}") from e
 
     @staticmethod
     async def get_qemu_version(qemu_path):
@@ -221,7 +221,7 @@ class Qemu(BaseManager):
             else:
                 raise QemuError(f"Could not determine the Qemu version for {qemu_path}")
         except (OSError, subprocess.SubprocessError) as e:
-            raise QemuError(f"Error while looking for the Qemu version: {e}")
+            raise QemuError(f"Error while looking for the Qemu version: {e}") from e
 
     @staticmethod
     async def get_swtpm_version(swtpm_path):
@@ -240,7 +240,7 @@ class Qemu(BaseManager):
             else:
                 raise QemuError(f"Could not determine the swtpm version for '{swtpm_path}'")
         except (OSError, subprocess.SubprocessError) as e:
-            raise QemuError(f"Error while looking for the swtpm version: {e}")
+            raise QemuError(f"Error while looking for the swtpm version: {e}") from e
 
     @staticmethod
     def get_haxm_windows_version():

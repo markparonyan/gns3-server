@@ -51,7 +51,7 @@ class Project:
             try:
                 UUID(project_id, version=4)
             except ValueError:
-                raise ComputeError(f"{project_id} is not a valid UUID")
+                raise ComputeError(f"{project_id} is not a valid UUID") from None
         else:
             project_id = str(uuid4())
         self._id = project_id
@@ -67,14 +67,14 @@ class Project:
         try:
             os.makedirs(path, exist_ok=True)
         except OSError as e:
-            raise ComputeError(f"Could not create project directory: {e}")
+            raise ComputeError(f"Could not create project directory: {e}") from e
         self.path = path
 
         try:
             if os.path.exists(self.tmp_working_directory()):
                 shutil.rmtree(self.tmp_working_directory())
         except OSError as e:
-            raise ComputeError(f"Could not clean project directory: {e}")
+            raise ComputeError(f"Could not clean project directory: {e}") from e
 
         log.info(f"Project {self._id} with path '{self._path}' created")
 
@@ -181,7 +181,7 @@ class Project:
             try:
                 os.makedirs(workdir, exist_ok=True)
             except OSError as e:
-                raise ComputeError(f"Could not create module working directory: {e}")
+                raise ComputeError(f"Could not create module working directory: {e}") from e
         return workdir
 
     def module_working_path(self, module_name):
@@ -208,7 +208,7 @@ class Project:
             try:
                 os.makedirs(workdir, exist_ok=True)
             except OSError as e:
-                raise ComputeError(f"Could not create the node working directory: {e}")
+                raise ComputeError(f"Could not create the node working directory: {e}") from e
         return workdir
 
     def node_working_path(self, node):
@@ -237,7 +237,7 @@ class Project:
             try:
                 os.makedirs(workdir, exist_ok=True)
             except OSError as e:
-                raise ComputeError(f"Could not create the capture working directory: {e}")
+                raise ComputeError(f"Could not create the capture working directory: {e}") from e
         return workdir
 
     def markers_working_directory(self):
@@ -253,7 +253,7 @@ class Project:
             try:
                 os.makedirs(workdir, exist_ok=True)
             except OSError as e:
-                raise ComputeError(f"Could not create the markers working directory: {e}")
+                raise ComputeError(f"Could not create the markers working directory: {e}") from e
         return workdir
 
     def add_node(self, node):
@@ -278,7 +278,7 @@ class Project:
         try:
             UUID(node_id, version=4)
         except ValueError:
-            raise ComputeError(f"Node ID {node_id} is not a valid UUID")
+            raise ComputeError(f"Node ID {node_id} is not a valid UUID") from None
 
         for node in self._nodes:
             if node.id == node_id:
@@ -365,7 +365,7 @@ class Project:
                 await wait_run_in_executor(shutil.rmtree, self.path)
                 log.info(f"Project {self._id} with path '{self._path}' deleted")
             except OSError as e:
-                raise ComputeError(f"Could not delete the project directory: {e}")
+                raise ComputeError(f"Could not delete the project directory: {e}") from e
         else:
             log.info(f"Project {self._id} with path '{self._path}' closed")
 

@@ -809,7 +809,7 @@ class Node:
         for link in self._links:
             await link.node_updated(self)
 
-    def _node_data(self, properties=None):
+    def _node_data(self, properties=None):  # noqa: C901
         """
         Prepare node data to send to the remote controller
 
@@ -1142,7 +1142,7 @@ class Node:
                 return port
         return None
 
-    def _list_ports(self):
+    def _list_ports(self):  # noqa: C901
         """
         Generate the list of port display in the client
         if the compute has sent a list we return it (use by

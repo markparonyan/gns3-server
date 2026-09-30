@@ -222,7 +222,7 @@ def _dispatch_args(node):
     return args[0].id, args[1]
 
 
-def test_tool_handler_param_consistency():
+def test_tool_handler_param_consistency():  # noqa: C901
     """For each tool, the params passed to the handler should match what the handler reads."""
     tree = ast.parse(TOOL_FILE.read_text())
 

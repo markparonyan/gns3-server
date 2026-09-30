@@ -156,7 +156,7 @@ class UBridgeHypervisor:
         return f"{self._host}:{self._port}"
 
     @locking
-    async def send(self, command):
+    async def send(self, command):  # noqa: C901
         """
         Sends commands to this hypervisor.
 

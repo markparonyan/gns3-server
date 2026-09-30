@@ -44,7 +44,7 @@ DEFAULT_CHROME_PATH = None
 
 def _discover_chrome() -> str | None:
     """Find Chrome binary in puppeteer cache directory."""
-    global DEFAULT_CHROME_PATH
+    global DEFAULT_CHROME_PATH  # noqa: PLW0603
     if not os.path.exists(PUPPETEER_CACHE):
         return None
     for root, dirs, files in os.walk(PUPPETEER_CACHE):
@@ -177,7 +177,7 @@ def process_file(
     return generated
 
 
-def main():
+def main():  # noqa: C901
     parser = argparse.ArgumentParser(description="Extract mermaid diagrams from Markdown and convert to SVG.")
     parser.add_argument(
         "source",

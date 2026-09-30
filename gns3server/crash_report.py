@@ -48,7 +48,7 @@ if __version_info__[3] != 0:
     log.info("Enable catching segfault")
     try:
         faulthandler.enable()
-    except Exception:  # noqa: BLE001
+    except Exception:  # noqa: BLE001, S110
         pass  # Could fail when loaded into tests
 
 

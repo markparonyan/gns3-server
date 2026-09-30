@@ -79,7 +79,7 @@ try:
     # Update platform strings used in error messages
     sd.platforms_str = "\n" + "\n".join(sd.platforms_base)
     sd.telnet_platforms_str = "\n" + "\n".join(sd.telnet_platforms)
-except Exception:  # noqa: BLE001
+except Exception:  # noqa: BLE001, S110
     # Fail silently - the import-time registration should have worked
     pass
 

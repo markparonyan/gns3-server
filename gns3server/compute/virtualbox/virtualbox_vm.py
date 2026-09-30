@@ -867,7 +867,7 @@ class VirtualBoxVM(BaseNode):
                 nics.append(None)
         return nics
 
-    async def _set_network_options(self):
+    async def _set_network_options(self):  # noqa: C901
         """
         Configures network options.
         """

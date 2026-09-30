@@ -72,7 +72,7 @@ def set_skills_manager(manager):
     Args:
         manager: SkillsManager instance
     """
-    global _skills_manager
+    global _skills_manager  # noqa: PLW0603
     _skills_manager = manager
 
 
@@ -90,7 +90,7 @@ def _ensure_skills_manager():
     manager is stored in _skills_manager and subsequent
     calls return immediately.
     """
-    global _skills_manager, _init_in_progress
+    global _skills_manager, _init_in_progress  # noqa: PLW0603
 
     if _skills_manager is not None:
         return
@@ -355,7 +355,7 @@ def get_skills_repository_info() -> dict[str, Any]:
     return manager.get_repository_info()
 
 
-def get_skill(
+def get_skill(  # noqa: C901
     device_type: str,
     category: str | None = None,
     detail: str = "full",

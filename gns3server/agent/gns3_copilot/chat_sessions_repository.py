@@ -136,7 +136,7 @@ class ChatSessionsRepository:
         Returns:
             Created ChatSession
         """
-        now = datetime.utcnow().isoformat()
+        now = datetime.utcnow().isoformat()  # noqa: DTZ003
         # Build metadata JSON
         metadata = {"copilot_mode": copilot_mode} if copilot_mode else {}
         metadata_json = json.dumps(metadata)
@@ -269,7 +269,7 @@ class ChatSessionsRepository:
         updates = []
         params: list[Any] = []
 
-        now = datetime.utcnow().isoformat()
+        now = datetime.utcnow().isoformat()  # noqa: DTZ003
 
         if title is not None:
             updates.append("title = ?")
@@ -383,7 +383,7 @@ class ChatSessionsRepository:
         Returns:
             Updated ChatSession or None
         """
-        now = datetime.utcnow().isoformat()
+        now = datetime.utcnow().isoformat()  # noqa: DTZ003
         await self.conn.execute(
             "UPDATE chat_sessions SET pinned = ?, updated_at = ? WHERE thread_id = ?",
             (1 if pinned else 0, now, thread_id),

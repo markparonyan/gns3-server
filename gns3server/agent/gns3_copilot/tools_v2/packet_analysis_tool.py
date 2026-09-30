@@ -188,7 +188,7 @@ class PacketAnalysisTool(BaseTool):
         Returns:
             Set of valid field names, or empty set on failure.
         """
-        global _tshark_valid_fields
+        global _tshark_valid_fields  # noqa: PLW0603
         if _tshark_valid_fields is not None:
             return _tshark_valid_fields
 

@@ -147,7 +147,7 @@ async def get_project_agent_manager() -> ProjectAgentManager:
     Returns:
         ProjectAgentManager instance
     """
-    global _project_agent_manager
+    global _project_agent_manager  # noqa: PLW0603
     async with _manager_lock:
         if _project_agent_manager is None:
             _project_agent_manager = ProjectAgentManager()

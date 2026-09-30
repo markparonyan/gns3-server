@@ -641,7 +641,7 @@ async def delete_node_file(file_path: str, node: Node = Depends(dep_node)) -> No
 
 
 @router.websocket("/{node_id}/console/ws")
-async def ws_console(
+async def ws_console(  # noqa: C901
     websocket: WebSocket,
     current_user: schemas.User = Depends(has_privilege_on_websocket("Node.Console")),
     node: Node = Depends(dep_node),
@@ -744,7 +744,7 @@ async def ws_console(
 
 
 @router.websocket("/{node_id}/console/vnc")
-async def vnc_console(
+async def vnc_console(  # noqa: C901
     websocket: WebSocket,
     current_user: schemas.User = Depends(has_privilege_on_websocket("Node.Console")),
     node: Node = Depends(dep_node),

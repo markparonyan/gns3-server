@@ -245,7 +245,7 @@ class IOLDockerVM(VendorDockerVM):
         Ethernet0/0-3 + Ethernet1/0-3); the generated config asks the runner
         for adapters × 4 interfaces and links address ports as
         (adapter_number, port_number 0-3).
-        """
+        """  # noqa: RUF002
 
         if len(self._ethernet_adapters) == adapters:
             return

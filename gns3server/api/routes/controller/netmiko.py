@@ -87,7 +87,7 @@ def get_netmiko_device_types() -> schemas.NetmikoDeviceTypeList:
     Required privilege: None (authenticated users only)
     """
 
-    global _device_types_cache
+    global _device_types_cache  # noqa: PLW0603
     if _device_types_cache is None:
         try:
             _device_types_cache = _load_netmiko_device_types()

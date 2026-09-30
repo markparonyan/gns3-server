@@ -49,7 +49,7 @@ async def test_create(project):
     await link.add_node(node1, 0, 4)
     await link.update_filters({"delay": [10, 0]})
 
-    async def compute1_callback(path, data={}, **kwargs):
+    async def compute1_callback(path, data={}, **kwargs):  # noqa: B006
         """
         Fake server
         """
@@ -58,7 +58,7 @@ async def test_create(project):
             response.json = {"udp_port": 1024}
             return response
 
-    async def compute2_callback(path, data={}, **kwargs):
+    async def compute2_callback(path, data={}, **kwargs):  # noqa: B006
         """
         Fake server
         """
@@ -124,7 +124,7 @@ async def test_create_one_side_failure(project):
     link = UDPLink(project)
     await link.add_node(node1, 0, 4)
 
-    async def compute1_callback(path, data={}, **kwargs):
+    async def compute1_callback(path, data={}, **kwargs):  # noqa: B006
         """
         Fake server
         """
@@ -133,7 +133,7 @@ async def test_create_one_side_failure(project):
             response.json = {"udp_port": 1024}
             return response
 
-    async def compute2_callback(path, data={}, **kwargs):
+    async def compute2_callback(path, data={}, **kwargs):  # noqa: B006
         """
         Fake server
         """
@@ -270,13 +270,13 @@ async def test_reset(project):
     node1_ports = iter([1024, 4096])
     node2_ports = iter([2048, 8192])
 
-    async def compute1_callback(path, data={}, **kwargs):
+    async def compute1_callback(path, data={}, **kwargs):  # noqa: B006
         if "/ports/udp" in path:
             response = MagicMock()
             response.json = {"udp_port": next(node1_ports)}
             return response
 
-    async def compute2_callback(path, data={}, **kwargs):
+    async def compute2_callback(path, data={}, **kwargs):  # noqa: B006
         if "/ports/udp" in path:
             response = MagicMock()
             response.json = {"udp_port": next(node2_ports)}
@@ -450,7 +450,7 @@ async def test_update(project):
     await link.add_node(node1, 0, 4)
     await link.update_filters({"delay": [10, 0]})
 
-    async def compute1_callback(path, data={}, **kwargs):
+    async def compute1_callback(path, data={}, **kwargs):  # noqa: B006
         """
         Fake server
         """
@@ -459,7 +459,7 @@ async def test_update(project):
             response.json = {"udp_port": 1024}
             return response
 
-    async def compute2_callback(path, data={}, **kwargs):
+    async def compute2_callback(path, data={}, **kwargs):  # noqa: B006
         """
         Fake server
         """
@@ -538,7 +538,7 @@ async def test_update_ethernet_switch_nio(project):
 
     compute1.get_ip_on_same_subnet.side_effect = subnet_callback
 
-    async def compute1_callback(path, data={}, **kwargs):
+    async def compute1_callback(path, data={}, **kwargs):  # noqa: B006
         if "/ports/udp" in path:
             response = MagicMock()
             response.json = {"udp_port": 1024}
@@ -592,7 +592,7 @@ async def test_update_suspend(project):
     await link.update_filters({"frequency_drop": [-1]})
     await link.update_suspend(True)
 
-    async def compute1_callback(path, data={}, **kwargs):
+    async def compute1_callback(path, data={}, **kwargs):  # noqa: B006
         """
         Fake server
         """
@@ -601,7 +601,7 @@ async def test_update_suspend(project):
             response.json = {"udp_port": 1024}
             return response
 
-    async def compute2_callback(path, data={}, **kwargs):
+    async def compute2_callback(path, data={}, **kwargs):  # noqa: B006
         """
         Fake server
         """

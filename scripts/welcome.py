@@ -59,7 +59,7 @@ class Welcome_dialog:
                 if "UP" in i["flags"]:
                     ip_addr = i["addr_info"][0]["local"]
                     break
-            except:
+            except:  # noqa: S112
                 continue
             ip_addr = None
 
@@ -464,7 +464,7 @@ Images and projects are located in /opt/gns3
         except configparser.NoSectionError:
             return
 
-    def display_loop(self):
+    def display_loop(self):  # noqa: C901
         try:
             while True:
                 code, tag = self.display.menu(

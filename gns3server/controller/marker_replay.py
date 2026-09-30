@@ -518,7 +518,7 @@ _manager = None
 
 
 def _get_manager():
-    global _manager
+    global _manager  # noqa: PLW0603
     if _manager is None:
         _manager = _SharkdManager()
     return _manager
@@ -528,7 +528,7 @@ async def close_sessions():
     """Server shutdown hook: kill every resident session and drop its scratch
     copy, so nothing leaks into /tmp across restarts."""
 
-    global _manager
+    global _manager  # noqa: PLW0603
     manager = _manager
     if manager is not None:
         await manager.close_all()

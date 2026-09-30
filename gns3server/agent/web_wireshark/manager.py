@@ -155,7 +155,7 @@ class WebWiresharkManager:
         except Exception as e:  # noqa: BLE001
             logger.error(f"Error killing processes matching '{pattern}': {e}")
 
-    async def _check_residuals_exist(self, container_id: str, display: int) -> tuple[bool, bool]:
+    async def _check_residuals_exist(self, container_id: str, display: int) -> tuple[bool, bool]:  # noqa: C901
         """Check if there are residual processes or files for a display.
 
         Uses host perspective for fast checking (~20ms vs ~850ms for docker exec).
@@ -684,7 +684,7 @@ class WebWiresharkManager:
                 logger.error(f"Container {container_name} failed to become healthy, force removing...")
                 try:
                     await self.docker.remove_container(container["Id"], force=True)
-                except Exception:  # noqa: BLE001
+                except Exception:  # noqa: BLE001, S110
                     pass
                 container = None
 

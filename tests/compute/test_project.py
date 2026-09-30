@@ -194,7 +194,7 @@ async def test_list_files():
 async def test_emit():
 
     with NotificationManager.instance().queue() as queue:
-        await queue.get(0.5)  #  Ping
+        await queue.get(0.5)  #  Ping  # noqa: RUF003
 
         project = Project(project_id=str(uuid4()))
         project.emit("test", {})

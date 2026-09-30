@@ -41,9 +41,9 @@ import struct
 
 # Uncompress data in LZC format, .Z file format
 # LZC uses the LZW compression algorithm with a variable dictionary size
-# For LZW see https://en.wikipedia.org/wiki/Lempel–Ziv–Welch
+# For LZW see https://en.wikipedia.org/wiki/Lempel–Ziv–Welch  # noqa: RUF003
 # Performance: about 1 MByte/sec, 15-50 times slower than C implementation
-def uncompress_LZC(data):
+def uncompress_LZC(data):  # noqa: C901
     LZC_NUM_BITS_MIN = 9
     LZC_NUM_BITS_MAX = 16
 

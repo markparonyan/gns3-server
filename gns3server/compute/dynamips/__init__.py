@@ -464,7 +464,7 @@ class Dynamips(BaseManager):
             await vm.set_ghost_status(2)
             await vm.set_ghost_file(ghost_file_path)
 
-    async def update_vm_settings(self, vm, settings):
+    async def update_vm_settings(self, vm, settings):  # noqa: C901
         """
         Updates the VM settings.
 

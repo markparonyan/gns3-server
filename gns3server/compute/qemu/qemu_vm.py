@@ -1083,7 +1083,7 @@ class QemuVM(BaseNode):
         await cancellable_wait_run_in_executor(md5sum, self._hdd_disk_image, self.working_dir)
         super().create()
 
-    async def start(self):
+    async def start(self):  # noqa: C901
         """
         Starts this QEMU VM.
         """
@@ -2063,7 +2063,7 @@ class QemuVM(BaseNode):
                 ]
             )
             if self._qemu_version and parse_version(self._qemu_version) >= parse_version("4.2.0"):
-                # The ‘ide-drive’ device is deprecated since version 4.2.0
+                # The ‘ide-drive’ device is deprecated since version 4.2.0  # noqa: RUF003
                 # https://qemu.readthedocs.io/en/latest/system/deprecated.html#ide-drive-since-4-2
                 options.extend(
                     ["-device", f"ide-hd,drive=drive{disk_index},bus=ahci{disk_index}.0,id=drive{disk_index}"]
@@ -2101,7 +2101,7 @@ class QemuVM(BaseNode):
             )
         return options
 
-    async def _disk_options(self):
+    async def _disk_options(self):  # noqa: C901
         options = []
         qemu_img_path = self._get_qemu_img()
 
@@ -2563,7 +2563,7 @@ class QemuVM(BaseNode):
                 raise QemuError(f"Error while looking for the Qemu VM saved state snapshot: {e}") from e
         return []
 
-    async def _build_command(self):
+    async def _build_command(self):  # noqa: C901
         """
         Command to start the QEMU process.
         (to be passed to subprocess.Popen())

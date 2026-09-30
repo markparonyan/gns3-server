@@ -534,7 +534,7 @@ class Compute:
         """Returns URL for specific path at Compute"""
         return self._getUrl(path)
 
-    async def _run_http_query(self, method, path, data=None, timeout=120, raw=False, stream=False, params=None):
+    async def _run_http_query(self, method, path, data=None, timeout=120, raw=False, stream=False, params=None):  # noqa: C901
         async with asynctimeout(delay=timeout):
             url = self._getUrl(path)
             headers = {"content-type": "application/json"}
@@ -650,11 +650,11 @@ class Compute:
     async def get(self, path, **kwargs):
         return await self.http_query("GET", path, **kwargs)
 
-    async def post(self, path, data={}, **kwargs):
+    async def post(self, path, data={}, **kwargs):  # noqa: B006
         response = await self.http_query("POST", path, data, **kwargs)
         return response
 
-    async def put(self, path, data={}, **kwargs):
+    async def put(self, path, data={}, **kwargs):  # noqa: B006
         response = await self.http_query("PUT", path, data, **kwargs)
         return response
 

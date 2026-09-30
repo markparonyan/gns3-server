@@ -210,8 +210,8 @@ async def test_stop(vm):
 
                     process.terminate.assert_called_with()
 
-                    await queue.get(1)  #  Ping
-                    await queue.get(1)  #  Started
+                    await queue.get(1)  #  Ping  # noqa: RUF003
+                    await queue.get(1)  #  Started  # noqa: RUF003
 
                     (action, event, kwargs) = await queue.get(1)
                     assert action == "node.updated"

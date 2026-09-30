@@ -49,7 +49,7 @@ class ApplianceToTemplate:
     Appliance installation.
     """
 
-    def new_template(self, appliance_config, version, server):
+    def new_template(self, appliance_config, version, server):  # noqa: C901
         """
         Creates a new template from an appliance.
         """
@@ -167,7 +167,7 @@ class ApplianceToTemplate:
         new_config.update(appliance_config["iou"])
         new_config["path"] = version.get("images").get("image")
 
-    def _new_template_v8(self, appliance_config, version, server):
+    def _new_template_v8(self, appliance_config, version, server):  # noqa: C901
         """
         Creates a new template from an appliance using the registry version 8 format.
         """

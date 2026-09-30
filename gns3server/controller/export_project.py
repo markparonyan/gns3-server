@@ -33,7 +33,7 @@ log = logging.getLogger(__name__)
 CHUNK_SIZE = 1024 * 8  # 8KB
 
 
-async def export_project(
+async def export_project(  # noqa: C901
     zstream,
     project,
     temporary_dir,
@@ -159,7 +159,7 @@ def _patch_mtime(path):
         # only UNIX type platforms
         return
     st = os.stat(path, follow_symlinks=False)
-    file_date = datetime.fromtimestamp(st.st_mtime)
+    file_date = datetime.fromtimestamp(st.st_mtime)  # noqa: DTZ006
     if file_date.year < 1980:
         new_mtime = file_date.replace(year=1980).timestamp()
         os.utime(path, (st.st_atime, new_mtime))
@@ -196,7 +196,7 @@ def _is_exportable(path, include_snapshots=False):
     return True
 
 
-async def _patch_project_file(
+async def _patch_project_file(  # noqa: C901
     project, path, zstream, include_images, keep_compute_ids, allow_all_nodes, temporary_dir, reset_mac_addresses
 ):
     """

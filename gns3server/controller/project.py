@@ -906,7 +906,7 @@ class Project:
             # a link should have 2 attached nodes, this can happen with corrupted projects
             await self.delete_link(link.id, force_delete=True)
 
-    async def _prepare_link_from_topology(self, link_data):
+    async def _prepare_link_from_topology(self, link_data):  # noqa: C901
         """
         Build a link locally from topology data WITHOUT dispatching NIOs to the
         computes.  Returns ``(link, entries)`` where ``entries`` is the list of
@@ -1810,7 +1810,7 @@ class Project:
         return self._topology_file()
 
     @locking
-    async def open(self, auto_start=True):
+    async def open(self, auto_start=True):  # noqa: C901
         """
         Load topology elements
 

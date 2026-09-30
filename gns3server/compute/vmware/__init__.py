@@ -651,7 +651,7 @@ class VMware(BaseManager):
         else:
             return [os.path.expanduser("~/vmware")]
 
-    async def list_vms(self):
+    async def list_vms(self):  # noqa: C901
         """
         Gets VMware VM list.
         """

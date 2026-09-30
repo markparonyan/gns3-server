@@ -481,8 +481,8 @@ class Project:
                 is_dir = await wait_run_in_executor(lambda e=entry: e.is_dir())
                 if is_dir:
                     try:
-                        created_at = datetime.datetime.fromtimestamp(stat_info.st_ctime).isoformat()
-                        modified_at = datetime.datetime.fromtimestamp(stat_info.st_mtime).isoformat()
+                        created_at = datetime.datetime.fromtimestamp(stat_info.st_ctime).isoformat()  # noqa: DTZ006
+                        modified_at = datetime.datetime.fromtimestamp(stat_info.st_mtime).isoformat()  # noqa: DTZ006
                     except (OSError, OverflowError, ValueError):
                         created_at = modified_at = ""
                     files.append(
@@ -503,8 +503,8 @@ class Project:
                         log.warning(f"Error getting file type for '{rel_path}': {e}")
                         file_type = ""
                     try:
-                        created_at = datetime.datetime.fromtimestamp(stat_info.st_ctime).isoformat()
-                        modified_at = datetime.datetime.fromtimestamp(stat_info.st_mtime).isoformat()
+                        created_at = datetime.datetime.fromtimestamp(stat_info.st_ctime).isoformat()  # noqa: DTZ006
+                        modified_at = datetime.datetime.fromtimestamp(stat_info.st_mtime).isoformat()  # noqa: DTZ006
                     except (OSError, OverflowError, ValueError):
                         created_at = modified_at = ""
                     files.append(
@@ -534,8 +534,8 @@ class Project:
                 try:
                     stat_info = await wait_run_in_executor(os.stat, dir_full_path)
                     try:
-                        created_at = datetime.datetime.fromtimestamp(stat_info.st_ctime).isoformat()
-                        modified_at = datetime.datetime.fromtimestamp(stat_info.st_mtime).isoformat()
+                        created_at = datetime.datetime.fromtimestamp(stat_info.st_ctime).isoformat()  # noqa: DTZ006
+                        modified_at = datetime.datetime.fromtimestamp(stat_info.st_mtime).isoformat()  # noqa: DTZ006
                     except (OSError, OverflowError, ValueError):
                         created_at = modified_at = ""
                     files.append(
@@ -563,8 +563,8 @@ class Project:
                         log.warning(f"Error getting file type for '{rel_path}': {e}")
                         file_type = ""
                     try:
-                        created_at = datetime.datetime.fromtimestamp(stat_info.st_ctime).isoformat()
-                        modified_at = datetime.datetime.fromtimestamp(stat_info.st_mtime).isoformat()
+                        created_at = datetime.datetime.fromtimestamp(stat_info.st_ctime).isoformat()  # noqa: DTZ006
+                        modified_at = datetime.datetime.fromtimestamp(stat_info.st_mtime).isoformat()  # noqa: DTZ006
                     except (OSError, OverflowError, ValueError) as e:
                         log.warning(f"Invalid timestamp for '{rel_path}': {e}")
                         created_at = modified_at = ""

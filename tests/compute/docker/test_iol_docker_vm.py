@@ -310,7 +310,7 @@ async def test_start_rewrites_config_on_adapter_change(compute_project, manager)
             await vm.start()
 
     with open(os.path.join(vm.working_dir, "config", "iol-config.json")) as f:  # noqa: ASYNC230
-        assert json.load(f)["num-eth"] == 32  # 8 adapters × 4 ports
+        assert json.load(f)["num-eth"] == 32  # 8 adapters × 4 ports  # noqa: RUF003
 
 
 @pytest.mark.asyncio

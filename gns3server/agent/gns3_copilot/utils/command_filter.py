@@ -64,7 +64,7 @@ def _load_forbidden_commands() -> list[str]:
     Returns:
         List of forbidden command patterns.
     """
-    global _forbidden_commands_cache
+    global _forbidden_commands_cache  # noqa: PLW0603
 
     # Return cached value if available
     if _forbidden_commands_cache is not None:
@@ -95,7 +95,7 @@ def reload_forbidden_commands() -> None:
     Directly loads and caches the commands from the repository.
     Falls back to defaults if the repository is unavailable.
     """
-    global _forbidden_commands_cache
+    global _forbidden_commands_cache  # noqa: PLW0603
 
     from gns3server.agent.gns3_copilot.skills.registry import get_skills_manager
 

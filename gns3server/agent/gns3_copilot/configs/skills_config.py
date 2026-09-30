@@ -64,7 +64,7 @@ def get_skills_config() -> dict:
         if server.skills_repo_branch:
             config["branch"] = server.skills_repo_branch
         config["auto_update"] = server.skills_auto_update
-    except Exception:  # noqa: BLE001
+    except Exception:  # noqa: BLE001, S110
         pass
     return config
 

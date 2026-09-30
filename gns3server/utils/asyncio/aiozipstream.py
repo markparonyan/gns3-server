@@ -258,7 +258,7 @@ class ZipFile(zipfile.ZipFile):
 
         return self.write_iter(arcname, _iterable(), compress_type=compress_type, compresslevel=compresslevel)
 
-    async def _write(self, filename=None, iterable=None, arcname=None, compress_type=None, compresslevel=None):
+    async def _write(self, filename=None, iterable=None, arcname=None, compress_type=None, compresslevel=None):  # noqa: C901
         """
         Put the bytes from filename into the archive under the name `arcname`.
         """

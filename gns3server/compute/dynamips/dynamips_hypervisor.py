@@ -220,7 +220,7 @@ class DynamipsHypervisor:
 
         self._host = host
 
-    async def send(self, command):
+    async def send(self, command):  # noqa: C901
         """
         Sends commands to this hypervisor.
 

@@ -34,7 +34,7 @@ from starlette.websockets import WebSocket as StarletteWebSocket
 log = logging.getLogger(__name__)
 
 
-async def websocket_proxy(
+async def websocket_proxy(  # noqa: C901
     client_ws: WebSocket,
     target_url: str,
     requested_protocols: list | None = None,
@@ -136,7 +136,7 @@ async def websocket_proxy(
         await client_ws.close(code=status.WS_1011_INTERNAL_ERROR, reason=str(e))
 
 
-async def websocket_proxy_with_manual_accept(
+async def websocket_proxy_with_manual_accept(  # noqa: C901
     client_ws: StarletteWebSocket,
     target_url: str,
     requested_protocols: list | None = None,
@@ -255,11 +255,11 @@ async def websocket_proxy_with_manual_accept(
         log.error(f"WebSocket proxy connection error: {e}")
         try:
             await client_ws.close(code=status.WS_1011_INTERNAL_ERROR)
-        except Exception:  # noqa: BLE001
+        except Exception:  # noqa: BLE001, S110
             pass
     except Exception as e:  # noqa: BLE001
         log.error(f"WebSocket proxy unexpected error: {e}")
         try:
             await client_ws.close(code=status.WS_1011_INTERNAL_ERROR)
-        except Exception:  # noqa: BLE001
+        except Exception:  # noqa: BLE001, S110
             pass

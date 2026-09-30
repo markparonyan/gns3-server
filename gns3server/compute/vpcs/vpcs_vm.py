@@ -106,7 +106,7 @@ class VPCSVM(BaseNode):
             raise VPCSError("No path to a VPCS executable has been set")
 
         # This raise an error if ubridge is not available
-        self.ubridge_path
+        self.ubridge_path  # noqa: B018
 
         if not os.path.isfile(path):  # noqa: ASYNC240
             raise VPCSError(f"VPCS program '{path}' is not accessible")

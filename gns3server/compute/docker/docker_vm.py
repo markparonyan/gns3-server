@@ -114,7 +114,7 @@ class DockerVM(BaseNode):
         console_http_port=80,
         console_http_path="/",
         extra_hosts=None,
-        extra_volumes=[],
+        extra_volumes=[],  # noqa: B006
         extra_configs=None,
         memory=0,
         cpus=0,
@@ -555,7 +555,7 @@ class DockerVM(BaseNode):
         # Give the information to the container on how many interface should be inside
         params["Env"].append(f"GNS3_MAX_ETHERNET=eth{self.adapters - 1}")
 
-    async def create(self):
+    async def create(self):  # noqa: C901
         """
         Creates the Docker container.
         """
@@ -1499,7 +1499,7 @@ class DockerVM(BaseNode):
         # right after the nodes close.
         await self._reclaim_directory_ownership(self.working_dir)
 
-    async def reset(self, release_nio_udp_ports=True):
+    async def reset(self, release_nio_udp_ports=True):  # noqa: C901
 
         try:
             state = await self._get_container_state()
@@ -1528,7 +1528,7 @@ class DockerVM(BaseNode):
                     except OSError as e:
                         log.warning(f"Could not remove display {display}: {e}")
 
-            # v – 1/True/true or 0/False/false, Remove the volumes associated to the container. Default false.
+            # v – 1/True/true or 0/False/false, Remove the volumes associated to the container. Default false.  # noqa: RUF003
             # force - 1/True/true or 0/False/false, Kill then remove the container. Default false.
             try:
                 await self.manager.query("DELETE", f"containers/{self._cid}", params={"force": 1, "v": 1})

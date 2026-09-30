@@ -250,7 +250,7 @@ def generate_markdown(
     md_lines.append("# Netmiko Supported Devices")
     md_lines.append("")
     md_lines.append(f"**Netmiko Version:** {version}")
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")  # noqa: DTZ005
     md_lines.append(f"**Generated:** {timestamp}")
     md_lines.append("")
     md_lines.append("---")

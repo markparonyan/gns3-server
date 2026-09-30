@@ -373,7 +373,7 @@ class RbacRepository(BaseRepository):
         pool_resources.extend(await self._get_resources_in_pools(group_aces))
         return list(set(pool_resources))
 
-    async def get_accessible_project_ids(self, user_id: UUID, privilege_name: str, all_project_ids: list[str]):
+    async def get_accessible_project_ids(self, user_id: UUID, privilege_name: str, all_project_ids: list[str]):  # noqa: C901
         """
         Batch check which projects a user can access via direct ACE or resource pools.
         Performs 3 fixed DB queries regardless of project count.

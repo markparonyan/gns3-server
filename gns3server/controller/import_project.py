@@ -40,7 +40,7 @@ Handle the import of project from a .gns3project
 """
 
 
-async def import_project(
+async def import_project(  # noqa: C901
     controller,
     project_id,
     stream,

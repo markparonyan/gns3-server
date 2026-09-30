@@ -258,7 +258,7 @@ class Docker(BaseManager):
         if self._session and not self._session.closed:
             await self._session.close()
 
-    async def query(self, method, path, data={}, params={}):
+    async def query(self, method, path, data={}, params={}):  # noqa: B006
         """
         Makes a query to the Docker daemon and decode the request
 
@@ -278,7 +278,7 @@ class Docker(BaseManager):
         log.debug("Query Docker %s %s params=%s data=%s Response: %s", method, path, params, data, body)
         return body
 
-    async def http_query(self, method, path, data={}, params={}, timeout=300):
+    async def http_query(self, method, path, data={}, params={}, timeout=300):  # noqa: B006
         """
         Makes a query to the docker daemon
 
@@ -337,7 +337,7 @@ class Docker(BaseManager):
                 raise DockerError(f"Docker has returned an error: {response.status} {body}")
         return response
 
-    async def websocket_query(self, path, params={}):
+    async def websocket_query(self, path, params={}):  # noqa: B006
         """
         Opens a websocket connection
 
@@ -351,7 +351,7 @@ class Docker(BaseManager):
         return connection
 
     @locking
-    async def pull_image(self, image, progress_callback=None, force=False):
+    async def pull_image(self, image, progress_callback=None, force=False):  # noqa: C901
         """
         Pulls an image from the Docker repository
 

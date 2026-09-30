@@ -276,7 +276,7 @@ def format_tool_response(content: str | dict | list | int | float | bool | None,
         return result
 
 
-def normalize_tool_response(response: dict | list | str, tool_name: str = "unknown") -> dict:
+def normalize_tool_response(response: dict | list | str, tool_name: str = "unknown") -> dict:  # noqa: C901
     """
     Normalize tool response to standard format for consistent frontend display.
 
@@ -311,7 +311,7 @@ def normalize_tool_response(response: dict | list | str, tool_name: str = "unkno
     """
     metadata = {
         "tool_name": tool_name,
-        "normalized_at": datetime.utcnow().isoformat(),
+        "normalized_at": datetime.utcnow().isoformat(),  # noqa: DTZ003
     }
 
     # Handle error responses

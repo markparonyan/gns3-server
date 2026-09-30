@@ -401,7 +401,7 @@ async def web_wireshark_websocket(
         log.error(f"Error in WebSocket proxy for link {link_id}: {e}")
         try:
             await websocket.close(code=status.WS_1011_INTERNAL_ERROR, reason=str(e))
-        except:
+        except:  # noqa: S110
             pass
 
 

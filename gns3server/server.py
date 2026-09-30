@@ -232,7 +232,7 @@ class Server:
             self._kill_ghosts()
 
         log.info(f"GNS3 server version {__version__}")
-        current_year = datetime.date.today().year
+        current_year = datetime.date.today().year  # noqa: DTZ011
         log.info(f"Copyright (c) 2007-{current_year} GNS3 Technologies Inc.")
 
         for config_file in Config.instance().get_config_files():

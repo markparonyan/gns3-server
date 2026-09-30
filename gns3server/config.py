@@ -60,7 +60,7 @@ class Config:
     :param profile: Profile settings (default use standard config file)
     """
 
-    def __init__(self, files=None, profile=None):
+    def __init__(self, files=None, profile=None):  # noqa: C901
 
         self._settings = None
         self._files = files

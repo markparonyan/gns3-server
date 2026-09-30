@@ -217,7 +217,7 @@ async def wait_for_mcp_ready() -> bool:
         return False
 
 
-# ── Per‑connection JWT token  ─────────────────────────────────────────
+# ── Per‑connection JWT token  ─────────────────────────────────────────  # noqa: RUF003
 # Set during SSE authentication, read by tool handlers running in the
 # same asyncio task (contextvars propagate through asyncio.to_thread).
 
@@ -250,7 +250,7 @@ async def _resolve_token(token: str) -> str | None:
             _jwt_username_var.set(token_data.username)
             _jwt_token_version_var.set(token_data.token_version)
             return token
-        except Exception:  # noqa: BLE001
+        except Exception:  # noqa: BLE001, S110
             pass
 
     # Try API key — format: gns3_<api_key_id>_<random_secret> → O(1) lookup
@@ -277,7 +277,7 @@ async def _resolve_token(token: str) -> str | None:
                                         user.username, token_version=user.token_version
                                     )
                                     return fresh_token
-            except Exception:  # noqa: BLE001
+            except Exception:  # noqa: BLE001, S110
                 pass
 
     return None
@@ -1947,7 +1947,7 @@ async def vpcs_config_set(
     )
 
 
-# ── Auth‑wrapped SSE app ──────────────────────────────────────────────
+# ── Auth‑wrapped SSE app ──────────────────────────────────────────────  # noqa: RUF003
 
 
 def _make_auth_wrapper(inner_app):
@@ -2020,7 +2020,7 @@ async def mcp_root():
 
 def register_starlette_routes(app):
     """Mount MCP transports on the FastAPI app."""
-    global _app
+    global _app  # noqa: PLW0603
     _app = app
     sse_app = _make_auth_wrapper(mcp.sse_app(mount_path=""))
     app.mount("/v3/mcp/transport", sse_app, name="mcp-sse")

@@ -125,7 +125,7 @@ class VPCSTelnet(BaseConnection):
             initial_data = self.read_channel()
             if initial_data:
                 return_msg += initial_data
-        except Exception:  # noqa: BLE001
+        except Exception:  # noqa: BLE001, S110
             # Ignore errors during initial read
             pass
 
@@ -375,7 +375,7 @@ def register_custom_device_type() -> None:
 
     Note: This function is idempotent - multiple calls will only register once.
     """
-    global _registered
+    global _registered  # noqa: PLW0603
 
     # Prevent duplicate registration
     if _registered:

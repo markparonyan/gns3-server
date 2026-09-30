@@ -261,7 +261,7 @@ class VirtualBoxGNS3VM(BaseGNS3VM):
         except VirtualBoxError as e:
             raise GNS3VMError(f"Could not list VirtualBox VMs: {e!s}") from e
 
-    async def start(self):
+    async def start(self):  # noqa: C901
         """
         Start the GNS3 VM.
         """

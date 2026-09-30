@@ -412,7 +412,7 @@ class VendorDockerVM(DockerVM):
         _unix_socket_wiring_dir). No TAP is allocated, the namespace is
         untouched and guest MAC addresses are whatever the image's agent
         uses.
-        """
+        """  # noqa: RUF002
 
         if not self._unix_socket_nio:
             return await super()._add_ubridge_connection(nio, adapter_number, port_number)
@@ -508,7 +508,7 @@ class VendorDockerVM(DockerVM):
         if self._console_exec_writer:
             try:
                 self._console_exec_writer.close()
-            except Exception:  # noqa: BLE001
+            except Exception:  # noqa: BLE001, S110
                 pass
             self._console_exec_writer = None
 
@@ -840,7 +840,7 @@ class _LazyExecTelnetServer(AsyncioTelnetServer):
                         await self._resize_exec(*self._client_size)
                     else:
                         await self._resize_exec(511, 10000)
-                except Exception:  # noqa: BLE001
+                except Exception:  # noqa: BLE001, S110
                     pass
             else:
                 log.info(f"{self._log_name}: client connected, reusing live exec")

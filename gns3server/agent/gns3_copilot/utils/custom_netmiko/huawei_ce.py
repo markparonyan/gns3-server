@@ -154,7 +154,7 @@ class GNS3HuaweiTelnetCE(HuaweiBase):
             initial_data = self.read_channel()
             if initial_data:
                 return_msg += initial_data
-        except Exception:  # noqa: BLE001
+        except Exception:  # noqa: BLE001, S110
             # Ignore errors during initial read
             pass
 
@@ -181,7 +181,7 @@ class GNS3HuaweiTelnetCE(HuaweiBase):
                 self.remote_conn.close()
                 msg = f"Connection failed (EOF): {self.host}"
                 raise self.connection_error(msg) from None
-            except Exception:  # noqa: BLE001
+            except Exception:  # noqa: BLE001, S110
                 # Continue trying on other exceptions
                 pass
 
@@ -214,7 +214,7 @@ class GNS3HuaweiTelnetCE(HuaweiBase):
             else:
                 # If base_prompt is not set yet, just read to clear buffer
                 self.read_channel()
-        except Exception:  # noqa: BLE001
+        except Exception:  # noqa: BLE001, S110
             pass
 
     def disable_paging(
@@ -300,7 +300,7 @@ class GNS3HuaweiTelnetCE(HuaweiBase):
                 time.sleep(0.5 * self.global_delay_factor)
                 commit_output = self.read_channel()
                 output += commit_output
-            except Exception:  # noqa: BLE001
+            except Exception:  # noqa: BLE001, S110
                 # If commit fails, continue with exit
                 # (might not support commit)
                 pass
@@ -394,7 +394,7 @@ def register_custom_device_type() -> None:
     Returns:
         None
     """
-    global _registered
+    global _registered  # noqa: PLW0603
 
     # Prevent duplicate registration
     if _registered:

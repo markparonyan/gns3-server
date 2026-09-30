@@ -242,7 +242,7 @@ def register_custom_device_type() -> None:
 
     Note: This function is idempotent - multiple calls will only register once.
     """
-    global _registered
+    global _registered  # noqa: PLW0603
 
     # Prevent duplicate registration
     if _registered:

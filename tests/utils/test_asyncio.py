@@ -38,7 +38,7 @@ async def test_exception_wait_run_in_executor():
     def raise_exception():
         raise Exception("test")
 
-    with pytest.raises(Exception):
+    with pytest.raises(Exception):  # noqa: B017
         await wait_run_in_executor(raise_exception)
 
 

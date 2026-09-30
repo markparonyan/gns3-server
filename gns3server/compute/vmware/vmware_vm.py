@@ -168,7 +168,7 @@ class VMwareVM(BaseNode):
             trial += 1
             await asyncio.sleep(1)
 
-    async def create(self):
+    async def create(self):  # noqa: C901
         """
         Creates this VM and handle linked clones.
         """

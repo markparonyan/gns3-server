@@ -1214,7 +1214,7 @@ class IOUVM(BaseNode):
             cmd = f"iol_bridge add_packet_filter {location} {filter}"
             await self._ubridge_send(cmd)
 
-    async def _ubridge_apply_markers(self, adapter_number, port_number, nio):
+    async def _ubridge_apply_markers(self, adapter_number, port_number, nio):  # noqa: C901
         """
         Reconcile traffic-insight markers on the IOL bridge (diff desired
         ``nio.markers`` against installed ``_marker_specs``): delete removed,

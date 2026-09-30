@@ -521,7 +521,7 @@ class BaseNode:
         await self.stop_wrap_console()
         await self.start_wrap_console()
 
-    async def start_websocket_console(self, websocket):
+    async def start_websocket_console(self, websocket):  # noqa: C901
         """
         Connect to console using Websocket.
 
@@ -698,7 +698,7 @@ class BaseNode:
             if hasattr(telnet_writer, "wait_closed"):
                 await telnet_writer.wait_closed()
 
-    async def start_vnc_websocket_console(self, websocket):
+    async def start_vnc_websocket_console(self, websocket):  # noqa: C901
         """
         Connect to VNC console using WebSocket.
 

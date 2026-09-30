@@ -216,7 +216,7 @@ class AgentService:
             log.info("LangGraph agent compiled for project: %s", self.project_path)
         return self._graph
 
-    async def stream_chat(
+    async def stream_chat(  # noqa: C901
         self,
         message: str,
         session_id: str,
@@ -317,7 +317,7 @@ class AgentService:
                 HumanMessage(
                     content=message,
                     id=str(uuid4()),
-                    metadata={"created_at": datetime.utcnow().isoformat()},
+                    metadata={"created_at": datetime.utcnow().isoformat()},  # noqa: DTZ003
                 )
             ],
             "llm_calls": 0,
@@ -343,7 +343,7 @@ class AgentService:
         llm_calls_count = 0
         input_tokens = 0
         output_tokens = 0
-        last_message_at = datetime.utcnow().isoformat()
+        last_message_at = datetime.utcnow().isoformat()  # noqa: DTZ003
 
         # Track if we've counted the AI response for this turn
         ai_response_counted = False

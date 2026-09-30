@@ -29,7 +29,7 @@ class AsyncioRawCommandServer:
     on network
     """
 
-    def __init__(self, command, replaces=[]):
+    def __init__(self, command, replaces=[]):  # noqa: B006
         """
         :param command: Command to run
         :param replaces: List of tuple to replace in the output ex: [(b":8080", b":6000")]

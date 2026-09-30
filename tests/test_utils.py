@@ -15,37 +15,37 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from gns3server.utils import *
+from gns3server.utils import *  # noqa: F403
 
 
 def test_force_unix_path():
-    assert force_unix_path("a/b") == "a/b"
-    assert force_unix_path("a\\b") == "a/b"
-    assert force_unix_path("a\\b\\..\\c") == "a/c"
-    assert force_unix_path(r"C:\Temp") == r"C:/Temp"
-    assert force_unix_path(force_unix_path(r"C:\Temp")) == r"C:/Temp"
-    assert force_unix_path("a//b") == "a/b"
+    assert force_unix_path("a/b") == "a/b"  # noqa: F405
+    assert force_unix_path("a\\b") == "a/b"  # noqa: F405
+    assert force_unix_path("a\\b\\..\\c") == "a/c"  # noqa: F405
+    assert force_unix_path(r"C:\Temp") == r"C:/Temp"  # noqa: F405
+    assert force_unix_path(force_unix_path(r"C:\Temp")) == r"C:/Temp"  # noqa: F405
+    assert force_unix_path("a//b") == "a/b"  # noqa: F405
 
 
 def test_macaddress_to_int():
-    assert macaddress_to_int("00:0c:29:11:b0:0a") == 52228632586
+    assert macaddress_to_int("00:0c:29:11:b0:0a") == 52228632586  # noqa: F405
 
 
 def test_int_to_macaddress():
-    assert int_to_macaddress(52228632586) == "00:0c:29:11:b0:0a"
+    assert int_to_macaddress(52228632586) == "00:0c:29:11:b0:0a"  # noqa: F405
 
 
 def test_parse_version():
-    assert parse_version("1") == ("000001", "00000", "000000", "final")
-    assert parse_version("1.3") == ("000001", "000003", "000000", "final")
-    assert parse_version("1.3.dev3") == ("000001", "000003", "000000", "dev", "000003")
-    assert parse_version("1.3a1") == ("000001", "000003", "000000", "a", "000001")
-    assert parse_version("1.3rc1") == ("000001", "000003", "000000", "c", "000001")
+    assert parse_version("1") == ("000001", "00000", "000000", "final")  # noqa: F405
+    assert parse_version("1.3") == ("000001", "000003", "000000", "final")  # noqa: F405
+    assert parse_version("1.3.dev3") == ("000001", "000003", "000000", "dev", "000003")  # noqa: F405
+    assert parse_version("1.3a1") == ("000001", "000003", "000000", "a", "000001")  # noqa: F405
+    assert parse_version("1.3rc1") == ("000001", "000003", "000000", "c", "000001")  # noqa: F405
 
-    assert parse_version("1.2.3") > parse_version("1.2.2")
-    assert parse_version("1.3") > parse_version("1.2.2")
-    assert parse_version("1.3") > parse_version("1.3alpha1")
-    assert parse_version("1.3") > parse_version("1.3rc1")
-    assert parse_version("1.3rc1") > parse_version("1.3alpha3")
-    assert parse_version("1.3dev1") > parse_version("1.3rc1")
-    assert parse_version("1.2.3") > parse_version("1.2")
+    assert parse_version("1.2.3") > parse_version("1.2.2")  # noqa: F405
+    assert parse_version("1.3") > parse_version("1.2.2")  # noqa: F405
+    assert parse_version("1.3") > parse_version("1.3alpha1")  # noqa: F405
+    assert parse_version("1.3") > parse_version("1.3rc1")  # noqa: F405
+    assert parse_version("1.3rc1") > parse_version("1.3alpha3")  # noqa: F405
+    assert parse_version("1.3dev1") > parse_version("1.3rc1")  # noqa: F405
+    assert parse_version("1.2.3") > parse_version("1.2")  # noqa: F405

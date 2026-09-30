@@ -157,7 +157,7 @@ async def test_pull_image():
             elif self._read == 1:
                 return '"id": 42}'
             else:
-                None
+                None  # noqa: B018
 
     mock_query = MagicMock()
     mock_query.content.return_value = Response()

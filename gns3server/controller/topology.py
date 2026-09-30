@@ -127,7 +127,7 @@ def project_to_topology(project):
     return data
 
 
-def load_topology(path):
+def load_topology(path):  # noqa: C901
     """
     Open a topology file, patch it for last GNS3 release and return it
     """
@@ -348,7 +348,7 @@ def _convert_2_0_0_alpha(topo, topo_path):
     return topo
 
 
-def _convert_1_3_later(topo, topo_path):
+def _convert_1_3_later(topo, topo_path):  # noqa: C901
     """
     Convert topologies from 1_3 to the new file format
 

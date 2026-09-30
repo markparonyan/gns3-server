@@ -91,7 +91,7 @@ class LLMModelConfigsRepository(BaseRepository):
                 raise
 
         # Set timestamps manually for SQLite compatibility
-        now = datetime.utcnow()
+        now = datetime.utcnow()  # noqa: DTZ003
         db_config = models.LLMModelConfig(
             name=name,
             model_type=model_type,
@@ -172,7 +172,7 @@ class LLMModelConfigsRepository(BaseRepository):
         # Increment version for optimistic locking
         db_config.version = db_config.version + 1
         # Update timestamp manually for SQLite compatibility
-        db_config.updated_at = datetime.utcnow()
+        db_config.updated_at = datetime.utcnow()  # noqa: DTZ003
         await self._db_session.commit()
         await self._db_session.refresh(db_config)
         return db_config
@@ -188,7 +188,7 @@ class LLMModelConfigsRepository(BaseRepository):
 
     async def set_user_default_config(self, user_id: UUID, config_id: UUID) -> bool:
         """Set a user's default LLM model configuration."""
-        now = datetime.utcnow()
+        now = datetime.utcnow()  # noqa: DTZ003
         # First, unset current default
         await self._db_session.execute(
             update(models.LLMModelConfig)
@@ -250,7 +250,7 @@ class LLMModelConfigsRepository(BaseRepository):
                 raise
 
         # Set timestamps manually for SQLite compatibility
-        now = datetime.utcnow()
+        now = datetime.utcnow()  # noqa: DTZ003
         db_config = models.LLMModelConfig(
             name=name,
             model_type=model_type,
@@ -331,7 +331,7 @@ class LLMModelConfigsRepository(BaseRepository):
         # Increment version for optimistic locking
         db_config.version = db_config.version + 1
         # Update timestamp manually for SQLite compatibility
-        db_config.updated_at = datetime.utcnow()
+        db_config.updated_at = datetime.utcnow()  # noqa: DTZ003
         await self._db_session.commit()
         await self._db_session.refresh(db_config)
         return db_config
@@ -347,7 +347,7 @@ class LLMModelConfigsRepository(BaseRepository):
 
     async def set_group_default_config(self, group_id: UUID, config_id: UUID) -> bool:
         """Set a group's default LLM model configuration."""
-        now = datetime.utcnow()
+        now = datetime.utcnow()  # noqa: DTZ003
         # First, unset current default
         await self._db_session.execute(
             update(models.LLMModelConfig)

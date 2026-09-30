@@ -75,7 +75,7 @@ async def _make_link(project, port_cls=EthernetPort, node_types=("vpcs", "vpcs")
     async def subnet(_other):
         return ("192.168.1.1", "192.168.1.2")
 
-    async def udp_cb(path, data={}, **kwargs):
+    async def udp_cb(path, data={}, **kwargs):  # noqa: B006
         response = MagicMock()
         response.json = {"udp_port": 1234}
         return response
@@ -364,7 +364,7 @@ async def test_load_marker_preserves_direction_and_highlight_duration(project):
     async def subnet(_other):
         return ("192.168.1.1", "192.168.1.2")
 
-    async def udp_cb(path, data={}, **kwargs):
+    async def udp_cb(path, data={}, **kwargs):  # noqa: B006
         response = MagicMock()
         response.json = {"udp_port": 1234}
         return response

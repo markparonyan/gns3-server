@@ -172,7 +172,7 @@ async def async_iterable_to_stream(async_iter, limit=65536):
                 reader.feed_data(chunk)
         except GeneratorExit:
             raise
-        except Exception:  # noqa: BLE001
+        except Exception:  # noqa: BLE001, S110
             pass
         finally:
             reader.feed_eof()

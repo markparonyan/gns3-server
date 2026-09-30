@@ -54,7 +54,7 @@ class StandardPortFactory:
     Create ports for standard device
     """
 
-    def __new__(
+    def __new__(  # noqa: C901
         cls, properties, port_by_adapter, first_port_name, port_name_format, port_segment_size, custom_adapters
     ):
         ports = []

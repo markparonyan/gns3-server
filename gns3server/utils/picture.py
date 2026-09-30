@@ -21,7 +21,7 @@ import struct
 from xml.etree.ElementTree import ElementTree, ParseError
 
 
-def get_size(data, default_width=0, default_height=0):
+def get_size(data, default_width=0, default_height=0):  # noqa: C901
     """
     Get image size
     :param data: A buffer with image content

@@ -370,13 +370,13 @@ def llm_call(state: dict, config: RunnableConfig | None = None):
         existing_metadata = response.metadata or {}
         response.metadata = {
             **existing_metadata,
-            "created_at": datetime.utcnow().isoformat(),
+            "created_at": datetime.utcnow().isoformat(),  # noqa: DTZ003
         }
     else:
         # LangChain messages should have metadata attribute, but defensive
         # fallback
         try:
-            response.metadata = {"created_at": datetime.utcnow().isoformat()}
+            response.metadata = {"created_at": datetime.utcnow().isoformat()}  # noqa: DTZ003
         except Exception:  # noqa: BLE001
             logger.warning("Could not add metadata to AI response")
 
@@ -529,7 +529,7 @@ def tool_node(state: dict, config: RunnableConfig | None = None):
             content=observation,
             tool_call_id=tool_call["id"],
             name=tool_call["name"],
-            metadata={"created_at": datetime.utcnow().isoformat()},
+            metadata={"created_at": datetime.utcnow().isoformat()},  # noqa: DTZ003
         )
         result.append(tool_msg)
 
@@ -562,7 +562,7 @@ def abort_handler_node(state: dict) -> dict:
             ),
             tool_call_id=tool_call["id"],
             name=tool_call["name"],
-            metadata={"created_at": datetime.utcnow().isoformat(), "aborted": True},
+            metadata={"created_at": datetime.utcnow().isoformat(), "aborted": True},  # noqa: DTZ003
         )
         result.append(tool_msg)
 

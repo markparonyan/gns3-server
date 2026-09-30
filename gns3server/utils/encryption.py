@@ -37,7 +37,7 @@ def init_encryption(secrets_dir: str) -> None:
     :param secrets_dir: Directory to store the encryption key
     """
 
-    global _fernet
+    global _fernet  # noqa: PLW0603
 
     encryption_key_path = os.path.join(secrets_dir, "gns3_encryption_key")
 

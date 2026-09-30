@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional
 
 from pydantic import BaseModel
 
@@ -22,7 +21,7 @@ from pydantic import BaseModel
 class Token(BaseModel):
     access_token: str
     token_type: str
-    refresh_token: Optional[str] = None
+    refresh_token: str | None = None
 
 
 class TokenData(BaseModel):

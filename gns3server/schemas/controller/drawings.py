@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -25,11 +24,11 @@ class Drawing(BaseModel):
     Drawing data.
     """
 
-    drawing_id: Optional[UUID] = None
-    project_id: Optional[UUID] = None
-    x: Optional[int] = None
-    y: Optional[int] = None
-    z: Optional[int] = None
-    locked: Optional[bool] = None
-    rotation: Optional[int] = Field(None, ge=-359, le=360)
-    svg: Optional[str] = None
+    drawing_id: UUID | None = None
+    project_id: UUID | None = None
+    x: int | None = None
+    y: int | None = None
+    z: int | None = None
+    locked: bool | None = None
+    rotation: int | None = Field(None, ge=-359, le=360)
+    svg: str | None = None

@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import Optional
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -34,7 +33,7 @@ class ResourceBase(BaseModel):
 
     resource_id: UUID
     resource_type: ResourceType = Field(..., description="Type of the resource")
-    name: Optional[str] = None
+    name: str | None = None
     model_config = ConfigDict(use_enum_values=True)
 
 

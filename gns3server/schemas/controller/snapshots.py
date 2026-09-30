@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-from typing import Optional
 from uuid import UUID
 
 from pydantic import BaseModel, Field
@@ -27,7 +26,7 @@ class SnapshotBase(BaseModel):
     """
 
     name: str = Field(..., description="Name of the snapshot")
-    description: Optional[str] = Field(None, description="Description of the snapshot")
+    description: str | None = Field(None, description="Description of the snapshot")
 
 
 class SnapshotCreate(SnapshotBase):

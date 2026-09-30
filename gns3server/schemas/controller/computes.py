@@ -16,7 +16,7 @@
 
 import uuid
 from enum import Enum
-from typing import Any, List, Optional, Union
+from typing import Any, List, Union
 
 from pydantic import BaseModel, ConfigDict, Field, SecretStr, model_validator
 
@@ -38,12 +38,12 @@ class ComputeBase(BaseModel):
     Data to create a compute.
     """
 
-    protocol: Optional[Protocol] = None
-    host: Optional[str] = None
-    port: Optional[int] = Field(None, gt=0, le=65535)
-    user: Optional[str] = None
-    password: Optional[SecretStr] = None
-    name: Optional[str] = None
+    protocol: Protocol | None = None
+    host: str | None = None
+    port: int | None = Field(None, gt=0, le=65535)
+    user: str | None = None
+    password: SecretStr | None = None
+    name: str | None = None
     model_config = ConfigDict(use_enum_values=True)
 
 
@@ -55,7 +55,7 @@ class ComputeCreate(ComputeBase):
     protocol: Protocol
     host: str
     port: int = Field(..., gt=0, le=65535)
-    compute_id: Optional[Union[str, uuid.UUID]] = None
+    compute_id: Union[str, uuid.UUID] | None = None
     model_config = ConfigDict(
         json_schema_extra={
             "example": {"name": "My compute", "host": "127.0.0.1", "port": 3080, "user": "user", "password": "password"}
@@ -80,8 +80,8 @@ class ComputeUpdate(ComputeBase):
     Data to update a compute.
     """
 
-    user: Optional[str] = None
-    password: Optional[SecretStr] = None
+    user: str | None = None
+    password: SecretStr | None = None
     model_config = ConfigDict(
         json_schema_extra={
             "example": {
@@ -115,12 +115,12 @@ class Compute(DateTimeModelMixin, ComputeBase):
     port: int = Field(..., gt=0, le=65535)
     compute_id: Union[str, uuid.UUID]
     name: str
-    connected: Optional[bool] = Field(None, description="Whether the controller is connected to the compute or not")
-    cpu_usage_percent: Optional[float] = Field(None, description="CPU usage of the compute", ge=0, le=100)
-    memory_usage_percent: Optional[float] = Field(None, description="Memory usage of the compute", ge=0, le=100)
-    disk_usage_percent: Optional[float] = Field(None, description="Disk usage of the compute", ge=0, le=100)
-    last_error: Optional[str] = Field(None, description="Last error found on the compute")
-    capabilities: Optional[Capabilities] = None
+    connected: bool | None = Field(None, description="Whether the controller is connected to the compute or not")
+    cpu_usage_percent: float | None = Field(None, description="CPU usage of the compute", ge=0, le=100)
+    memory_usage_percent: float | None = Field(None, description="Memory usage of the compute", ge=0, le=100)
+    disk_usage_percent: float | None = Field(None, description="Disk usage of the compute", ge=0, le=100)
+    last_error: str | None = Field(None, description="Last error found on the compute")
+    capabilities: Capabilities | None = None
     model_config = ConfigDict(from_attributes=True)
 
 

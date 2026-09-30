@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Optional
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, SecretStr
@@ -28,10 +27,10 @@ class UserBase(BaseModel):
     Common user properties.
     """
 
-    username: Optional[str] = Field(None, min_length=3, pattern="[a-zA-Z0-9_-]+$")
+    username: str | None = Field(None, min_length=3, pattern="[a-zA-Z0-9_-]+$")
     is_active: bool = True
-    email: Optional[EmailStr] = None
-    full_name: Optional[str] = None
+    email: EmailStr | None = None
+    full_name: str | None = None
 
 
 class UserCreate(UserBase):
@@ -48,7 +47,7 @@ class UserUpdate(UserBase):
     Properties to update a user.
     """
 
-    password: Optional[SecretStr] = Field(None, min_length=8, max_length=100)
+    password: SecretStr | None = Field(None, min_length=8, max_length=100)
 
 
 class LoggedInUserUpdate(BaseModel):
@@ -56,14 +55,14 @@ class LoggedInUserUpdate(BaseModel):
     Properties to update a logged-in user.
     """
 
-    password: Optional[SecretStr] = Field(None, min_length=8, max_length=100)
-    email: Optional[EmailStr] = None
-    full_name: Optional[str] = None
+    password: SecretStr | None = Field(None, min_length=8, max_length=100)
+    email: EmailStr | None = None
+    full_name: str | None = None
 
 
 class User(DateTimeModelMixin, UserBase):
     user_id: UUID
-    last_login: Optional[datetime] = None
+    last_login: datetime | None = None
     is_superadmin: bool = False
     model_config = ConfigDict(from_attributes=True)
 
@@ -73,7 +72,7 @@ class UserGroupBase(BaseModel):
     Common user group properties.
     """
 
-    name: Optional[str] = Field(None, min_length=3, pattern="[a-zA-Z0-9_-]+$")
+    name: str | None = Field(None, min_length=3, pattern="[a-zA-Z0-9_-]+$")
 
 
 class UserGroupCreate(UserGroupBase):

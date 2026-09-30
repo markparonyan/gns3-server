@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import List, Optional
+from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -29,7 +29,7 @@ class PrivilegeBase(BaseModel):
     """
 
     name: str
-    description: Optional[str] = None
+    description: str | None = None
 
 
 class Privilege(DateTimeModelMixin, PrivilegeBase):
@@ -49,10 +49,10 @@ class ACEBase(BaseModel):
 
     ace_type: ACEType = Field(..., description="Type of the ACE")
     path: str
-    propagate: Optional[bool] = True
-    allowed: Optional[bool] = True
-    user_id: Optional[UUID] = None
-    group_id: Optional[UUID] = None
+    propagate: bool | None = True
+    allowed: bool | None = True
+    user_id: UUID | None = None
+    group_id: UUID | None = None
     role_id: UUID
     model_config = ConfigDict(use_enum_values=True)
 
@@ -83,8 +83,8 @@ class RoleBase(BaseModel):
     Common role properties.
     """
 
-    name: Optional[str] = None
-    description: Optional[str] = None
+    name: str | None = None
+    description: str | None = None
 
 
 class RoleCreate(RoleBase):

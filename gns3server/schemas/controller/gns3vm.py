@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from enum import Enum
-from typing import Optional
 
 from pydantic import BaseModel, Field
 
@@ -46,12 +45,12 @@ class GNS3VM(BaseModel):
     GNS3 VM data.
     """
 
-    enable: Optional[bool] = Field(None, description="Enable/disable the GNS3 VM")
-    vmname: Optional[str] = Field(None, description="GNS3 VM name")
-    when_exit: Optional[WhenExit] = Field(None, description="Action when the GNS3 VM exits")
-    headless: Optional[bool] = Field(None, description="Start the GNS3 VM GUI or not")
-    engine: Optional[Engine] = Field(None, description="The engine to use for the GNS3 VM")
-    allocate_vcpus_ram: Optional[bool] = Field(None, description="Allocate vCPUS and RAM settings")
-    vcpus: Optional[int] = Field(None, description="Number of CPUs to allocate for the GNS3 VM")
-    ram: Optional[int] = Field(None, description="Amount of memory to allocate for the GNS3 VM")
-    port: Optional[int] = Field(None, gt=0, le=65535)
+    enable: bool | None = Field(None, description="Enable/disable the GNS3 VM")
+    vmname: str | None = Field(None, description="GNS3 VM name")
+    when_exit: WhenExit | None = Field(None, description="Action when the GNS3 VM exits")
+    headless: bool | None = Field(None, description="Start the GNS3 VM GUI or not")
+    engine: Engine | None = Field(None, description="The engine to use for the GNS3 VM")
+    allocate_vcpus_ram: bool | None = Field(None, description="Allocate vCPUS and RAM settings")
+    vcpus: int | None = Field(None, description="Number of CPUs to allocate for the GNS3 VM")
+    ram: int | None = Field(None, description="Amount of memory to allocate for the GNS3 VM")
+    port: int | None = Field(None, gt=0, le=65535)

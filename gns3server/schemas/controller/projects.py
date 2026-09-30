@@ -16,7 +16,7 @@
 
 
 from enum import Enum
-from typing import List, Optional
+from typing import List
 from uuid import UUID
 
 from pydantic import BaseModel, Field, HttpUrl
@@ -33,12 +33,12 @@ class ProjectStatus(str, Enum):
 
 class Supplier(BaseModel):
     logo: str = Field(..., description="Path to the project supplier logo")
-    url: Optional[HttpUrl] = Field(None, description="URL to the project supplier site")
+    url: HttpUrl | None = Field(None, description="URL to the project supplier site")
 
 
 class Variable(BaseModel):
     name: str = Field(..., description="Variable name")
-    value: Optional[str] = Field(None, description="Variable value")
+    value: str | None = Field(None, description="Variable value")
 
 
 class ProjectBase(BaseModel):
@@ -46,23 +46,23 @@ class ProjectBase(BaseModel):
     Common properties for projects.
     """
 
-    name: Optional[str] = None
-    project_id: Optional[UUID] = None
-    path: Optional[str] = Field(None, description="Project directory")
-    auto_close: Optional[bool] = Field(None, description="Close project when last client leaves")
-    auto_open: Optional[bool] = Field(None, description="Project opens when GNS3 starts")
-    auto_start: Optional[bool] = Field(None, description="Project starts when opened")
-    scene_height: Optional[int] = Field(None, description="Height of the drawing area")
-    scene_width: Optional[int] = Field(None, description="Width of the drawing area")
-    zoom: Optional[int] = Field(None, description="Zoom of the drawing area")
-    show_layers: Optional[bool] = Field(None, description="Show layers on the drawing area")
-    snap_to_grid: Optional[bool] = Field(None, description="Snap to grid on the drawing area")
-    show_grid: Optional[bool] = Field(None, description="Show the grid on the drawing area")
-    grid_size: Optional[int] = Field(None, description="Grid size for the drawing area for nodes")
-    drawing_grid_size: Optional[int] = Field(None, description="Grid size for the drawing area for drawings")
-    show_interface_labels: Optional[bool] = Field(None, description="Show interface labels on the drawing area")
-    supplier: Optional[Supplier] = Field(None, description="Supplier of the project")
-    variables: Optional[List[Variable]] = Field(None, description="Variables required to run the project")
+    name: str | None = None
+    project_id: UUID | None = None
+    path: str | None = Field(None, description="Project directory")
+    auto_close: bool | None = Field(None, description="Close project when last client leaves")
+    auto_open: bool | None = Field(None, description="Project opens when GNS3 starts")
+    auto_start: bool | None = Field(None, description="Project starts when opened")
+    scene_height: int | None = Field(None, description="Height of the drawing area")
+    scene_width: int | None = Field(None, description="Width of the drawing area")
+    zoom: int | None = Field(None, description="Zoom of the drawing area")
+    show_layers: bool | None = Field(None, description="Show layers on the drawing area")
+    snap_to_grid: bool | None = Field(None, description="Snap to grid on the drawing area")
+    show_grid: bool | None = Field(None, description="Show the grid on the drawing area")
+    grid_size: int | None = Field(None, description="Grid size for the drawing area for nodes")
+    drawing_grid_size: int | None = Field(None, description="Grid size for the drawing area for drawings")
+    show_interface_labels: bool | None = Field(None, description="Show interface labels on the drawing area")
+    supplier: Supplier | None = Field(None, description="Supplier of the project")
+    variables: List[Variable] | None = Field(None, description="Variables required to run the project")
 
 
 class ProjectCreate(ProjectBase):
@@ -79,7 +79,7 @@ class ProjectDuplicate(ProjectBase):
     """
 
     name: str
-    reset_mac_addresses: Optional[bool] = Field(False, description="Reset MAC addresses for this project")
+    reset_mac_addresses: bool | None = Field(False, description="Reset MAC addresses for this project")
 
 
 class ProjectUpdate(ProjectBase):
@@ -92,9 +92,9 @@ class ProjectUpdate(ProjectBase):
 
 class Project(ProjectBase):
     project_id: UUID
-    status: Optional[ProjectStatus] = None
-    filename: Optional[str] = None
-    created_by: Optional[str] = Field(None, description="Username of the user who created the project")
+    status: ProjectStatus | None = None
+    filename: str | None = None
+    created_by: str | None = Field(None, description="Username of the user who created the project")
 
 
 class ProjectFile(BaseModel):

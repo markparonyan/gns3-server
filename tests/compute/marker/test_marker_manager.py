@@ -40,7 +40,7 @@ class TestMarkerRegistry:
     def test_miss_returns_none(self):
         MarkerManager.reset()
         mgr = MarkerManager.instance()
-        pid, lid, tag = mgr.lookup("no-such-node", "no-such-filter")
+        pid, lid, tag = mgr.lookup("no-such-node", "no-such-filter")  # noqa: RUF059
         assert pid is None
 
     def test_reregister_updates(self):

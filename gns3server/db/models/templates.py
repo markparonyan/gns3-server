@@ -47,7 +47,7 @@ class Template(BaseTable):
     compute_id = Column(String)
     images = relationship("Image", secondary=image_template_map, back_populates="templates")
 
-    __mapper_args__ = {
+    __mapper_args__ = {  # noqa: RUF012
         "polymorphic_identity": "templates",
         "polymorphic_on": template_type,
     }
@@ -63,7 +63,7 @@ class CloudTemplate(Template):
     remote_console_type = Column(String)
     remote_console_http_path = Column(String)
 
-    __mapper_args__ = {"polymorphic_identity": "cloud", "polymorphic_load": "selectin"}
+    __mapper_args__ = {"polymorphic_identity": "cloud", "polymorphic_load": "selectin"}  # noqa: RUF012
 
 
 class DockerTemplate(Template):
@@ -88,7 +88,7 @@ class DockerTemplate(Template):
     cpus = Column(Float)
     custom_adapters = Column(JSON)
 
-    __mapper_args__ = {"polymorphic_identity": "docker", "polymorphic_load": "selectin"}
+    __mapper_args__ = {"polymorphic_identity": "docker", "polymorphic_load": "selectin"}  # noqa: RUF012
 
 
 class DynamipsTemplate(Template):
@@ -130,7 +130,7 @@ class DynamipsTemplate(Template):
     wic1 = Column(String)
     wic2 = Column(String)
 
-    __mapper_args__ = {"polymorphic_identity": "dynamips", "polymorphic_load": "selectin"}
+    __mapper_args__ = {"polymorphic_identity": "dynamips", "polymorphic_load": "selectin"}  # noqa: RUF012
 
 
 class EthernetHubTemplate(Template):
@@ -139,7 +139,7 @@ class EthernetHubTemplate(Template):
     template_id: Mapped[uuid.UUID] = template_id_column()
     ports_mapping = Column(JSON)
 
-    __mapper_args__ = {"polymorphic_identity": "ethernet_hub", "polymorphic_load": "selectin"}
+    __mapper_args__ = {"polymorphic_identity": "ethernet_hub", "polymorphic_load": "selectin"}  # noqa: RUF012
 
 
 class EthernetSwitchTemplate(Template):
@@ -149,7 +149,7 @@ class EthernetSwitchTemplate(Template):
     ports_mapping = Column(JSON)
     console_type = Column(String)
 
-    __mapper_args__ = {"polymorphic_identity": "ethernet_switch", "polymorphic_load": "selectin"}
+    __mapper_args__ = {"polymorphic_identity": "ethernet_switch", "polymorphic_load": "selectin"}  # noqa: RUF012
 
 
 class IOUTemplate(Template):
@@ -168,7 +168,7 @@ class IOUTemplate(Template):
     console_type = Column(String)
     console_auto_start = Column(Boolean)
 
-    __mapper_args__ = {"polymorphic_identity": "iou", "polymorphic_load": "selectin"}
+    __mapper_args__ = {"polymorphic_identity": "iou", "polymorphic_load": "selectin"}  # noqa: RUF012
 
 
 class QemuTemplate(Template):
@@ -214,7 +214,7 @@ class QemuTemplate(Template):
     options = Column(String)
     custom_adapters = Column(JSON)
 
-    __mapper_args__ = {"polymorphic_identity": "qemu", "polymorphic_load": "selectin"}
+    __mapper_args__ = {"polymorphic_identity": "qemu", "polymorphic_load": "selectin"}  # noqa: RUF012
 
 
 class VirtualBoxTemplate(Template):
@@ -236,7 +236,7 @@ class VirtualBoxTemplate(Template):
     console_auto_start = Column(Boolean)
     custom_adapters = Column(JSON)
 
-    __mapper_args__ = {"polymorphic_identity": "virtualbox", "polymorphic_load": "selectin"}
+    __mapper_args__ = {"polymorphic_identity": "virtualbox", "polymorphic_load": "selectin"}  # noqa: RUF012
 
 
 class VMwareTemplate(Template):
@@ -257,7 +257,7 @@ class VMwareTemplate(Template):
     console_auto_start = Column(Boolean)
     custom_adapters = Column(JSON)
 
-    __mapper_args__ = {"polymorphic_identity": "vmware", "polymorphic_load": "selectin"}
+    __mapper_args__ = {"polymorphic_identity": "vmware", "polymorphic_load": "selectin"}  # noqa: RUF012
 
 
 class VPCSTemplate(Template):
@@ -268,4 +268,4 @@ class VPCSTemplate(Template):
     console_type = Column(String)
     console_auto_start = Column(Boolean, default=False)
 
-    __mapper_args__ = {"polymorphic_identity": "vpcs", "polymorphic_load": "selectin"}
+    __mapper_args__ = {"polymorphic_identity": "vpcs", "polymorphic_load": "selectin"}  # noqa: RUF012

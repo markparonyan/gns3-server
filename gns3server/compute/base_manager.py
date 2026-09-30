@@ -462,7 +462,7 @@ class BaseManager:
         """
         s = os.path.split(searched_file)
 
-        for root, dirs, files in os.walk(directory):
+        for root, dirs, files in os.walk(directory):  # noqa: B007
             for file in files:
                 if s[1] == file and (s[0] == "" or root == os.path.join(directory, s[0])):
                     path = os.path.normpath(os.path.join(root, s[1]))

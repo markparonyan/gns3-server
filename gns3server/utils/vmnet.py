@@ -221,7 +221,7 @@ def vmnet_unix(args, vmnet_range_start, vmnet_range_end):
                 continue
             allocated_subnet = None
             for subnet in ipaddress.ip_network("172.16.0.0/16").subnets(prefixlen_diff=8):
-                subnet = str(subnet.network_address)
+                subnet = str(subnet.network_address)  # noqa: PLW2901
                 if subnet not in allocated_subnets:
                     allocated_subnet = subnet
                     allocated_subnets.append(allocated_subnet)

@@ -403,7 +403,7 @@ class VPCSCommands(BaseTool):
             ValueError: If device not found in topology or missing port
         """
         # Get GNS3 server host
-        gns3_host = get_gns3_server_host()
+        gns3_host = get_gns3_server_host()  # noqa: F841
 
         # Extract all device names from input
         device_names = [config["device_name"] for config in device_configs_list]

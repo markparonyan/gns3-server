@@ -104,7 +104,7 @@ async def _get_container_resource_stats(container_id: str) -> dict | None:
         Dictionary with memory, cpu, and pids, or None if failed
     """
     try:
-        result = subprocess.run(  # noqa: S603
+        result = subprocess.run(  # noqa: ASYNC221, S603
             ["docker", "stats", "--no-stream", "--format", "{{.MemUsage}}\t{{.CPUPerc}}\t{{.PIDs}}", container_id],  # noqa: S607
             capture_output=True,
             text=True,

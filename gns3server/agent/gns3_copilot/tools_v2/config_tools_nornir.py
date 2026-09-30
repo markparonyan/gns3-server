@@ -708,7 +708,7 @@ if __name__ == "__main__":
     for _i in range(0, 5):
         exe_results = exe_config._run(tool_input=input_paras)
         for result in exe_results:
-            for result in exe_results:
+            for result in exe_results:  # noqa: PLW2901
                 if result.get("status") == "failed":
                     failed_count += 1
 

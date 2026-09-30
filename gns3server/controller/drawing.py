@@ -104,7 +104,7 @@ class Drawing:
             href = "{http://www.w3.org/1999/xlink}href"
             elem = root.find("{http://www.w3.org/2000/svg}image")
             if elem.get(href, "").startswith("data:image/"):
-                changed = True
+                changed = True  # noqa: F841
                 data = elem.get(href, "")
                 extension = re.sub(r"[^a-z0-9]", "", data.split(";")[0].split("/")[1].lower())
 

@@ -67,7 +67,7 @@ def parse_version(version):
         if info == "." or len(info) == 0:
             continue
         try:
-            info = int(info)
+            info = int(info)  # noqa: PLW2901
             # We pad with zero to compare only on string
             # This avoid issue when comparing version with different length
             version.append(f"{info:06d}")
@@ -79,7 +79,7 @@ def parse_version(version):
                 version.append("000000")
             # We want rc to be at lower level than dev version
             if info == "rc":
-                info = "c"
+                info = "c"  # noqa: PLW2901
             version.append(info)
             release_type_found = True
     if release_type_found is False:

@@ -108,7 +108,7 @@ async def update_virtualbox_node(
     data = jsonable_encoder(node_data, exclude_unset=True)
     if "name" in data:
         name = data.pop("name")
-        vmname = data.pop("vmname", None)
+        vmname = data.pop("vmname", None)  # noqa: F841
         if name != node.name:
             oldname = node.name
             node.name = name
@@ -323,7 +323,8 @@ async def stream_pcap_file(
 
 @router.websocket("/{node_id}/console/ws")
 async def console_ws(
-    websocket: None | WebSocket = Depends(ws_compute_authentication), node: VirtualBoxVM = Depends(dep_node)
+    websocket: None | WebSocket = Depends(ws_compute_authentication),
+    node: VirtualBoxVM = Depends(dep_node),  # noqa: RUF036
 ) -> None:
     """
     Console WebSocket.

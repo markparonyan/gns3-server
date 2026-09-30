@@ -134,7 +134,7 @@ def convert_openai_to_langchain(msg: dict[str, Any]):
         ai_msg = AIMessage(content=content, id=msg.get("id"))
 
         # Restore tool calls if present
-        if "tool_calls" in msg and msg["tool_calls"]:
+        if msg.get("tool_calls"):
             tool_calls: list[ToolCall] = []
             for tc in msg["tool_calls"]:
                 tool_calls.append(

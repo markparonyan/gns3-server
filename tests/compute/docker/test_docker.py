@@ -356,7 +356,7 @@ async def test_docker_check_connection_docker_unsupported_version(vm):
         asyncio_patch("gns3server.compute.docker.Docker.query", return_value=response),
     ):
         vm._connected = False
-        with pytest.raises(DockerError) as e:
+        with pytest.raises(DockerError) as e:  # noqa: F841
             await vm._check_connection()
 
 

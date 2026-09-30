@@ -66,7 +66,7 @@ async def list_images(image_type):
         if os.path.commonprefix([directory, general_images_directory]) == general_images_directory:
             recurse = False
 
-        directory = os.path.normpath(directory)  # noqa: ASYNC240
+        directory = os.path.normpath(directory)  # noqa: ASYNC240, PLW2901
         for root, _, filenames in _os_walk(directory, recurse=recurse):
             for filename in filenames:
                 if filename in files:

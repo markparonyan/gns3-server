@@ -60,7 +60,7 @@ def test_get_dynamips_id(manager):
     assert manager.get_dynamips_id(project_1) == 2
     assert manager.get_dynamips_id(project_2) == 1
     with pytest.raises(DynamipsError):
-        for dynamips_id in range(1, 4098):
+        for dynamips_id in range(1, 4098):  # noqa: B007
             manager.get_dynamips_id(project_3)
 
 

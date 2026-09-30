@@ -38,7 +38,7 @@ class FileWatcher:
             paths = [paths]
         for path in paths:
             if not isinstance(path, str):
-                path = str(path)
+                path = str(path)  # noqa: PLW2901
             self._paths.append(path)
 
         self._callback = callback

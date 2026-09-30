@@ -220,7 +220,7 @@ class Project:
 
             # Only notify computes if variables actually changed and have content
             # None and empty list are semantically equivalent (no variables) and don't affect running nodes
-            if "variables" in kwargs and kwargs["variables"]:
+            if kwargs.get("variables"):
                 for compute in list(self._project_created_on_compute):
                     await compute.put(f"/projects/{self._id}", {"variables": self.variables})
 
@@ -1968,7 +1968,7 @@ class Project:
             # Group the prepared NIO entries by destination compute and send
             # each compute a single /nios/batch request.
             per_compute = {}  # compute -> list of {node_id, adapter_number, port_number, nio}
-            for link, entries in valid:
+            for link, entries in valid:  # noqa: B007
                 for node, adapter_number, port_number, nio_data in entries:
                     per_compute.setdefault(node.compute, []).append(
                         {
@@ -2042,13 +2042,13 @@ class Project:
             # Start all in the background without waiting for completion
             # we ignore errors because we want to let the user open
             # their project and fix it
-            asyncio.ensure_future(self.start_all())
+            asyncio.ensure_future(self.start_all())  # noqa: RUF006
 
     async def wait_loaded(self):
         """
         Wait until the project finish loading
         """
-        while self._loading:
+        while self._loading:  # noqa: ASYNC110
             await asyncio.sleep(0.5)
 
     async def duplicate(self, name=None, reset_mac_addresses=True):

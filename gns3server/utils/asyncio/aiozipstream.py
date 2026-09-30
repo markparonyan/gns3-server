@@ -337,7 +337,7 @@ class ZipFile(zipfile.ZipFile):
                 file_size = file_size + len(buf)
                 CRC = zipfile.crc32(buf, CRC) & 0xFFFFFFFF
                 if cmpr:
-                    buf = await self._run_in_executor(cmpr.compress, buf)
+                    buf = await self._run_in_executor(cmpr.compress, buf)  # noqa: PLW2901
                     compress_size = compress_size + len(buf)
                 yield self.fp.write(buf)
         else:  # we have an iterable
@@ -345,7 +345,7 @@ class ZipFile(zipfile.ZipFile):
                 file_size = file_size + len(buf)
                 CRC = zipfile.crc32(buf, CRC) & 0xFFFFFFFF
                 if cmpr:
-                    buf = await self._run_in_executor(cmpr.compress, buf)
+                    buf = await self._run_in_executor(cmpr.compress, buf)  # noqa: PLW2901
                     compress_size = compress_size + len(buf)
                 yield self.fp.write(buf)
 

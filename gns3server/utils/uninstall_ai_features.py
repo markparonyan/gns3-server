@@ -27,7 +27,7 @@ def _read_requirements(filename):
     packages = []
     with open(filepath) as f:
         for line in f:
-            line = line.strip()
+            line = line.strip()  # noqa: PLW2901
             if not line or line.startswith("#"):
                 continue
             package = line.split(">=")[0].split("==")[0].split("~=")[0]

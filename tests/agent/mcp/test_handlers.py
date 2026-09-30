@@ -439,7 +439,7 @@ class TestLink:
         with patch(f"{AH}._get_connector") as m:
             conn = _mock_conn({"link_id": "l1", "link_type": "ethernet", "nodes": []})
             m.return_value = conn
-            result = create_link_handler(
+            result = create_link_handler(  # noqa: F841
                 {
                     "project_id": "p1",
                     "nodes": ["n1", 0, 0, "n2", 0, 0],

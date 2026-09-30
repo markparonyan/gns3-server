@@ -135,7 +135,7 @@ class TestVirtualBoxNodesRoutes:
         with asyncio_patch("gns3server.compute.virtualbox.virtualbox_vm.VirtualBoxVM.adapter_add_nio_binding") as mock:
             response = await compute_client.post(url, json=params)
             assert mock.called
-            args, kwgars = mock.call_args
+            args, kwgars = mock.call_args  # noqa: RUF059
             assert args[0] == 0
 
         assert response.status_code == status.HTTP_201_CREATED
@@ -174,7 +174,7 @@ class TestVirtualBoxNodesRoutes:
         ) as mock:
             response = await compute_client.delete(url)
             assert mock.called
-            args, kwgars = mock.call_args
+            args, kwgars = mock.call_args  # noqa: RUF059
             assert args[0] == 0
             assert response.status_code == status.HTTP_204_NO_CONTENT
 

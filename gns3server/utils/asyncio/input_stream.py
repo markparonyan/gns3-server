@@ -380,7 +380,7 @@ class InputStream:
                     #      When this is removed, replace Enter=ControlJ by
                     #      Enter=ControlM in keys.py.
                     if c == "\r":
-                        c = "\n"
+                        c = "\n"  # noqa: PLW2901
                     self._input_parser.send(c)
 
     def flush(self):

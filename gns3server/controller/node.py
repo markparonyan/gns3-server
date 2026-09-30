@@ -79,7 +79,7 @@ def _extract_iol_startup_config_knob(environment):
 
 class Node:
     # These properties are used only on controller and are not forwarded to the compute
-    CONTROLLER_ONLY_PROPERTIES = [
+    CONTROLLER_ONLY_PROPERTIES = [  # noqa: RUF012
         "x",
         "y",
         "z",
@@ -407,7 +407,7 @@ class Node:
 
         self._symbol = val
         try:
-            self._width, self._height, filetype = self._project.controller.symbols.get_size(val)
+            self._width, self._height, filetype = self._project.controller.symbols.get_size(val)  # noqa: RUF059
         except (ValueError, OSError) as e:
             log.error(f"Could not set symbol: {e}")
             # If symbol is invalid we replace it by the default

@@ -83,7 +83,7 @@ class LLMModelConfigsRepository(BaseRepository):
         from gns3server.utils.encryption import encrypt
 
         config_to_store = config_data.copy()
-        if "api_key" in config_to_store and config_to_store["api_key"]:
+        if config_to_store.get("api_key"):
             try:
                 config_to_store["api_key"] = encrypt(config_to_store["api_key"])
             except Exception as e:
@@ -242,7 +242,7 @@ class LLMModelConfigsRepository(BaseRepository):
         from gns3server.utils.encryption import encrypt
 
         config_to_store = config_data.copy()
-        if "api_key" in config_to_store and config_to_store["api_key"]:
+        if config_to_store.get("api_key"):
             try:
                 config_to_store["api_key"] = encrypt(config_to_store["api_key"])
             except Exception as e:

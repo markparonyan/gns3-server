@@ -86,7 +86,7 @@ async def export_project(  # noqa: C901
     # Export the local files
     for root, dirs, files in os.walk(project._path, topdown=True, followlinks=False):
         try:
-            files = [f for f in files if _is_exportable(os.path.join(root, f), include_snapshots)]
+            files = [f for f in files if _is_exportable(os.path.join(root, f), include_snapshots)]  # noqa: PLW2901
             for file in files:
                 path = os.path.join(root, file)
                 if not os.path.islink(path):  # noqa: ASYNC240

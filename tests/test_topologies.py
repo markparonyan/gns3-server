@@ -72,7 +72,7 @@ def test_convert(directory, tmpdir):
         )
 
     # We should have the same file in after directory and the work directory
-    for root, dirs, files in os.walk(after_directory):
+    for root, dirs, files in os.walk(after_directory):  # noqa: B007
         for file in files:
             directory = os.path.relpath(root, after_directory)
             file_path = os.path.join(work_directory, directory, file)
@@ -92,7 +92,7 @@ def test_convert(directory, tmpdir):
                 )
 
     # Check if we don't have unexpected file in work directory
-    for root, dirs, files in os.walk(work_directory):
+    for root, dirs, files in os.walk(work_directory):  # noqa: B007
         for file in files:
             directory = os.path.relpath(root, work_directory)
             file_path = os.path.join(after_directory, directory, file)

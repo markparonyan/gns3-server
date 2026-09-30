@@ -77,7 +77,7 @@ class Docker(BaseManager):
             return VendorDockerVM
         environment = kwargs.get("environment") or ""
         for line in environment.splitlines():
-            line = line.strip().rstrip(",")
+            line = line.strip().rstrip(",")  # noqa: PLW2901
             if line.startswith("GNS3_IOL_RUNNER="):
                 return IOLDockerVM
             if line.startswith("GNS3_UNIX_SOCKET_NIO="):

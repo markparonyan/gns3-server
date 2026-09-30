@@ -57,7 +57,7 @@ class TemplatesRepository(BaseRepository):
     def configs_path(self) -> str:
         return os.path.join(os.getcwd(), "configs")
 
-    async def get_template(self, template_id: UUID) -> None | models.Template:
+    async def get_template(self, template_id: UUID) -> None | models.Template:  # noqa: RUF036
 
         query = (
             select(models.Template)
@@ -67,7 +67,7 @@ class TemplatesRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_template_by_name_and_version(self, name: str, version: str | None) -> None | models.Template:
+    async def get_template_by_name_and_version(self, name: str, version: str | None) -> None | models.Template:  # noqa: RUF036
 
         query = (
             select(models.Template)
@@ -77,7 +77,7 @@ class TemplatesRepository(BaseRepository):
         result = await self._db_session.execute(query)
         return result.scalars().first()
 
-    async def get_template_by_name(self, name: str) -> None | models.Template:
+    async def get_template_by_name(self, name: str) -> None | models.Template:  # noqa: RUF036
         """
         Return the first template with this name, regardless of version.
         """
@@ -164,7 +164,7 @@ class TemplatesRepository(BaseRepository):
             )
         return images[0] if images else None
 
-    async def add_image_to_template(self, template_id: UUID, image: models.Image) -> None | models.Template:
+    async def add_image_to_template(self, template_id: UUID, image: models.Image) -> None | models.Template:  # noqa: RUF036
         """
         Add an image to template.
         """
@@ -192,7 +192,7 @@ class TemplatesRepository(BaseRepository):
             await self._db_session.refresh(template_in_db)
             return template_in_db
 
-    async def remove_image_from_template(self, template_id: UUID, image: models.Image) -> None | models.Template:
+    async def remove_image_from_template(self, template_id: UUID, image: models.Image) -> None | models.Template:  # noqa: RUF036
         """
         Remove an image from a template.
         """

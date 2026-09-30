@@ -115,7 +115,7 @@ async def _check_process(process, termination_callback):
 def monitor_process(process, termination_callback):
     """Call termination_callback when a process dies"""
 
-    asyncio.ensure_future(_check_process(process, termination_callback))
+    asyncio.ensure_future(_check_process(process, termination_callback))  # noqa: RUF006
 
 
 async def wait_for_file_creation(path, timeout=60):
@@ -177,5 +177,5 @@ async def async_iterable_to_stream(async_iter, limit=65536):
         finally:
             reader.feed_eof()
 
-    asyncio.ensure_future(_feed())
+    asyncio.ensure_future(_feed())  # noqa: RUF006
     return reader

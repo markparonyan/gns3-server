@@ -24,7 +24,7 @@ from gns3server.utils.get_resource import get_resource
 
 def test_list(symbols_dir):
 
-    with open(os.path.join(symbols_dir, "linux.svg"), "w+") as f:
+    with open(os.path.join(symbols_dir, "linux.svg"), "w+") as f:  # noqa: F841
         pass
 
     symbols = Symbols()

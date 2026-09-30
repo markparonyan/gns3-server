@@ -364,7 +364,8 @@ async def stream_pcap_file(
 
 @router.websocket("/{node_id}/console/ws")
 async def console_ws(
-    websocket: None | WebSocket = Depends(ws_compute_authentication), node: DockerVM = Depends(dep_node)
+    websocket: None | WebSocket = Depends(ws_compute_authentication),
+    node: DockerVM = Depends(dep_node),  # noqa: RUF036
 ) -> None:
     """
     Console WebSocket.
@@ -376,7 +377,8 @@ async def console_ws(
 
 @router.websocket("/{node_id}/console/vnc")
 async def vnc_console_ws(
-    websocket: None | WebSocket = Depends(ws_compute_authentication), node: DockerVM = Depends(dep_node)
+    websocket: None | WebSocket = Depends(ws_compute_authentication),
+    node: DockerVM = Depends(dep_node),  # noqa: RUF036
 ) -> None:
     """
     VNC Console WebSocket.

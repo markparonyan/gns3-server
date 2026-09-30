@@ -159,7 +159,7 @@ class GNS3HuaweiTelnetCE(HuaweiBase):
             pass
 
         # Step 2: Send carriage returns and wait for prompt
-        for i in range(max_loops):
+        for i in range(max_loops):  # noqa: B007
             try:
                 # Send return to trigger prompt
                 self.write_channel(self.RETURN)

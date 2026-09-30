@@ -645,7 +645,7 @@ if __name__ == "__main__":
     for _i in range(0, 1):
         exe_results = exe_cmd._run(tool_input=device_commands)
         for result in exe_results:
-            for result in exe_results:
+            for result in exe_results:  # noqa: PLW2901
                 if result.get("status") == "failed":
                     failed_count += 1
 

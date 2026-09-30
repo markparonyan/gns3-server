@@ -320,7 +320,7 @@ class TestVPCSTelnetTelnetLogin(unittest.TestCase):
         instance.read_until_pattern = MagicMock(return_value="PC1>")
 
         # Call telnet_login
-        result = instance.telnet_login()
+        result = instance.telnet_login()  # noqa: F841
 
         # Verify read_until_pattern was called
         instance.read_until_pattern.assert_called_once()

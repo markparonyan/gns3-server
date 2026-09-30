@@ -149,7 +149,7 @@ async def test_project_delete_permission_issue():
     os.chmod(directory, 0)
     with pytest.raises(ComputeError):
         await project.delete()
-    os.chmod(directory, 700)  # noqa: S103
+    os.chmod(directory, 700)  # noqa: RUF064, S103
 
 
 @pytest.mark.asyncio
@@ -198,7 +198,7 @@ async def test_emit():
 
         project = Project(project_id=str(uuid4()))
         project.emit("test", {})
-        (action, event, context) = await queue.get(0.5)
+        (action, event, context) = await queue.get(0.5)  # noqa: RUF059
         assert action == "test"
         assert context["project_id"] == project.id
 

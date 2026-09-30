@@ -417,7 +417,7 @@ class Project:
         """
 
         files = []
-        for dirpath, dirnames, filenames in os.walk(self.path, followlinks=False):
+        for dirpath, dirnames, filenames in os.walk(self.path, followlinks=False):  # noqa: B007
             for filename in filenames:
                 if not filename.endswith(".ghost"):
                     path = os.path.relpath(dirpath, self.path)  # noqa: ASYNC240

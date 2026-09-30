@@ -245,7 +245,7 @@ def regenerate_topology_ids(topology, new_project_path, reset_mac_addresses=Fals
         node["node_id"] = new_node_id
         if reset_mac_addresses:
             if "properties" in node:
-                for prop, value in node["properties"].items():
+                for prop, value in node["properties"].items():  # noqa: B007
                     # reset the MAC address
                     if prop in ("mac_addr", "mac_address"):
                         node["properties"][prop] = None
@@ -287,7 +287,7 @@ async def _move_files_to_compute(compute, project_id, directory, files_path):
 
     location = os.path.join(directory, files_path)
     if os.path.exists(location):  # noqa: ASYNC240
-        for dirpath, dirnames, filenames in os.walk(location, followlinks=False):
+        for dirpath, dirnames, filenames in os.walk(location, followlinks=False):  # noqa: B007
             for filename in filenames:
                 path = os.path.join(dirpath, filename)
                 if os.path.islink(path):  # noqa: ASYNC240
@@ -317,7 +317,7 @@ async def _import_images(controller, images_path):
 
     image_dir = controller.images_path()
     root = images_path
-    for dirpath, dirnames, filenames in os.walk(root, followlinks=False):
+    for dirpath, dirnames, filenames in os.walk(root, followlinks=False):  # noqa: B007
         for filename in filenames:
             path = os.path.join(dirpath, filename)
             dst = os.path.join(image_dir, os.path.relpath(path, root))  # noqa: ASYNC240
@@ -331,7 +331,7 @@ async def _import_images(controller, images_path):
                         # IOU images must start with the ELF magic number, be 32-bit or 64-bit, little endian and have an ELF version of 1
                         if elf_header_start == b"\x7fELF\x01\x01\x01" or elf_header_start == b"\x7fELF\x02\x01\x01":
                             os.chmod(dst, stat.S_IWRITE | stat.S_IREAD | stat.S_IEXEC)
-                except OSError as e:
+                except OSError as e:  # noqa: F841
                     continue
 
 
@@ -381,7 +381,7 @@ async def update_snapshots(snapshots_dir, project_path, project_name, project_id
             # write everything back to the original snapshot file
             try:
                 with aiozipstream.ZipFile(compression=zipfile_zstd.ZIP_STORED) as zstream:
-                    for root, dirs, files in os.walk(tmpdir, topdown=True, followlinks=False):
+                    for root, dirs, files in os.walk(tmpdir, topdown=True, followlinks=False):  # noqa: B007
                         for file in files:
                             path = os.path.join(root, file)
                             zstream.write(path, os.path.relpath(path, tmpdir))  # noqa: ASYNC240

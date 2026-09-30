@@ -612,7 +612,7 @@ class QemuVM(BaseNode):
         """
 
         self._ethernet_adapters.clear()
-        for adapter_number in range(0, adapters):
+        for adapter_number in range(0, adapters):  # noqa: B007
             self._ethernet_adapters.append(EthernetAdapter())
 
         log.debug(f'QEMU VM "{self._name}" [{self._id}]: number of Ethernet adapters changed to {adapters}')
@@ -2337,7 +2337,7 @@ class QemuVM(BaseNode):
             ]
             command_string = " ".join(shlex.quote(s) for s in command)
             log.debug(f"Starting swtpm (TPM emulator) with: {command_string}")
-            self._swtpm_process = subprocess.Popen(command, cwd=self.working_dir)  # noqa: S603
+            self._swtpm_process = subprocess.Popen(command, cwd=self.working_dir)  # noqa: ASYNC220, S603
             log.debug("swtpm (TPM emulator) has started")
         except (OSError, subprocess.SubprocessError) as e:
             raise QemuError(f"Could not start swtpm (TPM emulator): {e}") from e
@@ -2384,7 +2384,7 @@ class QemuVM(BaseNode):
         pci_devices_reserved = 32
         pci_bridges_created = 0
         pci_device_id = pci_devices_reserved
-        for adapter_number, adapter in enumerate(self._ethernet_adapters):
+        for adapter_number, adapter in enumerate(self._ethernet_adapters):  # noqa: B007
             mac = int_to_macaddress(macaddress_to_int(self._mac_address) + adapter_number)
 
             # use a local UDP tunnel to connect to uBridge instead
@@ -2495,7 +2495,7 @@ class QemuVM(BaseNode):
 
         drives = ["a", "b", "c", "d"]
         qemu_img_path = self._get_qemu_img()
-        for disk_index, drive in enumerate(drives):
+        for disk_index, drive in enumerate(drives):  # noqa: B007
             disk_image = getattr(self, f"_hd{drive}_disk_image")
             if not disk_image:
                 continue
@@ -2532,7 +2532,7 @@ class QemuVM(BaseNode):
 
         drives = ["a", "b", "c", "d"]
         qemu_img_path = self._get_qemu_img()
-        for disk_index, drive in enumerate(drives):
+        for disk_index, drive in enumerate(drives):  # noqa: B007
             disk_image = getattr(self, f"_hd{drive}_disk_image")
             if not disk_image:
                 continue

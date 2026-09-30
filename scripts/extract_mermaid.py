@@ -47,7 +47,7 @@ def _discover_chrome() -> str | None:
     global DEFAULT_CHROME_PATH  # noqa: PLW0603
     if not os.path.exists(PUPPETEER_CACHE):
         return None
-    for root, dirs, files in os.walk(PUPPETEER_CACHE):
+    for root, dirs, files in os.walk(PUPPETEER_CACHE):  # noqa: B007
         for f in files:
             if f == "chrome" and "chrome-linux64" in root:
                 DEFAULT_CHROME_PATH = os.path.join(root, f)

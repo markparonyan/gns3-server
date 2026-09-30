@@ -110,7 +110,7 @@ class BaseTable(Base):
         DateTime, server_default=func.current_timestamp(), onupdate=func.current_timestamp()
     )
 
-    __mapper_args__ = {"eager_defaults": True}
+    __mapper_args__ = {"eager_defaults": True}  # noqa: RUF012
 
 
 def generate_uuid():

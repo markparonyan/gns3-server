@@ -622,7 +622,7 @@ async def test_list_nodes(controller):
     response.json = {"console": 2048}
     compute.post = AsyncioMagicMock(return_value=response)
 
-    vm = await project.add_node(compute, "test", None, node_type="vpcs", properties={"startup_config": "test.cfg"})
+    vm = await project.add_node(compute, "test", None, node_type="vpcs", properties={"startup_config": "test.cfg"})  # noqa: F841
     assert len(project.nodes) == 1
     assert isinstance(project.nodes, dict)
 
@@ -898,12 +898,12 @@ async def test_duplicate(project, controller):
     response.json = {"console": 2048}
     compute.post = AsyncioMagicMock(return_value=response)
 
-    remote_vpcs = await project.add_node(
+    remote_vpcs = await project.add_node(  # noqa: F841
         compute, "test", None, node_type="vpcs", properties={"startup_config": "test.cfg"}
     )
 
     # We allow node not allowed for standard import / export
-    remote_virtualbox = await project.add_node(
+    remote_virtualbox = await project.add_node(  # noqa: F841
         compute, "test", None, node_type="vmware", properties={"startup_config": "test.cfg"}
     )
 
@@ -988,7 +988,7 @@ async def test_start_all(project):
     response.json = {"console": 2048}
     compute.post = AsyncioMagicMock(return_value=response)
 
-    for node_i in range(0, 10):
+    for node_i in range(0, 10):  # noqa: B007
         await project.add_node(compute, "test", None, node_type="vpcs", properties={"startup_config": "test.cfg"})
 
     compute.post = AsyncioMagicMock()
@@ -1005,7 +1005,7 @@ async def test_stop_all(project):
     response.json = {"console": 2048}
     compute.post = AsyncioMagicMock(return_value=response)
 
-    for node_i in range(0, 10):
+    for node_i in range(0, 10):  # noqa: B007
         await project.add_node(compute, "test", None, node_type="vpcs", properties={"startup_config": "test.cfg"})
 
     compute.post = AsyncioMagicMock()
@@ -1035,7 +1035,7 @@ async def test_suspend_all(project):
     response.json = {"console": 2048}
     compute.post = AsyncioMagicMock(return_value=response)
 
-    for node_i in range(0, 10):
+    for node_i in range(0, 10):  # noqa: B007
         await project.add_node(compute, "test", None, node_type="vpcs", properties={"startup_config": "test.cfg"})
 
     compute.post = AsyncioMagicMock()
@@ -1064,7 +1064,7 @@ async def test_console_reset_all(project):
     response.json = {"console": 2048, "console_type": "telnet"}
     compute.post = AsyncioMagicMock(return_value=response)
 
-    for node_i in range(0, 10):
+    for node_i in range(0, 10):  # noqa: B007
         await project.add_node(compute, "test", None, node_type="vpcs", properties={"startup_config": "test.cfg"})
 
     compute.post = AsyncioMagicMock()

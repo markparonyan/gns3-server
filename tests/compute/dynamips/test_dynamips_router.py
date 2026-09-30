@@ -57,7 +57,7 @@ def test_convert_project_before_2_0_0_b3(compute_project, manager):
     open(os.path.join(wdir, "configs", "i2_startup-config.cfg"), "w+").close()
     open(os.path.join(wdir, "c7200_i1_nvram"), "w+").close()
     open(os.path.join(wdir, "c7200_i2_nvram"), "w+").close()
-    router = Router("test", node_id, compute_project, manager, dynamips_id=1)
+    router = Router("test", node_id, compute_project, manager, dynamips_id=1)  # noqa: F841
     assert os.path.exists(os.path.join(wdir, node_id, "configs", "i1_startup-config.cfg"))
     assert not os.path.exists(os.path.join(wdir, node_id, "configs", "i2_startup-config.cfg"))
     assert os.path.exists(os.path.join(wdir, node_id, "c7200_i1_nvram"))

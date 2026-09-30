@@ -139,8 +139,8 @@ class IOUVM(BaseNode):
     # Class-level caches shared across all IOU VM instances using the same image.
     # These avoid redundant subprocess calls during project loading when multiple
     # IOU nodes use the same image.
-    _loader_cache: dict[str, list[str]] = {}  # image path -> loader command list
-    _default_values_cache: dict[str, tuple[int, int]] = {}  # image path -> (ram, nvram)
+    _loader_cache: dict[str, list[str]] = {}  # image path -> loader command list  # noqa: RUF012
+    _default_values_cache: dict[str, tuple[int, int]] = {}  # image path -> (ram, nvram)  # noqa: RUF012
 
     """
     IOU VM implementation.
@@ -1313,7 +1313,7 @@ class IOUVM(BaseNode):
         """IOU override: toggle every (name, link_id) entry via ``iol_bridge``."""
 
         state = "on" if enabled else "off"
-        for (n, lid), location in list(self._marker_filter_bridges.items()):
+        for (n, lid), location in list(self._marker_filter_bridges.items()):  # noqa: B007
             if n == name:
                 await self._ubridge_send(f"iol_bridge enable_packet_filter {location} {name} {state}")
 

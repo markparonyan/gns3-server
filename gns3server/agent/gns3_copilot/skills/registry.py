@@ -380,7 +380,7 @@ def get_skill(  # noqa: C901
     skill = SKILLS_REGISTRY.get(device_type, {})
 
     if not skill:
-        for did, s in SKILLS_REGISTRY.items():
+        for did, s in SKILLS_REGISTRY.items():  # noqa: B007
             if s.get("name", "").lower() == device_type.lower():
                 skill = s
                 break

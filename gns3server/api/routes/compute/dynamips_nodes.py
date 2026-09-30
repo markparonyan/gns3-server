@@ -308,7 +308,8 @@ async def duplicate_router(
 
 @router.websocket("/{node_id}/console/ws")
 async def console_ws(
-    websocket: None | WebSocket = Depends(ws_compute_authentication), node: Router = Depends(dep_node)
+    websocket: None | WebSocket = Depends(ws_compute_authentication),
+    node: Router = Depends(dep_node),  # noqa: RUF036
 ) -> None:
     """
     Console WebSocket.

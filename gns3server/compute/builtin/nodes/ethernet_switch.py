@@ -103,7 +103,7 @@ class EthernetSwitch(BaseNode):
         port_number = 0
         normalized = []
         for port in ports:
-            port = dict(port)
+            port = dict(port)  # noqa: PLW2901
             port["name"] = f"Ethernet{port_number}"
             port["port_number"] = port_number
             normalized.append(port)

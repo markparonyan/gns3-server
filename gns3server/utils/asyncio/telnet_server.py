@@ -252,7 +252,7 @@ class AsyncioTelnetServer:
     def _handle_naws(self, writer, columns, rows):
         if not self._naws:
             return
-        asyncio.create_task(self._dispatch_window_size(writer, columns, rows))
+        asyncio.create_task(self._dispatch_window_size(writer, columns, rows))  # noqa: RUF006
 
     async def _dispatch_window_size(self, writer, columns, rows):
         async with self._connections_lock:

@@ -43,12 +43,12 @@ def validate_bpf_syntax(bpf_expression: str) -> dict[str, Any]:
             # Skip "Warning: assuming Ethernet" lines, keep only error lines
             error_lines = []
             for line in result.stderr.split("\n"):
-                line = line.strip()
+                line = line.strip()  # noqa: PLW2901
                 if line and not line.startswith("Warning:"):
                     # Strip "tcpdump: " prefix
                     for prefix in ["tcpdump: "]:
                         if line.startswith(prefix):
-                            line = line[len(prefix) :]
+                            line = line[len(prefix) :]  # noqa: PLW2901
                     error_lines.append(line)
             error_msg = " ".join(error_lines) if error_lines else "Invalid BPF expression"
             log.warning("BPF syntax validation failed: %s", error_msg)
@@ -116,11 +116,11 @@ def validate_filter_parameters(filter_type: str, values: list[Any]) -> None:
             # Validate BPF syntax using tshark (same method as gns3_copilot)
             # The value may be a multi-line string; each line becomes a
             # separate ubridge filter. Validate each line individually.
-            value = value.strip()
+            value = value.strip()  # noqa: PLW2901
             if value:
                 lines = value.split("\n")
                 for line_num, line in enumerate(lines):
-                    line = line.strip()
+                    line = line.strip()  # noqa: PLW2901
                     if not line:
                         continue
                     bpf_result = validate_bpf_syntax(line)
@@ -133,7 +133,7 @@ def validate_filter_parameters(filter_type: str, values: list[Any]) -> None:
             # Integer parameter validation
             try:
                 if isinstance(value, str):
-                    value = value.strip()
+                    value = value.strip()  # noqa: PLW2901
                     int_value = int(value)
                 else:
                     int_value = int(value)
@@ -184,7 +184,7 @@ def filter_inactive_filters(filters: dict[str, list[Any]]) -> dict[str, list[Any
                 normalized_values.append(value.strip("\n "))
             else:
                 normalized_values.append(int(value))
-        values = normalized_values
+        values = normalized_values  # noqa: PLW2901
 
         # Skip empty filters after normalization
         if len(values) == 0:

@@ -303,7 +303,7 @@ class SkillsLoader:
             commands = []
             with open(config_file, encoding="utf-8") as f:
                 for line in f:
-                    line = line.strip()
+                    line = line.strip()  # noqa: PLW2901
                     if not line or line.startswith("#"):
                         continue
                     commands.append(line.lower())

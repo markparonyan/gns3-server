@@ -84,7 +84,7 @@ async def test_update(drawing, project, controller):
 
     await drawing.update(x=12, svg="<svg><rect></rect></svg>")
     assert drawing.x == 12
-    args, kwargs = controller._notification.project_emit.call_args
+    args, kwargs = controller._notification.project_emit.call_args  # noqa: RUF059
     assert args[0] == "drawing.updated"
     # JSON
     assert args[1]["x"] == 12
@@ -117,7 +117,7 @@ def test_image_svg(project):
         '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="128" width="128">\n'
     )
 
-    for i in range(0, 1000):
+    for i in range(0, 1000):  # noqa: B007
         svg += '<rect width="100"></rect>'
     svg += "</svg>"
 

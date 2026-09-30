@@ -647,7 +647,7 @@ class TestQemuNodesRoutes:
             )
             assert response.status_code == status.HTTP_204_NO_CONTENT
 
-            args, kwargs = qemu_img.call_args
+            args, kwargs = qemu_img.call_args  # noqa: RUF059
             assert args == (
                 fake_qemu_img_binary,
                 "create",
@@ -743,7 +743,7 @@ class TestQemuNodesRoutes:
             assert response.status_code == status.HTTP_204_NO_CONTENT
 
             assert qemu_img.called
-            args, kwargs = qemu_img.call_args
+            args, kwargs = qemu_img.call_args  # noqa: RUF059
             assert args == (
                 fake_qemu_img_binary,
                 "resize",

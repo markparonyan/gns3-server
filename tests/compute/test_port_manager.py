@@ -30,7 +30,7 @@ def test_reserve_tcp_port():
     pm = PortManager()
     project = Project(project_id=str(uuid.uuid4()))
     pm.reserve_tcp_port(2001, project)
-    with patch("gns3server.compute.project.Project.emit") as mock_emit:
+    with patch("gns3server.compute.project.Project.emit") as mock_emit:  # noqa: F841
         port = pm.reserve_tcp_port(2001, project)
         assert port != 2001
 
@@ -39,7 +39,7 @@ def test_reserve_tcp_port_outside_range():
 
     pm = PortManager()
     project = Project(project_id=str(uuid.uuid4()))
-    with patch("gns3server.compute.project.Project.emit") as mock_emit:
+    with patch("gns3server.compute.project.Project.emit") as mock_emit:  # noqa: F841
         port = pm.reserve_tcp_port(80, project)
         assert port != 80
 
@@ -201,7 +201,7 @@ def test_find_unused_port():
 def test_find_unused_port_invalid_range():
 
     with pytest.raises(HTTPException):
-        p = PortManager().find_unused_port(10000, 1000)
+        p = PortManager().find_unused_port(10000, 1000)  # noqa: F841
 
 
 def test_set_console_host(config):

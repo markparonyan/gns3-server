@@ -354,7 +354,7 @@ class AgentService:
         tool_call_accumulator = ToolCallStreamAccumulator()
 
         # Track if stream was aborted
-        stream_aborted = False
+        stream_aborted = False  # noqa: F841
 
         # Stream events
         try:

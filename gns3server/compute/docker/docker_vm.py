@@ -634,7 +634,7 @@ class DockerVM(BaseNode):
                 # Strip a trailing comma like the vendor-class parser does, so
                 # "GNS3_MASK_UDEV=1," composed from a comma-separated list
                 # still activates (values are never comma-separated here).
-                line = line.strip().rstrip(",")
+                line = line.strip().rstrip(",")  # noqa: PLW2901
                 if line.startswith("GNS3_SHM_SIZE="):
                     try:
                         params["HostConfig"]["ShmSize"] = int(line.split("=", 1)[1].strip()) * (1024 * 1024)
@@ -668,7 +668,7 @@ class DockerVM(BaseNode):
                     # Generic form: comma/semicolon-separated unit names to mask
                     # the same way (bind /dev/null over /etc/systemd/system/<unit>).
                     for unit in line.split("=", 1)[1].replace(";", ",").split(","):
-                        unit = unit.strip()
+                        unit = unit.strip()  # noqa: PLW2901
                         if unit and "/" not in unit and ".." not in unit:
                             params["HostConfig"]["Mounts"].append(
                                 {
@@ -734,7 +734,7 @@ class DockerVM(BaseNode):
 
         if self._environment:
             for env in self._environment.strip().split("\n"):
-                env = env.strip()
+                env = env.strip()  # noqa: PLW2901
                 if env.split("=")[0] == "":
                     self.project.emit(
                         "log.warning", {"message": f"{self.name} has invalid environment variable: {env}"}
@@ -1330,7 +1330,7 @@ class DockerVM(BaseNode):
         )
         input_stream.ws = self._console_websocket
         output_stream.feed_data(self.name.encode() + b" console is now available... Press RETURN to get started.\r\n")
-        asyncio.ensure_future(self._read_console_output(self._console_websocket, output_stream))
+        asyncio.ensure_future(self._read_console_output(self._console_websocket, output_stream))  # noqa: RUF006
 
     async def _read_console_output(self, ws, out):
         """
@@ -1924,7 +1924,7 @@ class DockerVM(BaseNode):
             return
 
         self._ethernet_adapters.clear()
-        for adapter_number in range(0, adapters):
+        for adapter_number in range(0, adapters):  # noqa: B007
             self._ethernet_adapters.append(EthernetAdapter())
 
         log.debug(f'Docker container "{self._name}" [{self._id}]: number of Ethernet adapters changed to {adapters}')

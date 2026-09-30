@@ -51,7 +51,7 @@ class ProjectAgentManager:
 
     _instance: Optional["ProjectAgentManager"] = None
     _lock: asyncio.Lock = asyncio.Lock()
-    _agents: dict[str, AgentService] = {}
+    _agents: dict[str, AgentService] = {}  # noqa: RUF012
 
     def __new__(cls):
         if cls._instance is None:

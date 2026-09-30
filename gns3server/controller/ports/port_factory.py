@@ -65,7 +65,7 @@ class StandardPortFactory:
         else:
             ethernet_adapters = properties.get("adapters", 1)
 
-        for adapter_number in range(adapter_number, ethernet_adapters + adapter_number):
+        for adapter_number in range(adapter_number, ethernet_adapters + adapter_number):  # noqa: B020
             custom_adapter_settings = {}
             if custom_adapters:
                 for custom_adapter in custom_adapters:
@@ -111,7 +111,7 @@ class StandardPortFactory:
             adapter_number += 1
 
         if "serial_adapters" in properties:
-            for adapter_number in range(adapter_number, properties["serial_adapters"] + adapter_number):
+            for adapter_number in range(adapter_number, properties["serial_adapters"] + adapter_number):  # noqa: B020
                 for port_number in range(0, port_by_adapter):
                     ports.append(
                         PortFactory(
@@ -146,7 +146,7 @@ class DynamipsPortFactory:
     Create port for dynamips devices
     """
 
-    ADAPTER_MATRIX = {
+    ADAPTER_MATRIX = {  # noqa: RUF012
         "C1700-MB-1FE": {"nb_ports": 1, "port": FastEthernetPort},
         "C1700-MB-WIC1": {"nb_ports": 0, "port": None},
         "C2600-MB-1E": {"nb_ports": 1, "port": EthernetPort},
@@ -174,7 +174,7 @@ class DynamipsPortFactory:
         "PA-POS-OC3": {"nb_ports": 1, "port": POSPort},
     }
 
-    WIC_MATRIX = {
+    WIC_MATRIX = {  # noqa: RUF012
         "WIC-1ENET": {"nb_ports": 1, "port": EthernetPort},
         "WIC-1T": {"nb_ports": 1, "port": SerialPort},
         "WIC-2T": {"nb_ports": 2, "port": SerialPort},
@@ -192,7 +192,7 @@ class DynamipsPortFactory:
                 if properties[name]:
                     port_class = cls.ADAPTER_MATRIX[properties[name]]["port"]
                     for port_number in range(0, cls.ADAPTER_MATRIX[properties[name]]["nb_ports"]):
-                        name = f"{port_class.long_name_type()}{adapter_number}/{port_number}"
+                        name = f"{port_class.long_name_type()}{adapter_number}/{port_number}"  # noqa: PLW2901
                         port = port_class(name, adapter_number, adapter_number, port_number)
                         port.short_name = f"{port_class.short_name_type()}{adapter_number}/{port_number}"
                         ports.append(port)
@@ -200,8 +200,8 @@ class DynamipsPortFactory:
             elif name.startswith("wic"):
                 if properties[name]:
                     port_class = cls.WIC_MATRIX[properties[name]]["port"]
-                    for port_number in range(0, cls.WIC_MATRIX[properties[name]]["nb_ports"]):
-                        name = f"{port_class.long_name_type()}{0}/{display_wic_port_number}"
+                    for port_number in range(0, cls.WIC_MATRIX[properties[name]]["nb_ports"]):  # noqa: B007
+                        name = f"{port_class.long_name_type()}{0}/{display_wic_port_number}"  # noqa: PLW2901
                         port = port_class(name, 0, 0, wic_port_number)
                         port.short_name = f"{port_class.short_name_type()}{0}/{display_wic_port_number}"
                         ports.append(port)

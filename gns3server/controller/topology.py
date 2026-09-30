@@ -115,7 +115,7 @@ def project_to_topology(project):
             data["topology"]["drawings"].append(drawing)
     for compute in project.computes:
         if isinstance(compute, Compute):
-            compute = compute.asdict(topology_dump=True)
+            compute = compute.asdict(topology_dump=True)  # noqa: PLW2901
             if compute["compute_id"] not in (
                 "vm",
                 "local",
@@ -766,7 +766,7 @@ def _convert_snapshots(topo_dir):
                 if is_gns3_topo:
                     snapshot_arc = os.path.join(new_snapshots_dir, snapshot + ".gns3project")
                     with zipfile.ZipFile(snapshot_arc, "w", allowZip64=True) as myzip:
-                        for root, dirs, files in os.walk(snapshot_dir):
+                        for root, dirs, files in os.walk(snapshot_dir):  # noqa: B007
                             for file in files:
                                 myzip.write(
                                     os.path.join(root, file),

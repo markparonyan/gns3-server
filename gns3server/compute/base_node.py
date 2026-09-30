@@ -631,9 +631,9 @@ class BaseNode:
                     msg = await websocket.receive()
                     if msg["type"] == "websocket.disconnect":
                         break
-                    if "text" in msg and msg["text"]:
+                    if msg.get("text"):
                         data = msg["text"].encode()
-                    elif "bytes" in msg and msg["bytes"]:
+                    elif msg.get("bytes"):
                         size = _parse_terminal_size_message(msg["bytes"])
                         if size is not None:
                             log.debug(
@@ -1139,7 +1139,7 @@ class BaseNode:
         for filter_type, values in filters.items():
             if isinstance(values[0], str):
                 for line in values[0].split("\n"):
-                    line = line.strip()
+                    line = line.strip()  # noqa: PLW2901
                     yield "{filter_name} {filter_type} {filter_value}".format(
                         filter_name="filter" + str(i),
                         filter_type=filter_type,
@@ -1411,7 +1411,7 @@ class BaseNode:
         """
 
         state = "on" if enabled else "off"
-        for (n, lid), bridge_name in list(self._marker_filter_bridges.items()):
+        for (n, lid), bridge_name in list(self._marker_filter_bridges.items()):  # noqa: B007
             if n == name:
                 await self._ubridge_send(f"bridge enable_packet_filter {bridge_name} {name} {state}")
 

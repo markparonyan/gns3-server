@@ -103,7 +103,7 @@ class RbacRepository(BaseRepository):
         await self._db_session.commit()
         return cast(CursorResult, result).rowcount > 0
 
-    async def add_privilege_to_role(self, role_id: UUID, privilege: models.Privilege) -> None | models.Role:
+    async def add_privilege_to_role(self, role_id: UUID, privilege: models.Privilege) -> None | models.Role:  # noqa: RUF036
         """
         Add a privilege to a role.
         """
@@ -126,7 +126,7 @@ class RbacRepository(BaseRepository):
         await self._db_session.refresh(role_db)
         return role_db
 
-    async def remove_privilege_from_role(self, role_id: UUID, privilege: models.Privilege) -> None | models.Role:
+    async def remove_privilege_from_role(self, role_id: UUID, privilege: models.Privilege) -> None | models.Role:  # noqa: RUF036
         """
         Remove a privilege from a role.
         """
@@ -290,7 +290,7 @@ class RbacRepository(BaseRepository):
             path = "/".join(path_components[:i])
             if not path:
                 path = "/"
-            for ace_path, ace_propagate, ace_allowed, ace_privilege in aces:
+            for ace_path, ace_propagate, ace_allowed, ace_privilege in aces:  # noqa: B007
                 if ace_path == path:
                     if not ace_allowed:
                         raise PermissionError(f"Permission denied for {path}")
@@ -304,7 +304,7 @@ class RbacRepository(BaseRepository):
         """
 
         pool_resources = []
-        for ace_path, ace_propagate, ace_allowed, ace_privilege in aces:
+        for ace_path, ace_propagate, ace_allowed, ace_privilege in aces:  # noqa: B007
             if ace_path.startswith("/pool"):
                 resource_pool_id = ace_path.split("/")[2]
                 query = (

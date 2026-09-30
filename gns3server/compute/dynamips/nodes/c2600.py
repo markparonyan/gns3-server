@@ -50,7 +50,7 @@ class C2600(Router):
 
     # adapters to insert by default corresponding the
     # chosen chassis.
-    integrated_adapters = {
+    integrated_adapters = {  # noqa: RUF012
         "2610": C2600_MB_1E,
         "2611": C2600_MB_2E,
         "2620": C2600_MB_1FE,

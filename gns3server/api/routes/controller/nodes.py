@@ -685,9 +685,9 @@ async def ws_console(  # noqa: C901
                 msg = await websocket.receive()
                 if msg["type"] == "websocket.disconnect":
                     break
-                if "text" in msg and msg["text"]:
+                if msg.get("text"):
                     await ws_console_compute.send_str(msg["text"])
-                elif "bytes" in msg and msg["bytes"]:
+                elif msg.get("bytes"):
                     await ws_console_compute.send_bytes(msg["bytes"])
         except WebSocketDisconnect:
             pass

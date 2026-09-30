@@ -48,7 +48,7 @@ def test_parse_arguments(capsys, config, tmpdir):
     server_config = config.settings.Server
     with pytest.raises(SystemExit):
         parse_arguments(server, ["--fail"])
-    out, err = capsys.readouterr()
+    out, err = capsys.readouterr()  # noqa: RUF059
     assert "usage" in err
     assert "fail" in err
     assert "unrecognized arguments" in err

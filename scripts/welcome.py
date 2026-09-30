@@ -329,7 +329,7 @@ Images and projects are located in /opt/gns3
     def check_internet_connectivity(self):
         self.display.pause("Please wait...\n\n")
         try:
-            response = urllib.request.urlopen("http://pypi.python.org/", timeout=5)
+            response = urllib.request.urlopen("http://pypi.python.org/", timeout=5)  # noqa: F841
         except urllib.request.URLError as err:
             self.display.infobox(f"Can't connect to Internet (pypi.python.org): {err!s}")
             time.sleep(15)

@@ -59,7 +59,7 @@ class RuijieTelnetEnhanced(RuijieOSBase):
 
     # Interactive command patterns that trigger [yes/no] prompts
     # These are commands that commonly require confirmation
-    INTERACTIVE_PATTERNS = [
+    INTERACTIVE_PATTERNS = [  # noqa: RUF012
         re.compile(r"^router-id\s+", re.IGNORECASE),  # OSPF router-id
         re.compile(r"^erase\s+", re.IGNORECASE),  # erase startup-config
         re.compile(r"^delete\s+", re.IGNORECASE),  # delete files

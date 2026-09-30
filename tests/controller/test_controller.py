@@ -232,7 +232,7 @@ async def test_add_compute(controller):
 async def test_addDuplicateCompute(controller):
 
     controller._notification = MagicMock()
-    c = await controller.add_compute(compute_id="test1", name="Test", connect=False)
+    c = await controller.add_compute(compute_id="test1", name="Test", connect=False)  # noqa: F841
     assert len(controller.computes) == 1
     with pytest.raises(ControllerError):
         await controller.add_compute(compute_id="test2", name="Test", connect=False)

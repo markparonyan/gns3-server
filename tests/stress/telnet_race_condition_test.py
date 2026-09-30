@@ -139,7 +139,7 @@ async def rapid_fire_client(
     fail_count = 0
 
     # Cisco IOS commands for IOU-L3 that trigger broadcast output
-    ios_commands = [
+    ios_commands = [  # noqa: F841
         "show ip interface brief",
         "show ip route",
         "show running-config",

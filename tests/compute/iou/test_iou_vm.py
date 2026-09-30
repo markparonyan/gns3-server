@@ -172,7 +172,7 @@ async def test_start_with_iourc(vm, tmpdir, config):
         mock_process.communicate = AsyncioMagicMock(return_value=(None, None))
         await vm.start()
         assert vm.is_running()
-        arsgs, kwargs = exec_mock.call_args
+        arsgs, kwargs = exec_mock.call_args  # noqa: RUF059
         assert kwargs["env"]["IOURC"] == fake_file
 
 

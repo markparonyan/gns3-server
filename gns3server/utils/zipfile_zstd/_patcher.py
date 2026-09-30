@@ -3,7 +3,7 @@ from typing import Any
 
 
 class patch:
-    originals: dict[str, Any] = {}
+    originals: dict[str, Any] = {}  # noqa: RUF012
 
     def __init__(self, host, name):
         self.host = host

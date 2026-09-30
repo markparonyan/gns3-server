@@ -65,7 +65,7 @@ async def test_binary_list(monkeypatch, tmpdir):
     with asyncio_patch(
         "gns3server.compute.qemu.subprocess_check_output",
         return_value="QEMU emulator version 2.2.0, Copyright (c) 2003-2008 Fabrice Bellard",
-    ) as mock:
+    ) as mock:  # noqa: F841
         version = "2.2.0"
 
         qemus = await Qemu.binary_list()

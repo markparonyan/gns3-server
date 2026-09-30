@@ -193,7 +193,7 @@ async def test_termination_callback(vm):
 
         await queue.get(1)  # Ping
 
-        (action, event, kwargs) = await queue.get(1)
+        (action, event, kwargs) = await queue.get(1)  # noqa: RUF059
         assert action == "node.updated"
         assert event == vm
 
@@ -217,7 +217,7 @@ async def test_termination_callback_error(vm, tmpdir):
         assert action == "node.updated"
         assert event == vm
 
-        (action, event, kwargs) = await queue.get(1)
+        (action, event, kwargs) = await queue.get(1)  # noqa: RUF059
         assert action == "log.error"
         assert event["message"] == "QEMU process has stopped, return code: 1\nBOOMM"
 
@@ -379,7 +379,7 @@ async def test_disk_options(vm, tmpdir, fake_qemu_img_binary):
         with asyncio_patch("asyncio.create_subprocess_exec", return_value=MagicMock()) as process:
             options = await vm._disk_options()
             assert process.called
-            args, kwargs = process.call_args
+            args, kwargs = process.call_args  # noqa: RUF059
             assert args == (
                 fake_qemu_img_binary,
                 "create",
@@ -488,7 +488,7 @@ async def test_tpm_option(vm, tmpdir, fake_qemu_img_binary):
 
     vm._tpm = True
     tpm_sock = os.path.join(vm.temporary_directory, "swtpm.sock")
-    with patch("os.path.exists", return_value=True) as os_path:
+    with patch("os.path.exists", return_value=True) as os_path:  # noqa: F841
         options = await vm._build_command()
     assert f"-chardev socket,id=chrtpm,path={tpm_sock}" in " ".join(options)
     assert "-tpmdev emulator,id=tpm0,chardev=chrtpm" in " ".join(options)
@@ -536,7 +536,7 @@ async def test_set_process_priority(vm, fake_qemu_img_binary):
         vm._process_priority = "low"
         await vm._set_process_priority()
         assert process.called
-        args, kwargs = process.call_args
+        args, kwargs = process.call_args  # noqa: RUF059
         assert args == ("renice", "-n", "5", "-p", "42")
 
 
@@ -660,7 +660,7 @@ async def test_build_command_kvm_2_4(linux_platform, vm, fake_qemu_binary):
     vm.manager.get_qemu_version = AsyncioMagicMock(return_value="2.4.2")
     os.environ["DISPLAY"] = "0:0"
     with asyncio_patch("gns3server.compute.qemu.qemu_vm.QemuVM._run_with_hardware_acceleration", return_value=True):
-        with asyncio_patch("asyncio.create_subprocess_exec", return_value=MagicMock()) as process:
+        with asyncio_patch("asyncio.create_subprocess_exec", return_value=MagicMock()) as process:  # noqa: F841
             cmd = await vm._build_command()
             nio = vm._local_udp_tunnels[0][0]
             assert cmd == [
@@ -1000,7 +1000,7 @@ async def test_run_with_kvm_linux(linux_platform, vm):
 @pytest.mark.asyncio
 async def test_run_with_kvm_linux_options_no_kvm(linux_platform, vm):
 
-    with patch("os.path.exists", return_value=True) as os_path:
+    with patch("os.path.exists", return_value=True) as os_path:  # noqa: F841
         vm.manager.config.settings.Qemu.enable_hardware_acceleration = True
         assert await vm._run_with_hardware_acceleration("qemu-system-x86_64", "-machine accel=tcg") is False
 

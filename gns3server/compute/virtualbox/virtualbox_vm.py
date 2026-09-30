@@ -448,7 +448,7 @@ class VirtualBoxVM(BaseNode):
         try:
             with open(hdd_info_file, encoding="utf-8") as f:  # noqa: ASYNC230
                 hdd_table = json.load(f)
-        except (ValueError, OSError) as e:
+        except (ValueError, OSError) as e:  # noqa: F841
             # The VM has never be started
             return
 

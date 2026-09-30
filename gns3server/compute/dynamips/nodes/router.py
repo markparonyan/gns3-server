@@ -56,7 +56,7 @@ class Router(BaseNode):
     :param platform: Platform of this router
     """
 
-    _status = {0: "inactive", 1: "shutting down", 2: "running", 3: "suspended"}
+    _status = {0: "inactive", 1: "shutting down", 2: "running", 3: "suspended"}  # noqa: RUF012
 
     def __init__(
         self,
@@ -202,7 +202,7 @@ class Router(BaseNode):
         slot_number = 0
         for slot in self._slots:
             if slot:
-                slot = str(slot)
+                slot = str(slot)  # noqa: PLW2901
             router_info["slot" + str(slot_number)] = slot
             slot_number += 1
 
@@ -220,7 +220,7 @@ class Router(BaseNode):
         """
         Called when the NVRAM file has changed
         """
-        asyncio.ensure_future(self.save_configs())
+        asyncio.ensure_future(self.save_configs())  # noqa: RUF006
 
     @property
     def dynamips_id(self):

@@ -131,7 +131,7 @@ class VPCSTelnet(BaseConnection):
 
         # Step 2: Send 4 newlines with delays (matching telnetlib3 exactly)
         # tn.write(b"\n"); sleep(0.5) - repeated 4 times
-        for i in range(4):
+        for i in range(4):  # noqa: B007
             try:
                 # Send newline directly as bytes
                 self.remote_conn.write(b"\n")

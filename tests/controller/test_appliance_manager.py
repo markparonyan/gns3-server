@@ -55,7 +55,7 @@ class _FakeTemplatesService:
     without a controller instance or database.
     """
 
-    created = []
+    created = []  # noqa: RUF012
 
     def __init__(self, templates_repo):
         self._templates_repo = templates_repo

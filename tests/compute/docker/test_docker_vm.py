@@ -608,7 +608,7 @@ async def test_create_with_extra_volumes_invalid_format_2(compute_project, manag
 
     response = {"Id": "e90e34656806", "Warnings": []}
     with asyncio_patch("gns3server.compute.docker.Docker.list_images", return_value=[{"image": "ubuntu"}]):
-        with asyncio_patch("gns3server.compute.docker.Docker.query", return_value=response) as mock:
+        with asyncio_patch("gns3server.compute.docker.Docker.query", return_value=response) as mock:  # noqa: F841
             vm = DockerVM(
                 "test", str(uuid.uuid4()), compute_project, manager, "ubuntu:latest", extra_volumes=["/vol1", ""]
             )
@@ -1134,14 +1134,14 @@ async def test_start_namespace_failed(vm, manager, free_console_port):
                 with asyncio_patch("gns3server.compute.docker.DockerVM._start_ubridge") as mock_start_ubridge:
                     with asyncio_patch(
                         "gns3server.compute.docker.DockerVM._get_namespace", return_value=42
-                    ) as mock_namespace:
+                    ) as mock_namespace:  # noqa: F841
                         with asyncio_patch(
                             "gns3server.compute.docker.DockerVM._add_ubridge_connection",
                             side_effect=UbridgeNamespaceError(),
                         ) as mock_add_ubridge_connection:
                             with asyncio_patch(
                                 "gns3server.compute.docker.DockerVM._get_log", return_value="Hello not available"
-                            ) as mock_log:
+                            ) as mock_log:  # noqa: F841
                                 with pytest.raises(DockerError):
                                     await vm.start()
 
@@ -1440,7 +1440,7 @@ async def test_update_running(vm):
 
     with asyncio_patch(
         "gns3server.compute.docker.Docker.list_images", return_value=[{"image": "ubuntu"}]
-    ) as mock_list_images:
+    ) as mock_list_images:  # noqa: F841
         with asyncio_patch("gns3server.compute.docker.DockerVM._get_container_state", return_value="running"):
             with asyncio_patch("gns3server.compute.docker.Docker.query", return_value=response) as mock_query:
                 await vm.update()

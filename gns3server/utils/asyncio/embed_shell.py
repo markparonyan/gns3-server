@@ -251,7 +251,7 @@ class ShellConnection(TelnetConnection):
         if self._cli.is_returning:
             try:
                 returned_value = self._cli.return_value()
-            except (EOFError, KeyboardInterrupt) as e:
+            except (EOFError, KeyboardInterrupt) as e:  # noqa: F841
                 # don't close terminal, just keep it alive
                 self.close()
                 return

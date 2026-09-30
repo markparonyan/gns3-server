@@ -162,7 +162,7 @@ class Server:
             try:
                 if signame == "SIGHUP":
                     log.info(f"Server has got signal {signame}, reloading...")
-                    asyncio.ensure_future(Controller.instance().reload())
+                    asyncio.ensure_future(Controller.instance().reload())  # noqa: RUF006
                 else:
                     log.info(f"Server has got signal {signame}, exiting...")
                     # send SIGTERM to the server PID so uvicorn can shut down the process

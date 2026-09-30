@@ -149,7 +149,7 @@ class WebWiresharkManager:
 
             # Kill the processes using their container-local PIDs
             kill_cmd = f"kill -9 {pids} 2>/dev/null || true"
-            returncode, stdout, stderr = await self._exec_in_container(container_id, kill_cmd)
+            returncode, stdout, stderr = await self._exec_in_container(container_id, kill_cmd)  # noqa: RUF059
             logger.debug(f"Kill result: returncode={returncode}")
 
         except Exception as e:  # noqa: BLE001
@@ -400,7 +400,7 @@ class WebWiresharkManager:
             # Single pgrep to find all matching processes
             pgrep_cmd = f'pids=$(pgrep -f "{combined_pattern}" 2>/dev/null || true); if [ -n "$pids" ]; then echo "Found processes: $pids"; kill -9 $pids 2>/dev/null || true; fi'
 
-            returncode, stdout, stderr = await self._exec_in_container(container_id, pgrep_cmd, timeout=5)
+            returncode, stdout, stderr = await self._exec_in_container(container_id, pgrep_cmd, timeout=5)  # noqa: RUF059
 
             if "Found processes:" in stdout:
                 logger.info(stdout.strip())
@@ -423,7 +423,7 @@ class WebWiresharkManager:
             f"/run/user/1000/xpra/*-{display} "
             f"/home/gns3/.xpra/*-{display} 2>/dev/null || true"
         )
-        returncode, stdout, stderr = await self._exec_in_container(container_id, cmd)
+        returncode, stdout, stderr = await self._exec_in_container(container_id, cmd)  # noqa: RUF059
         logger.debug(f"Cleanup X locks and xpra sockets: returncode={returncode}")
 
     async def _cleanup_socket_files(self, container_id: str, display: int) -> None:
@@ -438,7 +438,7 @@ class WebWiresharkManager:
             f"/run/user/1000/xpra/*-{display} "
             f"/home/gns3/.xpra/*-{display} 2>/dev/null || true"
         )
-        returncode, stdout, stderr = await self._exec_in_container(container_id, cmd)
+        returncode, stdout, stderr = await self._exec_in_container(container_id, cmd)  # noqa: RUF059
         logger.debug(f"Cleanup socket files: returncode={returncode}")
 
     @staticmethod
@@ -504,7 +504,7 @@ class WebWiresharkManager:
         # Fallback: Read from /proc/net/route inside container (slower)
         if container_id:
             try:
-                returncode, stdout, stderr = await self._exec_in_container(
+                returncode, stdout, stderr = await self._exec_in_container(  # noqa: RUF059
                     container_id, "cat /proc/net/route | grep -E '^eth0\\s+00000000' | awk '{print $3}' | head -1"
                 )
                 logger.info(f"Gateway detection - fallback method: returncode={returncode}, stdout='{stdout}'")
@@ -549,7 +549,7 @@ class WebWiresharkManager:
             try:
                 # Use 'hostname -I' to get all IP addresses and take the first one
                 # This works on most Linux systems and is more portable than 'ip' command
-                returncode, stdout, stderr = await self._exec_in_container(
+                returncode, stdout, stderr = await self._exec_in_container(  # noqa: RUF059
                     container_id, "hostname -I 2>/dev/null | awk '{print $1}'"
                 )
                 if returncode == 0 and stdout.strip():

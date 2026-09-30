@@ -199,7 +199,7 @@ class VendorDockerVM(DockerVM):
             if target.startswith("/gns3volumes"):
                 volume = target[len("/gns3volumes") :]
                 if volume in self._volumes:
-                    bind = {**bind, "Target": volume}
+                    bind = {**bind, "Target": volume}  # noqa: PLW2901
             retargeted.append(bind)
         return retargeted
 

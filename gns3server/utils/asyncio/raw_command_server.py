@@ -81,7 +81,7 @@ class AsyncioRawCommandServer:
         timeout = 30
 
         while True:
-            done, pending = await asyncio.wait(
+            done, pending = await asyncio.wait(  # noqa: RUF059
                 [network_read, reader_read], timeout=timeout, return_when=asyncio.FIRST_COMPLETED
             )
             if len(done) == 0:

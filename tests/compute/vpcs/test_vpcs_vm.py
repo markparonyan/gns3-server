@@ -139,7 +139,7 @@ async def test_start(vm):
                     )
                 assert vm.is_running()
                 assert vm.command_line == " ".join(mock_exec.call_args[0])
-        (action, event, kwargs) = await queue.get(1)
+        (action, event, kwargs) = await queue.get(1)  # noqa: RUF059
         assert action == "node.updated"
         assert event == vm
 
@@ -213,7 +213,7 @@ async def test_stop(vm):
                     await queue.get(1)  #  Ping  # noqa: RUF003
                     await queue.get(1)  #  Started  # noqa: RUF003
 
-                    (action, event, kwargs) = await queue.get(1)
+                    (action, event, kwargs) = await queue.get(1)  # noqa: RUF059
                     assert action == "node.updated"
                     assert event == vm
 

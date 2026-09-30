@@ -238,7 +238,7 @@ class UsersRepository(BaseRepository):
         await self._db_session.commit()
         return cast(CursorResult, result).rowcount > 0
 
-    async def add_member_to_user_group(self, user_group_id: UUID, user: models.User) -> None | models.UserGroup:  # noqa: RUF036
+    async def add_member_to_user_group(self, user_group_id: UUID, user: models.User) -> models.UserGroup | None:
         """
         Add a member to a user group.
         """
@@ -258,7 +258,7 @@ class UsersRepository(BaseRepository):
         await self._db_session.refresh(user_group_db)
         return user_group_db
 
-    async def remove_member_from_user_group(self, user_group_id: UUID, user: models.User) -> None | models.UserGroup:  # noqa: RUF036
+    async def remove_member_from_user_group(self, user_group_id: UUID, user: models.User) -> models.UserGroup | None:
         """
         Remove a member from a user group.
         """

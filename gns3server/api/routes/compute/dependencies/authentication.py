@@ -59,7 +59,7 @@ def compute_authentication(credentials: HTTPBasicCredentials | None = Depends(se
         )
 
 
-async def ws_compute_authentication(websocket: WebSocket) -> None | WebSocket:  # noqa: RUF036
+async def ws_compute_authentication(websocket: WebSocket) -> WebSocket | None:
     """ """
 
     server_settings = Config.instance().settings.Server

@@ -293,8 +293,8 @@ async def stream_pcap_file(adapter_number: int, port_number: int, node: IOUVM = 
     "/{node_id}/console/ws",
 )
 async def console_ws(
-    websocket: None | WebSocket = Depends(ws_compute_authentication),
-    node: IOUVM = Depends(dep_node),  # noqa: RUF036
+    websocket: WebSocket | None = Depends(ws_compute_authentication),
+    node: IOUVM = Depends(dep_node),
 ) -> None:
     """
     Console WebSocket.

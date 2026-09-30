@@ -294,8 +294,8 @@ async def stream_pcap_file(
 
 @router.websocket("/{node_id}/console/ws")
 async def console_ws(
-    websocket: None | WebSocket = Depends(ws_compute_authentication),
-    node: VPCSVM = Depends(dep_node),  # noqa: RUF036
+    websocket: WebSocket | None = Depends(ws_compute_authentication),
+    node: VPCSVM = Depends(dep_node),
 ) -> None:
     """
     Console WebSocket.

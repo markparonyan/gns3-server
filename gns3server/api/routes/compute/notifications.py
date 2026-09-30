@@ -33,7 +33,7 @@ router = APIRouter()
 
 
 @router.websocket("/notifications/ws")
-async def project_ws_notifications(websocket: None | WebSocket = Depends(ws_compute_authentication)) -> None:  # noqa: RUF036
+async def project_ws_notifications(websocket: WebSocket | None = Depends(ws_compute_authentication)) -> None:
     """
     Receive project notifications about the project from WebSocket.
     """

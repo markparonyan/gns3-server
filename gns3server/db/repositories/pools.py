@@ -171,7 +171,7 @@ class ResourcePoolsRepository(BaseRepository):
 
     async def add_resource_to_pool(
         self, resource_pool_id: UUID, resource: models.Resource
-    ) -> None | models.ResourcePool:  # noqa: RUF036
+    ) -> models.ResourcePool | None:
         """
         Add a resource to a resource pool.
         """
@@ -193,7 +193,7 @@ class ResourcePoolsRepository(BaseRepository):
 
     async def remove_resource_from_pool(
         self, resource_pool_id: UUID, resource: models.Resource
-    ) -> None | models.ResourcePool:  # noqa: RUF036
+    ) -> models.ResourcePool | None:
         """
         Remove a resource from a resource pool.
         """

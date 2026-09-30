@@ -103,7 +103,7 @@ class RbacRepository(BaseRepository):
         await self._db_session.commit()
         return cast(CursorResult, result).rowcount > 0
 
-    async def add_privilege_to_role(self, role_id: UUID, privilege: models.Privilege) -> None | models.Role:  # noqa: RUF036
+    async def add_privilege_to_role(self, role_id: UUID, privilege: models.Privilege) -> models.Role | None:
         """
         Add a privilege to a role.
         """
@@ -126,7 +126,7 @@ class RbacRepository(BaseRepository):
         await self._db_session.refresh(role_db)
         return role_db
 
-    async def remove_privilege_from_role(self, role_id: UUID, privilege: models.Privilege) -> None | models.Role:  # noqa: RUF036
+    async def remove_privilege_from_role(self, role_id: UUID, privilege: models.Privilege) -> models.Role | None:
         """
         Remove a privilege from a role.
         """

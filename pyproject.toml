@@ -88,7 +88,6 @@ select = [
 # violations, in a dedicated small PR. Never add new entries here:
 # fix the code or use a targeted "# noqa: CODE" with a reason.
 ignore = [
-  "E402",      #  129  module-import-not-at-top-of-file
   "E501",      #  655  line-too-long
   "S101",      #   19  assert
 ]

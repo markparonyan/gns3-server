@@ -459,7 +459,7 @@ class Dynamips(BaseManager):
             except DynamipsError as e:
                 log.warning(f"Could not create ghost instance: {e}")
 
-        if vm.ghost_file != ghost_file and os.path.isfile(ghost_file_path):
+        if vm.ghost_file != ghost_file and os.path.isfile(ghost_file_path):  # noqa: ASYNC240
             # set the ghost file to the router
             await vm.set_ghost_status(2)
             await vm.set_ghost_file(ghost_file_path)

@@ -63,7 +63,7 @@ class TestSnapshotRoutes:
             app.url_path_for("delete_snapshot", project_id=project.id, snapshot_id=snapshot.id)
         )
         assert response.status_code == status.HTTP_204_NO_CONTENT
-        assert not os.path.exists(snapshot.path)
+        assert not os.path.exists(snapshot.path)  # noqa: ASYNC240
 
     async def test_restore_snapshot(
         self, app: FastAPI, client: AsyncClient, project: Project, snapshot: Snapshot

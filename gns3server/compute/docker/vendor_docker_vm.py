@@ -222,9 +222,9 @@ class VendorDockerVM(DockerVM):
         volumes = self._persistent_volume_list(image_info, include_network_config=False)
         to_seed = []
         for volume in volumes:
-            host_dir = os.path.join(self.working_dir, os.path.relpath(volume, "/"))
+            host_dir = os.path.join(self.working_dir, os.path.relpath(volume, "/"))  # noqa: ASYNC240
             os.makedirs(host_dir, exist_ok=True)
-            if not os.path.exists(os.path.join(host_dir, ".gns3_perms")):
+            if not os.path.exists(os.path.join(host_dir, ".gns3_perms")):  # noqa: ASYNC240
                 to_seed.append((volume, host_dir))
         if not to_seed:
             return

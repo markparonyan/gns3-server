@@ -121,7 +121,7 @@ def monitor_process(process, termination_callback):
 async def wait_for_file_creation(path, timeout=60):
 
     while timeout > 0:
-        if os.path.exists(path):
+        if os.path.exists(path):  # noqa: ASYNC240
             return
         await asyncio.sleep(0.5)
         timeout -= 0.5

@@ -1110,11 +1110,11 @@ async def test_resources_installed(vm, manager, tmpdir):
                             await vm.start()
 
     assert vm.status == "started"
-    assert os.path.exists(os.path.join(docker_resources_path, "init.sh"))
-    assert os.path.exists(os.path.join(docker_resources_path, "run-cmd.sh"))
-    assert os.path.exists(os.path.join(docker_resources_path, "bin", "busybox"))
-    assert os.path.exists(os.path.join(docker_resources_path, "bin", "udhcpc"))
-    assert os.path.exists(os.path.join(docker_resources_path, "etc", "udhcpc", "default.script"))
+    assert os.path.exists(os.path.join(docker_resources_path, "init.sh"))  # noqa: ASYNC240
+    assert os.path.exists(os.path.join(docker_resources_path, "run-cmd.sh"))  # noqa: ASYNC240
+    assert os.path.exists(os.path.join(docker_resources_path, "bin", "busybox"))  # noqa: ASYNC240
+    assert os.path.exists(os.path.join(docker_resources_path, "bin", "udhcpc"))  # noqa: ASYNC240
+    assert os.path.exists(os.path.join(docker_resources_path, "etc", "udhcpc", "default.script"))  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio
@@ -1792,7 +1792,7 @@ async def test_mount_binds(vm):
     ]
 
     assert vm._volumes == ["/etc/network", "/test/experimental"]
-    assert os.path.exists(dst)
+    assert os.path.exists(dst)  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio
@@ -1856,8 +1856,8 @@ async def test_create_network_interfaces(vm):
 
     vm.adapters = 5
     network_config = vm._create_network_config()
-    assert os.path.exists(os.path.join(network_config, "interfaces"))
-    assert os.path.exists(os.path.join(network_config, "if-up.d"))
+    assert os.path.exists(os.path.join(network_config, "interfaces"))  # noqa: ASYNC240
+    assert os.path.exists(os.path.join(network_config, "if-up.d"))  # noqa: ASYNC240
 
     with open(os.path.join(network_config, "interfaces")) as f:  # noqa: ASYNC230
         content = f.read()

@@ -150,8 +150,8 @@ class TestQemuNodesRoutes:
 
         assert response.status_code == status.HTTP_201_CREATED
         assert response.json()["hda_disk_image"] == "linux载.img"
-        assert not os.path.exists(stale_overlay)
-        assert not os.path.exists(stale_checksum)
+        assert not os.path.exists(stale_overlay)  # noqa: ASYNC240
+        assert not os.path.exists(stale_checksum)  # noqa: ASYNC240
 
     async def test_qemu_create_preserves_existing_overlay_without_reset_marker(
         self, app: FastAPI, compute_client: AsyncClient, compute_project: Project, base_params: dict, fake_qemu_vm: str
@@ -174,7 +174,7 @@ class TestQemuNodesRoutes:
         )
 
         assert response.status_code == status.HTTP_201_CREATED
-        assert os.path.exists(overlay)
+        assert os.path.exists(overlay)  # noqa: ASYNC240
 
     async def test_qemu_create_preserves_overlay_when_replacement_is_missing(
         self, app: FastAPI, compute_client: AsyncClient, compute_project: Project, base_params: dict, fake_qemu_vm: str
@@ -198,7 +198,7 @@ class TestQemuNodesRoutes:
         )
 
         assert response.status_code == status.HTTP_409_CONFLICT
-        assert os.path.exists(overlay)
+        assert os.path.exists(overlay)  # noqa: ASYNC240
 
     async def test_qemu_create_resets_valid_replacement_when_another_disk_is_missing(
         self, app: FastAPI, compute_client: AsyncClient, compute_project: Project, base_params: dict, fake_qemu_vm: str
@@ -223,7 +223,7 @@ class TestQemuNodesRoutes:
         )
 
         assert response.status_code == status.HTTP_409_CONFLICT
-        assert not os.path.exists(stale_overlay)
+        assert not os.path.exists(stale_overlay)  # noqa: ASYNC240
 
     @pytest.mark.parametrize(
         "name, status_code",

@@ -662,7 +662,7 @@ async def _merged_frames(project, entries, filter_expr=None, link_id=None):
     sources = []
     for entry in entries:
         pcap = os.path.join(markers_dir, f"{entry['node_id']}_{entry['link_id']}_{entry['marker']}.pcap")
-        frames = scan_pcap_frames(pcap) if os.path.exists(pcap) else []
+        frames = scan_pcap_frames(pcap) if os.path.exists(pcap) else []  # noqa: ASYNC240
         # Inventory first: every source, engine-free totals.
         sources.append(
             {**{k: entry[k] for k in ("node_id", "link_id", "marker", "data_link_type")}, "count": len(frames)}
@@ -779,7 +779,7 @@ async def decode_frame(project, tag, ts, node_id, link_id, marker, frame_number=
         raise ControllerNotFoundError(f"No marker '{marker}' with tag {tag} on link {link_id} captured by {node_id}")
 
     pcap = os.path.join(project.markers_directory, f"{node_id}_{link_id}_{marker}.pcap")
-    if not os.path.exists(pcap):
+    if not os.path.exists(pcap):  # noqa: ASYNC240
         raise ControllerNotFoundError(f"No capture file for marker '{marker}' (nothing ever matched)")
 
     frames = scan_pcap_frames(pcap)

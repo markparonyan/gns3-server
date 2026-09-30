@@ -134,7 +134,7 @@ class Qcow2:
         :param backing_file_format: File format of the base image
         """
 
-        if not os.path.exists(base_image):
+        if not os.path.exists(base_image):  # noqa: ASYNC240
             raise FileNotFoundError(base_image)
         backing_options, _ = Qcow2.backing_options(base_image)
         command = [qemu_img, "rebase", "-u", "-b", backing_options, "-F", backing_file_format, self._path]

@@ -93,7 +93,7 @@ async def test_project_closed(manager, compute_project):
     os.makedirs(project_dir)
     open(os.path.join(project_dir, "test.ghost"), "w+").close()  # noqa: ASYNC230
     await manager.project_closed(compute_project)
-    assert not os.path.exists(os.path.join(project_dir, "test.ghost"))
+    assert not os.path.exists(os.path.join(project_dir, "test.ghost"))  # noqa: ASYNC240
     assert compute_project.id not in manager._dynamips_ids
 
 
@@ -113,7 +113,7 @@ async def test_duplicate_node(manager, compute_project):
         with open(source_node.startup_config_path, "w+") as f:  # noqa: ASYNC230
             f.write("hostname R1\necho TEST")
         await manager.duplicate_node(source_node.id, destination_node.id)
-        assert not os.path.exists(os.path.join(destination_node.working_dir, "c3600_i1_nvram"))
+        assert not os.path.exists(os.path.join(destination_node.working_dir, "c3600_i1_nvram"))  # noqa: ASYNC240
         with open(destination_node.startup_config_path) as f:  # noqa: ASYNC230
             content = f.read()
             assert content == "!\nhostname R2\necho TEST"

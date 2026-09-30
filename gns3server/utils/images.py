@@ -53,7 +53,7 @@ async def list_images(image_type):
     images = []
 
     server_config = Config.instance().settings.Server
-    general_images_directory = os.path.expanduser(server_config.images_path)
+    general_images_directory = os.path.expanduser(server_config.images_path)  # noqa: ASYNC240
 
     # Subfolder of the general_images_directory specific to this VM type
     default_directory = default_images_directory(image_type)
@@ -66,7 +66,7 @@ async def list_images(image_type):
         if os.path.commonprefix([directory, general_images_directory]) == general_images_directory:
             recurse = False
 
-        directory = os.path.normpath(directory)
+        directory = os.path.normpath(directory)  # noqa: ASYNC240
         for root, _, filenames in _os_walk(directory, recurse=recurse):
             for filename in filenames:
                 if filename in files:
@@ -81,7 +81,7 @@ async def list_images(image_type):
                 if os.path.commonprefix([root, default_directory]) != default_directory:
                     path = os.path.join(root, filename)
                 else:
-                    path = os.path.relpath(os.path.join(root, filename), default_directory)
+                    path = os.path.relpath(os.path.join(root, filename), default_directory)  # noqa: ASYNC240
 
                 filesize = os.stat(os.path.join(root, filename)).st_size
                 if filesize < 7:
@@ -182,12 +182,12 @@ async def discover_images(image_type: str, skip_image_paths: list | None = None)
 
     for directory in images_directories(image_type, include_parent_directory=False):
         log.info(f"Discovering images in '{directory}'")
-        for root, _, filenames in os.walk(os.path.normpath(directory)):
+        for root, _, filenames in os.walk(os.path.normpath(directory)):  # noqa: ASYNC240
             for filename in filenames:
                 if filename.endswith(".tmp") or filename.endswith(".md5sum") or filename.startswith("."):
                     continue
                 path = os.path.join(root, filename)
-                if not os.path.isfile(path) or (skip_image_paths and path in skip_image_paths) or path in files:
+                if not os.path.isfile(path) or (skip_image_paths and path in skip_image_paths) or path in files:  # noqa: ASYNC240
                     continue
                 if "/lib/" in path or "/lib64/" in path:
                     # ignore custom IOU libraries
@@ -379,9 +379,9 @@ async def write_image(
         raise InvalidImageError("The image content is empty or too small to be valid")
     image_type = check_valid_image_header(image_path, bytes(prefix), allow_raw_image or not check_image_header)
     if not image_dir:
-        image_path = os.path.abspath(os.path.join(default_images_directory(image_type), image_name))
-        root = os.path.realpath(os.path.expanduser(Config.instance().settings.Server.images_path))
-        if not contained_path(os.path.realpath(image_path), root):
+        image_path = os.path.abspath(os.path.join(default_images_directory(image_type), image_name))  # noqa: ASYNC240
+        root = os.path.realpath(os.path.expanduser(Config.instance().settings.Server.images_path))  # noqa: ASYNC240
+        if not contained_path(os.path.realpath(image_path), root):  # noqa: ASYNC240
             raise InvalidImageError(f"Image destination is outside the configured image directory: {image_path}")
     os.makedirs(os.path.dirname(image_path), exist_ok=True)
     descriptor, tmp_path = tempfile.mkstemp(prefix=".gns3-upload-", suffix=".tmp", dir=os.path.dirname(image_path))
@@ -394,9 +394,9 @@ async def write_image(
             async for chunk in iterator:
                 await f.write(chunk)
                 checksum.update(chunk)
-        image_size = os.path.getsize(tmp_path)
+        image_size = os.path.getsize(tmp_path)  # noqa: ASYNC240
         async with image_lock(image_path):
-            if os.path.lexists(image_path):
+            if os.path.lexists(image_path):  # noqa: ASYNC240
                 raise InvalidImageError(
                     f"File '{image_path}' already exists, please choose a different name or remove the existing image"
                 )
@@ -427,7 +427,7 @@ async def write_image(
             return image
     finally:
         try:
-            if os.path.exists(tmp_path):
+            if os.path.exists(tmp_path):  # noqa: ASYNC240
                 os.remove(tmp_path)
         except OSError:
             log.warning(f"Could not remove '{tmp_path}'")

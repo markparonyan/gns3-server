@@ -133,7 +133,7 @@ async def create_qemu_image(
         disk_image_path = image_destination(os.path.join(directory, image_name))
 
     async with image_lock(disk_image_path):
-        if os.path.lexists(disk_image_path):
+        if os.path.lexists(disk_image_path):  # noqa: ASYNC240
             raise ControllerBadRequestError(f"Disk image '{disk_image_path}' already exists")
         os.makedirs(os.path.dirname(disk_image_path), exist_ok=True)
         fd, temporary = tempfile.mkstemp(prefix=".gns3-create-", suffix=".tmp", dir=os.path.dirname(disk_image_path))
@@ -150,7 +150,7 @@ async def create_qemu_image(
         except (OSError, InvalidImageError, SQLAlchemyError) as e:
             raise ControllerError(f"Could not create disk image '{disk_image_path}': {e}") from e
         finally:
-            if os.path.exists(temporary):
+            if os.path.exists(temporary):  # noqa: ASYNC240
                 os.unlink(temporary)
 
 

@@ -108,7 +108,7 @@ async def test_vm_create(compute_project, manager, fake_qemu_binary):
     await vm.create()
 
     # tests if `create` created md5sums
-    assert os.path.exists(os.path.join(vm.working_dir, "hello.md5sum"))
+    assert os.path.exists(os.path.join(vm.working_dir, "hello.md5sum"))  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio
@@ -438,7 +438,7 @@ async def test_uefi_boot_mode_option(vm, tmpdir, images_dir, fake_qemu_img_binar
 
     # create fake OVMF files
     system_ovmf_firmware_path = "/usr/share/OVMF/OVMF_CODE_4M.fd"
-    if os.path.exists(system_ovmf_firmware_path):
+    if os.path.exists(system_ovmf_firmware_path):  # noqa: ASYNC240
         ovmf_code_path = system_ovmf_firmware_path
     else:
         ovmf_code_path = os.path.join(images_dir, "OVMF_CODE_4M.fd")

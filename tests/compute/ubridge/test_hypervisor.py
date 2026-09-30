@@ -146,11 +146,11 @@ async def test_stop_unlinks_unix_socket(tmp_path, monkeypatch):
     # Stopped process => is_running() is False => skips UBridgeHypervisor.stop (no send).
     hyp._process = MagicMock()
     hyp._process.returncode = 0
-    assert os.path.exists(hyp._socket_path)
+    assert os.path.exists(hyp._socket_path)  # noqa: ASYNC240
 
     await hyp.stop()
 
-    assert not os.path.exists(hyp._socket_path)
+    assert not os.path.exists(hyp._socket_path)  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio

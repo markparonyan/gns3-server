@@ -280,7 +280,7 @@ async def test_create_drops_etc_network_for_skip_init(compute_project, manager):
                 vol_env = [v for v in sent["Env"] if v.startswith("GNS3_VOLUMES=")][0]
                 assert "/etc/network" not in vol_env
                 # host skeleton dir removed
-                assert not os.path.exists(os.path.join(vm.working_dir, "etc", "network"))
+                assert not os.path.exists(os.path.join(vm.working_dir, "etc", "network"))  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio
@@ -461,7 +461,7 @@ async def test_prepare_volumes_seeds_unmarked_volume(compute_project, manager):
         assert argvs[1][1:4] == ("cp", "-a", "seedcid:/etc/opt/srlinux/.")
         assert argvs[2][1:3] == ("rm", "-f")
         host_dir = os.path.join(vm.working_dir, "etc", "opt", "srlinux")
-        assert os.path.exists(os.path.join(host_dir, ".gns3_perms"))
+        assert os.path.exists(os.path.join(host_dir, ".gns3_perms"))  # noqa: ASYNC240
 
         # a second create() must not re-seed (marker present): no docker CLI call
         await vm._prepare_volumes(image_info)
@@ -509,7 +509,7 @@ async def test_prepare_volumes_tolerates_missing_image_path(compute_project, man
         await vm._prepare_volumes({"Config": {"Volumes": {}}})
         assert calls["n"] == 3  # rm still ran (finally path)
     host_dir = os.path.join(vm.working_dir, "xr-storage-shadow")
-    assert os.path.exists(os.path.join(host_dir, ".gns3_perms"))
+    assert os.path.exists(os.path.join(host_dir, ".gns3_perms"))  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio

@@ -64,11 +64,11 @@ async def test_import_project(tmpdir, controller):
     assert project.name == "test"
     assert project.id == project_id
 
-    assert os.path.exists(os.path.join(project.path, "b.png"))
-    assert not os.path.exists(os.path.join(project.path, "project.gns3"))
-    assert os.path.exists(os.path.join(project.path, "test.gns3"))
-    assert os.path.exists(os.path.join(project.path, "project-files/dynamips/test"))
-    assert os.path.exists(os.path.join(project.path, "project-files/qemu/test"))
+    assert os.path.exists(os.path.join(project.path, "b.png"))  # noqa: ASYNC240
+    assert not os.path.exists(os.path.join(project.path, "project.gns3"))  # noqa: ASYNC240
+    assert os.path.exists(os.path.join(project.path, "test.gns3"))  # noqa: ASYNC240
+    assert os.path.exists(os.path.join(project.path, "project-files/dynamips/test"))  # noqa: ASYNC240
+    assert os.path.exists(os.path.join(project.path, "project-files/qemu/test"))  # noqa: ASYNC240
 
     # A new project name is generated when you import twice the same name
     with open(zip_path, "rb") as f:  # noqa: ASYNC230
@@ -169,7 +169,7 @@ async def test_import_project_containing_symlink(controller, export_project_with
     assert project.name == "test"
     assert project.id == project_id
     symlink_path = os.path.join(project.path, "vm1", "dynamips", "symlink")
-    assert os.path.islink(symlink_path)
+    assert os.path.islink(symlink_path)  # noqa: ASYNC240
     assert os.readlink(symlink_path) == symlink_target
 
 
@@ -249,10 +249,10 @@ async def test_import_with_images(config, tmpdir, controller):
     with open(zip_path, "rb") as f:  # noqa: ASYNC230
         project = await import_project(controller, project_id, f)
 
-    assert not os.path.exists(os.path.join(project.path, "images/IOS/test.image"))
+    assert not os.path.exists(os.path.join(project.path, "images/IOS/test.image"))  # noqa: ASYNC240
 
     path = os.path.join(config.settings.Server.images_path, "IOS", "test.image")
-    assert os.path.exists(path), path
+    assert os.path.exists(path), path  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio
@@ -525,13 +525,13 @@ async def test_import_node_id(linux_platform, tmpdir, controller):
         assert topo["topology"]["drawings"][0]["drawing_id"] != "08d665ba-e982-4d54-82b4-aa0c4d5ba6a3"
 
         # Node files should have moved to the new node id
-        assert not os.path.exists(
+        assert not os.path.exists(  # noqa: ASYNC240
             os.path.join(project.path, "project-files", "iou", "0fd3dd4d-dc93-4a04-a9b9-7396a9e22e8b", "startup.cfg")
         )
-        assert not os.path.exists(
+        assert not os.path.exists(  # noqa: ASYNC240
             os.path.join(project.path, "project-files", "iou", "c3ae286c-c81f-40d9-a2d0-5874b2f2478d", "startup.cfg")
         )
-        assert os.path.exists(
+        assert os.path.exists(  # noqa: ASYNC240
             os.path.join(project.path, "project-files", "iou", topo["topology"]["nodes"][0]["node_id"], "startup.cfg")
         )
 
@@ -606,7 +606,7 @@ async def test_move_files_to_compute(tmpdir):
         str(tmpdir / "project-files" / "docker" / "test2"),
         os.path.join("project-files", "docker", "test2"),
     )
-    assert not os.path.exists(str(tmpdir / "project-files" / "docker"))
+    assert not os.path.exists(str(tmpdir / "project-files" / "docker"))  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio
@@ -631,7 +631,7 @@ async def test_import_project_name_and_location(projects_dir, controller):
 
     assert project.name == "hello"
 
-    assert os.path.exists(str(tmpdir / "hello" / "hello.gns3"))
+    assert os.path.exists(str(tmpdir / "hello" / "hello.gns3"))  # noqa: ASYNC240
 
     # A new project name is generated when you import twice the same name
     with open(zip_path, "rb") as f:  # noqa: ASYNC230

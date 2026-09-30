@@ -405,7 +405,7 @@ async def test_export_with_ignoring_snapshots(tmpdir, project):
     # create snapshot directory
     snapshots_dir = os.path.join(project.path, "snapshots")
     os.makedirs(snapshots_dir)
-    Path(os.path.join(snapshots_dir, "snap.gns3project")).touch()
+    Path(os.path.join(snapshots_dir, "snap.gns3project")).touch()  # noqa: ASYNC240
 
     with aiozipstream.ZipFile() as z:
         await export_project(z, project, str(tmpdir), keep_compute_ids=True)

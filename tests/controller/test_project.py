@@ -134,7 +134,7 @@ async def test_path(projects_dir):
             p = Project(project_id=str(uuid4()), name="Test")
             mock_notification.assert_called()
         assert p.path == os.path.join(directory, p.id)
-        assert os.path.exists(os.path.join(directory, p.id))
+        assert os.path.exists(os.path.join(directory, p.id))  # noqa: ASYNC240
 
 
 def test_path_exist(tmpdir):
@@ -173,7 +173,7 @@ async def test_captures_directory(tmpdir):
     with patch("gns3server.controller.project.Project.emit_controller_notification"):
         p = Project(name="Test")
         assert p.captures_directory == str(p.path + os.path.sep + "project-files" + os.path.sep + "captures")
-        assert os.path.exists(p.captures_directory)
+        assert os.path.exists(p.captures_directory)  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio
@@ -753,8 +753,8 @@ async def test_clean_pictures(project):
     open(os.path.join(project.pictures_directory, "test.png"), "w+").close()  # noqa: ASYNC230
     open(os.path.join(project.pictures_directory, "test2.png"), "w+").close()  # noqa: ASYNC230
     await project.close()
-    assert os.path.exists(os.path.join(project.pictures_directory, "test.png"))
-    assert not os.path.exists(os.path.join(project.pictures_directory, "test2.png"))
+    assert os.path.exists(os.path.join(project.pictures_directory, "test.png"))  # noqa: ASYNC240
+    assert not os.path.exists(os.path.join(project.pictures_directory, "test2.png"))  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio
@@ -772,17 +772,17 @@ async def test_clean_pictures_and_keep_supplier_logo(project):
     open(os.path.join(project.pictures_directory, "logo.png"), "w+").close()  # noqa: ASYNC230
 
     await project.close()
-    assert os.path.exists(os.path.join(project.pictures_directory, "test.png"))
-    assert not os.path.exists(os.path.join(project.pictures_directory, "test2.png"))
-    assert os.path.exists(os.path.join(project.pictures_directory, "logo.png"))
+    assert os.path.exists(os.path.join(project.pictures_directory, "test.png"))  # noqa: ASYNC240
+    assert not os.path.exists(os.path.join(project.pictures_directory, "test2.png"))  # noqa: ASYNC240
+    assert os.path.exists(os.path.join(project.pictures_directory, "logo.png"))  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio
 async def test_delete(project):
 
-    assert os.path.exists(project.path)
+    assert os.path.exists(project.path)  # noqa: ASYNC240
     await project.delete()
-    assert not os.path.exists(project.path)
+    assert not os.path.exists(project.path)  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio
@@ -803,7 +803,7 @@ async def test_delete_refuses_to_delete_projects_directory(project, projects_dir
 
     with pytest.raises(ControllerError):
         await project.delete()
-    assert os.path.exists(other_project)
+    assert os.path.exists(other_project)  # noqa: ASYNC240
 
 
 def test_path_setter_rejects_projects_directory(project, projects_dir):
@@ -958,7 +958,7 @@ async def test_delete_snapshot(project):
     with pytest.raises(ControllerNotFoundError):
         project.get_snapshot(snapshot.id)
 
-    assert not os.path.exists(os.path.join(project.path, "snapshots", "test1.gns3project"))
+    assert not os.path.exists(os.path.join(project.path, "snapshots", "test1.gns3project"))  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio

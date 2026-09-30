@@ -83,7 +83,7 @@ class Qemu(BaseManager):
 
         kvm = []
 
-        if not os.path.exists("/dev/kvm"):
+        if not os.path.exists("/dev/kvm"):  # noqa: ASYNC240
             return kvm
 
         arch = platform.machine()
@@ -141,7 +141,7 @@ class Qemu(BaseManager):
                     if (
                         (f.startswith("qemu-system") or f.startswith("qemu-kvm") or f == "qemu" or f == "qemu.exe")
                         and os.access(os.path.join(path, f), os.X_OK)
-                        and os.path.isfile(os.path.join(path, f))
+                        and os.path.isfile(os.path.join(path, f))  # noqa: ASYNC240
                     ):
                         if archs is not None:
                             for arch in archs:
@@ -180,7 +180,7 @@ class Qemu(BaseManager):
             raise QemuError("Could not find qemu-img binary")
 
         try:
-            if os.path.exists(disk_image_path):
+            if os.path.exists(disk_image_path):  # noqa: ASYNC240
                 raise QemuError(f"Could not create disk image '{disk_image_path}', file already exists")
         except UnicodeEncodeError:
             raise QemuError(

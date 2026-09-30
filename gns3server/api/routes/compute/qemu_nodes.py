@@ -100,7 +100,7 @@ async def create_qemu_node(project_id: UUID, node_data: schemas.QemuCreate) -> s
                 vm.manager.get_abs_image_path(replacement_image, vm.working_dir)
             local_disk_name = f"hd{drive}_disk.qcow2"
             local_disk = os.path.join(vm.working_dir, local_disk_name)
-            if vm.linked_clone and os.path.exists(local_disk):
+            if vm.linked_clone and os.path.exists(local_disk):  # noqa: ASYNC240
                 # A degraded linked clone is being assigned a new base image.
                 # Its old overlay depends on the unavailable base and cannot
                 # safely be rebased onto an arbitrary replacement. Discard it

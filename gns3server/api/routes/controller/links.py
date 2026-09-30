@@ -334,7 +334,7 @@ async def download_capture_file(link: Link = Depends(dep_link)):
     if not link.capture_file_path:
         raise ControllerError("No capture file path set for this link")
 
-    if not os.path.exists(link.capture_file_path):
+    if not os.path.exists(link.capture_file_path):  # noqa: ASYNC240
         raise ControllerError(f"Capture file not found: {link.capture_file_path}")
 
     return FileResponse(

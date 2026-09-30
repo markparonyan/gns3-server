@@ -93,7 +93,7 @@ class Docker(BaseManager):
     async def install_busybox(dst_dir):
 
         dst_busybox = os.path.join(dst_dir, "bin", "busybox")
-        if os.path.isfile(dst_busybox):
+        if os.path.isfile(dst_busybox):  # noqa: ASYNC240
             return
         for busybox_exec in ("busybox-static", "busybox.static", "busybox"):
             busybox_path = shutil.which(busybox_exec)

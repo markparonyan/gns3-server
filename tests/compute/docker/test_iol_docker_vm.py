@@ -322,7 +322,7 @@ async def test_start_creates_run_dir(compute_project, manager):
         with asyncio_patch("gns3server.compute.docker.Docker.query"):
             await vm.start()
 
-    assert os.path.isdir(os.path.join(vm.working_dir, "tmp", "run"))
+    assert os.path.isdir(os.path.join(vm.working_dir, "tmp", "run"))  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio
@@ -346,10 +346,10 @@ async def test_start_cleans_stale_sockets_but_keeps_run(compute_project, manager
 
     assert glob.glob(os.path.join(wiring_dir, "s??.sock")) == []
     assert glob.glob(os.path.join(wiring_dir, "c??.sock")) == []
-    assert not os.path.exists(os.path.join(wiring_dir, "netio1000"))
+    assert not os.path.exists(os.path.join(wiring_dir, "netio1000"))  # noqa: ASYNC240
     # the persistent runtime survives the cleanup
-    assert os.path.exists(os.path.join(run_dir, "nvram_00001"))
-    assert os.path.exists(os.path.join(run_dir, "config"))
+    assert os.path.exists(os.path.join(run_dir, "nvram_00001"))  # noqa: ASYNC240
+    assert os.path.exists(os.path.join(run_dir, "config"))  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio
@@ -366,7 +366,7 @@ async def test_start_skips_cleanup_when_already_running(compute_project, manager
             await vm.start()
 
     # live runner sockets must not be deleted behind its back
-    assert os.path.exists(os.path.join(wiring_dir, "s00.sock"))
+    assert os.path.exists(os.path.join(wiring_dir, "s00.sock"))  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio
@@ -434,7 +434,7 @@ async def test_add_ubridge_connection_stale_local_socket_unlinked(compute_projec
     open(os.path.join(wiring_dir, "s00.sock"), "w").close()  # noqa: ASYNC230
 
     await vm._add_ubridge_connection(None, 0)
-    assert not os.path.exists(os.path.join(wiring_dir, "c00.sock"))
+    assert not os.path.exists(os.path.join(wiring_dir, "c00.sock"))  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio
@@ -788,7 +788,7 @@ async def test_empty_content_never_builds_nvram(compute_project, manager):
     vm.startup_config_content = None
     await _start(vm)
 
-    assert not os.path.exists(_nvram_path(vm))
+    assert not os.path.exists(_nvram_path(vm))  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio
@@ -817,7 +817,7 @@ async def test_running_container_keeps_pending_config(compute_project, manager):
     vm.startup_config_content = "hostname RouterOne"
     await _start(vm, state="running")
 
-    assert not os.path.exists(_nvram_path(vm))
+    assert not os.path.exists(_nvram_path(vm))  # noqa: ASYNC240
     assert vm._startup_config_dirty is True
 
 

@@ -354,13 +354,13 @@ class BaseNode:
         # its result in the node directory) can recreate a file while the directory is
         # being deleted, and shutil.rmtree silently gives up when its error handler returns
         for attempt in range(3):
-            if not os.path.exists(directory):
+            if not os.path.exists(directory):  # noqa: ASYNC240
                 return
             try:
                 await wait_run_in_executor(shutil.rmtree, directory, onerror=set_rw)
             except OSError as e:
                 raise ComputeError(f"Could not delete the node working directory: {e}") from e
-            if not os.path.exists(directory):
+            if not os.path.exists(directory):  # noqa: ASYNC240
                 return
             if attempt == 2:
                 raise ComputeError(

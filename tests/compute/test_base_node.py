@@ -308,7 +308,7 @@ async def test_delete_marker_capture_removes_pcap_and_entry(compute_project, man
 
     await node.delete_marker_capture("m", "L1")
 
-    assert not os.path.exists(pcap)
+    assert not os.path.exists(pcap)  # noqa: ASYNC240
     assert ("m", "L1") not in node._marker_filter_bridges
 
 
@@ -534,7 +534,7 @@ async def test_delete_node_working_directory(node):
     with open(os.path.join(working_dir, "test.txt"), "w") as f:  # noqa: ASYNC230
         f.write("TEST")
     await node.delete()
-    assert not os.path.exists(working_dir)
+    assert not os.path.exists(working_dir)  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio
@@ -547,11 +547,11 @@ async def test_delete_directory_without_user_permissions(node):
     os.chmod(working_dir, 0o200)
     try:
         await node.delete()
-        assert not os.path.exists(working_dir)
+        assert not os.path.exists(working_dir)  # noqa: ASYNC240
     finally:
         # restore the permissions so a failed test does not leave an undeletable
         # directory behind on the shared project path
-        if os.path.exists(working_dir):
+        if os.path.exists(working_dir):  # noqa: ASYNC240
             os.chmod(working_dir, 0o700)
 
 
@@ -565,9 +565,9 @@ async def test_delete_directory_with_readonly_entries(node):
     os.chmod(working_dir, 0o500)  # remove the write permission
     try:
         await node.delete()
-        assert not os.path.exists(working_dir)
+        assert not os.path.exists(working_dir)  # noqa: ASYNC240
     finally:
-        if os.path.exists(working_dir):
+        if os.path.exists(working_dir):  # noqa: ASYNC240
             os.chmod(working_dir, 0o700)
 
 
@@ -598,7 +598,7 @@ async def test_delete_directory_with_file_recreated_during_deletion(node, monkey
     monkeypatch.setattr("gns3server.compute.base_node.shutil.rmtree", rmtree_recreating_a_file)
     await node.delete()
     assert calls == 2
-    assert not os.path.exists(working_dir)
+    assert not os.path.exists(working_dir)  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio
@@ -614,4 +614,4 @@ async def test_delete_directory_failure_raises(node, monkeypatch):
     monkeypatch.setattr("gns3server.compute.base_node.shutil.rmtree", rmtree_not_deleting)
     with pytest.raises(ComputeError):
         await node.delete()
-    assert os.path.exists(working_dir)
+    assert os.path.exists(working_dir)  # noqa: ASYNC240

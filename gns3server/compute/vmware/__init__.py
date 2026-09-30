@@ -187,7 +187,7 @@ class VMware(BaseManager):
         """
 
         if sys.platform.startswith("darwin"):
-            if not os.path.isdir("/Applications/VMware Fusion.app"):
+            if not os.path.isdir("/Applications/VMware Fusion.app"):  # noqa: ASYNC240
                 raise VMwareError(
                     "VMware Fusion is not installed in the standard location /Applications/VMware Fusion.app"
                 )
@@ -437,7 +437,7 @@ class VMware(BaseManager):
 
         async with self._vmware_inventory_lock:
             inventory_path = self.get_vmware_inventory_path()
-            if os.path.exists(inventory_path):
+            if os.path.exists(inventory_path):  # noqa: ASYNC240
                 try:
                     inventory_pairs = self.parse_vmware_file(inventory_path)
                 except OSError as e:
@@ -660,14 +660,14 @@ class VMware(BaseManager):
         await self.check_vmware_version()
         vmware_vms = []
         inventory_path = self.get_vmware_inventory_path()
-        if os.path.exists(inventory_path) and self.host_type != "player":
+        if os.path.exists(inventory_path) and self.host_type != "player":  # noqa: ASYNC240
             # inventory may exist for VMware player if VMware workstation has been previously installed
             vmware_vms = self._get_vms_from_inventory(inventory_path)
         if not vmware_vms:
             # backup methods when no VMware inventory file exists or for VMware player which has no inventory file
             vmware_preferences_path = self.get_vmware_preferences_path()
             pairs = {}
-            if os.path.exists(vmware_preferences_path):
+            if os.path.exists(vmware_preferences_path):  # noqa: ASYNC240
                 # the default vm path may be present in VMware preferences file.
                 try:
                     pairs = self.parse_vmware_file(vmware_preferences_path)
@@ -675,7 +675,7 @@ class VMware(BaseManager):
                     log.warning(f'Could not read VMware preferences file "{vmware_preferences_path}": {e}')
                 if "prefvmx.defaultvmpath" in pairs:
                     default_vm_path = pairs["prefvmx.defaultvmpath"]
-                    if not os.path.isdir(default_vm_path):
+                    if not os.path.isdir(default_vm_path):  # noqa: ASYNC240
                         raise VMwareError(
                             f'Could not find or access the default VM directory: "{default_vm_path}". Please change "prefvmx.defaultvmpath={default_vm_path}" in "{vmware_preferences_path}"'
                         )
@@ -685,7 +685,7 @@ class VMware(BaseManager):
                 # the default vm path is not in the VMware preferences file or that directory is empty
                 # let's search the default locations for VMs
                 for default_vm_path in self.get_vmware_default_vm_paths():
-                    if os.path.isdir(default_vm_path):
+                    if os.path.isdir(default_vm_path):  # noqa: ASYNC240
                         vmware_vms.extend(self._get_vms_from_directory(default_vm_path))
 
             if not vmware_vms:

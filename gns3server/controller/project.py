@@ -1716,8 +1716,8 @@ class Project:
         await self._cleanup_web_wireshark_container()
 
         try:
-            project_directory = os.path.realpath(get_default_project_directory())
-            path = os.path.realpath(self.path)
+            project_directory = os.path.realpath(get_default_project_directory())  # noqa: ASYNC240
+            path = os.path.realpath(self.path)  # noqa: ASYNC240
             if os.path.commonpath([path, project_directory]) != project_directory:
                 raise ControllerError(
                     f"Project '{self._name}' cannot be deleted because it is not in the default project directory: '{project_directory}'"
@@ -1829,7 +1829,7 @@ class Project:
         self._status = "opened"
 
         path = self._topology_file()
-        if not os.path.exists(path):
+        if not os.path.exists(path):  # noqa: ASYNC240
             self._loading = False
             return
         try:
@@ -2020,7 +2020,7 @@ class Project:
                 except ComputeError:
                     pass
             try:
-                if os.path.exists(path + ".backup"):
+                if os.path.exists(path + ".backup"):  # noqa: ASYNC240
                     shutil.copy(path + ".backup", path)
             except OSError:
                 pass
@@ -2089,7 +2089,7 @@ class Project:
             # use the parent directory of the project we are duplicating as a
             # temporary directory to avoid no space left issues when '/tmp'
             # is located on another partition.
-            working_dir = os.path.abspath(os.path.join(self.path, os.pardir))
+            working_dir = os.path.abspath(os.path.join(self.path, os.pardir))  # noqa: ASYNC240
 
             with tempfile.TemporaryDirectory(dir=working_dir) as tmpdir:
                 # Do not compress the exported project when duplicating
@@ -2184,7 +2184,7 @@ class Project:
 
         # update the snapshots with new IDs
         snapshots_dir = os.path.join(new_project_path, "snapshots")
-        if os.path.isdir(snapshots_dir):
+        if os.path.isdir(snapshots_dir):  # noqa: ASYNC240
             await update_snapshots(snapshots_dir, new_project_path, project_name, new_project_id)
 
         # Remove the old .gns3 file (which has the original project name)

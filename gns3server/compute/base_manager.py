@@ -385,7 +385,7 @@ class BaseManager:
             raise ComputeError("Nothing to stream because there is no packet capture active")
 
         project = ProjectManager.instance().get_project(project_id)
-        path = os.path.normpath(os.path.join(project.capture_working_directory(), nio.pcap_output_file))
+        path = os.path.normpath(os.path.join(project.capture_working_directory(), nio.pcap_output_file))  # noqa: ASYNC240
 
         # Raise an error if user try to escape
         if path[0] == ".":
@@ -524,7 +524,7 @@ class BaseManager:
     async def write_image(self, filename, stream):
 
         directory = self.get_images_directory()
-        path = os.path.abspath(os.path.join(directory, *os.path.split(filename)))
+        path = os.path.abspath(os.path.join(directory, *os.path.split(filename)))  # noqa: ASYNC240
         if os.path.commonprefix([directory, path]) != directory:
             raise ComputeForbiddenError(f"Could not write image: {filename}, '{path}' is forbidden")
         log.info(f"Writing image file to '{path}'")

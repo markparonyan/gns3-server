@@ -174,7 +174,7 @@ class ApplianceManager:
                         else:
                             # check if the image is on disk but it not yet in the database
                             image_path = os.path.join(image_dir, appliance_file)
-                            if os.path.exists(image_path):
+                            if os.path.exists(image_path):  # noqa: ASYNC240
                                 async with image_lock(image_path):
                                     image_info = await read_image_info(image_path, allow_raw_image=True)
                                     if image_info["checksum"] != image_checksum:
@@ -223,7 +223,7 @@ class ApplianceManager:
         symbol = template_data.get("symbol")
         if symbol and not symbol.startswith(":/symbols/"):
             destination_path = os.path.join(Controller.instance().symbols.symbols_path(), symbol)
-            if not os.path.exists(destination_path):
+            if not os.path.exists(destination_path):  # noqa: ASYNC240
                 await self._download_symbol(symbol, destination_path)
         return template_data
 
@@ -443,7 +443,7 @@ class ApplianceManager:
             symbol = appliance.symbol
             if symbol and not symbol.startswith(":/symbols/"):
                 destination_path = os.path.join(symbol_dir, symbol)
-                if not os.path.exists(destination_path):
+                if not os.path.exists(destination_path):  # noqa: ASYNC240
                     await self._download_symbol(symbol, destination_path)
 
         # refresh the symbol cache
@@ -535,7 +535,7 @@ class ApplianceManager:
                 if filename in downloaded_appliance_files:
                     continue
                 try:
-                    if os.path.isfile(file_path) or os.path.islink(file_path):
+                    if os.path.isfile(file_path) or os.path.islink(file_path):  # noqa: ASYNC240
                         log.info(f"Deleting old appliance file {file_path}")
                         os.unlink(file_path)
                 except OSError as e:

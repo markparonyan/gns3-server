@@ -62,11 +62,11 @@ async def test_clean_tmp_directory():
     path = p.tmp_working_directory()
     os.makedirs(path)
     await p.close()
-    assert not os.path.exists(path)
+    assert not os.path.exists(path)  # noqa: ASYNC240
 
     os.makedirs(path)
     p = Project(project_id="00010203-0405-0607-0809-0a0b0c0d0e0f")
-    assert not os.path.exists(path)
+    assert not os.path.exists(path)  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio
@@ -76,7 +76,7 @@ async def test_path(projects_dir):
     with patch("gns3server.utils.path.get_default_project_directory", return_value=directory):
         p = Project(project_id=str(uuid4()))
         assert p.path == os.path.join(directory, p.id)
-        assert os.path.exists(os.path.join(directory, p.id))
+        assert os.path.exists(os.path.join(directory, p.id))  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio
@@ -116,7 +116,7 @@ async def test_node_working_directory(node, projects_dir):
     directory = projects_dir
     p = Project(project_id=str(uuid4()))
     assert p.node_working_directory(node) == os.path.join(directory, p.id, "project-files", node.module_name, node.id)
-    assert os.path.exists(p.node_working_directory(node))
+    assert os.path.exists(p.node_working_directory(node))  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio
@@ -126,7 +126,7 @@ async def test_node_working_path(node, projects_dir):
     p = Project(project_id=str(uuid4()))
     assert p.node_working_path(node) == os.path.join(directory, p.id, "project-files", node.module_name, node.id)
     # after this execution directory structure should not be created
-    assert not os.path.exists(p.node_working_path(node))
+    assert not os.path.exists(p.node_working_path(node))  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio
@@ -134,9 +134,9 @@ async def test_project_delete():
 
     project = Project(project_id=str(uuid4()))
     directory = project.path
-    assert os.path.exists(directory)
+    assert os.path.exists(directory)  # noqa: ASYNC240
     await project.delete()
-    assert os.path.exists(directory) is False
+    assert os.path.exists(directory) is False  # noqa: ASYNC240
 
 
 @pytest.mark.skipif(os.getuid() == 0, reason="Root can delete any project")
@@ -145,7 +145,7 @@ async def test_project_delete_permission_issue():
 
     project = Project(project_id=str(uuid4()))
     directory = project.path
-    assert os.path.exists(directory)
+    assert os.path.exists(directory)  # noqa: ASYNC240
     os.chmod(directory, 0)
     with pytest.raises(ComputeError):
         await project.delete()

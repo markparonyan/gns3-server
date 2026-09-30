@@ -335,7 +335,7 @@ class Project:
                 await module.instance().project_closed(self)
 
         try:
-            if os.path.exists(self.tmp_working_directory()):
+            if os.path.exists(self.tmp_working_directory()):  # noqa: ASYNC240
                 shutil.rmtree(self.tmp_working_directory())
         except OSError:
             pass
@@ -359,7 +359,7 @@ class Project:
                 except (Exception, GeneratorExit) as e:
                     log.error(f"Could not close node: {e}", exc_info=1)
 
-        if cleanup and os.path.exists(self.path):
+        if cleanup and os.path.exists(self.path):  # noqa: ASYNC240
             self._deleted = True
             try:
                 await wait_run_in_executor(shutil.rmtree, self.path)
@@ -420,9 +420,9 @@ class Project:
         for dirpath, dirnames, filenames in os.walk(self.path, followlinks=False):
             for filename in filenames:
                 if not filename.endswith(".ghost"):
-                    path = os.path.relpath(dirpath, self.path)
+                    path = os.path.relpath(dirpath, self.path)  # noqa: ASYNC240
                     path = os.path.join(path, filename)
-                    path = os.path.normpath(path)
+                    path = os.path.normpath(path)  # noqa: ASYNC240
                     file_info = {"path": path}
 
                     try:
@@ -445,18 +445,18 @@ class Project:
         :returns: Array of files in the node directory with metadata
         """
 
-        node_full_path = os.path.normpath(os.path.join(self.path, node_path))
+        node_full_path = os.path.normpath(os.path.join(self.path, node_path))  # noqa: ASYNC240
         subpath = subpath.lstrip("/")
 
         if subpath:
-            target_path = os.path.normpath(os.path.join(node_full_path, subpath))
+            target_path = os.path.normpath(os.path.join(node_full_path, subpath))  # noqa: ASYNC240
         else:
             target_path = node_full_path
 
         # Security check: ensure the path is within the node directory
         if not os.path.commonpath([target_path, node_full_path]) == node_full_path:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Path is outside the node directory")
-        if not os.path.exists(target_path):
+        if not os.path.exists(target_path):  # noqa: ASYNC240
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Path not found")
 
         if recursive:
@@ -540,7 +540,7 @@ class Project:
                         created_at = modified_at = ""
                     files.append(
                         {
-                            "path": os.path.relpath(dir_full_path, base_path),
+                            "path": os.path.relpath(dir_full_path, base_path),  # noqa: ASYNC240
                             "size": stat_info.st_size,
                             "created_at": created_at,
                             "modified_at": modified_at,
@@ -554,7 +554,7 @@ class Project:
                 if filename.endswith(".ghost"):
                     continue
                 file_path = os.path.join(dirpath, filename)
-                rel_path = os.path.relpath(file_path, base_path)
+                rel_path = os.path.relpath(file_path, base_path)  # noqa: ASYNC240
                 try:
                     stat_info = await wait_run_in_executor(os.stat, file_path)
                     try:

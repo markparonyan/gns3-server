@@ -353,14 +353,14 @@ async def get_compute_project_file(file_path: str, project: Project = Depends(de
     """
 
     file_path = urllib.parse.unquote(file_path)
-    path = os.path.normpath(file_path)
+    path = os.path.normpath(file_path)  # noqa: ASYNC240
 
     # Raise error if user try to escape
     if not is_safe_path(path, project.path):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
 
     path = os.path.join(project.path, path)
-    if not os.path.exists(path):
+    if not os.path.exists(path):  # noqa: ASYNC240
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
     return FileResponse(path, media_type="application/octet-stream")
@@ -370,7 +370,7 @@ async def get_compute_project_file(file_path: str, project: Project = Depends(de
 async def write_compute_project_file(file_path: str, request: Request, project: Project = Depends(dep_project)) -> None:
 
     file_path = urllib.parse.unquote(file_path)
-    path = os.path.normpath(file_path)
+    path = os.path.normpath(file_path)  # noqa: ASYNC240
 
     # Raise error if user try to escape
     if not is_safe_path(path, project.path):
@@ -399,17 +399,17 @@ async def write_compute_project_file(file_path: str, request: Request, project: 
 async def delete_compute_project_file(file_path: str, project: Project = Depends(dep_project)) -> None:
 
     file_path = urllib.parse.unquote(file_path)
-    path = os.path.normpath(file_path)
+    path = os.path.normpath(file_path)  # noqa: ASYNC240
 
     if not is_safe_path(path, project.path):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Path is outside the project directory")
 
     path = os.path.join(project.path, path)
-    if not os.path.exists(path):
+    if not os.path.exists(path):  # noqa: ASYNC240
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
     try:
-        if os.path.isdir(path):
+        if os.path.isdir(path):  # noqa: ASYNC240
             shutil.rmtree(path)
         else:
             os.remove(path)

@@ -110,7 +110,7 @@ class Snapshot:
         Create the snapshot
         """
 
-        if os.path.exists(self.path):
+        if os.path.exists(self.path):  # noqa: ASYNC240
             raise ControllerError(f"The snapshot file '{self.name}' already exists")
 
         snapshot_directory = os.path.join(self._project.path, "snapshots")
@@ -145,7 +145,7 @@ class Snapshot:
             begin = time.time()
             # delete the current project files
             project_files_path = os.path.join(self._project.path, "project-files")
-            if os.path.exists(project_files_path):
+            if os.path.exists(project_files_path):  # noqa: ASYNC240
                 await wait_run_in_executor(shutil.rmtree, project_files_path, ignore_errors=True)
             with open(self._path, "rb") as f:  # noqa: ASYNC230
                 project = await import_project(

@@ -174,11 +174,11 @@ async def import_project(
     os.remove(os.path.join(path, "project.gns3"))
 
     images_path = os.path.join(path, "images")
-    if os.path.exists(images_path):
+    if os.path.exists(images_path):  # noqa: ASYNC240
         await _import_images(controller, images_path)
 
     snapshots_path = os.path.join(path, "snapshots")
-    if not restoring_snapshot and os.path.exists(snapshots_path):
+    if not restoring_snapshot and os.path.exists(snapshots_path):  # noqa: ASYNC240
         await update_snapshots(snapshots_path, path, project_name, project_id, reset_mac_addresses=reset_mac_addresses)
 
     project = await controller.load_project(dot_gns3_path, load=False)
@@ -286,13 +286,13 @@ async def _move_files_to_compute(compute, project_id, directory, files_path):
     """
 
     location = os.path.join(directory, files_path)
-    if os.path.exists(location):
+    if os.path.exists(location):  # noqa: ASYNC240
         for dirpath, dirnames, filenames in os.walk(location, followlinks=False):
             for filename in filenames:
                 path = os.path.join(dirpath, filename)
-                if os.path.islink(path):
+                if os.path.islink(path):  # noqa: ASYNC240
                     continue
-                dst = os.path.relpath(path, directory)
+                dst = os.path.relpath(path, directory)  # noqa: ASYNC240
                 await _upload_file(compute, project_id, path, dst)
         await wait_run_in_executor(shutil.rmtree, os.path.join(directory, files_path))
 
@@ -320,9 +320,9 @@ async def _import_images(controller, images_path):
     for dirpath, dirnames, filenames in os.walk(root, followlinks=False):
         for filename in filenames:
             path = os.path.join(dirpath, filename)
-            dst = os.path.join(image_dir, os.path.relpath(path, root))
+            dst = os.path.join(image_dir, os.path.relpath(path, root))  # noqa: ASYNC240
             os.makedirs(os.path.dirname(dst), exist_ok=True)
-            if not os.path.exists(dst):
+            if not os.path.exists(dst):  # noqa: ASYNC240
                 await wait_run_in_executor(shutil.move, path, dst)
                 try:
                     with open(dst, "rb") as f:  # noqa: ASYNC230
@@ -384,7 +384,7 @@ async def update_snapshots(snapshots_dir, project_path, project_name, project_id
                     for root, dirs, files in os.walk(tmpdir, topdown=True, followlinks=False):
                         for file in files:
                             path = os.path.join(root, file)
-                            zstream.write(path, os.path.relpath(path, tmpdir))
+                            zstream.write(path, os.path.relpath(path, tmpdir))  # noqa: ASYNC240
                     async with aiofiles.open(snapshot_path, "wb+") as f:
                         async for chunk in zstream:
                             await f.write(chunk)

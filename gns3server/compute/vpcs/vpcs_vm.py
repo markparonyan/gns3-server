@@ -108,7 +108,7 @@ class VPCSVM(BaseNode):
         # This raise an error if ubridge is not available
         self.ubridge_path
 
-        if not os.path.isfile(path):
+        if not os.path.isfile(path):  # noqa: ASYNC240
             raise VPCSError(f"VPCS program '{path}' is not accessible")
 
         if not os.access(path, os.X_OK):

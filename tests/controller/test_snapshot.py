@@ -110,7 +110,7 @@ async def test_restore(project, controller, config):
     os.makedirs(os.path.join(project.path, "project-files"))
     open(test_file, "a+").close()  # noqa: ASYNC230
 
-    assert os.path.exists(test_file)
+    assert os.path.exists(test_file)  # noqa: ASYNC240
     assert len(project.nodes) == 2
 
     controller._notification = MagicMock()
@@ -124,5 +124,5 @@ async def test_restore(project, controller, config):
     assert "project.closed" not in [c[0][0] for c in controller.notification.project_emit.call_args_list]
 
     project = controller.get_project(project.id)
-    assert not os.path.exists(test_file)
+    assert not os.path.exists(test_file)  # noqa: ASYNC240
     assert len(project.nodes) == 1

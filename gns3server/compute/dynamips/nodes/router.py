@@ -287,10 +287,10 @@ class Router(BaseNode):
         if status == "suspended":
             await self.resume()
         elif status == "inactive":
-            if not os.path.isfile(self._image) or not os.path.exists(self._image):
-                if os.path.islink(self._image):
+            if not os.path.isfile(self._image) or not os.path.exists(self._image):  # noqa: ASYNC240
+                if os.path.islink(self._image):  # noqa: ASYNC240
                     raise DynamipsError(
-                        f'IOS image "{self._image}" linked to "{os.path.realpath(self._image)}" is not accessible'
+                        f'IOS image "{self._image}" linked to "{os.path.realpath(self._image)}" is not accessible'  # noqa: ASYNC240
                     )
                 else:
                     raise DynamipsError(f'IOS image "{self._image}" is not accessible')
@@ -314,7 +314,7 @@ class Router(BaseNode):
             startup_config_path = os.path.join("configs", f"i{self._dynamips_id}_startup-config.cfg")
             private_config_path = os.path.join("configs", f"i{self._dynamips_id}_private-config.cfg")
 
-            if not os.path.exists(os.path.join(self._working_directory, private_config_path)) or not os.path.getsize(
+            if not os.path.exists(os.path.join(self._working_directory, private_config_path)) or not os.path.getsize(  # noqa: ASYNC240
                 os.path.join(self._working_directory, private_config_path)
             ):
                 # an empty private-config can prevent a router to boot.
@@ -1500,7 +1500,7 @@ class Router(BaseNode):
         await self._hypervisor.send(f'vm rename "{self._name}" "{new_name}"')
 
         # change the hostname in the startup-config
-        if os.path.isfile(self.startup_config_path):
+        if os.path.isfile(self.startup_config_path):  # noqa: ASYNC240
             try:
                 with open(self.startup_config_path, "r+", encoding="utf-8", errors="replace") as f:  # noqa: ASYNC230
                     old_config = f.read()
@@ -1511,7 +1511,7 @@ class Router(BaseNode):
                 raise DynamipsError(f"Could not amend the configuration {self.startup_config_path}: {e}") from e
 
         # change the hostname in the private-config
-        if os.path.isfile(self.private_config_path):
+        if os.path.isfile(self.private_config_path):  # noqa: ASYNC240
             try:
                 with open(self.private_config_path, "r+", encoding="utf-8", errors="replace") as f:  # noqa: ASYNC230
                     old_config = f.read()

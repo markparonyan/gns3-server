@@ -97,7 +97,7 @@ async def download_dynamips_image(filename: str) -> FileResponse:
     dynamips_manager = Dynamips.instance()
     image_path = dynamips_manager.get_abs_image_path(filename)
 
-    if not os.path.exists(image_path):
+    if not os.path.exists(image_path):  # noqa: ASYNC240
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
     return FileResponse(image_path, media_type="application/octet-stream")
@@ -137,7 +137,7 @@ async def download_iou_image(filename: str) -> FileResponse:
 
     iou_manager = IOU.instance()
     image_path = iou_manager.get_abs_image_path(filename)
-    if not os.path.exists(image_path):
+    if not os.path.exists(image_path):  # noqa: ASYNC240
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
     return FileResponse(image_path, media_type="application/octet-stream")
@@ -169,7 +169,7 @@ async def download_qemu_image(filename: str) -> FileResponse:
     qemu_manager = Qemu.instance()
     image_path = qemu_manager.get_abs_image_path(filename)
 
-    if not os.path.exists(image_path):
+    if not os.path.exists(image_path):  # noqa: ASYNC240
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
 
     return FileResponse(image_path, media_type="application/octet-stream")

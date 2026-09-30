@@ -66,7 +66,7 @@ async def export_project(
     # Make sure we save the project
     project.dump()
 
-    if not os.path.exists(project._path):
+    if not os.path.exists(project._path):  # noqa: ASYNC240
         raise ControllerNotFoundError(f"Project could not be found at '{project._path}'")
 
     # First we process the .gns3 in order to be sure we don't have an error
@@ -89,7 +89,7 @@ async def export_project(
             files = [f for f in files if _is_exportable(os.path.join(root, f), include_snapshots)]
             for file in files:
                 path = os.path.join(root, file)
-                if not os.path.islink(path):
+                if not os.path.islink(path):  # noqa: ASYNC240
                     try:
                         # check if we can export the file
                         open(path).close()  # noqa: ASYNC230
@@ -102,7 +102,7 @@ async def export_project(
                 if file.endswith(".gns3"):
                     continue
                 _patch_mtime(path)
-                zstream.write(path, os.path.relpath(path, project._path))
+                zstream.write(path, os.path.relpath(path, project._path))  # noqa: ASYNC240
             # save empty directories
             for directory in dirs:
                 path = os.path.join(root, directory)
@@ -111,7 +111,7 @@ async def export_project(
                 if include_snapshots is False and path.endswith("snapshots"):
                     continue
                 if not os.listdir(path):
-                    zstream.write(path, os.path.relpath(path, project._path))
+                    zstream.write(path, os.path.relpath(path, project._path))  # noqa: ASYNC240
         except FileNotFoundError as e:
             log.warning(f"Cannot export local file: {e}")
             continue

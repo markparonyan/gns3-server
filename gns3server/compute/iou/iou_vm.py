@@ -309,9 +309,9 @@ class IOUVM(BaseNode):
 
         if not self._path:
             raise IOUError("IOU image is not configured")
-        if not os.path.isfile(self._path) or not os.path.exists(self._path):
-            if os.path.islink(self._path):
-                raise IOUError(f"IOU image '{self._path}' linked to '{os.path.realpath(self._path)}' is not accessible")
+        if not os.path.isfile(self._path) or not os.path.exists(self._path):  # noqa: ASYNC240
+            if os.path.islink(self._path):  # noqa: ASYNC240
+                raise IOUError(f"IOU image '{self._path}' linked to '{os.path.realpath(self._path)}' is not accessible")  # noqa: ASYNC240
             else:
                 raise IOUError(f"IOU image '{self._path}' is not accessible")
 
@@ -340,7 +340,7 @@ class IOUVM(BaseNode):
             loader = os.path.join(self._lib_base, "lib64", "ld-linux-x86-64.so.2")
             lib_path = (os.path.join(self._lib_base, "lib64"), os.path.join(self._lib_base, "lib", "x86_64-linux-gnu"))
         self._loader = []
-        if os.path.isfile(loader):
+        if os.path.isfile(loader):  # noqa: ASYNC240
             try:
                 proc = await asyncio.create_subprocess_exec(loader, "--verify", self._path)
                 if await proc.wait() == 0:
@@ -670,7 +670,7 @@ class IOUVM(BaseNode):
                 iourc_path = self.iourc_path
                 if not iourc_path:
                     raise IOUError("Could not find an iourc file (IOU license), please configure an IOU license")
-                if not os.path.isfile(iourc_path):
+                if not os.path.isfile(iourc_path):  # noqa: ASYNC240
                     raise IOUError(f"The iourc path '{iourc_path}' is not a regular file")
                 await self._check_iou_license()
 
@@ -700,7 +700,7 @@ class IOUVM(BaseNode):
                     iou_file_name, iou_file_ext = os.path.splitext(iou_image_path)
                     iou_image_path = iou_file_name[: 63 - len(iou_file_ext)] + iou_file_ext
                 symlink = os.path.join(self.working_dir, iou_image_path)
-                if os.path.islink(symlink):
+                if os.path.islink(symlink):  # noqa: ASYNC240
                     os.unlink(symlink)
                 os.symlink(self.path, symlink)
             except OSError as e:
@@ -885,7 +885,7 @@ class IOUVM(BaseNode):
 
         try:
             symlink = os.path.join(self.working_dir, os.path.basename(self.path))
-            if os.path.islink(symlink):
+            if os.path.islink(symlink):  # noqa: ASYNC240
                 os.unlink(symlink)
         except OSError as e:
             log.warning(f"Could not delete symbolic link: {e}")
@@ -994,9 +994,9 @@ class IOUVM(BaseNode):
         socket_directory = self.l1_socket_directory
         try:
             os.makedirs(socket_directory, mode=0o755, exist_ok=True)
-            if os.path.islink(socket_directory) or os.stat(socket_directory).st_uid != os.geteuid():
+            if os.path.islink(socket_directory) or os.stat(socket_directory).st_uid != os.geteuid():  # noqa: ASYNC240
                 raise IOUError(f"Unsafe IOU L1 keepalive directory '{socket_directory}'")
-            if os.path.lexists(self.l1_bridge_socket_path):
+            if os.path.lexists(self.l1_bridge_socket_path):  # noqa: ASYNC240
                 os.unlink(self.l1_bridge_socket_path)
             loop = asyncio.get_running_loop()
             transport, protocol = await loop.create_datagram_endpoint(

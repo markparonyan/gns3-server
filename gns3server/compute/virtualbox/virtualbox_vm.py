@@ -209,7 +209,7 @@ class VirtualBoxVM(BaseNode):
         log.info(f"VirtualBox VM '{self.name}' [{self.id}] created")
 
         if self.linked_clone:
-            if self.id and os.path.isdir(os.path.join(self.working_dir, self._vmname)):
+            if self.id and os.path.isdir(os.path.join(self.working_dir, self._vmname)):  # noqa: ASYNC240
                 self._patch_vm_uuid()
                 await self.manager.execute("registervm", [self._linked_vbox_file()])
                 await self._refresh_vm_uuid()
@@ -454,7 +454,7 @@ class VirtualBoxVM(BaseNode):
 
         for hdd_info in hdd_table:
             hdd_file = os.path.join(self.working_dir, self._vmname, "Snapshots", hdd_info["hdd"])
-            if os.path.exists(hdd_file):
+            if os.path.exists(hdd_file):  # noqa: ASYNC240
                 log.info(
                     "VirtualBox VM '{name}' [{id}] attaching HDD {controller} {port} {device} {medium}".format(
                         name=self.name,
@@ -496,7 +496,7 @@ class VirtualBoxVM(BaseNode):
 
         hdd_table = []
         if self.linked_clone:
-            if os.path.exists(self.working_dir):
+            if os.path.exists(self.working_dir):  # noqa: ASYNC240
                 hdd_files = await self._get_all_hdd_files()
                 vm_info = await self._get_vm_info()
                 for entry, value in vm_info.items():
@@ -507,7 +507,7 @@ class VirtualBoxVM(BaseNode):
                         controller = match.group(1)
                         port = match.group(2)
                         device = match.group(3)
-                        if value in hdd_files and os.path.exists(
+                        if value in hdd_files and os.path.exists(  # noqa: ASYNC240
                             os.path.join(self.working_dir, self._vmname, "Snapshots", os.path.basename(value))
                         ):
                             log.info(

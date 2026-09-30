@@ -279,7 +279,7 @@ class ZipFile(zipfile.ZipFile):
         # Create ZipInfo instance to store file information
         if arcname is None:
             arcname = filename
-        arcname = os.path.normpath(os.path.splitdrive(arcname)[1])
+        arcname = os.path.normpath(os.path.splitdrive(arcname)[1])  # noqa: ASYNC240
         while arcname[0] in (os.sep, os.altsep):
             arcname = arcname[1:]
         if isdir:

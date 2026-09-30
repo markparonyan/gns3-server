@@ -176,13 +176,13 @@ class VMwareVM(BaseNode):
             await self._check_duplicate_linked_clone()
 
         await self.manager.check_vmrun_version()
-        if self.linked_clone and not os.path.exists(os.path.join(self.working_dir, os.path.basename(self._vmx_path))):
+        if self.linked_clone and not os.path.exists(os.path.join(self.working_dir, os.path.basename(self._vmx_path))):  # noqa: ASYNC240
             if self.manager.host_type == "player":
                 raise VMwareError("Linked clones are not supported by VMware Player")
             # create the base snapshot for linked clones
             base_snapshot_name = "GNS3 Linked Base for clones"
             vmsd_path = os.path.splitext(self._vmx_path)[0] + ".vmsd"
-            if not os.path.exists(vmsd_path):
+            if not os.path.exists(vmsd_path):  # noqa: ASYNC240
                 raise VMwareError(f"{vmsd_path} doesn't not exist")
             try:
                 vmsd_pairs = self.manager.parse_vmware_file(vmsd_path)
@@ -452,7 +452,7 @@ class VMwareVM(BaseNode):
             raise VMwareError("The VM is already running in VMware")
 
         ubridge_path = self.ubridge_path
-        if not ubridge_path or not os.path.isfile(ubridge_path):
+        if not ubridge_path or not os.path.isfile(ubridge_path):  # noqa: ASYNC240
             raise VMwareError("ubridge is necessary to start a VMware VM")
 
         await self._start_ubridge(require_privileged_access=True)

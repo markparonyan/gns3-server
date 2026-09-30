@@ -440,10 +440,10 @@ async def test_install_base_configs(controller, config, tmpdir):
         f.write("test")
 
     await controller._install_base_configs()
-    assert os.path.exists(str(tmpdir / "iou_l3_base_startup-config.txt"))
+    assert os.path.exists(str(tmpdir / "iou_l3_base_startup-config.txt"))  # noqa: ASYNC240
     # the IOL docker base config ships with the server too (referenced by the
     # GNS3_IOL_STARTUP_CONFIG knob in the documented template)
-    assert os.path.exists(str(tmpdir / "iol-xe-base.txt"))
+    assert os.path.exists(str(tmpdir / "iol-xe-base.txt"))  # noqa: ASYNC240
 
     # Check is the file has not been overwritten
     with open(str(tmpdir / "iou_l2_base_startup-config.txt")) as f:  # noqa: ASYNC230
@@ -473,7 +473,7 @@ async def test_install_builtin_disks(controller, config, tmpdir, builtin_disk):
     config.settings.Server.images_path = str(tmpdir)
     await controller._install_builtin_disks()
     # we only install Qemu empty disks at this time
-    assert os.path.exists(str(tmpdir / "QEMU" / builtin_disk))
+    assert os.path.exists(str(tmpdir / "QEMU" / builtin_disk))  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio

@@ -133,7 +133,7 @@ class VMwareGNS3VM(BaseGNS3VM):
         # check we have a valid VMX file path
         if not self._vmx_path:
             raise GNS3VMError(f"VMWare VM {self.vmname} not found")
-        if not os.path.exists(self._vmx_path):
+        if not os.path.exists(self._vmx_path):  # noqa: ASYNC240
             raise GNS3VMError(f"VMware VMX file {self._vmx_path} doesn't exist")
 
         # check if the VMware guest tools are installed

@@ -389,14 +389,14 @@ class TestTemplateRoutes:
         # neither the template nor the image file was touched
         response = await client.get(app.url_path_for("get_template", template_id=template_id))
         assert response.status_code == status.HTTP_200_OK
-        assert os.path.exists(image_path)
+        assert os.path.exists(image_path)  # noqa: ASYNC240
 
         controller.remove_project(guarded_project)
         response = await client.delete(
             app.url_path_for("delete_template", template_id=template_id), params={"prune_images": True}
         )
         assert response.status_code == status.HTTP_204_NO_CONTENT
-        assert not os.path.exists(image_path)
+        assert not os.path.exists(image_path)  # noqa: ASYNC240
         assert await images_repo.get_image(image_path) is None
 
     # async def test_create_node_from_template(self, controller_api, controller, project):

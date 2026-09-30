@@ -1622,7 +1622,7 @@ class QemuVM(BaseNode):
             disk_path = os.path.join(self.working_dir, disk_name)
 
             try:
-                if os.path.exists(disk_path):
+                if os.path.exists(disk_path):  # noqa: ASYNC240
                     raise QemuError(f"Could not create disk image '{disk_name}', file already exists")
             except UnicodeEncodeError:
                 raise QemuError(
@@ -1661,7 +1661,7 @@ class QemuVM(BaseNode):
         try:
             qemu_img_path = self._get_qemu_img()
             disk_path = os.path.join(self.working_dir, disk_name)
-            if not os.path.exists(disk_path):
+            if not os.path.exists(disk_path):  # noqa: ASYNC240
                 raise QemuError(f"Qemu disk image '{disk_name}' does not exist in the working directory")
 
             command = [qemu_img_path, "resize", disk_path, f"+{extend}M"]
@@ -2004,14 +2004,14 @@ class QemuVM(BaseNode):
         if not disk_name:
             return
         disk = os.path.join(self.working_dir, disk_name)
-        if not os.path.exists(disk):
+        if not os.path.exists(disk):  # noqa: ASYNC240
             return
         config_dir = os.path.join(self.working_dir, "configs")
         zip_file = os.path.join(self.working_dir, "config.zip")
         try:
             os.mkdir(config_dir)
             await self._mcopy(disk, "-s", "-m", "-n", "--", "::/", config_dir)
-            if os.path.exists(zip_file):
+            if os.path.exists(zip_file):  # noqa: ASYNC240
                 os.remove(zip_file)
             pack_zip(zip_file, config_dir)
         except OSError as e:
@@ -2022,7 +2022,7 @@ class QemuVM(BaseNode):
     async def _import_config(self):
         disk_name = self.config_disk_name
         zip_file = os.path.join(self.working_dir, "config.zip")
-        if not disk_name or not os.path.exists(zip_file):
+        if not disk_name or not os.path.exists(zip_file):  # noqa: ASYNC240
             return
         config_dir = os.path.join(self.working_dir, "configs")
         disk = os.path.join(self.working_dir, disk_name)
@@ -2038,7 +2038,7 @@ class QemuVM(BaseNode):
         except OSError as e:
             log.warning(f"Can't import config: {e}")
             self.project.emit("log.warning", {"message": f"{self._name}: Can't import config: {e}"})
-            if os.path.exists(disk_tmp):
+            if os.path.exists(disk_tmp):  # noqa: ASYNC240
                 os.remove(disk_tmp)
                 os.remove(zip_file)
         shutil.rmtree(config_dir, ignore_errors=True)
@@ -2118,10 +2118,10 @@ class QemuVM(BaseNode):
 
             interface = getattr(self, f"hd{drive}_disk_interface")
             disk_name = f"hd{drive}"
-            if not os.path.isfile(disk_image) or not os.path.exists(disk_image):
-                if os.path.islink(disk_image):
+            if not os.path.isfile(disk_image) or not os.path.exists(disk_image):  # noqa: ASYNC240
+                if os.path.islink(disk_image):  # noqa: ASYNC240
                     raise QemuError(
-                        f"'{disk_name}' disk image linked to '{os.path.realpath(disk_image)}' is not accessible"
+                        f"'{disk_name}' disk image linked to '{os.path.realpath(disk_image)}' is not accessible"  # noqa: ASYNC240
                     )
                 else:
                     raise QemuError(f"'{disk_image}' is not accessible")
@@ -2154,7 +2154,7 @@ class QemuVM(BaseNode):
             if self.linked_clone and os.path.dirname(disk_image) != self.working_dir:
                 # cloned_disk_image = os.path.splitext(os.path.basename(disk_image))
                 disk = os.path.join(self.working_dir, f"{disk_name}_disk.qcow2")
-                if not os.path.exists(disk):
+                if not os.path.exists(disk):  # noqa: ASYNC240
                     # create the disk
                     await self._create_linked_clone(disk_name, disk_image, disk)
                 else:
@@ -2185,7 +2185,7 @@ class QemuVM(BaseNode):
                 # use the HDA interface type if none has been configured for HDD
                 self.hdd_disk_interface = getattr(self, "hda_disk_interface", "none")
             await self._import_config()
-            disk_exists = os.path.exists(disk)
+            disk_exists = os.path.exists(disk)  # noqa: ASYNC240
             if not disk_exists:
                 try:
                     shutil.copyfile(disk_image, disk)
@@ -2471,7 +2471,7 @@ class QemuVM(BaseNode):
                 else:
                     return False
 
-            if sys.platform.startswith("linux") and not os.path.exists("/dev/kvm"):
+            if sys.platform.startswith("linux") and not os.path.exists("/dev/kvm"):  # noqa: ASYNC240
                 if require_hardware_accel:
                     raise QemuError(
                         "KVM acceleration cannot be used (/dev/kvm doesn't exist). It is possible to turn off KVM support in the gns3_server.conf by adding enable_hardware_acceleration = false to the [Qemu] section."
@@ -2504,7 +2504,7 @@ class QemuVM(BaseNode):
                     disk = os.path.join(self.working_dir, f"hd{drive}_disk.qcow2")
                 else:
                     disk = disk_image
-                if not os.path.exists(disk):
+                if not os.path.exists(disk):  # noqa: ASYNC240
                     continue
                 output = await subprocess_check_output(qemu_img_path, "info", "--output=json", disk)
                 if output:
@@ -2541,7 +2541,7 @@ class QemuVM(BaseNode):
                     disk = os.path.join(self.working_dir, f"hd{drive}_disk.qcow2")
                 else:
                     disk = disk_image
-                if not os.path.exists(disk):
+                if not os.path.exists(disk):  # noqa: ASYNC240
                     continue
                 output = await subprocess_check_output(qemu_img_path, "info", "--output=json", disk)
                 if output:

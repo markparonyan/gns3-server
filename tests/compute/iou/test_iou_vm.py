@@ -189,8 +189,8 @@ async def test_rename_nvram_file(vm):
         f.write("1")
 
     vm._rename_nvram_file()
-    assert os.path.exists(os.path.join(vm.working_dir, f"nvram_0000{vm.application_id}"))
-    assert os.path.exists(os.path.join(vm.working_dir, f"vlan.dat-0000{vm.application_id}"))
+    assert os.path.exists(os.path.join(vm.working_dir, f"nvram_0000{vm.application_id}"))  # noqa: ASYNC240
+    assert os.path.exists(os.path.join(vm.working_dir, f"vlan.dat-0000{vm.application_id}"))  # noqa: ASYNC240
 
 
 @pytest.mark.asyncio

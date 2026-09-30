@@ -1080,7 +1080,7 @@ class DockerVM(BaseNode):
             user, False when the reclaim could not run or failed.
         """
 
-        if not os.path.exists(directory):
+        if not os.path.exists(directory):  # noqa: ASYNC240
             return True
         try:
             if not await wait_run_in_executor(self._directory_has_foreign_files, directory):
@@ -1523,7 +1523,7 @@ class DockerVM(BaseNode):
                 if self._display:
                     display = f"/tmp/.X11-unix/X{self._display}"
                     try:
-                        if os.path.exists(display):
+                        if os.path.exists(display):  # noqa: ASYNC240
                             os.remove(display)
                     except OSError as e:
                         log.warning(f"Could not remove display {display}: {e}")

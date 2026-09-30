@@ -283,7 +283,7 @@ class Controller:
 
         # remove all projects deleted from disk.
         for project in self._projects.copy().values():
-            if not os.path.exists(project.path) or not os.listdir(project.path):
+            if not os.path.exists(project.path) or not os.listdir(project.path):  # noqa: ASYNC240
                 log.info(f"Project '{project.name}' doesn't exist on the disk anymore, closing...")
                 await project.close()
                 self.remove_project(project)
@@ -328,7 +328,7 @@ class Controller:
         """
 
         try:
-            if not os.path.exists(self._vars_file):
+            if not os.path.exists(self._vars_file):  # noqa: ASYNC240
                 self.save()  # this will create the vars file
             with open(self._vars_file) as f:  # noqa: ASYNC230
                 controller_vars = json.load(f)
@@ -343,7 +343,7 @@ class Controller:
             server_config.secrets_dir = os.path.dirname(Config.instance().server_config)
         iourc_path = os.path.join(server_config.secrets_dir, "iou_license")
 
-        if os.path.exists(iourc_path):
+        if os.path.exists(iourc_path):  # noqa: ASYNC240
             try:
                 with open(iourc_path) as f:  # noqa: ASYNC230
                     self._iou_license_settings["iourc_content"] = f.read()
@@ -384,12 +384,12 @@ class Controller:
 
         async with self._projects_scan_lock:
             server_config = Config.instance().settings.Server
-            projects_path = os.path.expanduser(server_config.projects_path)
+            projects_path = os.path.expanduser(server_config.projects_path)  # noqa: ASYNC240
             os.makedirs(projects_path, exist_ok=True)
             try:
                 for project_path in os.listdir(projects_path):
                     project_dir = os.path.join(projects_path, project_path)
-                    if os.path.isdir(project_dir):
+                    if os.path.isdir(project_dir):  # noqa: ASYNC240
                         for file in os.listdir(project_dir):
                             if file.endswith(".gns3"):
                                 project_file = os.path.join(project_dir, file)
@@ -485,7 +485,7 @@ class Controller:
             # Remove stale projects that no longer exist on disk
             for project_id in list(self._projects):
                 project = self._projects[project_id]
-                if not os.path.exists(project.path):
+                if not os.path.exists(project.path):  # noqa: ASYNC240
                     log.info(f"Removing stale project '{project.name}' ('{project.path}' no longer exists)")
                     del self._projects[project.id]
         except Exception as e:  # noqa: BLE001
@@ -500,7 +500,7 @@ class Controller:
         installed_resources = []
 
         async def should_copy(src, dst, upgrade_resources):
-            if not os.path.exists(dst):
+            if not os.path.exists(dst):  # noqa: ASYNC240
                 return True
             if upgrade_resources is False:
                 return False
@@ -510,9 +510,9 @@ class Controller:
             return src_md5 != dst_md5
 
         if hasattr(sys, "frozen") and sys.platform.startswith("win"):
-            resource_path = os.path.normpath(os.path.join(os.path.dirname(sys.executable), resource_name))
+            resource_path = os.path.normpath(os.path.join(os.path.dirname(sys.executable), resource_name))  # noqa: ASYNC240
             for filename in os.listdir(resource_path):
-                if not os.path.exists(os.path.join(dst_path, filename)):
+                if not os.path.exists(os.path.join(dst_path, filename)):  # noqa: ASYNC240
                     shutil.copy(os.path.join(resource_path, filename), os.path.join(dst_path, filename))
         else:
             for entry in importlib_resources.files("gns3server").joinpath(resource_name).iterdir():
@@ -776,7 +776,7 @@ class Controller:
         :param load: Load the topology
         """
 
-        if not os.path.exists(path):
+        if not os.path.exists(path):  # noqa: ASYNC240
             raise ControllerError(f"'{path}' does not exist on the controller")
 
         # A .gns3 file must live in its own directory: the project path is
@@ -784,8 +784,8 @@ class Controller:
         # projects directory would register the shared projects root as the
         # project directory, and deleting that project would wipe every
         # project on the controller.
-        projects_path = os.path.realpath(self.projects_directory())
-        if os.path.realpath(os.path.dirname(path)) == projects_path:
+        projects_path = os.path.realpath(self.projects_directory())  # noqa: ASYNC240
+        if os.path.realpath(os.path.dirname(path)) == projects_path:  # noqa: ASYNC240
             raise ControllerError(
                 f"'{path}' cannot be loaded: the .gns3 file must be in its own subdirectory of '{projects_path}'"
             )

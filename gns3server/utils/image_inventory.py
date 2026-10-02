@@ -72,7 +72,7 @@ class ImageLock:
                     return self
                 except (BlockingIOError, PermissionError):
                     if not self.wait:
-                        raise ImageLockBusy(self.key)
+                        raise ImageLockBusy(self.key) from None
                     await asyncio.sleep(0.05)
         except BaseException:
             self._file.close()

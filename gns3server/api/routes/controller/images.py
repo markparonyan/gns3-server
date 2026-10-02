@@ -82,7 +82,7 @@ async def sync_images(options: schemas.ImageSyncRequest, request: Request, respo
     try:
         job = await get_image_reconciliation_service(request.app).start(**options.model_dump())
     except ImageLockBusy:
-        raise ControllerError("Image synchronization is already running or shutting down")
+        raise ControllerError("Image synchronization is already running or shutting down") from None
     response.headers["Location"] = str(request.url_for("get_image_sync_job", job_id=job["job_id"]))
     return job
 
@@ -214,7 +214,7 @@ async def upload_image(
         service = getattr(request.app.state, "image_reconciliation", None)
         if service:
             service.dirty.set()
-        raise ControllerError(f"Could not save image '{image_path}': {e}")
+        raise ControllerError(f"Could not save image '{image_path}': {e}") from e
 
     if install_appliances:
         # attempt to automatically create templates based on image checksum
@@ -343,7 +343,7 @@ async def delete_image(
     except MultipleResultsFound:
         raise ControllerBadRequestError(
             f"Image '{image_path}' matches multiple images. Please include the absolute path of the image"
-        )
+        ) from None
 
     if not image:
         raise ControllerNotFoundError(f"Image '{image_path}' not found")

@@ -131,7 +131,7 @@ async def test_dry_run_does_not_write_catalog_or_sidecar(inventory, config):
 
 @pytest.mark.parametrize("failure", ["missing_root", "partial_walk", "unreadable_file"])
 async def test_failed_scopes_do_not_remove_rows(inventory, config, failure):
-    path = image_file(config)
+    path = image_file(config)  # noqa: F841
     await scan(inventory)
     root = str(config.settings.Server.images_path)
     if failure == "missing_root":

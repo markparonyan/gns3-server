@@ -116,7 +116,7 @@ async def connect_to_db(app: FastAPI) -> None:
                         return "new"  # Truly new database
 
                     # Check for new feature columns that indicate this is already migrated
-                    columns = [col["name"] for col in inspector.get_columns("users")]
+                    columns = [col["name"] for col in inspector.get_columns("users")]  # noqa: F841
                     if "llm_model_configs" in tables:
                         # The llm_model_configs table already exists (created from code)
                         return "new_with_llm_configs"
@@ -265,7 +265,7 @@ async def get_user_llm_config_full(user_id: str, app: FastAPI) -> dict | None:
 
             # Decrypt API key
             config_data = full_config.config.copy()
-            if "api_key" in config_data and config_data["api_key"]:
+            if config_data.get("api_key"):
                 try:
                     if is_encrypted(config_data["api_key"]):
                         config_data["api_key"] = decrypt(config_data["api_key"])

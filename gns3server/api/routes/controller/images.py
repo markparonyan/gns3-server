@@ -194,7 +194,7 @@ async def upload_image(
     """
 
     image_path = urllib.parse.unquote(image_path)
-    image_dir, image_name = os.path.split(image_path)
+    image_dir, image_name = os.path.split(image_path)  # noqa: RUF059
     # check if the path is within the default images directory
     full_path = image_destination(image_path)
 

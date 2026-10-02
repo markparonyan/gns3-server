@@ -391,7 +391,7 @@ class ImageReconciliationService:
                     ):
                         continue
                     async with image_lock(path):
-                        row = await self._row(path)
+                        row = await self._row(path)  # noqa: PLW2901
                         if row is None:
                             continue
                         if errors:

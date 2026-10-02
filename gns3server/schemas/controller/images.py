@@ -16,7 +16,7 @@
 
 from datetime import datetime
 from enum import Enum
-from typing import Literal, Optional
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -41,9 +41,9 @@ class ImageBase(BaseModel):
     checksum: str = Field(..., description="Checksum value")
     checksum_algorithm: str = Field(..., description="Checksum algorithm")
     availability: Literal["unknown", "available", "missing", "unavailable", "invalid"] = "unknown"
-    last_seen_at: Optional[datetime] = None
-    last_verified_at: Optional[datetime] = None
-    last_error: Optional[str] = None
+    last_seen_at: datetime | None = None
+    last_verified_at: datetime | None = None
+    last_error: str | None = None
 
 
 class Image(DateTimeModelMixin, ImageBase):
@@ -62,6 +62,6 @@ class ImageSyncJob(DateTimeModelMixin):
     status: Literal["queued", "running", "completed", "partial", "failed", "cancelled", "interrupted"]
     dry_run: bool
     force_checksum: bool
-    finished_at: Optional[datetime] = None
+    finished_at: datetime | None = None
     counts: dict[str, int]
     errors: list[dict[str, str]]

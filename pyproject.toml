@@ -108,14 +108,6 @@ extend-immutable-calls = [
 [tool.ruff.lint.per-file-ignores]
 # pytest rewrites bare asserts; S101 is a false positive in test suites.
 "tests/**" = ["S101"]
-"gns3server/compute/dynamips/nodes/router.py" = ["F522"]
-"gns3server/controller/node_types.py" = ["W292"]
-"gns3server/schemas/controller/templates/docker_templates.py" = ["W292"]
-"gns3server/services/templates.py" = ["W292"]
-"gns3server/utils/packet_filter_validation.py" = ["W292"]
-"tests/api/routes/controller/test_images.py" = ["W292"]
-"tests/api/routes/controller/test_links.py" = ["W292"]
-"tests/utils/test_packet_filter_validation.py" = ["W292"]
 
 [tool.mypy]
 files = ["gns3server"]

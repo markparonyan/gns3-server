@@ -146,7 +146,6 @@ extend-immutable-calls = [
 "tests/api/routes/controller/test_links.py" = ["W292"]
 "tests/compute/test_project.py" = ["RUF064"]
 "tests/utils/test_packet_filter_validation.py" = ["W292"]
-"tests/services/test_image_reconciliation.py" = ["S324"]
 
 [tool.mypy]
 files = ["gns3server"]

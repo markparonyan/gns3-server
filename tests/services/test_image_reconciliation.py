@@ -187,13 +187,13 @@ async def test_symlink_images_are_imported_and_target_changes_detected(inventory
     assert result["counts"]["added"] == 1
     original = (await rows(inventory))[0]
     assert original["path"] == str(path)
-    assert original["checksum"] == hashlib.md5(QCOW).hexdigest()
+    assert original["checksum"] == hashlib.md5(QCOW, usedforsecurity=False).hexdigest()
     target.write_bytes(QCOW + b"changed")
     result = await scan(inventory)
     assert result["counts"]["updated"] == 1
     updated = (await rows(inventory))[0]
     assert updated["image_id"] == original["image_id"]
-    assert updated["checksum"] == hashlib.md5(target.read_bytes()).hexdigest()
+    assert updated["checksum"] == hashlib.md5(target.read_bytes(), usedforsecurity=False).hexdigest()
     assert path.is_symlink()
 
 

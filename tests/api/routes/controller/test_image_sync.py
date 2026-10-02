@@ -75,7 +75,7 @@ class TestImageSyncRoutes:
             assert response.status_code == 409
             response = await client.delete("/v3/images/prune")
             assert response.status_code == 409
-        assert os.path.exists(path)
+        assert os.path.exists(path)  # noqa: ASYNC240
         assert await ImagesRepository(db_session).get_image(path) is not None
         os.unlink(path)
         assert (await client.delete("/v3/images/protected.qcow2")).status_code == 204
@@ -91,7 +91,7 @@ class TestImageSyncRoutes:
         sibling = images_dir + "-outside/escape.qcow2"
         response = await client.post("/v3/images/upload/" + sibling, content=QCOW)
         assert response.status_code == 403
-        assert not os.path.exists(sibling)
+        assert not os.path.exists(sibling)  # noqa: ASYNC240
         link = Path(images_dir) / "external"
         link.symlink_to(tmp_path, target_is_directory=True)
         response = await client.post("/v3/images/upload/external/escape.qcow2", content=QCOW)

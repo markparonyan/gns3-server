@@ -53,7 +53,7 @@ class ImageLock:
         directory = os.path.join(Config.instance().config_dir, ".image-locks")
         os.makedirs(directory, exist_ok=True)
         path = os.path.join(directory, hashlib.sha256(self.key.encode()).hexdigest() + ".lock")
-        self._file = open(path, "a+b")
+        self._file = open(path, "a+b")  # noqa: ASYNC230
         if os.name == "nt" and os.fstat(self._file.fileno()).st_size == 0:
             self._file.write(b"\0")
             self._file.flush()

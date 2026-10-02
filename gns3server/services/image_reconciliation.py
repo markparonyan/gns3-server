@@ -272,7 +272,7 @@ class ImageReconciliationService:
             counts = job["counts"]
             counts["scanned"] += 1
             try:
-                if not contained_path(os.path.realpath(path), root):
+                if not contained_path(os.path.realpath(path), root):  # noqa: ASYNC240
                     raise OSError("Image path resolves outside its configured root")
                 current = await asyncio.to_thread(fingerprint, path)
                 if current != observed:
@@ -288,7 +288,7 @@ class ImageReconciliationService:
                 expected = row["image_type"] if row else None
                 main_root = normalized_path(Config.instance().settings.Server.images_path)
                 if not expected and contained_path(path, main_root):
-                    component = os.path.relpath(path, main_root).split(os.sep)[0]
+                    component = os.path.relpath(path, main_root).split(os.sep)[0]  # noqa: ASYNC240
                     expected = {"QEMU": "qemu", "IOS": "ios", "IOU": "iou"}.get(component)
                 allow_raw = Config.instance().settings.Server.allow_raw_images and (
                     expected == "qemu"
@@ -349,13 +349,13 @@ class ImageReconciliationService:
             for root in roots:
                 if self.stopping.is_set():
                     raise asyncio.CancelledError
-                resolved_root = os.path.realpath(root)
+                resolved_root = os.path.realpath(root)  # noqa: ASYNC240
                 try:
                     identity = await asyncio.to_thread(root_identity, root)
                 except OSError:
                     identity = None
                 files, errors = await asyncio.to_thread(enumerate_root, root)
-                if resolved_root != os.path.realpath(root):
+                if resolved_root != os.path.realpath(root):  # noqa: ASYNC240
                     errors.append({"path": root, "reason": "Image root target changed during scan"})
                 for error in errors:
                     self._error(job, error["path"], error["reason"])
@@ -401,7 +401,7 @@ class ImageReconciliationService:
                             )
                             continue
                         try:
-                            if not contained_path(os.path.realpath(path), resolved_root):
+                            if not contained_path(os.path.realpath(path), resolved_root):  # noqa: ASYNC240
                                 raise OSError("Image path resolves outside its configured root")
                             await asyncio.to_thread(fingerprint, path)
                         except FileNotFoundError:
@@ -438,7 +438,7 @@ class ImageReconciliationService:
     async def _watch(self):
         roots = configured_roots() if Config.instance().settings.Server.auto_discover_images else []
         # Include availability in the signature so newly mounted roots get watched.
-        roots = [root for root in roots if os.path.isdir(root)]
+        roots = [root for root in roots if os.path.isdir(root)]  # noqa: ASYNC240
         if roots == self._watched_roots:
             return
         if self.observer:

@@ -102,7 +102,7 @@ async def test_fingerprints_skip_hashing_and_force_bypasses_sidecars(inventory, 
     assert result["counts"]["bytes_hashed"] == 0
     path.write_bytes(QCOW[:-1] + b"x")  # same-size modification
     sidecar = Path(str(path) + ".md5sum")
-    sidecar.write_text("0" * 32)
+    sidecar.write_text("0" * 32)  # noqa: ASYNC240
     assert md5sum(str(path), cache_to_md5file=False) == "0" * 32
     assert (
         md5sum(str(path), cache_to_md5file=False, use_cache=False)
@@ -111,17 +111,17 @@ async def test_fingerprints_skip_hashing_and_force_bypasses_sidecars(inventory, 
     result = await scan(inventory, force_checksum=True)
     assert result["counts"]["bytes_hashed"] == len(QCOW)
     assert (await rows(inventory))[0]["checksum"] == hashlib.md5(path.read_bytes(), usedforsecurity=False).hexdigest()
-    assert not sidecar.exists()
+    assert not sidecar.exists()  # noqa: ASYNC240
 
 
 async def test_dry_run_does_not_write_catalog_or_sidecar(inventory, config):
     path = image_file(config)
     sidecar = Path(str(path) + ".md5sum")
-    sidecar.write_text("0" * 32)
+    sidecar.write_text("0" * 32)  # noqa: ASYNC240
     result = await scan(inventory, dry_run=True, force_checksum=True)
     assert result["counts"]["added"] == 1
     assert await rows(inventory) == []
-    assert sidecar.read_text() == "0" * 32
+    assert sidecar.read_text() == "0" * 32  # noqa: ASYNC240
     await scan(inventory)
     before = await rows(inventory)
     path.unlink()

@@ -367,7 +367,7 @@ class ImageReconciliationService:
                         raise asyncio.CancelledError
                     try:
                         await self._file(path, observed, job, resolved_root)
-                    except Exception as e:
+                    except Exception as e:  # noqa: BLE001
                         self._error(job, path, e)
                         log.warning("Could not reconcile image %s: %s", path, e)
                     if job["counts"]["scanned"] % 25 == 0:

@@ -91,6 +91,7 @@ class ProjectUpdate(ProjectBase):
 
 
 class Project(ProjectBase):
+    name: str
     project_id: UUID
     status: Optional[ProjectStatus] = None
     filename: Optional[str] = None

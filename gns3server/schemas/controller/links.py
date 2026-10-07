@@ -77,7 +77,11 @@ class LinkUpdate(LinkBase):
     pass
 
 
-class Link(LinkBase):
+class TopologyLink(LinkBase):
+    """
+    Link as saved in a .gns3 file, where server-assigned fields may be absent.
+    """
+
     link_id: UUID
     project_id: Optional[UUID] = None
     link_type: Optional[LinkType] = None
@@ -94,6 +98,15 @@ class Link(LinkBase):
     wireshark: Optional[bool] = Field(
         False, description="Read only property. True if a Web Wireshark session is active on the link"
     )
+
+
+class Link(TopologyLink):
+    """
+    Link returned by the controller, where server-assigned fields are always present.
+    """
+
+    project_id: UUID
+    nodes: List[LinkNode] = Field(..., min_length=0, max_length=2)
 
 
 class UDPPortInfo(BaseModel):

@@ -27,8 +27,8 @@ from pydantic import BaseModel, Field
 
 from .computes import Compute
 from .drawings import Drawing
-from .links import Link
-from .nodes import Node
+from .links import TopologyLink
+from .nodes import TopologyNode
 from .projects import Supplier, Variable
 
 
@@ -39,8 +39,8 @@ class TopologyType(str, Enum):
 class TopologyContent(BaseModel):
     computes: List[Compute] = Field(..., description="List of computes")
     drawings: List[Drawing] = Field(..., description="List of drawings")
-    links: List[Link] = Field(..., description="List of links")
-    nodes: List[Node] = Field(..., description="List of nodes")
+    links: List[TopologyLink] = Field(..., description="List of links")
+    nodes: List[TopologyNode] = Field(..., description="List of nodes")
 
 
 class Topology(BaseModel):

@@ -177,7 +177,11 @@ class NodeUpdate(NodeBase):
     pass
 
 
-class Node(NodeBase):
+class TopologyNode(NodeBase):
+    """
+    Node as saved in a .gns3 file, where server-assigned fields may be absent.
+    """
+
     compute_id: Union[UUID, str]
     name: str
     node_type: NodeType
@@ -202,6 +206,22 @@ class Node(NodeBase):
     missing_images: List[MissingImage] = Field(
         default_factory=list, description="List of missing images referenced by the node. Read only"
     )
+
+
+class Node(TopologyNode):
+    """
+    Node returned by the controller, where server-assigned fields are always present.
+    """
+
+    node_id: UUID
+    project_id: UUID
+    status: NodeStatus = Field(..., description="Node status. Read only")
+    ports: List[NodePort] = Field(..., description="List of node ports. Read only")
+    console_host: str = Field(
+        ...,
+        description="Console host. Warning if the host is 0.0.0.0 or :: (listen on all interfaces) you need to use the same address you use to connect to the controller",
+    )
+    tags: List[str] = Field(..., description="User-defined metadata tags (e.g. 'vendor:cisco' or 'model:7200')")
 
 
 class NodeDuplicate(BaseModel):

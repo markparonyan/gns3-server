@@ -164,7 +164,21 @@ def get_nodes(
 
     if project.status == "closed":
         # allow to retrieve nodes from a closed project
-        nodes = list(project.nodes.values())
+        computes = project.controller.computes
+        local_compute = computes.get("local")
+        nodes = []
+        for node in project.nodes.values():
+            compute = computes.get(node.get("compute_id"), local_compute)
+            nodes.append(
+                {
+                    **node,
+                    "project_id": project.id,
+                    "status": "stopped",
+                    "ports": [],
+                    "console_host": str(compute.console_host) if compute else "",
+                    "tags": node.get("tags") or [],
+                }
+            )
     else:
         nodes = [v.asdict() for v in project.nodes.values()]
 

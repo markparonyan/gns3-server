@@ -142,6 +142,8 @@ class TestLinkRoutes:
         response = await client.get(app.url_path_for("get_link", project_id=project.id, link_id=link_id))
         assert response.status_code == status.HTTP_200_OK
         assert response.json()["nodes"][0]["label"]["x"] == 42
+        assert response.json()["project_id"] == project.id
+        assert len(response.json()["nodes"]) == 2
 
     async def test_update_link_suspend(
         self, app: FastAPI, client: AsyncClient, project: Project, nodes: Tuple[Node, Node]

@@ -147,6 +147,7 @@ class TestControllerProjectRoutes:
         response = await client.get(app.url_path_for("get_project", project_id=project.id))
         assert response.status_code == status.HTTP_200_OK
         assert response.json()["name"] == "test"
+        assert response.json()["project_id"] == project.id
 
     async def test_delete_project(
         self, app: FastAPI, client: AsyncClient, project: Project, controller: Controller
@@ -561,3 +562,34 @@ class TestControllerProjectRoutes:
         response = await client.get(app.url_path_for("locked_project", project_id=project.id))
         assert response.status_code == status.HTTP_200_OK
         assert response.json() is False
+
+
+class TestResponseSchemas:
+    def test_openapi_required_fields(self, app: FastAPI) -> None:
+
+        schemas = app.openapi()["components"]["schemas"]
+
+        def is_nullable(prop: dict) -> bool:
+            return any(item.get("type") == "null" for item in prop.get("anyOf", []))
+
+        expected = {
+            "Node": ("node_id", "project_id", "status", "ports", "console_host", "tags"),
+            "Project": ("name", "project_id"),
+            "Link": ("link_id", "project_id", "nodes"),
+        }
+        for model, fields in expected.items():
+            for field in fields:
+                assert field in schemas[model]["required"]
+                assert not is_nullable(schemas[model]["properties"][field])
+
+        for model in ("Node", "Link"):
+            for field in ("command_line", "node_directory", "template_id", "console", "aux"):
+                if field in schemas[model]["properties"]:
+                    assert field not in schemas[model]["required"]
+
+        for model in ("NodeCreate", "NodeUpdate", "ProjectCreate", "LinkCreate"):
+            assert "status" not in schemas[model].get("required", [])
+        assert schemas["NodeUpdate"].get("required", []) == []
+        assert schemas["NodeCreate"]["required"] == ["compute_id", "name", "node_type"]
+        assert schemas["ProjectCreate"]["required"] == ["name"]
+        assert schemas["LinkCreate"]["required"] == ["nodes"]

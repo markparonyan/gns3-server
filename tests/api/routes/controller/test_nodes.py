@@ -97,6 +97,11 @@ class TestNodeRoutes:
         response = await client.get(app.url_path_for("get_nodes", project_id=project.id))
         assert response.status_code == status.HTTP_200_OK
         assert response.json()[0]["name"] == "test"
+        assert response.json()[0]["project_id"] == project.id
+        assert response.json()[0]["status"] == "stopped"
+        assert response.json()[0]["ports"] == []
+        assert response.json()[0]["tags"] == []
+        assert response.json()[0]["console_host"]
 
     async def test_list_node_with_missing_image(
         self, app: FastAPI, client: AsyncClient, project: Project, node: Node
@@ -177,6 +182,9 @@ class TestNodeRoutes:
         )
         assert response.status_code == status.HTTP_200_OK
         assert response.json()["name"] == "test"
+        for field in ("node_id", "project_id", "status", "ports", "console_host", "tags"):
+            assert response.json()[field] is not None
+        assert response.json()["project_id"] == project.id
 
     async def test_update_node(
         self, app: FastAPI, client: AsyncClient, project: Project, compute: Compute, node: Node
